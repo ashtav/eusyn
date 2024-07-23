@@ -1,5 +1,6 @@
 const textOption = (option: any, prioritizeValue: boolean = false) => {
-    return `${(['string', 'boolean'].includes(typeof option) ? option : prioritizeValue ? (option?.value ?? option?.label) : (option?.label ?? option?.value)) ?? ''}`;
+    const value = (['string', 'boolean'].includes(typeof option) ? option : prioritizeValue ? (option?.value ?? option?.label) : (option?.label ?? option?.value)) ?? '';
+    return value
 }
 
 const hasValueProperty = (options: Array<any>): boolean => options.some((o: any) => typeof o === 'string' ? false : o.hasOwnProperty('value'));

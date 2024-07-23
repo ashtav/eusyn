@@ -3,10 +3,16 @@
         <label :class="['form-label', utils.on(required, 'required')]" v-if="label"> {{ label }} </label>
 
         <div>
-            <label class="form-check form-check-inline" v-for="(option, i) in localOptions" :key="i">
+            <label class="form-check form-check-inline" v-if="options.length == 0">
+                <input class="form-check-input" type="checkbox" :name="inputName" :value="single" v-model="localValue"
+                    :disabled="disabled" />
+                <span class="form-check-label" />
+            </label>
+
+            <label class="form-check form-check-inline" v-for="(option, i) in localOptions" :key="i" v-else>
                 <input class="form-check-input" type="checkbox" :name="inputName" :value="textOption(option, true)"
-                    v-model="localValue" :disabled="disabled || (option?.disabled ?? false)"
-                    :required="required && localValue.length == 0" @input="onInput($event, option)" />
+                    v-model="localValue" :disabled="disabled || (option?.disabled ?? false)" :required="required"
+                    @input="onInput($event, option)" />
                 <span class="form-check-label"> {{ textOption(option) }} </span>
             </label>
         </div>
@@ -24,7 +30,7 @@ export default defineComponent({
     inheritAttrs: false,
     props: {
         modelValue: {
-            type: Array<any>,
+            type: [Array<any>, Boolean],
             default: []
         },
 
@@ -57,9 +63,8 @@ export default defineComponent({
     setup(props, { emit }) {
         const localValue = ref(props.modelValue)
         const localOptions = ref(props.options)
-        const selected = ref(null)
-
         const inputName = ref('checkbox-' + utils.randString(5))
+        const single = ref(false)
 
 
         // methods
@@ -69,58 +74,38 @@ export default defineComponent({
             const target = event.target;
             const value = textOption(option)
 
-            console.log(target.checked)
+            if (Array.isArray(props.modelValue)) {
+                const values = localValue.value as Array<any>
 
-            localValue.value = target.checked
-                ? [...localValue.value, value]
-                : localValue.value.filter((e) => e !== value);
+                localValue.value = target.checked
+                    ? [...values, value]
+                    : values.filter((e) => e !== value);
 
-            emit("update:modelValue", localValue.value);
+                emit("update:modelValue", localValue.value);
+            }
         };
 
         const initOption = (value: Array<any>) => {
 
-            if (props.options.length == 0) {
-                localOptions.value.push({ label: '', value: value.length == 0 ? false : value[0] })
-            }
-
-
-            // // get option by value
-            // let option = props.options.find((o) => {
-            //     return textOption(o, true).toLowerCase() == `${value}`.toLowerCase();
-            // });
-
-            // selected.value = option;
-            // localValue.value = option?.label ?? option?.value ?? value;
-
-            // emit("update:modelValue", value);
         }
 
-        watch(() => props.modelValue, (value) => {
-
+        watch(() => localValue.value, (value) => {
+            if (typeof value === 'boolean') {
+                emit("update:modelValue", value)
+            }
         })
 
-        // watch(() => localValue.value, (value) => {
-        //     // emit("update:modelValue", value);
-        //     console.log(value, props.options.length)
-
-        //     // if (props.options.length == 0) {
-
-
-        //     //     localValue.value = [value]
-        //     //     emit("update:modelValue", localValue.value);
-        //     // }
-        // });
-
-
+        watch(() => props.options, (value) => {
+           localOptions.value = value
+        })
 
         // mounted
         onMounted(() => {
-            initOption(localValue.value)
+            // initOption(localValue.value)
         });
 
         return {
-            utils, localValue, localOptions, selected, inputName, onInput, textOption
+            utils, localValue, localOptions, inputName, single, onInput, textOption
         }
     }
 })

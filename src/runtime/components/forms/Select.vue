@@ -193,7 +193,7 @@ export default defineComponent({
         const initOption = (value: any) => {
             // get option by value
             let option = props.options.find((o) => {
-                return textOption(o, true).toLowerCase() == `${value}`.toLowerCase();
+                return `${textOption(o, true)}`.toLowerCase() == `${value}`.toLowerCase();
             });
 
             selected.value = option;

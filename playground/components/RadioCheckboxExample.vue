@@ -5,7 +5,7 @@
             their functionalities, advantages, and practical usage scenarios.</p>
 
         <Radio label="Gender" :options="['Male', 'Female']" v-model="forms.gender" required />
-        <Radio label="Blood Type" :options="[{ label: 'A' }, { label: 'B' }, { label: 'O', disabled: true }]"
+        <Radio label="Blood Type" :options="[{ label: 'A' }, { label: 'B' }, 'AB', { label: 'O', disabled: true }]"
             v-model="forms.blood" required />
 
         <!-- 
@@ -13,7 +13,8 @@
             Therefore, your `forms.blood` should be set to a value from this array, for example: forms.blood = 1.
         -->
 
-        <Checkbox v-model="forms.accepted" />
+        <Checkbox label="Favorite Fruit" required v-model="forms.favorites" :options="fruits" />
+        <Checkbox v-model="forms.checked" />
 
 
         <code>
@@ -30,11 +31,13 @@ export default {
 
     data() {
         return {
+            fruits: ['Apple', 'Banana', 'Mango', 'Papaya', 'Orange', 'Avocado', 'Strawberry', 'Pineapple'],
+
             forms: {
                 gender: 'Male',
                 blood: 'A',
-                accepted: [true],
-                favorites: []
+                checked: true,
+                favorites: ['Banana', 'Mango']
             }
         }
     },
