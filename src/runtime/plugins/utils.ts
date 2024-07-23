@@ -75,8 +75,35 @@ const cleanMap = (self: any, key: any) => {
   }
 }
 
+/**
+ * randString is a function to generate random string
+ * @param {number} [length=10] - Optional length of the string.
+ * @param {boolean} [withSpecialChar=false] - Optional flag to include special characters.
+ * @returns {string} The random string.
+ * @example
+ * const str = randString(10, true); // 'aBcDeFgHiJ'
+ */
+
+const randString = (length: number = 10, withSpecialChar: boolean = false): string => {
+  let result = ''
+  let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  if (withSpecialChar) {
+      characters += '!@#$%^&*()_+~`|}{[]\:;?><,./-='
+  }
+  let charactersLength = characters.length
+  for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() *
+          charactersLength))
+  }
+  return result
+}
+
+const on = (condition: boolean, then: any, or: any = '') => {
+  return condition ? then : or
+}
+
 const utils = {
-  ucwords, ucfirst, currency, cleanMap
+  ucwords, ucfirst, currency, cleanMap, randString, on
 }
 
 export default defineNuxtPlugin((_) => {
@@ -88,5 +115,5 @@ export default defineNuxtPlugin((_) => {
 })
 
 const _ = utils
-export { _ };
+export { _, utils };
 

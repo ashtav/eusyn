@@ -17,6 +17,10 @@
         </section>
 
         <section class="section">
+          <RadioCheckboxExample />
+        </section>
+
+        <section class="section">
           <Button label="Submit" @click="onSubmit" theme="btn-outline-dark" icon="ti-send" />
         </section>
 

@@ -81,6 +81,7 @@ export function looseToNumber(val: any): any {
   const n = parseFloat(val)
   return isNaN(n) ? val : n
 }
+
 const utils = <any>{
   on: (condition: boolean, then: any, or: any = '') => {
     return condition ? then : or

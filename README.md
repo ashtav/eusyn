@@ -30,6 +30,25 @@ modules: [
 
 Visit https://github.com/ to explore the documentation.
 
+## Local Development
+
+Clone the repository to your local machine:
+```bash
+git clone https://github.com/ashtav/nuxt-tabler-ui
+```
+Install dependencies:
+```bash
+pnpm install
+```
+Generate type stubs:
+```bash
+pnpm run dev:prepare
+```
+To test the components using playground, run:
+```bash
+pnpm run play
+```
+
 ## Credits
 
 - [Tabler](https://tabler.io/)
