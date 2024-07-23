@@ -5,21 +5,21 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-Nuxt Tabler UI is a collection of components and utilities designed to simplify and speed up the app development process with Nuxt.
-
-Its goal is to provide everything related to UI when building a Nuxt app. This includes components, icons, utilities, etc.
+Nuxt Tabler UI is a comprehensive library designed to streamline and accelerate app development with Nuxt. Leveraging Tabler for its design and components, and Tabler Icons for its iconography, this collection provides all the essential UI elements and utilities needed to build robust Nuxt applications efficiently.
 
 
 ## Installation
 
 ```bash
-npm i nuxt-tabler-ui // npm
-yarn add nuxt-tabler-ui // yarn
+npm i nuxt-tabler-ui
 ```
-
+or
+```bash
+yarn add nuxt-tabler-ui
+```
+## Configuration
+To use Nuxt Tabler UI, add it to the modules section of your `nuxt.config.ts` file:
 ```typescript
-// in nuxt.config.ts file
-
 modules: [
     'nuxt-tabler-ui'
 ]

@@ -1,7 +1,7 @@
 <template>
     <div :class="['input', utils.on(disabled, 'disabled')]">
         <label :class="['form-label', utils.on(required, 'required')]" v-if="label"> {{ label }} </label>
-        <div class="input-icon mb-3">
+        <div class="input-icon" :class="{ 'mb-3': !nospace }">
             <!-- prefix -->
             <span class="input-icon-addon" v-if="prefix">
                 <Ti :icon="prefix" size="input-prefix" />
@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, onMounted, watch } from 'vue';
+import { defineComponent, getCurrentInstance, onMounted, ref, watch } from 'vue';
 import { formatting, handleKeyPress } from '../../scripts/input';
 import { utils } from '../../utils';
 
@@ -113,15 +113,20 @@ export default defineComponent({
             type: String,
             default: "", // "ucwords|ucfirst|lower|upper|trim|numeric|currency|alpha|alphanumeric|date|address|hashtag|decimal"
         },
+
+        nospace: {
+            type: Boolean,
+            default: false
+        }
     },
 
     setup(props, { emit }) {
         const instance = getCurrentInstance();
 
-        const localValue: Ref<string> = ref(props.modelValue);
-        const inputType: Ref<string> = ref(props.type);
-        const inputSuffixs: Ref<Array<any>> = ref(props.suffixs);
-        const obsecure: Ref<boolean> = ref(true);
+        const localValue = ref(props.modelValue);
+        const inputType = ref(props.type);
+        const inputSuffixs = ref(props.suffixs);
+        const obsecure = ref(true);
 
         // methods
         const onInput = (event: any) => {

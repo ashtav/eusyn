@@ -120,36 +120,36 @@ const formatting = (formatters: Array<string>, emit: any, value: string, type: s
                     if (value.trim() == "") return;
 
                     // if user press backspace and the last character is # then remove it
-                    if (
-                        _event?.inputType == "deleteContentBackward" &&
+                    if (_event?.inputType == "deleteContentBackward" &&
                         value.slice(-1) == "#"
                     ) {
                         then(value.substring(0, value.length - 2))
                         return;
                     }
 
-                    // prevent uer to input #
+                    // prevent user to input #
                     if (value.slice(-1) == "#") {
                         then(value.substring(0, value.length - 1))
                         return;
                     }
 
-                    value = value.replace(/,/g, "");
-
                     // if input contains space
-                    if (value.replace(/#/g, "").includes(" ")) {
+                    const isContainSpace = value.replace(/#/g, "").includes(" ")
+
+                    if (isContainSpace) {
                         let result = value
-                            .replace(/#/g, "")
-                            .split(" ")
+                            .replace(/[#,]/g, "") // Remove existing hashtags
+                            .split(" ") // Split by spaces
                             .map((item) => {
-                                return "#" + item;
+                                return item.length > 0 ? "#" + item : item; // Add hashtag only if the item is not an empty string
                             })
-                            .join(" ");
+                            .join(" "); // Join the words back with spaces
 
                         then(result)
                     } else {
                         then("#" + value.replace(/#/g, ""))
                     }
+
                 }
 
                 break;

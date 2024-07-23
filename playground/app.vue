@@ -1,6 +1,6 @@
 <template>
   <div class="playground">
-    <div class="container row">
+    <div class="container row py-6 mb-6">
 
       <div class="col-lg-6">
         <h2>LazyUI</h2>
@@ -8,10 +8,16 @@
           reiciendis? Enim voluptas reprehenderit alias omnis sequi corrupti est, nulla quo ea similique exercitationem
           voluptates.</p>
 
-        <Button label="Submit" @click="onSubmit" theme="btn-outline-dark" icon="ti-send" />
-
         <section class="section">
           <InputExample />
+        </section>
+
+        <section class="section">
+          <SelectExample />
+        </section>
+
+        <section class="section">
+          <Button label="Submit" @click="onSubmit" theme="btn-outline-dark" icon="ti-send" />
         </section>
 
 
@@ -54,7 +60,7 @@ export default defineComponent({
 
 <style lang="scss">
 .playground {
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   background-color: #fbfbfb;
   display: flex;
