@@ -1,12 +1,12 @@
 <template>
-    <div :class="{ 'mb-3': !nospace }">
+    <div :class="{ 'mb-3': !nospace, 'd-inline-block': single }">
         <label :class="['form-label', utils.on(required, 'required')]" v-if="label"> {{ label }} </label>
 
-        <div>
-            <label class="form-check form-check-inline" v-if="options.length == 0">
-                <input class="form-check-input" type="checkbox" :name="inputName" :value="single" v-model="localValue"
+        <div :class="{'d-inline-block': single}">
+            <label class="form-check form-check-inline m-0" v-if="options.length == 0">
+                <input class="form-check-input" type="checkbox" :name="inputName" v-model="localValue"
                     :disabled="disabled" />
-                <span class="form-check-label" />
+                <span class="form-check-label" v-text="'&nbsp;'" />
             </label>
 
             <label class="form-check form-check-inline" v-for="(option, i) in localOptions" :key="i" v-else>
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import { utils } from '../../plugins/utils';
 import { textOption } from '../../scripts/select';
 
@@ -64,8 +64,7 @@ export default defineComponent({
         const localValue = ref(props.modelValue)
         const localOptions = ref(props.options)
         const inputName = ref('checkbox-' + utils.randString(5))
-        const single = ref(false)
-
+        const single = ref(props.options.length == 0)
 
         // methods
         const onInput = (event: any, option: any) => {
@@ -85,24 +84,19 @@ export default defineComponent({
             }
         };
 
-        const initOption = (value: Array<any>) => {
-
-        }
-
         watch(() => localValue.value, (value) => {
             if (typeof value === 'boolean') {
                 emit("update:modelValue", value)
             }
         })
 
-        watch(() => props.options, (value) => {
-           localOptions.value = value
+        watch(() => props.modelValue, (value) => {
+            localValue.value = value
         })
 
-        // mounted
-        onMounted(() => {
-            // initOption(localValue.value)
-        });
+        watch(() => props.options, (value) => {
+            localOptions.value = value
+        })
 
         return {
             utils, localValue, localOptions, inputName, single, onInput, textOption

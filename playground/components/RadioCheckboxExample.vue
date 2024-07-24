@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4>Radio & Checkbox</h4>
+        <h4>Radio, Checkbox & Switch</h4>
         <p>This section demonstrates how to use radio buttons and checkboxes in your form. You will find examples of
             their functionalities, advantages, and practical usage scenarios.</p>
 
@@ -16,10 +16,13 @@
         <Checkbox label="Favorite Fruit" required v-model="forms.favorites" :options="fruits" />
         <Checkbox v-model="forms.checked" />
 
+        <Switch v-model="forms.accepted" inline caption="Disable|Enable" />
 
-        <code>
-            {{ forms }}
-        </code>
+        <div>
+            <code>
+                {{ forms }}
+            </code>
+        </div>
     </div>
 </template>
 
@@ -37,7 +40,8 @@ export default {
                 gender: 'Male',
                 blood: 'A',
                 checked: true,
-                favorites: ['Banana', 'Mango']
+                favorites: ['Banana', 'Mango'],
+                accepted: false
             }
         }
     },

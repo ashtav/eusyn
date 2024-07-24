@@ -1,24 +1,29 @@
 <template>
-    <div :class="['select', utils.on(disabled || busy, 'disabled')]">
-        <label :class="['form-label', utils.on(required, 'required')]" v-if="label"> {{ label }} </label>
-        <div class="input-icon" :class="{ 'mb-3': !nospace }">
+    <div :class="{ 'mb-3': !nospace, 'd-inline-block': inline }">
+        <label :class="['form-label']" v-if="label"> {{ label }} </label>
 
+        <div :class="{ 'd-inline-block': inline }">
+            <label class="form-check form-switch d-inline-block m-0">
+                <input class="form-check-input" type="checkbox" :name="inputName" v-model="localValue"
+                    :disabled="disabled">
+                <span class="form-check-label"> &nbsp; {{ textCaption }}</span>
+            </label>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, onMounted, ref, watch } from 'vue';
-import { textOption } from '../../scripts/select';
-import { utils } from '../../utils';
+import { defineComponent, onMounted, ref, watch } from 'vue';
+import { utils } from '../../plugins/utils';
 
 export default defineComponent({
-    emits: ["update:modelValue", "enter", 'change'],
+    emits: ["update:modelValue", 'change'],
 
     inheritAttrs: false,
     props: {
         modelValue: {
-            default: '',
+            type: Boolean,
+            default: false
         },
 
         label: {
@@ -26,7 +31,7 @@ export default defineComponent({
             default: null
         },
 
-        hint: {
+        caption: {
             type: String,
             default: null
         },
@@ -36,80 +41,57 @@ export default defineComponent({
             default: false
         },
 
-        required: {
-            type: Boolean,
-            default: false
-        },
-
-        autofocus: {
-            type: Boolean,
-            default: false,
-        },
-
-        busy: {
-            type: Boolean,
-            default: false,
-        },
-
-        prefix: {
-            type: String,
-            default: null
-        },
-
-        suffix: {
-            type: String,
-            default: null
-        },
-
-        options: {
-            type: Array<any>,
-            default: () => []
-        },
-
         nospace: {
             type: Boolean,
             default: false
-        }
+        },
+
+        inline: {
+            type: Boolean,
+            default: false
+        },
     },
 
     setup(props, { emit }) {
-        const instance = getCurrentInstance();
-        const localValue = ref(props.modelValue);
-        const localOptions = ref(props.options)
-        const selected = ref(null);
+        const localValue = ref(props.modelValue)
+        const inputName = ref('switch-' + utils.randString(5))
+        const textCaption = ref('')
 
-        const initOption = (value: any) => {
-            // get option by value
-            let option = props.options.find((o) => {
-                return `${textOption(o, true)}`.toLowerCase() == `${value}`.toLowerCase();
-            });
+        let captions = <Array<string>>[]
 
-            selected.value = option;
-            localValue.value = option?.label ?? option?.value ?? value;
+        const generateCaptions = () => {
+            if (props.caption) {
+                const splitted = props.caption.split('|')
 
-            emit("update:modelValue", value);
+                if (splitted.length == 2) {
+                    captions = [splitted[0], splitted[1]]
+                } else {
+                    captions = [splitted[0], splitted[0]]
+                }
+
+                textCaption.value = captions[localValue.value ? 1 : 0]
+            }
         }
 
-        watch(() => props.modelValue, (value) => {
-            initOption(value)
-
-            if (value == '') {
-                localValue.value = value
-            }
+        watch(() => localValue.value, (value) => {
+            emit("update:modelValue", value)
         })
 
-        watch(() => localValue.value, (value) => {
-            emit("update:modelValue", value);
-        });
+        watch(() => props.modelValue, (value) => {
+            localValue.value = value
+            textCaption.value = captions[value ? 1 : 0]
+        })
 
+        watch(() => props.caption, (_) => {
+            generateCaptions()
+        })
 
-        // mounted
         onMounted(() => {
-            initOption(localValue.value)
-        });
+            generateCaptions()
+        })
 
         return {
-            utils, localValue
+            utils, localValue, inputName, textCaption
         }
     }
 })
