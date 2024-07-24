@@ -1,19 +1,43 @@
 <template>
-    <div :class="['select', utils.on(disabled || busy, 'disabled')]">
+    <div :class="['input', utils.on(disabled, 'disabled')]">
         <label :class="['form-label', utils.on(required, 'required')]" v-if="label"> {{ label }} </label>
         <div class="input-icon" :class="{ 'mb-3': !nospace }">
+            <!-- prefix -->
+            <span class="input-icon-addon" v-if="prefix">
+                <Ti :icon="prefix" size="input-prefix" />
+            </span>
 
+            <!-- input -->
+            <textarea :value="localValue" :class="['form-control']" :placeholder="hint" :maxlength="maxLength"
+                :required="required" :disabled="disabled" :autofocus="autofocus" name="input" autocomplete="off"
+                @input="onInput" @keypress="onKeyPress" :style="{ maxHeight: `${maxHeight}px` }" />
+
+            <!-- suffixs -->
+            <div class="suffixs" v-if="inputSuffixs.length != 0">
+                <span v-for="suffix in inputSuffixs" :class="[utils.on(suffix.disabled, 'disabled')]"
+                    @click="onSuffix(suffix)">
+
+                    <!-- if kbd and has text -->
+                    <kbd v-if="suffix?.kbd && suffix?.text">{{ suffix.text }}</kbd>
+
+                    <!-- if text -->
+                    <span v-else-if="suffix?.text" :class="suffix?.class"> {{ suffix.text }} </span>
+
+                    <!-- if icon -->
+                    <Ti :icon="suffix?.icon" v-else-if="suffix?.icon && !suffix?.text" />
+                </span>
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, onMounted, ref, watch } from 'vue';
-import { textOption } from '../../scripts/select';
+import { formatting, handleKeyPress } from '../../scripts/input';
 import { utils } from '../../utils';
 
 export default defineComponent({
-    emits: ["update:modelValue", "enter", 'change'],
+    emits: ["update:modelValue", "enter", 'blur', "suffix"],
 
     inheritAttrs: false,
     props: {
@@ -46,9 +70,14 @@ export default defineComponent({
             default: false,
         },
 
-        busy: {
-            type: Boolean,
-            default: false,
+        maxLength: {
+            type: Number,
+            default: 500,
+        },
+
+        maxHeight: {
+            type: Number,
+            default: 150,
         },
 
         prefix: {
@@ -56,14 +85,19 @@ export default defineComponent({
             default: null
         },
 
-        suffix: {
-            type: String,
-            default: null
-        },
-
-        options: {
+        suffixs: {
             type: Array<any>,
             default: () => []
+        },
+
+        password: {
+            type: Boolean,
+            default: false
+        },
+
+        formatters: {
+            type: String,
+            default: "", // "ucwords|ucfirst|lower|upper|trim|numeric|currency|alpha|alphanumeric|date|address|hashtag|decimal"
         },
 
         nospace: {
@@ -75,42 +109,124 @@ export default defineComponent({
     setup(props, { emit }) {
         const instance = getCurrentInstance();
         const localValue = ref(props.modelValue);
-        const localOptions = ref(props.options)
-        const selected = ref(null);
+        const inputSuffixs = ref(props.suffixs);
 
-        const initOption = (value: any) => {
-            // get option by value
-            let option = props.options.find((o) => {
-                return `${textOption(o, true)}`.toLowerCase() == `${value}`.toLowerCase();
-            });
+        // methods
+        const onInput = (event: any) => {
+            localValue.value = event.target.value;
+        };
 
-            selected.value = option;
-            localValue.value = option?.label ?? option?.value ?? value;
-
-            emit("update:modelValue", value);
+        const onSuffix = (data: any) => {
+            emit('suffix', data)
         }
 
-        watch(() => props.modelValue, (value) => {
-            initOption(value)
+        const onKeyPress = (event: any) => {
+            handleKeyPress(instance, emit, props, event, localValue.value, props.formatters.split('|'))
+        }
 
+        // watch
+
+        watch(() => props.suffixs, (value) => {
+            inputSuffixs.value = value
+        }, { immediate: true })
+
+        watch(() => props.modelValue, (value) => {
             if (value == '') {
                 localValue.value = value
             }
         })
 
         watch(() => localValue.value, (value) => {
-            emit("update:modelValue", value);
+            formatting(props.formatters.split('|'), emit, value, '', (value: string) => {
+                localValue.value = value
+                emit("update:modelValue", value);
+            });
         });
-
 
         // mounted
         onMounted(() => {
-            initOption(localValue.value)
+
         });
 
         return {
-            utils, localValue
+            utils, localValue, inputSuffixs, onInput, onSuffix, onKeyPress
         }
     }
 })
 </script>
+
+<style scoped lang="scss">
+.input {
+
+    &.disabled {
+        pointer-events: none;
+
+        .date-input-placeholders {
+            background-color: #f6f8fb;
+        }
+
+        .suffixs {
+            opacity: .6;
+
+            span {
+                &.disabled {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+
+    .suffixs {
+        position: absolute;
+        right: 5px;
+        top: 0;
+
+        span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            padding: 0 7px;
+            padding-top: 1px;
+            cursor: pointer;
+            text-wrap: nowrap;
+            user-select: none;
+
+            span {
+                font-size: 12.5px;
+                letter-spacing: .5px;
+            }
+
+            &.disabled {
+                pointer-events: none;
+                opacity: .6;
+            }
+
+            i {
+                opacity: .6;
+            }
+
+            &:hover {
+                i {
+                    opacity: 1;
+                }
+            }
+
+            &:active {
+                i {
+                    opacity: .6;
+                }
+            }
+        }
+    }
+
+    textarea {
+        scrollbar-width: thin;
+    }
+
+    .input-icon-addon {
+        align-items: unset !important;
+        top: 11px
+    }
+}
+</style>

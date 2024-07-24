@@ -17,6 +17,8 @@
             @enter="onEnter" />
         <Input label="Date" type="date" prefix="ti-calendar" />
 
+        <Textarea label="Description" hint="Type description about you..." prefix="ti-note" formatters="ucfirst" />
+
         <code>
             {{ forms }}
         </code>
