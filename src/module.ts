@@ -77,9 +77,8 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Plugins
 
-    addPlugin({
-      src: resolve(runtimeDir, 'plugins', 'utils')
-    })
+    addPlugin({ src: resolve(runtimeDir, 'plugins', 'utils') })
+    addPlugin({ src: resolve(runtimeDir, 'scripts', 'modal') })
 
     // addPlugin({
     //   src: resolve(runtimeDir, 'plugins', 'modals')
