@@ -5,7 +5,8 @@
     {{ label ?? '' }}
   </NuxtLink>
 
-  <button :class="['btn', theme]" :type="type" :disabled="isSubmit" @click="click_" v-else>
+  <button :class="['btn', theme]" :type="utils.on(submit, 'submit', 'button')" :disabled="isSubmit" @click="click_"
+    v-else>
     <Spinner class="me-2" v-if="isSubmit" />
     <Ti :icon="icon" class="me-2" v-if="icon != null && !isSubmit" />
 
@@ -18,7 +19,7 @@ import { defineComponent, ref, watch } from 'vue';
 import { utils } from '../../utils';
 
 export default defineComponent({
-  inheritAttrs: false,
+  // inheritAttrs: false,
   props: {
     label: {
       type: String,
@@ -35,6 +36,11 @@ export default defineComponent({
       default: false
     },
 
+    submit: {
+      type: Boolean,
+      default: false
+    },
+
     theme: {
       type: String,
       default: "btn-primary",
@@ -43,11 +49,6 @@ export default defineComponent({
     icon: {
       type: String,
       default: null,
-    },
-
-    type: {
-      type: String as () => "button" | "submit" | "reset",
-      default: "button",
     },
 
     to: {

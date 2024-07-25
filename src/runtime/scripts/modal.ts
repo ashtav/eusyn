@@ -5,33 +5,45 @@ import eventBus from '../plugins/mitt';
 const actives = <Array<string>>[];
 
 const show = (id: string, params: any = {}) => {
-    actives.push(id)
+    if (!actives.includes(id)) {
+        actives.push(id)
+    }
+
     eventBus.emit('__show_modal', { id, params })
 }
 
 const close = (id?: string) => {
-    if (id === null) {
+    if (!id) {
         const removedId = actives.pop();
         eventBus.emit('__close_modal', { id: removedId });
     } else {
         const index = actives.indexOf(id);
         if (index > -1) {
             actives.splice(index, 1);
-            eventBus.emit('__close_modal', { id });
+            eventBus.emit('__close_modal', { id: id });
         }
     }
 }
 
-const methods = {
-    show, close
+const setTitle = (title: string) => {
+    eventBus.emit('__set_modal_title', { title: title });
+}
+
+const callback = (data: any) => {
+    eventBus.emit('__callback_modal', { data: data });
+}
+
+const modal = {
+    show, close, setTitle, callback
 }
 
 export default defineNuxtPlugin((_) => {
     return {
         provide: {
-            modal: methods
+            modal: modal
         }
     }
 })
 
+export { modal };
 
