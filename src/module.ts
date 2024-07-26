@@ -1,46 +1,10 @@
 import { addComponentsDir, addImportsDir, addPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
 import { name, version } from '../package.json'
-import type { DeepPartial, Strategy } from './runtime/types/utils'
-import * as config from './runtime/ui.config'
-// import createTemplates from './templates'
-
-
-type UI = {
-  primary?: string
-  gray?: string
-  colors?: string[]
-  strategy?: Strategy
-  [key: string]: any
-} & DeepPartial<typeof config, string>
-
-declare module 'nuxt/schema' {
-  interface AppConfigInput {
-    // @ts-ignore
-    ui?: UI
-  }
-}
-declare module '@nuxt/schema' {
-  interface AppConfigInput {
-    // @ts-ignore
-    ui?: UI
-  }
-}
 
 export interface ModuleOptions {
-  /**
-   * @default 'u'
-   */
   prefix?: string
-
-  /**
-   * @default false
-   */
-  global?: boolean
-
+  global?: boolean // default is false
   safelistColors?: string[]
-  /**
-   * Disables the global css styles added by the module.
-   */
   disableGlobalStyles?: boolean
 }
 
@@ -53,12 +17,14 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt: '>=3.10.0'
     }
   },
+
   defaults: {
     prefix: '',
     safelistColors: ['primary'],
     disableGlobalStyles: false
   },
-  async setup (options, nuxt) {
+
+  async setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
     // Transpile runtime
@@ -73,22 +39,10 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.css.push(resolve(runtimeDir, 'styles/customs/override.css'))
     }
 
-    // createTemplates(nuxt)
-
     // Plugins
-
     addPlugin({ src: resolve(runtimeDir, 'plugins', 'utils') })
     addPlugin({ src: resolve(runtimeDir, 'scripts', 'modal') })
-
-    // addPlugin({
-    //   src: resolve(runtimeDir, 'plugins', 'modals')
-    // })
-
-    // addPlugin({
-    //   src: resolve(runtimeDir, 'plugins', 'slideovers')
-    // })
-
-    // Components
+    addPlugin({ src: resolve(runtimeDir, 'scripts', 'toast') })
 
     addComponentsDir({
       path: resolve(runtimeDir, 'components', 'elements'),
@@ -96,30 +50,21 @@ export default defineNuxtModule<ModuleOptions>({
       global: options.global,
       watch: false
     })
+
     addComponentsDir({
       path: resolve(runtimeDir, 'components', 'forms'),
       prefix: options.prefix,
       global: options.global,
       watch: false
     })
+
     addComponentsDir({
       path: resolve(runtimeDir, 'components', 'data'),
       prefix: options.prefix,
       global: options.global,
       watch: false
     })
-    addComponentsDir({
-      path: resolve(runtimeDir, 'components', 'layout'),
-      prefix: options.prefix,
-      global: options.global,
-      watch: false
-    })
-    addComponentsDir({
-      path: resolve(runtimeDir, 'components', 'navigation'),
-      prefix: options.prefix,
-      global: options.global,
-      watch: false
-    })
+
     addComponentsDir({
       path: resolve(runtimeDir, 'components', 'overlays'),
       prefix: options.prefix,
@@ -128,7 +73,6 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     // Composables
-
     addImportsDir(resolve(runtimeDir, 'composables'))
   }
 })

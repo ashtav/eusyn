@@ -9,7 +9,8 @@
                     smooth user experience. Perfect for displaying alerts, forms, and other interactive content.</p>
 
                 <Button label="Open Modal" @click="onClick" class="me-2" />
-                <Button label="Open Modal 2" theme="btn" @click="$modal.show('modal-example')" />
+                <Button label="Open Modal 2" theme="btn" @click="$modal.show('modal-example')" class="me-2" />
+                <Button label="Show Toast" theme="btn" @click="showToast" />
             </div>
         </div>
 
@@ -36,6 +37,7 @@
 
         <!-- modal example: as component -->
         <ModalExample />
+        <Toast />
     </div>
 </template>
 
@@ -82,6 +84,10 @@ export default {
 
         onSubmit() {
             this.$modal.setTitle(this.forms.title)
+        },
+
+        showToast() {
+            this.$toast.error('Hello world')
         }
     }
 }
