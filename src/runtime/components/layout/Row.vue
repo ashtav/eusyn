@@ -1,0 +1,73 @@
+<template>
+    <div :style="rowStyle">
+        <div v-for="(child, index) in slots" :key="index" :style="childStyle">
+            <component :is="child" />
+        </div>
+    </div>
+</template>
+
+<script lang="ts">
+import { computed, defineComponent, toRefs, useSlots } from 'vue';
+
+export default defineComponent({
+    props: {
+        gap: {
+            type: Number,
+            default: 0,
+        },
+        expanded: {
+            type: Boolean,
+            default: false,
+        },
+        align: {
+            type: String,
+            default: 'center', // center | start | end
+        },
+        justify: {
+            type: String,
+            default: 'start', // between | around | evenly | start | end | center
+        },
+    },
+
+    setup(props) {
+        const { gap, expanded, align, justify } = toRefs(props);
+
+        const justifyMap = <any>{
+            'start': 'flex-start',
+            'end': 'flex-end',
+            'evenly': 'space-evenly',
+            'around': 'space-around',
+            'between': 'space-between',
+            'center': 'center',
+        }
+
+        const rowStyle = computed(() => ({
+            display: 'flex',
+            justifyContent: justifyMap[justify.value] ?? 'flex-start',
+            alignItems: align.value,
+            gap: `${gap.value}px`,
+        }));
+
+        const childStyle = computed(() => ({
+            flex: expanded.value ? 1 : 'initial',
+        }));
+
+        // Use the useSlots hook to get slot content
+        const slots = useSlots();
+
+        // Convert slots to an array of components
+        const slotComponents = computed(() => {
+            const defaultSlot = slots.default ? slots.default() : [];
+            return defaultSlot;
+        });
+
+        return {
+            rowStyle,
+            childStyle,
+            slots: slotComponents,
+        };
+    },
+});
+</script>
+
+<style lang="scss" scoped></style>

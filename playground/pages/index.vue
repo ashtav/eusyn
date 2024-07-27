@@ -7,6 +7,10 @@
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt suscipit expedita sed cumque harum libero
             reiciendis? Enim voluptas reprehenderit alias omnis sequi corrupti est, nulla quo ea similique exercitationem
             voluptates.</p>
+
+          <ul>
+            <li> <NuxtLink to="/modal-toast-confirm">Modal, Toast & Confirm</NuxtLink> </li>
+          </ul>
   
           <section class="section">
             <InputExample />

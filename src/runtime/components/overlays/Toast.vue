@@ -37,6 +37,8 @@ export default {
         const toastEl = ref<HTMLElement | null>(null);
 
         onMounted(() => {
+            eventBus.on("__show_toast", onShow)
+
             if (toastEl.value !== null) {
                 toastEl.value.addEventListener("mouseenter", () => {
                     if (currentAnimationFrame !== null) {
@@ -125,10 +127,6 @@ export default {
         };
 
         return { onShow, onHide, show, message, icon, progress, toastEl, type };
-    },
-
-    mounted() {
-        eventBus.on("__show_toast", this.onShow);
     },
 };
 </script>

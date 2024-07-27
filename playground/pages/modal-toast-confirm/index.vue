@@ -2,15 +2,40 @@
     <div class="container py-6">
         <div class="row">
             <div class="col-lg-6">
-                <h2>LazyUI - Modal</h2>
-                <p class="mb-5">LazyUI's modal component offers a sleek and responsive design for your web applications.
-                    Easily
-                    customizable and highly flexible, it ensures seamless integration with your existing UI, providing a
-                    smooth user experience. Perfect for displaying alerts, forms, and other interactive content.</p>
+                <h2>Modal, Toast & Confirm</h2>
+                <p class="mb-5">Check out these examples of how to use Modal, Toast, and Confirm components and plugins.
+                    They make
+                    it easy to display alerts, forms, and other interactive content in your web applications.</p>
 
-                <Button label="Open Modal" @click="onClick" class="me-2" />
-                <Button label="Open Modal 2" theme="btn" @click="$modal.show('modal-example')" class="me-2" />
-                <Button label="Show Toast" theme="btn" @click="showToast" />
+                <Row :gap="10">
+                    <Button label="Open Modal" @click="onClick" />
+                    <Button label="Show Toast" theme="btn" @click="showToast" />
+                    <Button label="Show Confirm" theme="btn" @click="showConfirm" />
+                </Row>
+
+<pre class="mt-3">
+<code>// modal
+this.$modal.show('modal', {
+    title: 'New Data',
+    data: { id: 1 },
+    callback: (data: any) => {
+        console.log('data from modal', data)
+    }
+})
+
+// toast
+this.$toast.error('500 - Server error!')
+
+// confirm
+this.$confirm('Delete Product', {
+    message: 'Your message...',
+    textButton: 'Cancel|Yes, Do it!',
+    onConfirm: (actions) => {
+        actions.submit()
+    },
+})
+
+</code></pre>
             </div>
         </div>
 
@@ -34,10 +59,6 @@
                 </div>
             </form>
         </Modal>
-
-        <!-- modal example: as component -->
-        <ModalExample />
-        <Toast />
     </div>
 </template>
 
@@ -87,7 +108,21 @@ export default {
         },
 
         showToast() {
-            this.$toast.error('Hello world')
+            this.$toast.error('500 - Server error!')
+        },
+
+        showConfirm() {
+            this.$confirm('Delete Product', {
+                message: 'Are you sure want to delete this product?, consider that this action cannot be undone.',
+                textButton: 'Cancel|Yes, Do it!',
+                onConfirm(actions) {
+                    actions.submit()
+
+                    setTimeout(() => {
+                        actions.close()
+                    }, 1000);
+                },
+            })
         }
     }
 }

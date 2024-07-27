@@ -5,10 +5,10 @@
     {{ label ?? '' }}
   </NuxtLink>
 
-  <button :class="['btn', theme]" :type="utils.on(submit, 'submit', 'button')" :disabled="isSubmit" @click="click_"
+  <button :class="['btn', theme]" :type="utils.on(submit, 'submit', 'button')" :disabled="submitted || disabled" @click="click_"
     v-else>
-    <Spinner class="me-2" v-if="isSubmit" />
-    <Ti :icon="icon" class="me-2" v-if="icon != null && !isSubmit" />
+    <Spinner class="me-2" v-if="submitted" />
+    <Ti :icon="icon" class="me-2" v-if="icon != null && !submitted" />
 
     {{ label ?? '' }}
   </button>

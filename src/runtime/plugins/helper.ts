@@ -1,19 +1,24 @@
-import { createApp, h } from 'vue';
-import ToastComponent from '../components/overlays/Toast.vue';
+import type { Component, ComponentPublicInstance, Slots, VNode, VNodeProps } from 'vue';
+import { h, render } from 'vue';
 
-export function injectToast(
-    props: Record<string, any> = {},
+export function removeElement(el: Element): void {
+    if (typeof el.remove !== 'undefined') {
+        el.remove()
+    } else {
+        el.parentNode?.removeChild(el)
+    }
+}
+
+export function createComponent(
+    component: Component,
+    props: VNodeProps | null,
     parentContainer: HTMLElement,
-    slots: Record<string, any> = {}
-) {
-    const container = document.createElement('div');
+    slots: Slots = {}
+): ComponentPublicInstance | null {
+    const vNode: VNode = h(component, props, slots);
+    const container: HTMLElement = document.createElement('div');
     parentContainer.appendChild(container);
+    render(vNode, container);
 
-    const app = createApp({
-        render() {
-            return h(ToastComponent, props, slots);
-        }
-    });
-
-    app.mount(container);
+    return vNode.component?.proxy ?? null;
 }

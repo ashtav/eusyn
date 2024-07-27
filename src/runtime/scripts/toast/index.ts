@@ -1,10 +1,8 @@
 
 import { defineNuxtPlugin } from '#imports';
-import eventBus from '../plugins/mitt';
+import eventBus from '../../plugins/mitt';
 
 const show = (message: string, options: any = {}, type = 'default') => {
-    console.log('its from script/toast.ts')
-
     eventBus.emit('__show_toast', {
         message: message,
         options: options,

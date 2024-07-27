@@ -1,11 +1,12 @@
-import { addComponentsDir, addImportsDir, addPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
+import { addComponent, addComponentsDir, addImportsDir, addPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
 import { name, version } from '../package.json'
 
 export interface ModuleOptions {
   prefix?: string
   global?: boolean // default is false
-  safelistColors?: string[]
-  disableGlobalStyles?: boolean
+  disableGlobalStyles?: boolean,
+  toast?: boolean,
+  confirm?: boolean,
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -20,8 +21,9 @@ export default defineNuxtModule<ModuleOptions>({
 
   defaults: {
     prefix: '',
-    safelistColors: ['primary'],
-    disableGlobalStyles: false
+    disableGlobalStyles: false,
+    toast: false,
+    confirm: false
   },
 
   async setup(options, nuxt) {
@@ -39,11 +41,22 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.css.push(resolve(runtimeDir, 'styles/customs/override.css'))
     }
 
+    // Injections
+    if (options.confirm) {
+      nuxt.options.plugins.push(resolve(runtimeDir, 'scripts/confirm/setup.ts'))
+      addPlugin({ src: resolve(runtimeDir, 'scripts', 'confirm') })
+    }
+
+    if (options.toast) {
+      nuxt.options.plugins.push(resolve(runtimeDir, 'scripts/toast/setup.ts'))
+      addPlugin({ src: resolve(runtimeDir, 'scripts', 'toast') })
+    }
+
     // Plugins
     addPlugin({ src: resolve(runtimeDir, 'plugins', 'utils') })
     addPlugin({ src: resolve(runtimeDir, 'scripts', 'modal') })
-    addPlugin({ src: resolve(runtimeDir, 'scripts', 'toast') })
 
+    // Components
     addComponentsDir({
       path: resolve(runtimeDir, 'components', 'elements'),
       prefix: options.prefix,
@@ -66,11 +79,24 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     addComponentsDir({
-      path: resolve(runtimeDir, 'components', 'overlays'),
+      path: resolve(runtimeDir, 'components', 'layout'),
       prefix: options.prefix,
       global: options.global,
       watch: false
     })
+
+    addComponent({
+      name: 'Modal',
+      filePath: resolve(runtimeDir, 'components', 'overlays/Modal.vue'),
+      global: options.global
+    })
+
+    // addComponentsDir({
+    //   path: resolve(runtimeDir, 'components', 'overlays'),
+    //   prefix: options.prefix,
+    //   global: options.global,
+    //   watch: false
+    // })
 
     // Composables
     addImportsDir(resolve(runtimeDir, 'composables'))
