@@ -22,11 +22,15 @@ this.$modal.show('modal', {
         console.log('data from modal', data)
     }
 })
+</code></pre>
 
-// toast
+<pre class="mt-3">
+<code>// toast
 this.$toast.error('500 - Server error!')
+</code></pre>
 
-// confirm
+<pre class="mt-3">
+<code>// confirm
 this.$confirm('Delete Product', {
     message: 'Your message...',
     textButton: 'Cancel|Yes, Do it!',
@@ -34,7 +38,6 @@ this.$confirm('Delete Product', {
         actions.submit()
     },
 })
-
 </code></pre>
             </div>
         </div>
