@@ -39,7 +39,7 @@ export default {
                 { label: 'Settings', icon: 'ti-settings' },
             ],
 
-            data: {
+            data: <any>{
                 options: null,
                 entries: null
             }

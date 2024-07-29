@@ -42,7 +42,7 @@ export default {
 
     props: {
         options: {
-            type: Array<Dropdown>,
+            type: [Array<Dropdown>, Array<string>],
             default: []
         },
 

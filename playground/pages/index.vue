@@ -18,6 +18,9 @@
           <li>
             <NuxtLink to="/dropdown">Dropdown</NuxtLink>
           </li>
+          <li>
+            <NuxtLink to="/shimmer">Shimmer</NuxtLink>
+          </li>
         </ul>
 
         <section class="section">
