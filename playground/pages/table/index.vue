@@ -1,60 +1,82 @@
 <template>
-    <div class="container py-6">
-        <div class="row">
-            <div class="col-lg-6">
-                <h2>LazyUI - Table</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt suscipit expedita sed cumque harum
-                    libero
-                    reiciendis? Enim voluptas reprehenderit alias omnis sequi corrupti est, nulla quo ea similique
-                    exercitationem
-                    voluptates.</p>
+    <div class="page">
+        <div class="page-body">
+            <div class="container">
+                <PageHeader title="Product" :actions="[
+                    { label: 'Create New', icon: 'ti-plus' }
+                ]" />
+
+                <div class="py-6">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h2>LazyUI - Table</h2>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt suscipit expedita sed
+                                cumque harum
+                                libero
+                                reiciendis? Enim voluptas reprehenderit alias omnis sequi corrupti est, nulla quo ea
+                                similique
+                                exercitationem
+                                voluptates.</p>
+                        </div>
+                    </div>
+
+                    <Table :columns="table.columns" :rows="table.rows" />
+                </div>
             </div>
         </div>
-
-        <Table>
-            <tr>
-                <td><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice"></td>
-                <td><span class="text-secondary">001401</span></td>
-                <td><a href="invoice.html" class="text-reset" tabindex="-1">Design Works</a></td>
-                <td>
-                    <span class="flag flag-xs flag-country-us me-2"></span>
-                    Carlson Limited
-                </td>
-                <td>
-                    87956621
-                </td>
-                <td>
-                    15 Dec 2017
-                </td>
-                <td>
-                    <span class="badge bg-success me-1"></span> Paid
-                </td>
-                <td>$887</td>
-                <td class="text-end">
-                    <span class="dropdown">
-                        <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport"
-                            data-bs-toggle="dropdown">Actions</button>
-                        <div class="dropdown-menu dropdown-menu-end">
-                            <a class="dropdown-item" href="#">
-                                Action
-                            </a>
-                            <a class="dropdown-item" href="#">
-                                Another action
-                            </a>
-                        </div>
-                    </span>
-                </td>
-            </tr>
-        </Table>
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     setup() {
 
 
         return {}
+    },
+
+    data() {
+        return {
+            table: {
+                columns: [
+                    { label: 'Name', sortable: true },
+                    { label: 'Price', sortable: true },
+                    { label: 'Stock', sortable: true },
+                    { label: 'Category' },
+                ],
+
+                rows: [
+                    {
+                        id: 1,
+                        name: 'Mocha Float',
+                        price: 'IDR 15.500',
+                        stock: 241,
+                        category: 'Drink'
+                    },
+                    {
+                        id: 2,
+                        name: 'Apple Pie',
+                        price: 'IDR 18.000',
+                        stock: 132,
+                        category: 'Fruite'
+                    },
+                    {
+                        id: 3,
+                        name: 'Blue Berry',
+                        price: 'IDR 11.300',
+                        stock: 216,
+                        category: 'Fruite'
+                    },
+                    {
+                        id: 4,
+                        name: 'Burger Fillet',
+                        price: 'IDR 31.800',
+                        stock: 98,
+                        category: 'Food'
+                    }
+                ]
+            }
+        }
     }
 }
 </script>

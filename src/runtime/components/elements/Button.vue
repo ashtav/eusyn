@@ -5,12 +5,14 @@
     {{ label ?? '' }}
   </NuxtLink>
 
-  <button :class="['btn', theme]" :type="utils.on(submit, 'submit', 'button')" :disabled="submitted || disabled" @click="click_"
-    v-else>
+  <button :class="['btn', theme]" :type="utils.on(submit, 'submit', 'button')" :disabled="submitted || disabled"
+    @click="click_" v-else>
     <Spinner class="me-2" v-if="submitted" />
-    <Ti :icon="icon" class="me-2" v-if="icon != null && !submitted" />
 
-    {{ label ?? '' }}
+    <Row :reverse="iconAlign == 'end'" :gap="7">
+      <Ti :icon="icon" v-if="icon != null && !submitted" />
+      {{ label ?? '' }}
+    </Row>
   </button>
 </template>
 
@@ -49,6 +51,11 @@ export default defineComponent({
     icon: {
       type: String,
       default: null,
+    },
+
+    iconAlign: {
+      type: String,
+      default: 'start'
     },
 
     to: {

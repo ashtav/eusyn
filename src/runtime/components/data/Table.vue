@@ -20,37 +20,31 @@
         </div>
       </div>
     </div>
+
+    <!-- table content -->
     <div class="table-responsive">
-      <table class="table card-table table-vcenter text-nowrap datatable">
+      <table class="table card-table table-vcenter text-nowrap table-striped">
         <thead>
           <tr>
-            <th class="w-1"><input class="form-check-input m-0 align-middle" type="checkbox"
-                aria-label="Select all invoices"></th>
-            <th class="w-1">No. <!-- Download SVG icon from http://tabler-icons.io/i/chevron-up -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                class="icon icon-sm icon-thick">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M6 15l6 -6l6 6"></path>
-              </svg>
+            <th v-for="item in headers">
+              <span :class="{ 'hoverable': item.sortable }" @click="doSortBy(item)">
+                {{ item.label }}
+                <Ti :icon="item.sort_icon ?? ''" size="xs" v-if="item.sortable" />
+              </span>
             </th>
-            <th>Invoice Subject</th>
-            <th>Client</th>
-            <th>VAT No.</th>
-            <th>Created</th>
-            <th>Status</th>
-            <th>Price</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
-          <slot></slot>
-
-          
-          
+          <tr v-for="(item, i) in dataTable">
+            <td v-for="(key, j) in keys">
+              {{ item[key] }}
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
+
+    <!-- pagination -->
     <div class="card-footer d-flex align-items-center">
       <p class="m-0 text-secondary">Showing <span>1</span> to <span>8</span> of <span>16</span> entries</p>
       <ul class="pagination m-0 ms-auto">
@@ -86,13 +80,137 @@
 </template>
 
 <script lang="ts">
+import type { Ref } from 'vue';
+import { onMounted, ref } from 'vue';
+
+
+interface Column {
+  key?: string,
+  label: string,
+  sortable?: boolean
+}
+
 export default {
-  setup() {
+  props: {
+
+    columns: {
+      type: Array<Column>,
+      default: []
+    },
+
+    rows: {
+      type: Array<Record<string, any>>,
+      default: []
+    },
 
 
-    return {}
+  },
+
+  setup(props, { }) {
+    const originData = props.rows.map((e: any) => ({ ...e }))
+    const headers: Ref<Array<Record<string, any>>> = ref(props.columns)
+    const dataTable: Ref<Record<string, any>> = ref(props.rows);
+
+    let sortBy: string = ''
+    let sortKey: string | null = null
+
+    const toKey = (e: Record<string, any>) => {
+      return e.key ? e.key : e.label.toLowerCase().replaceAll(' ', '_')
+    }
+
+    const sortByKeyAsc = <T>(arr: T[], key: keyof T): T[] => {
+      return arr.sort((a, b) => {
+        if (a[key] < b[key]) return -1;
+        if (a[key] > b[key]) return 1;
+        return 0;
+      });
+    };
+
+    const sortByKeyDesc = <T>(arr: T[], key: keyof T): T[] => {
+      return arr.sort((a, b) => {
+        if (a[key] < b[key]) return 1;
+        if (a[key] > b[key]) return -1;
+        return 0;
+      });
+    };
+
+    // create keys
+    const keys = props.columns.map((e: Column) => toKey(e))
+
+    const doSortBy = (data: Record<string, any>) => {
+      if (data?.sortable) {
+        let key = toKey(data)
+
+        if (sortKey != key) {
+          sortBy = ''
+        }
+
+        sortKey = key
+
+        // set all headers sort icon to default
+        headers.value.forEach((e) => {
+          e.sort_icon = 'ti-arrows-sort'
+        })
+
+        // find specific header for icon changes
+        const i = headers.value.findIndex((e: any) => toKey(e) == key)
+        const header = headers.value[i]
+
+        if (sortBy == '') {
+          dataTable.value = sortByKeyAsc(props.rows, key)
+          sortBy = 'asc'
+          header.sort_icon = 'ti-sort-ascending'
+        }
+
+        else if (sortBy == 'asc') {
+          dataTable.value = sortByKeyDesc(props.rows, key)
+          sortBy = 'desc'
+          header.sort_icon = 'ti-sort-descending'
+        }
+
+        else {
+          dataTable.value = originData
+          sortBy = ''
+          header.sort_icon = 'ti-arrows-sort'
+        }
+      }
+    }
+
+    onMounted(() => {
+      headers.value = props.columns.map((e: Column) => {
+        return {
+          ...e,
+          sort_icon: 'ti-arrows-sort'
+        }
+      })
+    })
+
+
+
+    return { keys, headers, dataTable, doSortBy }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.table {
+  thead {
+    tr th span {
+      padding: 8px 0;
+      font-weight: bold;
+    }
+
+    tr th span.hoverable {
+      cursor: pointer;
+
+      &:hover {
+        opacity: .6;
+      }
+
+      &:active {
+        opacity: 1;
+      }
+    }
+  }
+}
+</style>

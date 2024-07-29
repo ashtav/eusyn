@@ -27,10 +27,14 @@ export default defineComponent({
             type: String,
             default: 'start', // between | around | evenly | start | end | center
         },
+        reverse: {
+            type: Boolean,
+            default: false,
+        }
     },
 
     setup(props) {
-        const { gap, expanded, align, justify } = toRefs(props);
+        const { gap, expanded, align, justify, reverse } = toRefs(props);
 
         const justifyMap = <any>{
             'start': 'flex-start',
@@ -58,7 +62,7 @@ export default defineComponent({
         // Convert slots to an array of components
         const slotComponents = computed(() => {
             const defaultSlot = slots.default ? slots.default() : [];
-            return defaultSlot;
+            return reverse.value ? defaultSlot.reverse() : defaultSlot;
         });
 
         return {
