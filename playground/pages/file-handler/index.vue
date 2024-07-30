@@ -14,6 +14,9 @@
 
             </div>
         </FileHandler>
+        <br>
+        <FileHandler @select="onFiles" />
+            
 
         <br>
         <!-- <pre><code>this.$</code></pre> -->

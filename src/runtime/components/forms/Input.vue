@@ -13,7 +13,7 @@
 
             <!-- input -->
             <input :value="localValue" :type="inputType" :class="['form-control']" :placeholder="hint"
-                :maxlength="maxLength" :required="required" :disabled="disabled" :min="minDate" :max="maxDate"
+                :maxlength="maxLength" :required="required" :disabled="disabled" :readonly="readonly" :min="minDate" :max="maxDate"
                 :autofocus="autofocus" name="input" autocomplete="off" @input="onInput" @keypress="onKeyPress">
 
             <!-- suffixs -->
@@ -65,6 +65,11 @@ export default defineComponent({
         },
 
         disabled: {
+            type: Boolean,
+            default: false
+        },
+
+        readonly: {
             type: Boolean,
             default: false
         },

@@ -1,25 +1,19 @@
 <template>
-    <div class="page">
-        <div class="page-body">
-            <div class="container">
-                <PageHeader title="Dropdown" />
+    <div class="container">
+        <PageHeader title="Dropdown" />
 
-                <code>
-                    {{ data }}
-                </code>
+        <code>{{ data }}</code>
 
-                <div class="py-6">
-                    <Row :gap="10">
-                        <Dropdown :options="options" :separate="[0, 2]" @select="onSelect">
-                            <Button label="More" icon="ti-dots-vertical" iconAlign="end" />
-                        </Dropdown>
+        <div class="py-6">
+            <Row :gap="10">
+                <Dropdown :options="options" :separate="[0, 2]" @select="onSelect">
+                    <Button label="More" icon="ti-dots-vertical" iconAlign="end" />
+                </Dropdown>
 
-                        <Dropdown :options="['10', '15', '25', '50', '100']" size="sm" @select="onSelect">
-                            <Button label="Entries" icon="ti-chevron-down" theme="btn" iconAlign="end" />
-                        </Dropdown>
-                    </Row>
-                </div>
-            </div>
+                <Dropdown :options="['10', '15', '25', '50', '100']" size="sm" @select="onSelect">
+                    <Button label="Entries" icon="ti-chevron-down" theme="btn" iconAlign="end" />
+                </Dropdown>
+            </Row>
         </div>
     </div>
 </template>

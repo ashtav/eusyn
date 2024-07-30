@@ -2,7 +2,11 @@
     <div @click="onClick">
         <slot />
 
-        <div v-if="$slots">exist brother</div>
+        <div v-if="!$slots.default">
+            <Input hint="Please select file" readonly :suffixs="[{
+                text: 'Browse', kbd: true
+            }]"/>
+        </div>
 
         <input type="file" ref="fileInput" :accept="acceptFile" @change="handeFiles" class="d-none"
             :multiple="multiple" />
@@ -76,12 +80,12 @@ export default {
         const filterFiles = (files: FileList) => {
 
             // get config
-            const maxSize = megabytesToBytes(props.config.maxSize) // 3Mb
+            const maxSize = megabytesToBytes(props.config.maxSize ?? 3) // 3Mb
             const width = props.config.width ?? [] // [min, max]
             const height = props.config.height ?? [] // [min, max]
 
-            let errors = []
-            let result = []
+            let errors = <any>[]
+            let result = <any>[]
 
             Array.from(files).forEach((file: File) => {
                 let isValid = true
@@ -106,7 +110,7 @@ export default {
 
                         // check image dimension
                         let img = new Image();
-                        img.src = event.target.result as string;
+                        img.src = event.target?.result as string;
 
                         img.onload = () => {
 
@@ -141,7 +145,7 @@ export default {
 
                             if (isValid) {
                                 result.push({
-                                    data: event.target.result,
+                                    data: event.target?.result,
                                     name: file.name,
                                     type: file.type,
                                     size: utils.formatBytes(file.size),
@@ -155,7 +159,7 @@ export default {
                     else {
                         if (isValid) {
                             result.push({
-                                data: event.target.result,
+                                data: event.target?.result,
                                 name: file.name,
                                 type: file.type,
                                 size: utils.formatBytes(file.size),
@@ -165,9 +169,9 @@ export default {
                 }
 
                 reader.readAsDataURL(file);
-            })
+            });
 
-            fileInput.value.value = ''
+            (fileInput.value as any).value = ''
             return { errors, result }
         }
 

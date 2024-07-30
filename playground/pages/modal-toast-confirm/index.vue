@@ -1,5 +1,5 @@
 <template>
-    <div class="container py-6">
+    <div class="container">
         <div class="row">
             <div class="col-lg-6">
                 <h2>Modal, Toast & Confirm</h2>
