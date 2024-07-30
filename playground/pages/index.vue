@@ -3,25 +3,9 @@
     <div class="container row py-6 mb-6">
 
       <div class="col-lg-6">
-        <h2>LazyUI</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt suscipit expedita sed cumque harum libero
-          reiciendis? Enim voluptas reprehenderit alias omnis sequi corrupti est, nulla quo ea similique exercitationem
-          voluptates.</p>
-
-        <ul>
-          <li>
-            <NuxtLink to="/modal-toast-confirm">Modal, Toast & Confirm</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/table">Table</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/dropdown">Dropdown</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/shimmer">Shimmer</NuxtLink>
-          </li>
-        </ul>
+        <h2>Nuxt Tabler UI</h2>
+        <p>Collection of components and utilities designed to simplify and speed up the app development process with
+          Nuxt.</p>
 
         <section class="section">
           <InputExample />

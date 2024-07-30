@@ -1,29 +1,11 @@
 <template>
-    <div class="page">
-        <div class="page-body">
-            <div class="container">
-                <PageHeader title="Product" :actions="[
-                    { label: 'Create New', icon: 'ti-plus' }
-                ]" />
+    <div class="container">
+        <PageHeader title="Product" :actions="[
+            { label: 'Create New', icon: 'ti-plus' }
+        ]" />
 
-                <div class="py-6">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <h2>LazyUI - Table</h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt suscipit expedita sed
-                                cumque harum
-                                libero
-                                reiciendis? Enim voluptas reprehenderit alias omnis sequi corrupti est, nulla quo ea
-                                similique
-                                exercitationem
-                                voluptates.</p>
-                        </div>
-                    </div>
-
-                    <Table :columns="table.columns" :rows="table.rows" />
-                </div>
-            </div>
-        </div>
+        <Table :columns="table.columns" :rows="table.rows" /> <br>
+        <pre><code>&lt;Table :columns="table.columns" :rows="table.rows" /&gt;</code></pre>
     </div>
 </template>
 

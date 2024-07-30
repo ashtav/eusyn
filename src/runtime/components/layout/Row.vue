@@ -12,7 +12,7 @@ import { computed, defineComponent, toRefs, useSlots } from 'vue';
 export default defineComponent({
     props: {
         gap: {
-            type: Number,
+            type: [Number, String],
             default: 0,
         },
         expanded: {

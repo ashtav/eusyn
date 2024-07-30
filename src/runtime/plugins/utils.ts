@@ -11,7 +11,6 @@ import { defineNuxtPlugin } from '#imports';
  * const str = "john doE (training)";
  * console.log(ucwords(str, false, true)); // 'John DoE (Training)'
  */
-
 const ucwords = (text: string, normalize: boolean = false, strict: boolean = false): string => {
   let value = normalize ? text.toLowerCase() : text;
 
@@ -39,7 +38,6 @@ const ucwords = (text: string, normalize: boolean = false, strict: boolean = fal
  * const htmlStr = "<p>hello world</p>";
  * console.log(ucfirst(htmlStr)); // '<p>Hello world</p>'
  */
-
 const ucfirst = (text: string, normalize: boolean = false): string => {
   const capitalizeFirstActualLetter = (htmlString: string) => {
     // Helper function to capitalize the first character of a string
@@ -61,10 +59,23 @@ const ucfirst = (text: string, normalize: boolean = false): string => {
   return isHTML(value) ? capitalizeFirstActualLetter(value as string) : value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-const currency = (text: string, separator: string = '.'): string => {
+/**
+ * Formats a string as a currency, adding a separator for thousands.
+ * 
+ * @param text - The string to format as a currency.
+ * @param separator - The separator to use for thousands. Defaults to ','.
+ * @returns The formatted currency string.
+ */
+const currency = (text: string, separator: string = ','): string => {
   return text.replace(/[^0-9]/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, separator)
 }
 
+/**
+ * Resets specific data properties on a Vue instance to their default values.
+ * 
+ * @param self - The Vue instance (`this` context).
+ * @param key - The key or array of keys of the properties to reset.
+ */
 const cleanMap = (self: any, key: any) => {
   if (typeof key === 'string') {
     Object.assign(self.$data[key], (self.$options as any).data()[key]);
@@ -76,6 +87,17 @@ const cleanMap = (self: any, key: any) => {
 }
 
 /**
+ * Generates a random integer between the specified minimum and maximum values, inclusive.
+ * 
+ * @param min - The minimum value.
+ * @param max - The maximum value.
+ * @returns A random integer between min and max, inclusive.
+ */
+const randInt = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
  * randString is a function to generate random string
  * @param {number} [length=10] - Optional length of the string.
  * @param {boolean} [withSpecialChar=false] - Optional flag to include special characters.
@@ -83,17 +105,16 @@ const cleanMap = (self: any, key: any) => {
  * @example
  * const str = randString(10, true); // 'aBcDeFgHiJ'
  */
-
 const randString = (length: number = 10, withSpecialChar: boolean = false): string => {
   let result = ''
   let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   if (withSpecialChar) {
-      characters += '!@#$%^&*()_+~`|}{[]\:;?><,./-='
+    characters += '!@#$%^&*()_+~`|}{[]\:;?><,./-='
   }
   let charactersLength = characters.length
   for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() *
-          charactersLength))
+    result += characters.charAt(Math.floor(Math.random() *
+      charactersLength))
   }
   return result
 }
@@ -103,7 +124,7 @@ const on = (condition: boolean, then: any, or: any = '') => {
 }
 
 const utils = {
-  ucwords, ucfirst, currency, cleanMap, randString, on
+  ucwords, ucfirst, currency, cleanMap, randInt, randString, on
 }
 
 export default defineNuxtPlugin((_) => {
