@@ -3,7 +3,9 @@
         <!-- header -->
         <PageHeader title="File Handler" />
 
-        <FileHandler>
+        <!-- <InputFile /> -->
+        <FileHandler @select="onFiles" :accept="['audio:wav,mp3,mpeg']"
+            :config="{ maxSize: .2, width: [300, 700], height: [50] }">
             <div class="file-handler">
                 <div>
                     <h4 class="mb-0">Select File or Drag Here</h4>
@@ -12,25 +14,42 @@
 
             </div>
         </FileHandler>
+
+        <br>
+        <!-- <pre><code>this.$</code></pre> -->
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     setup() {
 
 
         return {}
+    },
+
+    data() {
+        return {
+            configs: {
+
+            }
+        }
+    },
+
+    methods: {
+        onFiles(files: any) {
+            console.log('file-handler', files)
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .file-handler {
-    border: 1px #ddd dashed;
+    border: 1px #ccc dashed;
     width: 100%;
     height: 250px;
-    background-color: #f5f5f5;
+    background-color: #fbfbfb;
     border-radius: 5px;
     display: flex;
     justify-content: center;

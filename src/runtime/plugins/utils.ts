@@ -119,12 +119,89 @@ const randString = (length: number = 10, withSpecialChar: boolean = false): stri
   return result
 }
 
+const formatBytes = (bytes: number, decimals: number = 2): string => {
+  if (bytes === 0) return '0 Bytes';
+
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+const handleFiles = function (e: any, callback: any, config: any = {}): any {
+  const file = e.target.files[0];
+  if (file == null) return;
+
+  // 1 kb = 1024, 1024 * 1000 = 1 mb
+  let maxSize = config?.max_size || 1024 * 1000 * 3 // 3MB
+  let allowedType = config?.allowed_type || ['image/png', 'image/jpeg', 'image/jpg']
+  let minWidth = config?.min_width || 500, maxWidth = config?.max_width || 1920
+  let minHeight = config?.min_height || 500, maxHeight = config?.max_height || 1920
+  let strict = config?.strict || false
+
+  if (file.size > maxSize) {
+      callback({ error: `File size must be less than ${formatBytes(maxSize)}` })
+      return;
+  }
+
+  // check file type
+  if (!allowedType.includes(file.type) && !config?.allowed_type.includes('*')) {
+      callback({ error: `File type must be ${allowedType.join(', ')}` })
+      return;
+  }
+
+  if (typeof FileReader === "function") {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+          // check image resolution
+          let img = new Image();
+          img.src = event.target?.result as string;
+          img.onload = () => {
+
+              if (img.width < minWidth || img.width > maxWidth) {
+                  callback({ error: strict ? `Image width must be ${minWidth}px` : `Image width must be between ${minWidth}px and ${maxWidth}px` });
+                  return;
+              }
+
+              if (img.height < minHeight || img.height > maxHeight) {
+                  callback({ error: strict ? `Image height must be ${minWidth}px` : `Image height must be between ${minHeight}px and ${maxHeight}px` });
+                  return;
+              }
+
+              if (callback) {
+                  callback({
+                      name: file.name,
+                      size: formatBytes(file.size),
+                      type: file.type,
+                      data: event.target?.result
+                  })
+              }
+          }
+
+          // if not image
+          if (file.type.startsWith('image/') === false && callback) {
+              callback({
+                  name: file.name,
+                  size: formatBytes(file.size),
+                  type: file.type,
+                  data: event.target?.result
+              })
+          }
+      };
+      reader.readAsDataURL(file);
+  } else {
+      callback({ error: `Your browser does not support FileReader.` })
+  }
+}
+
 const on = (condition: boolean, then: any, or: any = '') => {
   return condition ? then : or
 }
 
 const utils = {
-  ucwords, ucfirst, currency, cleanMap, randInt, randString, on
+  ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes, handleFiles, on
 }
 
 export default defineNuxtPlugin((_) => {
