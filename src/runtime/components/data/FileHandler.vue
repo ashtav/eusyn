@@ -3,7 +3,8 @@
         <slot />
 
         <div v-if="!$slots.default">
-            <Input :label="config.label" :hint="config.hint ?? 'Please select file'" readonly :required="config.required" :suffixs="[{
+            <Input :label="config.label" :hint="config.hint ?? 'Please select file'" readonly
+                :required="config.required" :suffixs="[{
         text: 'Browse', kbd: true
     }]" v-model="input" />
         </div>
@@ -234,10 +235,12 @@ export default {
                 if (!slots.default == true) {
                     const files = result.files
 
-                    if (files.length == 1) {
+                    if (files.length != 0) {
                         input.value = files[0].name
-                    } else {
-                        input.value = files[0].name + ` and ${files.length - 1} other files`
+
+                        if (files.length > 1) {
+                            input.value = files[0].name + ` and ${files.length - 1} other files`
+                        }
                     }
                 }
             }
