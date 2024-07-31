@@ -85,7 +85,7 @@ export default {
         }
 
         const onDragged = (event: DragEvent) => {
-            if (!props.draggable) return
+            if (!props.draggable || !event.dataTransfer) return
 
             event.stopPropagation();
             event.preventDefault();
@@ -96,7 +96,7 @@ export default {
         }
 
         const onDropped = async (event: DragEvent) => {
-            if (!props.draggable) return
+            if (!props.draggable || !event.dataTransfer) return
 
             event.stopPropagation();
             event.preventDefault();
@@ -118,8 +118,8 @@ export default {
                 const width = props.config.width ?? [] // [min, max]
                 const height = props.config.height ?? [] // [min, max]
 
-                let errors = []
-                let result = []
+                let errors = <any>[]
+                let result = <any>[]
 
                 const promises = Array.from(files).map((file) => {
                     return new Promise<void>((resolve) => {

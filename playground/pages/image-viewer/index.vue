@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <ImageViewer v-model="show" :images="images" :active="image" :actions="['download', 'copy']" />
+        <ImageViewer v-model="show" :images="images" :active="image" :actions="['download', 'copy']" :config="{max: 250, loop: true}" />
     </div>
 </template>
 

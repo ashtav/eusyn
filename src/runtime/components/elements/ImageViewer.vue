@@ -9,7 +9,7 @@
         <!-- navigation -->
         <div class="navigator">
             <span v-for="(nav, i) in ['left', 'right']" @click="onNavigate(i)"
-                :class="[nav, { 'disabled': [currentIndex < 1, currentIndex >= (images.length - 1)][i] }]">
+                :class="[nav, { 'disabled': [currentIndex < 1, currentIndex >= (images.length - 1)][i] && !config?.loop }]">
                 <i :class="[`ti ti-chevron-${nav}`]" />
             </span>
         </div>
@@ -25,7 +25,7 @@
         </div>
 
         <!-- image view -->
-        <div class="image" :style="imageStyle"></div>
+        <div class="image" :style="imageStyle" @dblclick="resizeToDefault"></div>
     </div>
 </template>
 
@@ -33,6 +33,12 @@
 import type { Ref } from 'vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import { utils } from '../../plugins/utils.js';
+
+interface Config {
+    min?: number,
+    max?: number,
+    loop?: boolean
+}
 
 export default {
     emits: ["update:modelValue"],
@@ -60,6 +66,11 @@ export default {
         actions: {
             type: Array<string>,
             default: () => []
+        },
+
+        config: {
+            type: Object as () => Config,
+            default: {}
         }
     },
 
@@ -79,8 +90,12 @@ export default {
 
         const getConfig = () => {
             return {
-                min: 30, max: 290
+                min: props.config.min ?? 30, max: props.config.max ?? 90
             }
+        }
+
+        const resizeToDefault = () => {
+            updateImageSize()
         }
 
         const adjustSize = (event: WheelEvent) => {
@@ -155,22 +170,27 @@ export default {
         }
 
         const onNavigate = (i: number) => {
+            const loop = props.config?.loop ?? false;
+
             if (i == 0) {
                 if (currentIndex.value > 0) {
                     currentIndex.value--;
-                    imageUrl.value = (props.images[currentIndex.value] as any);
-                    updateImageSize();
-                    focusOnImage(currentIndex.value)
+                } else if (loop) {
+                    currentIndex.value = props.images.length - 1;
                 }
             } else {
                 if (currentIndex.value < props.images.length - 1) {
                     currentIndex.value++;
-                    imageUrl.value = (props.images[currentIndex.value] as any);
-                    updateImageSize();
-                    focusOnImage(currentIndex.value)
+                } else if (loop) {
+                    currentIndex.value = 0;
                 }
             }
+
+            imageUrl.value = (props.images[currentIndex.value] as any);
+            updateImageSize();
+            focusOnImage(currentIndex.value);
         }
+
 
         const close = () => {
             emit("update:modelValue", false)
@@ -246,6 +266,7 @@ export default {
             imageUrl,
             isCursorInImageList,
             actionsControl,
+            resizeToDefault,
             onAction,
             adjustSize,
             updateImageSize,
@@ -341,6 +362,7 @@ export default {
         position: fixed;
         top: 20px;
         right: 15px;
+        z-index: 99;
 
         span {
             cursor: pointer;
