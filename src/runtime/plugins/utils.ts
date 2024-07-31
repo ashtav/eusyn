@@ -1,14 +1,33 @@
 
 import { defineNuxtPlugin } from '#imports';
+import { toast } from '../scripts/toast/index.js';
 
+/**
+ * Removes all non-alphabetical characters from the input text.
+ * 
+ * @param {string} text - The input string to be processed.
+ * @returns {string} - A string containing only alphabetical characters and spaces.
+ */
 const alpha = (text: string): string => {
   return text.replace(/[^a-zA-Z ]/g, "")
 }
 
+/**
+ * Removes all non-alphanumeric characters from the input text, except for periods and spaces.
+ * 
+ * @param {string} text - The input string to be processed.
+ * @returns {string} - A string containing only alphanumeric characters, periods, and spaces.
+ */
 const alphanumeric = (text: string): string => {
   return text.replace(/[^a-zA-Z0-9. ]/g, "")
 }
 
+/**
+ * Removes all non-numeric characters from the input text.
+ * 
+ * @param {string} text - The input string to be processed.
+ * @returns {string} - A string containing only numeric characters.
+ */
 const numeric = (text: string): string => {
   return text.replace(/[^0-9]/g, "")
 }
@@ -131,6 +150,13 @@ const randString = (length: number = 10, withSpecialChar: boolean = false): stri
   return result
 }
 
+/**
+ * Converts a number of bytes into a more readable string format with the specified number of decimal places.
+ * 
+ * @param {number} bytes - The number of bytes to be formatted.
+ * @param {number} [decimals=2] - The number of decimal places to include in the formatted string. Defaults to 2.
+ * @returns {string} - A string representing the number of bytes in a more readable format (e.g., KB, MB).
+ */
 const formatBytes = (bytes: number, decimals: number = 2): string => {
   if (bytes === 0) return '0 Bytes';
 
@@ -142,78 +168,54 @@ const formatBytes = (bytes: number, decimals: number = 2): string => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
-const handleFiles = function (e: any, callback: any, config: any = {}): any {
-  const file = e.target.files[0];
-  if (file == null) return;
-
-  // 1 kb = 1024, 1024 * 1000 = 1 mb
-  let maxSize = config?.max_size || 1024 * 1000 * 3 // 3MB
-  let allowedType = config?.allowed_type || ['image/png', 'image/jpeg', 'image/jpg']
-  let minWidth = config?.min_width || 500, maxWidth = config?.max_width || 1920
-  let minHeight = config?.min_height || 500, maxHeight = config?.max_height || 1920
-  let strict = config?.strict || false
-
-  if (file.size > maxSize) {
-    callback({ error: `File size must be less than ${formatBytes(maxSize)}` })
-    return;
-  }
-
-  // check file type
-  if (!allowedType.includes(file.type) && !config?.allowed_type.includes('*')) {
-    callback({ error: `File type must be ${allowedType.join(', ')}` })
-    return;
-  }
-
-  if (typeof FileReader === "function") {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      // check image resolution
-      let img = new Image();
-      img.src = event.target?.result as string;
-      img.onload = () => {
-
-        if (img.width < minWidth || img.width > maxWidth) {
-          callback({ error: strict ? `Image width must be ${minWidth}px` : `Image width must be between ${minWidth}px and ${maxWidth}px` });
-          return;
-        }
-
-        if (img.height < minHeight || img.height > maxHeight) {
-          callback({ error: strict ? `Image height must be ${minWidth}px` : `Image height must be between ${minHeight}px and ${maxHeight}px` });
-          return;
-        }
-
-        if (callback) {
-          callback({
-            name: file.name,
-            size: formatBytes(file.size),
-            type: file.type,
-            data: event.target?.result
-          })
-        }
-      }
-
-      // if not image
-      if (file.type.startsWith('image/') === false && callback) {
-        callback({
-          name: file.name,
-          size: formatBytes(file.size),
-          type: file.type,
-          data: event.target?.result
-        })
-      }
-    };
-    reader.readAsDataURL(file);
-  } else {
-    callback({ error: `Your browser does not support FileReader.` })
-  }
-}
-
+/**
+ * Returns one of two values based on the given condition.
+ * 
+ * @param {boolean} condition - The condition to evaluate.
+ * @param {any} then - The value to return if the condition is true.
+ * @param {any} [or=''] - The value to return if the condition is false. Defaults to an empty string.
+ * @returns {any} - The value corresponding to the result of the condition evaluation.
+ */
 const on = (condition: boolean, then: any, or: any = '') => {
   return condition ? then : or
 }
 
+/**
+ * Copies a value to the clipboard and optionally displays a success message using a toast notification.
+ * 
+ * @param {any} value - The value to be copied to the clipboard.
+ * @param {string} [message] - An optional message to display if the copy operation is successful.
+ */
+const copy = (value: any, message?: string) => {
+  navigator.clipboard.writeText(`${value}`).then(() => {
+    if (message) {
+      toast.success(message);
+    }
+  }).catch(err => {
+    toast.warning('Failed to copy: ', err);
+  });
+}
+
+/**
+ * Downloads a file from the provided URL by creating an anchor element and triggering a click event.
+ * 
+ * @param {string} url - The URL of the file to be downloaded.
+ * @param {string} [filename] - The optional name of the file. Defaults to the name derived from the URL.
+ */
+const downloadFile = async (url: string, filename?: string) => {
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename || url.split('/').pop() || 'download';
+  link.target = '_blank';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+
+
 const utils = {
-  alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes, handleFiles, on
+  alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes, on, copy, downloadFile
 }
 
 export default defineNuxtPlugin((_) => {

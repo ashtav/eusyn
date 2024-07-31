@@ -29,6 +29,7 @@ export default {
                 { label: 'Dropdown', to: '/dropdown' },
                 { label: 'Shimmer', to: '/shimmer' },
                 { label: 'File Handler', to: '/file-handler' },
+                { label: 'Image Viewer', to: '/image-viewer' },
             ]
         }
     }

@@ -18,7 +18,7 @@
         <Input label="Date" type="date" prefix="ti-calendar" />
 
         <Input label="Currency" hint="Enter price" prefix="ti-coins" required v-model="forms.price"
-            formatters="hashtag" />
+            formatters="currency:," />
 
         <Textarea label="Description" hint="Type description about you..." prefix="ti-note" formatters="ucfirst" />
 

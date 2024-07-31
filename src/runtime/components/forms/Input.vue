@@ -197,11 +197,8 @@ export default defineComponent({
         watch(() => localValue.value, (value) => {
             formatting(props.formatters.split('|'), emit, value, props.type, (value: string) => {
                 emit("update:modelValue", value); // this will trigger `watch(() => props.modelValue`
-                console.log(value)
             });
         });
-
-
 
         // mounted
         onMounted(() => {

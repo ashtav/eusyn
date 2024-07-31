@@ -4,6 +4,7 @@ let _event: any
 
 const handleKeyPress = (instance: any, emit: any, props: any, event: any, value: any, formatters: Array<string>) => {
     _event = event
+    formatters = formatters.map((e: string) => e.split(':')[0])
 
     // if formatters is currency, set default max length to 15
     if (formatters.includes("currency")) {
@@ -199,10 +200,10 @@ const formatting = (formatters: Array<string>, emit: any, value: string, type: s
                 break;
         }
 
-        setTimeout(() => {
-            if (_event && !['hashtag', 'currency'].includes(formatter) && !['date'].includes(type)) _event.target?.setSelectionRange(cursorPosition, cursorPosition);
-            emit("update:modelValue", result);
-        }, 0);
+        // setTimeout(() => {
+        //     if (_event && !['hashtag', 'currency'].includes(formatter) && !['date'].includes(type)) _event.target?.setSelectionRange(cursorPosition, cursorPosition);
+        //     emit("update:modelValue", result);
+        // }, 0);
     })
 
     then(result)

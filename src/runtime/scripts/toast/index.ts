@@ -26,3 +26,5 @@ export default defineNuxtPlugin((_) => {
     }
 })
 
+export { toast };
+
