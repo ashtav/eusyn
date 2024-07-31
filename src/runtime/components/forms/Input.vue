@@ -13,8 +13,9 @@
 
             <!-- input -->
             <input :value="localValue" :type="inputType" :class="['form-control']" :placeholder="hint"
-                :maxlength="maxLength" :required="required" :disabled="disabled" :readonly="readonly" :min="minDate" :max="maxDate"
-                :autofocus="autofocus" name="input" autocomplete="off" @input="onInput" @keypress="onKeyPress">
+                :maxlength="maxLength" :required="required" :disabled="disabled" :readonly="readonly" :min="minDate"
+                :max="maxDate" :autofocus="autofocus" name="input" autocomplete="off" @input="onInput"
+                @keypress="onKeyPress">
 
             <!-- suffixs -->
             <div class="suffixs" v-if="inputSuffixs.length != 0 && !['date'].includes(type)">
@@ -186,9 +187,7 @@ export default defineComponent({
         }, { immediate: true })
 
         watch(() => props.modelValue, (value) => {
-            if (value == '') {
-                localValue.value = value
-            }
+            localValue.value = value
         })
 
         watch(() => obsecure.value, (value) => {
@@ -197,8 +196,8 @@ export default defineComponent({
 
         watch(() => localValue.value, (value) => {
             formatting(props.formatters.split('|'), emit, value, props.type, (value: string) => {
-                localValue.value = value
-                emit("update:modelValue", value);
+                emit("update:modelValue", value); // this will trigger `watch(() => props.modelValue`
+                console.log(value)
             });
         });
 

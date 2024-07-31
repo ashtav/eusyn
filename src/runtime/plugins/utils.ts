@@ -1,6 +1,18 @@
 
 import { defineNuxtPlugin } from '#imports';
 
+const alpha = (text: string): string => {
+  return text.replace(/[^a-zA-Z ]/g, "")
+}
+
+const alphanumeric = (text: string): string => {
+  return text.replace(/[^a-zA-Z0-9. ]/g, "")
+}
+
+const numeric = (text: string): string => {
+  return text.replace(/[^0-9]/g, "")
+}
+
 /**
  * Capitalizes the first letter of each word in a string.
  * @param {string} text - The input string.
@@ -142,57 +154,57 @@ const handleFiles = function (e: any, callback: any, config: any = {}): any {
   let strict = config?.strict || false
 
   if (file.size > maxSize) {
-      callback({ error: `File size must be less than ${formatBytes(maxSize)}` })
-      return;
+    callback({ error: `File size must be less than ${formatBytes(maxSize)}` })
+    return;
   }
 
   // check file type
   if (!allowedType.includes(file.type) && !config?.allowed_type.includes('*')) {
-      callback({ error: `File type must be ${allowedType.join(', ')}` })
-      return;
+    callback({ error: `File type must be ${allowedType.join(', ')}` })
+    return;
   }
 
   if (typeof FileReader === "function") {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-          // check image resolution
-          let img = new Image();
-          img.src = event.target?.result as string;
-          img.onload = () => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      // check image resolution
+      let img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
 
-              if (img.width < minWidth || img.width > maxWidth) {
-                  callback({ error: strict ? `Image width must be ${minWidth}px` : `Image width must be between ${minWidth}px and ${maxWidth}px` });
-                  return;
-              }
+        if (img.width < minWidth || img.width > maxWidth) {
+          callback({ error: strict ? `Image width must be ${minWidth}px` : `Image width must be between ${minWidth}px and ${maxWidth}px` });
+          return;
+        }
 
-              if (img.height < minHeight || img.height > maxHeight) {
-                  callback({ error: strict ? `Image height must be ${minWidth}px` : `Image height must be between ${minHeight}px and ${maxHeight}px` });
-                  return;
-              }
+        if (img.height < minHeight || img.height > maxHeight) {
+          callback({ error: strict ? `Image height must be ${minWidth}px` : `Image height must be between ${minHeight}px and ${maxHeight}px` });
+          return;
+        }
 
-              if (callback) {
-                  callback({
-                      name: file.name,
-                      size: formatBytes(file.size),
-                      type: file.type,
-                      data: event.target?.result
-                  })
-              }
-          }
+        if (callback) {
+          callback({
+            name: file.name,
+            size: formatBytes(file.size),
+            type: file.type,
+            data: event.target?.result
+          })
+        }
+      }
 
-          // if not image
-          if (file.type.startsWith('image/') === false && callback) {
-              callback({
-                  name: file.name,
-                  size: formatBytes(file.size),
-                  type: file.type,
-                  data: event.target?.result
-              })
-          }
-      };
-      reader.readAsDataURL(file);
+      // if not image
+      if (file.type.startsWith('image/') === false && callback) {
+        callback({
+          name: file.name,
+          size: formatBytes(file.size),
+          type: file.type,
+          data: event.target?.result
+        })
+      }
+    };
+    reader.readAsDataURL(file);
   } else {
-      callback({ error: `Your browser does not support FileReader.` })
+    callback({ error: `Your browser does not support FileReader.` })
   }
 }
 
@@ -201,7 +213,7 @@ const on = (condition: boolean, then: any, or: any = '') => {
 }
 
 const utils = {
-  ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes, handleFiles, on
+  alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes, handleFiles, on
 }
 
 export default defineNuxtPlugin((_) => {

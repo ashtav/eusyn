@@ -38,15 +38,21 @@ export default {
 <style lang="scss" scoped>
 .features {
     background-color: white;
+    width: 100%;
+    border-bottom: 1px #e5e5e5 solid;
+    overflow: auto;
+    scrollbar-width: none;
 
     ul {
         margin: 0;
         padding: 0;
         list-style: none;
+        display: flex;
 
         li,
         a {
             display: inline-block;
+            text-wrap: nowrap;
         }
 
         li {
