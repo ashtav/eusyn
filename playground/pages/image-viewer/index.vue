@@ -9,7 +9,7 @@
             {{ images.length }} images found, click one of these images to show image viewer.
         </p>
 
-        <div class="album">
+        <div class="album mb-3">
             <div class="body">
                 <img :src="images[0]" alt="" @click="view(0)">
                 <div class="small-images">
@@ -18,6 +18,11 @@
                 </div>
             </div>
         </div>
+
+        <Image 
+        width="400" height="400" :quality=".2"
+        class="rounded overflow-hidden"
+        src="https://i0.wp.com/digital-photography-school.com/wp-content/uploads/2017/02/2-pigeons_plaza_hotel.jpg?resize=750%2C500&ssl=1"  />
 
         <ImageViewer v-model="show" :images="images" :active="image" :actions="['download', 'copy']" :config="{max: 250, loop: true}" />
     </div>
