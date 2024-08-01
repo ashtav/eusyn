@@ -1,16 +1,13 @@
 <template>
-    <div class="img-container" :style="{ width: `${width}px`, height: `${height}px` }">
-        <img :src="finalSrc" loading="lazy" :alt="alt" @load="onLoad" ref="img" :style="{
-        width: `${width}px`,
-        height: `${height}px`,
-        objectFit: 'cover'
-    }">
+    <div class="img-container" :style="{ width: `${sizes[0]}px`, height: `${sizes[1]}px` }">
+        <img :src="finalSrc" loading="lazy" :alt="alt" @load="onLoad" ref="img" />
+
         <div class="shimmer" v-if="!isLoaded"></div>
     </div>
 </template>
 
 <script lang="ts">
-import { onMounted, watch } from "vue";
+import { onMounted, watch, ref } from "vue";
 import { utils } from '../../plugins/utils';
 
 export default {
@@ -26,11 +23,11 @@ export default {
         },
 
         width: {
-            type: [Number, String]
+            type: [Number]
         },
 
         height: {
-            type: [Number, String]
+            type: [Number]
         },
 
         quality: {
@@ -44,10 +41,12 @@ export default {
         const isLoaded = ref(false);
         const finalSrc = ref(props.src);
 
+        const sizes = ref([props.width, props.height])
+
         const onLoad = () => {
+
             if (img.value) {
-                img.value.classList.add('loaded');
-                isLoaded.value = true;
+                renderImage()
             }
         }
 
@@ -64,28 +63,27 @@ export default {
             return new Blob([ab], { type: mimeString });
         };
 
-        const getImageSize = async (url: string) => {
-            const response = await fetch(url, { method: 'HEAD' });
-            const contentLength = response.headers.get('Content-Length');
-            return contentLength ? parseInt(contentLength, 10) : null;
-        };
+        // const getImageSize = async (url: string) => {
+        //     const response = await fetch(url, { method: 'HEAD' });
+        //     const contentLength = response.headers.get('Content-Length');
+        //     return contentLength ? parseInt(contentLength, 10) : null;
+        // };
 
+        // const resetImageQuality = async () => {
+        //     let image = new Image();
+        //     image.crossOrigin = "anonymous";
+        //     image.alt = props.alt
+        //     image.src = props.src
 
-        const resetImageQuality = async () => {
-            let image = new Image();
-            image.crossOrigin = "anonymous";
-            image.alt = props.alt
-            image.src = props.src
+        //     image.addEventListener("load", () => resizeImage(image), false);
+        // }
 
-            image.addEventListener("load", () => resizeImage(image), false);
-        }
-
-        const resizeImage = (image: HTMLImageElement) => {
+        const renderWithQuality = (image: HTMLImageElement) => {
             const canvas = document.createElement("canvas");
             const context = canvas.getContext("2d");
 
-            const width: number = parseInt(`${props.width ?? image.width}`);
-            const height: number = parseInt(`${props.height ?? image.height}`);
+            const width: number = sizes.value[0] ?? 0;
+            const height: number = sizes.value[1] ?? 0;
 
             // Set canvas dimensions
             canvas.width = width;
@@ -111,7 +109,7 @@ export default {
             const x = (width - drawWidth) / 2;
             const y = (height - drawHeight) / 2;
 
-            console.log(x, y, drawWidth, drawHeight);
+            // console.log(x, y, drawWidth, drawHeight);
 
             // Clear the canvas before drawing
             context?.clearRect(0, 0, width, height);
@@ -119,48 +117,90 @@ export default {
             // Draw the image on the canvas
             context?.drawImage(image, x, y, drawWidth, drawHeight);
 
-            // Get data URL
-            const dataURL = canvas.toDataURL('image/jpeg', .1); // quality only affected in jpeg format
+            // get data URL
+            const dataURLorigin = canvas.toDataURL('image/jpeg');
+            const dataURL = canvas.toDataURL('image/jpeg', props.quality); // quality only affected in jpeg format
 
+            // set image data url to image source
             finalSrc.value = dataURL;
-            const blob = dataURLtoBlob(dataURL);
-            const sizeInBytes = blob.size;
 
-            console.log(`Image size in bytes: ${utils.formatBytes(sizeInBytes)}`);
+            if (img.value) {
+                img.value.classList.add('loaded');
+                isLoaded.value = true;
+
+                // calculate image size after reset quality
+                const sizeOrigin = dataURLtoBlob(dataURLorigin);
+                const blob = dataURLtoBlob(dataURL);
+                console.log(`Current image size is: ${utils.formatBytes(blob.size)} with ${props.quality} quality, original: ${utils.formatBytes(sizeOrigin.size)}`);
+            }
         };
 
+        const adjustImageSize = (image: HTMLImageElement) => {
+            const originalWidth = image.naturalWidth;
+            const originalHeight = image.naturalHeight;
 
-        const renderImage = () => {
-            if (img.value && img.value?.complete) {
+            let width = props.width
+            let height = props.height
+
+            if (width && !height) {
+                // Calculate height proportionally
+                height = (width * originalHeight) / originalWidth;
+            } else if (!width && height) {
+                // Calculate width proportionally
+                width = (height * originalWidth) / originalHeight;
+            } else if (!width && !height) {
+                // Default to original size if neither width nor height are provided
+                width = originalWidth;
+                height = originalHeight;
+            }
+
+            sizes.value = [width, height]
+
+            if (img.value) {
+
                 if (props.quality) {
-                    resetImageQuality()
+                    renderWithQuality(image)
                 } else {
+                    img.value.style.width = `${width}px`;
+                    img.value.style.height = `${height}px`;
+
                     img.value.classList.add('loaded');
                     isLoaded.value = true;
                 }
             }
+
+            // calculate size here
+            console.log(`<img component> origin: ${originalWidth} x ${originalHeight} | adjusted: ${width} x ${height}`);
         }
 
-        watch(() => props.src, (value) => {
-            renderImage()
-        });
+        const renderImage = () => {
+            if (img.value && img.value?.complete) {
+                console.log('rendering...')
+
+                let image = new Image();
+                image.crossOrigin = "anonymous";
+                image.alt = props.alt
+                image.src = props.src
+
+                image.addEventListener("load", () => adjustImageSize(image), false);
+            } else {
+                console.log('img undefined!')
+            }
+        }
+
+        watch(
+            [() => props.src, () => props.width, () => props.height, () => props.quality],
+            (value) => {
+                console.log(value)
+                renderImage();
+            }
+        );
 
         onMounted(() => {
             renderImage()
         });
 
-        // onMounted(() => {
-        //     if (img.value && img.value?.complete) {
-        //         img.value.classList.add('loaded');
-        //         isLoaded.value = true;
-        //     }
-        // })
-
-        // watch([props.src, props.alt], (src, alt) => {
-
-        // })
-
-        return { img, isLoaded, finalSrc, onLoad }
+        return { img, sizes, isLoaded, finalSrc, onLoad }
     }
 }
 </script>
@@ -168,7 +208,6 @@ export default {
 <style lang="scss" scoped>
 .img-container {
     position: relative;
-    border: 1px #ddd solid;
 }
 
 img {

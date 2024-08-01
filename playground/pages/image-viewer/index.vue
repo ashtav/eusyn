@@ -19,12 +19,19 @@
             </div>
         </div>
 
-        <Image 
-        width="400" height="400" :quality=".2"
-        class="rounded overflow-hidden"
-        src="https://i0.wp.com/digital-photography-school.com/wp-content/uploads/2017/02/2-pigeons_plaza_hotel.jpg?resize=750%2C500&ssl=1"  />
 
-        <ImageViewer v-model="show" :images="images" :active="image" :actions="['download', 'copy']" :config="{max: 250, loop: true}" />
+        <div class="mb-3 mt-5">
+            <code> &lt;img width="{{ img[0] }}" height="{{ img[1] }}" /&gt; </code>
+        </div>
+        <img height="350" src="https://i.imgur.com/5fQUPDl.jpg" alt="" @load="onLoad">
+
+        <div class="mb-3 mt-5">
+            <code> &lt;Image /&gt; </code>
+        </div>
+        <Image :height="350" src="https://i.imgur.com/5fQUPDl.jpg" :quality=".01" />
+
+        <ImageViewer v-model="show" :images="images" :active="image" :actions="['download', 'copy']"
+            :config="{ max: 250, loop: true }" />
     </div>
 </template>
 
@@ -40,6 +47,7 @@ export default {
             image: '',
             images: [
                 'https://i.pinimg.com/736x/47/d0/78/47d078d78349f94ed6bcba7d8e6a52a3.jpg',
+                'https://i0.wp.com/digital-photography-school.com/wp-content/uploads/2017/02/2-pigeons_plaza_hotel.jpg?resize=750%2C500&ssl=1',
                 'https://www.designingbuildings.co.uk/w/images/6/64/Design2.jpg',
                 'https://www.lismore.nsw.gov.au/files/assets/public/v/1/1.-households/4.-pets-amp-animals/images/kitten.jpg?dimension=pageimage&w=480',
                 'https://media.istockphoto.com/id/147694372/photo/badger-dog.jpg?s=612x612&w=0&k=20&c=3iNYkarzevpIJeHcmQAykq0cubiSlL4URl91qIlacxM=',
@@ -48,6 +56,8 @@ export default {
                 'https://i.pinimg.com/originals/b0/db/57/b0db57a0877a5df988d27331b186373f.jpg',
                 'https://i.pinimg.com/736x/98/96/a2/9896a23312be258e4bb0bc464d47d4d7.jpg'
             ],
+
+            img: [0, 0]
         }
     },
 
@@ -55,6 +65,21 @@ export default {
         view(index: number) {
             this.image = this.images[index]
             this.show = true
+        },
+
+        onLoad(e: any) {
+            const image = e.target
+
+            const oriWidth = image.naturalWidth;
+            const oriHeight = image.naturalHeight;
+
+            const width = image.offsetWidth;
+            const height = image.offsetHeight;
+
+            this.img = [width, height]
+
+            console.log(`<img> origin: ${oriWidth} x ${oriHeight} | current: ${width} x ${height}`);
+
         }
     }
 }
