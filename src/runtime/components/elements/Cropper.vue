@@ -289,7 +289,14 @@ export default {
             image.src = imageOrigin ?? data.data
 
             if (imageOrigin == null) {
-                imageOrigin = image.src.toString()
+                imageOrigin = image.src
+            } else {
+                if (imageOrigin != data.data) {
+                    image.src = data.data
+                    imageOrigin = image.src
+
+                    cropAreaConfig = { x: null, y: null, size: null, minCropSize: 150 }
+                }
             }
 
             image.onload = () => {

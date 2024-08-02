@@ -9,7 +9,7 @@
 
             <Row v-if="image.data" :gap="15">
                 <div style="width: 350px">
-                    <img :src="image.data" alt="" class="rounded mb-3 d-block" style="object-fit: cover">
+                    <img :src="preview" alt="" class="rounded mb-3 d-block" style="object-fit: cover">
                     <code
                         class="ps-0">{{ image.name }} | {{ image.type }} | {{ image.size }} | {{ image.dimension }}</code>
                 </div>
@@ -29,8 +29,8 @@ export default {
 
     data() {
         return {
-            image: <any>{},
-            crop: false
+            preview: '',
+            image: <any>{}
         }
     },
 
@@ -38,16 +38,16 @@ export default {
         handleFile(data: any) {
             if (data.files.length != 0) {
                 this.image = data.files[0]
+                this.preview = this.image.data
             }
         },
 
         onCrop() {
-            // this.crop = true
             const cropper = this.$refs.cropper as any
             cropper?.init({
                 data: this.image.data, onCrop: (result?: string) => {
                     if (result) {
-                        this.image.data = result
+                        this.preview = result
                     }
                 }
             })
