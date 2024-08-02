@@ -23,6 +23,7 @@ export default {
     data() {
         return {
             features: [
+                { label: 'Utilities', to: '/utils' },
                 { label: 'Cropper', to: '/cropper' },
                 { label: 'Image Viewer', to: '/image-viewer' },
                 { label: 'Form', to: '/' },

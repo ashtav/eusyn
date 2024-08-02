@@ -7,7 +7,7 @@
             <div class="text-white text-center small mt-3">
                 Use the scroll wheel on the mouse to resize the crop area. <br> Press <code class="cursor-pointer"
                     @click="doCrop">Enter</code> to crop and
-                <code class="cursor-pointer">Esc</code> to cancel.
+                <code class="cursor-pointer" @click="show = false">Esc</code> to cancel.
             </div>
         </div>
 
@@ -21,9 +21,9 @@ import type { Ref } from "vue";
 import { ref } from "vue";
 
 interface Config {
-    x: number,
-    y: number,
-    size: number,
+    x: number | null,
+    y: number | null,
+    size: number | null,
     minCropSize: number
 }
 
@@ -279,7 +279,7 @@ export default {
             initKeyShortcut(true)
 
             // callback cropper
-            cropperCallback = data.onCrop
+            cropperCallback = data.onCrop as Function
 
             // init crop area config
             // cropAreaConfig = data.config ?? { x: null, y: null, size: null, minCropSize: 150 }
@@ -334,18 +334,22 @@ export default {
     &.show {
         opacity: 1;
         pointer-events: all;
+
+        .backdrop {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
     }
 
     .backdrop {
-        background: rgba(0, 0, 0, 0.2);
-        backdrop-filter: blur(5px);
+        background: rgba(0, 0, 0, 0);
+        backdrop-filter: blur(0px);
+        transition: .2s;
     }
 
     .canvas {
         z-index: 1;
         position: absolute;
-
-        canvas {}
 
         #__croparea {
             position: absolute;
