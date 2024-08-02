@@ -41,7 +41,6 @@ interface Config {
 }
 
 export default {
-    emits: ["update:modelValue"],
     inheritAttrs: false,
 
     props: {
@@ -70,11 +69,14 @@ export default {
 
         config: {
             type: Object as () => Config,
-            default: {}
-        }
+            default: { min: null, max: null, loop: false }
+        },
+
+        onDownload: Function
     },
 
-    setup(props, { emit }) {
+    emits: ["update:modelValue", 'download'],
+    setup(props, { emit, attrs }) {
         const localValue = ref(props.modelValue);
         const width = ref(50);
         const height = ref(50);
@@ -82,6 +84,8 @@ export default {
         const currentIndex = ref(0);
         const isCursorInImageList = ref(false)
         const actionsControl: Ref<Array<string>> = ref([])
+
+        let prevSize = [10, 10]
 
         const initActions = () => {
             const actions = [...new Set(props.actions)]
@@ -98,29 +102,10 @@ export default {
             updateImageSize()
         }
 
-        const adjustSize = (event: WheelEvent) => {
-            if (!localValue) return
-
-            if (isCursorInImageList.value) {
-
-                const imagesList = document.getElementById('list_image__');
-                if (imagesList) {
-                    if (event.deltaY > 0) {
-                        imagesList.scrollLeft += 30;
-                    } else {
-                        imagesList.scrollLeft -= 30;
-                    }
-                }
-
-                return
-            }
-
-
-            // min-max image size configuration
+        const zoomImage = (type: string = 'in', zoomFactor: number = 0) => {
             const { min, max } = getConfig()
-            const zoomFactor = Math.abs(event.deltaY) / 50; // Adjust this factor to control zoom sensitivity
 
-            if (event.deltaY < 0) {
+            if (type == 'in') {
                 width.value += 5 * zoomFactor;
                 height.value += 5 * zoomFactor;
 
@@ -141,6 +126,33 @@ export default {
                     }
                 }, 100);
             }
+        }
+
+        const adjustSize = (event: WheelEvent) => {
+            if (!localValue) return
+
+            if (isCursorInImageList.value) {
+
+                const imagesList = document.getElementById('list_image__');
+                if (imagesList) {
+                    if (event.deltaY > 0) {
+                        imagesList.scrollLeft += 30;
+                    } else {
+                        imagesList.scrollLeft -= 30;
+                    }
+                }
+
+                return
+            }
+
+            // min-max image size configuration
+            const zoomFactor = Math.abs(event.deltaY) / 50; // Adjust this factor to control zoom sensitivity
+
+            if (event.deltaY < 0) {
+                zoomImage('in', zoomFactor)
+            } else {
+                zoomImage('out', zoomFactor)
+            }
         };
 
         const updateImageSize = () => {
@@ -149,12 +161,20 @@ export default {
             const img = new Image();
             img.src = imageUrl.value;
             img.onload = () => {
-                width.value = (img.naturalWidth / window.innerWidth) * 100;
-                height.value = (img.naturalHeight / window.innerHeight) * 100;
+                width.value = (img.naturalWidth / window.innerWidth) * 100
+                height.value = (img.naturalWidth / window.innerWidth) * 100;
+
                 if (width.value > 90) width.value = 90;
                 if (height.value > 90) height.value = 90;
                 if (width.value < min) width.value = min;
                 if (height.value < min) height.value = min;
+
+                if (`${prevSize}` == `${<Array<number>>[width.value, height.value]}`) {
+                    width.value = width.value * .9
+                    height.value = width.value * .9
+                }
+
+                prevSize = [width.value, height.value]
             };
         };
 
@@ -203,7 +223,12 @@ export default {
                     break;
 
                 case 'download':
-                    utils.downloadFile(imageUrl.value)
+                    if (!props?.onDownload) {
+                        return utils.downloadFile(imageUrl.value)
+                    }
+
+                    emit('download', imageUrl.value)
+
                     break;
 
                 default:
@@ -218,9 +243,10 @@ export default {
             focusOnImage(index)
         }
 
-        onMounted(() => {
-            initActions()
-            window.addEventListener('wheel', adjustSize);
+        const initKeyShortcut = (value: boolean = true) => {
+            if (!value) {
+                return document.onkeydown = null
+            }
 
             document.onkeydown = (e) => {
                 if ((e.key == 'Escape' || e.key == 'Esc') && localValue.value) {
@@ -234,7 +260,18 @@ export default {
                     e.preventDefault();
                     onNavigate(e.key === 'ArrowLeft' ? 0 : 1)
                 }
+
+                if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    zoomImage(e.key === 'ArrowUp' ? 'in' : 'out', 10)
+                }
             };
+        }
+
+        onMounted(() => {
+            initActions()
+            window.addEventListener('wheel', adjustSize);
+            initKeyShortcut()
         });
 
         watch(() => props.actions, (_) => {
@@ -245,6 +282,8 @@ export default {
             localValue.value = value;
             width.value = 10
             height.value = 10
+
+            initKeyShortcut(value)
 
             if (value && props.images.length != 0) {
                 imageUrl.value = props.active ?? props.images[0];
@@ -274,7 +313,7 @@ export default {
             close,
             onSelectImage,
             imageStyle: computed(() => ({
-                backgroundImage: `url(${imageUrl.value})`,
+                backgroundImage: `url('${imageUrl.value}')`,
                 width: `${width.value}%`,
                 height: `${height.value}%`
             }))

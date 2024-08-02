@@ -11,6 +11,25 @@ input[type=time]::-webkit-calendar-picker-indicator {
     filter: opacity(0.7);
 }
 
+img {
+    background: linear-gradient(to right,
+            #ddd 8%,
+            #edeef1 18%,
+            #ddd 33%);
+    background-size: 200% 100%;
+    animation: shimmer 3.5s linear infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
 .x {
     border: 1px red solid !important;
 }

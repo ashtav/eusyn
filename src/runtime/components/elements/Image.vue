@@ -4,10 +4,39 @@
 
         <div class="shimmer" v-if="!isLoaded"></div>
     </div>
+
+    <!-- try to use with comparation -->
+    <!-- <div class="mb-3 mt-5">
+            <code> &lt;img width="{{ img[0] }}" height="{{ img[1] }}" /&gt; </code>
+        </div>
+        <img height="350" src="https://i.imgur.com/5fQUPDl.jpg" alt="" @load="onLoad">
+
+        <div class="mb-3 mt-5">
+            <code> &lt;Image /&gt; </code>
+        </div>
+        <Image :height="350" src="https://i.imgur.com/5fQUPDl.jpg" :quality=".01" /> 
+
+        onLoad(e: any) {
+            const image = e.target
+
+            const oriWidth = image.naturalWidth;
+            const oriHeight = image.naturalHeight;
+
+            const width = image.offsetWidth;
+            const height = image.offsetHeight;
+
+            this.img = [width, height]
+
+            console.log(`<img> origin: ${oriWidth} x ${oriHeight} | current: ${width} x ${height}`);
+
+        }
+        
+        
+        -->
 </template>
 
 <script lang="ts">
-import { onMounted, watch, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { utils } from '../../plugins/utils';
 
 export default {

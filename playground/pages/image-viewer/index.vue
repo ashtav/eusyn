@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <PageHeader title="Image Viewer" />
+        <PageHeader title="Image Viewer"  />
 
         <h4 class="mb-0">
             <Ti icon="ti-album" class="me-1" /> Album
@@ -19,17 +19,6 @@
             </div>
         </div>
 
-
-        <div class="mb-3 mt-5">
-            <code> &lt;img width="{{ img[0] }}" height="{{ img[1] }}" /&gt; </code>
-        </div>
-        <img height="350" src="https://i.imgur.com/5fQUPDl.jpg" alt="" @load="onLoad">
-
-        <div class="mb-3 mt-5">
-            <code> &lt;Image /&gt; </code>
-        </div>
-        <Image :height="350" src="https://i.imgur.com/5fQUPDl.jpg" :quality=".01" />
-
         <ImageViewer v-model="show" :images="images" :active="image" :actions="['download', 'copy']"
             :config="{ max: 250, loop: true }" />
     </div>
@@ -46,18 +35,17 @@ export default {
             show: false,
             image: '',
             images: [
+                'https://i.imgur.com/5fQUPDl.jpg',
                 'https://i.pinimg.com/736x/47/d0/78/47d078d78349f94ed6bcba7d8e6a52a3.jpg',
-                'https://i0.wp.com/digital-photography-school.com/wp-content/uploads/2017/02/2-pigeons_plaza_hotel.jpg?resize=750%2C500&ssl=1',
-                'https://www.designingbuildings.co.uk/w/images/6/64/Design2.jpg',
-                'https://www.lismore.nsw.gov.au/files/assets/public/v/1/1.-households/4.-pets-amp-animals/images/kitten.jpg?dimension=pageimage&w=480',
-                'https://media.istockphoto.com/id/147694372/photo/badger-dog.jpg?s=612x612&w=0&k=20&c=3iNYkarzevpIJeHcmQAykq0cubiSlL4URl91qIlacxM=',
-                'https://freerangestock.com/sample/126213/alone-man-on-mountain.jpg',
-                'https://t3.ftcdn.net/jpg/05/68/61/68/360_F_568616868_52KFkgnPBkr51Prkew6cCT4m8oSjinWe.jpg',
-                'https://i.pinimg.com/originals/b0/db/57/b0db57a0877a5df988d27331b186373f.jpg',
+                'https://i.pinimg.com/736x/ce/3d/59/ce3d59b29d80c6fa2f8917d9c573e90e.jpg',
+                'https://img.freepik.com/premium-photo/artificial-intelligence-head-portrait-with-intricate-parts-robotical-cyborg-futuristic-design-generative-ai_751108-3169.jpg',
+                'https://cms.interiorcompany.com/wp-content/uploads/2024/01/use-a-home-decor-plant-stand.jpg',
+                'https://www.enjpg.com/img/2020/plant-aesthetic-1.jpg',
+                'https://www.buyourobot.com/wp-content/uploads/edd/2015/09/00472_pilot_thumb.jpg',
+                'https://www.thespruce.com/thmb/SnV1FLWFPQcXIlTpqFb7qLvXh94=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/240939984_567294274624239_6535843150405942130_n-78f13e590e4d46a0a5e4e5e00dadc237.jpg',
+                'https://media.istockphoto.com/id/627373186/photo/abstract-smooth-round-pebbles-sea-texture-background.jpg?s=612x612&w=0&k=20&c=-wU1H9tqb7HQElvrzo1hjeQK1G6rdgbFU6aHQZKuArU=',
                 'https://i.pinimg.com/736x/98/96/a2/9896a23312be258e4bb0bc464d47d4d7.jpg'
             ],
-
-            img: [0, 0]
         }
     },
 
@@ -67,19 +55,8 @@ export default {
             this.show = true
         },
 
-        onLoad(e: any) {
-            const image = e.target
-
-            const oriWidth = image.naturalWidth;
-            const oriHeight = image.naturalHeight;
-
-            const width = image.offsetWidth;
-            const height = image.offsetHeight;
-
-            this.img = [width, height]
-
-            console.log(`<img> origin: ${oriWidth} x ${oriHeight} | current: ${width} x ${height}`);
-
+        download(image: string) {
+            console.log('downloading... ', image)
         }
     }
 }

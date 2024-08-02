@@ -9,10 +9,11 @@
                 <span class="dropdown-item text-muted disabled" v-if="options_.length == 0">No data found!</span>
 
                 <template v-else v-for="(option, i) in options_">
-                    <span :class="['dropdown-item', { 'text-danger': option?.danger }]" @click="onSelect(option)">
+                    <span :class="['dropdown-item', { 'text-danger': extract(option, 'danger') }]"
+                        @click="onSelect(option)">
                         <Row justify="between" class="w-100">
                             <span>{{ textOption(option) }}</span>
-                            <Ti :icon="option.icon" v-if="option?.icon" />
+                            <Ti :icon="extract(option, 'icon')" v-if="extract(option, 'icon')" />
                         </Row>
                     </span>
 
@@ -72,10 +73,14 @@ export default {
 
         let dropdown = ref(null), slot = ref(null)
         let key = ref('')
+        let dkey: string = utils.randString()
 
         const show: Ref<boolean> = ref(false)
         const additionalStyle: Ref<Record<string, any>> = ref({})
-        let dkey: string = utils.randString()
+
+        const extract = (option: Dropdown | string, key: string): any => {
+            typeof option == 'string' ? option : option[key]
+        }
 
         const toggle = () => {
             show.value = !show.value
@@ -163,7 +168,7 @@ export default {
             })
         })
 
-        return { show, utils, options_, dropdown, slot, dkey, additionalStyle, toggle, textOption, onSelect, }
+        return { show, utils, options_, dropdown, slot, dkey, additionalStyle, toggle, textOption, onSelect, extract }
     }
 }
 </script>
