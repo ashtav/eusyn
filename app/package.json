@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "app",
+  "type": "module",
+  "scripts": {
+    "dev": "nuxi dev",
+    "build": "nuxi build",
+    "generate": "nuxi generate"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.5.2",
+    "nuxt": "^3.12.3",
+    "pinia": "^2.2.0"
+  }
+}

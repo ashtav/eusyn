@@ -212,10 +212,46 @@ const downloadFile = async (url: string, filename?: string) => {
   document.body.removeChild(link);
 }
 
+/**
+ * Formats a date according to the specified format string.
+ *
+ * @param date - The date to format, either as a string or a Date object.
+ * @param format - The format string, e.g., 'Y-m-d', 'd-m-y', 'yyyy-mm-dd'.
+ * @returns The formatted date as a string.
+ */
+const dateFormat = (date: string | Date, format: string): string => {
+  let parsedDate: Date;
+
+  if (typeof date === 'string') {
+    parsedDate = new Date(date);
+  } else {
+    parsedDate = date;
+  }
+
+  const pad = (number: number, length: number): string => {
+    return number.toString().padStart(length, '0');
+  };
+
+  const formatMapping: { [key: string]: string } = {
+    'Y': parsedDate.getFullYear().toString(),
+    'y': parsedDate.getFullYear().toString().slice(-2),
+    'M': pad(parsedDate.getMonth() + 1, 2),
+    'm': pad(parsedDate.getMonth() + 1, 2),
+    'D': pad(parsedDate.getDate(), 2),
+    'd': pad(parsedDate.getDate(), 2),
+  };
+
+  let formattedDate = format;
+  Object.keys(formatMapping).forEach(key => {
+    formattedDate = formattedDate.replace(new RegExp(key, 'g'), formatMapping[key]);
+  });
+
+  return formattedDate;
+};
 
 
 const utils = {
-  alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes, on, copy, downloadFile
+  alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes, on, copy, downloadFile, dateFormat
 }
 
 export default defineNuxtPlugin((_) => {
