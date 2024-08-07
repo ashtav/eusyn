@@ -17,5 +17,11 @@ export default defineNuxtConfig({
     toast: true,
     confirm: true,
     // plugins: ['toast', 'confirm', 'cropper']
-  }
+  },
+
+  runtimeConfig: {
+    public: {
+      API_BASE_URL: process.env.SERVER,
+    }
+  },
 })
