@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'; 
 
-export const usehelloStore = defineStore('hello', {
+export const useProductStore = defineStore('product', {
   state: () => {
     return {
 
     }
   },
+
   actions: {
 
   }
