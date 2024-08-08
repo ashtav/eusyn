@@ -37,8 +37,11 @@
         </ul>
 
         <div class="bg-blue-lt rounded py-3 px-3 sb-footer">
-            <h4> <Ti icon="ti-lock me-1"/> Security</h4>
-            <p class="m-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi pariatur et magni illo aspernatur vero
+            <h4>
+                <Ti icon="ti-lock me-1" /> Security
+            </h4>
+            <p class="m-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi pariatur et magni illo
+                aspernatur vero
                 at minima.</p>
         </div>
     </div>
@@ -59,7 +62,8 @@ export default {
                 { icon: 'ti-home', label: 'Dashboard', path: '/' },
                 { icon: 'ti-bell', label: 'Notification', path: '#', badge: '99+' },
                 { icon: 'ti-calendar-event', label: 'Calendar', path: '#' },
-                { icon: 'ti-settings', label: 'Settings', path: '#' },
+                { icon: 'ti-settings', label: 'Settings', path: '/settings' },
+                { icon: 'ti-wallet', label: 'Wallet', path: '/wallet' },
             ]
         }
     }

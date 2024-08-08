@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "nuxi dev",
     "build": "nuxi build",
-    "generate": "nuxi generate"
+    "generate": "nuxi generate",
+    "stores": "cmd /c \"generate.bat\""
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.2",

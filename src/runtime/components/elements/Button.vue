@@ -9,9 +9,8 @@
     @click="click_" v-else>
     <Spinner class="me-2" v-if="submitted" />
 
-    <Row :reverse="iconAlign == 'end'" :gap="7">
-      <Ti :icon="icon" v-if="icon != null && !submitted" />
-      {{ label ?? '' }}
+    <Row :reverse="iconAlign == 'end'" :gap="icon != null && !submitted ? 7 : 0">
+      <Ti :icon="icon ?? ''" v-if="icon != null && !submitted" /> {{ label ?? '' }}
     </Row>
   </button>
 </template>

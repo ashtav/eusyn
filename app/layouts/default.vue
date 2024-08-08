@@ -7,24 +7,31 @@
             </ClientOnly>
 
             <div class="page-content">
-                <nav class="navbar">
-                    <span class="prev-page">
-                        <Ti icon="ti-chevron-left" size="md" />
-                    </span>
-                    <span class="url-bar me-auto">
-                        <ul>
-                            <li>Dashboard</li>
-                            <li>Notification</li>
-                        </ul>
-                    </span>
-
-                    <span>
-                        <Ti icon="ti-plus" class="me-1" /> New Tab
-                    </span>
-                </nav>
+                <Navbar />
 
                 <slot />
+
+                <div class="login-session">
+
+                    <div class="content">
+                        <h4> Authorization </h4>
+                        <p class="mb-6">To be able to access data on this site, please enter your email and password
+                            correctly. Three failed attempts, your IP will be blocked.</p>
+
+                        <Input label="Email" hint="Enter email address" required />
+                        <Input label="Password" hint="Enter password" required password />
+
+                        <p class="mb-5">
+                            <a href="#">Forgot Password!</a>
+                        </p>
+
+                        <Button label="Login" theme="w-100 btn-primary" />
+                    </div>
+
+                </div>
             </div>
+
+            <div class="backdrop"></div>
         </div>
     </div>
 
@@ -39,6 +46,12 @@ export default {
 
         return {
             app
+        }
+    },
+
+    watch: {
+        $route: function (value) {
+            this.app.assignPath(value.matched ?? [])
         }
     }
 }
@@ -78,83 +91,42 @@ export default {
         border-radius: 5px;
         overflow: hidden;
 
-        .navbar {
-            min-height: auto !important;
-            padding: 5px 10px;
-            align-items: center;
-            justify-content: start;
 
-            span {
-                padding: 8px 10px;
-                transition: .1s;
-                border-radius: 5px;
-                position: relative;
-                user-select: none;
+    }
 
-                &:not(&:last-child) {
-                    margin-right: 18px;
-                }
+    .backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        backdrop-filter: blur(3px)
+    }
 
-                &.prev-page {
-                    opacity: .6;
+    .login-session {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
 
-                    &::before {
-                        content: '';
-                        position: absolute;
-                        right: -10px;
-                        top: 50%;
-                        transform: translate(0, -50%);
-                        height: 70%;
-                        width: 1px;
-                        background-color: #ddd;
-                    }
-                }
-
-                &:not(&.url-bar) {
-                    &:hover {
-                        cursor: pointer;
-                        background: #f5f5f5
-                    }
-
-                    &:active {
-                        opacity: .6;
-                    }
-                }
-
-                ul {
-                    padding: 0;
-                    margin: 0;
-
-                    li {
-                        display: inline-block;
-                        color: #777;
-                        margin-right: 32px;
-                        position: relative;
-
-                        &:hover {
-                            cursor: pointer;
-                            opacity: .7;
-                        }
-
-                        &:not(&:last-child)::before {
-                            content: '';
-                            position: absolute;
-                            right: -15px;
-                            top: 50%;
-                            transform: translate(0, -50%) rotate(15deg);
-                            height: 70%;
-                            width: 1px;
-                            background-color: #ccc;
-                        }
-
-                        &:last-child {
-                            font-weight: bold;
-                            color: #333;
-                        }
-                    }
-                }
-            }
+        .content {
+            position: absolute;
+            background-color: white;
+            top: 0;
+            right: 0;
+            width: 330px;
+            height: 100%;
+            z-index: 99999;
+            padding: 30px;
+            border-radius: 6px
         }
+
+
+
+
     }
 }
 
