@@ -24,7 +24,7 @@
     "build": "nuxt-module-build build",
     "prepack": "pnpm build",
     "dev": "nuxi dev docs",
-    "app": "nuxi dev app",
+    "app": "nuxi dev moneytory",
     "play": "nuxi dev playground",
     "build:docs": "nuxi generate docs",
     "lint": "eslint .",

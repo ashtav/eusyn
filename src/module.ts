@@ -58,6 +58,7 @@ export default defineNuxtModule<ModuleOptions>({
     addPlugin({ src: resolve(runtimeDir, 'plugins', 'faker') })
     addPlugin({ src: resolve(runtimeDir, 'plugins', 'style') })
     addPlugin({ src: resolve(runtimeDir, 'scripts', 'modal') })
+    console.log('NTU: Plugins has been initialized!')
 
     // Components
     addComponentsDir({

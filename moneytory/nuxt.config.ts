@@ -4,8 +4,6 @@ export default defineNuxtConfig({
     '../src/module'
   ],
 
-  compatibilityDate: '2024-07-19',
-
   components: {
     global: true,
     dirs: [
@@ -24,4 +22,6 @@ export default defineNuxtConfig({
       API_BASE_URL: process.env.SERVER,
     }
   },
+
+  compatibilityDate: '2024-08-09',
 })
