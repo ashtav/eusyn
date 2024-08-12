@@ -1,6 +1,6 @@
 
 import { defineNuxtPlugin } from '#imports';
-import { toast } from '../scripts/toast/index.js';
+import { toast } from '../scripts/toast/index';
 
 /**
  * Removes all non-alphabetical characters from the input text.
