@@ -42,15 +42,11 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     // Injections
-    if (options.confirm) {
-      nuxt.options.plugins.push(resolve(runtimeDir, 'scripts/confirm/setup.ts'))
-      addPlugin({ src: resolve(runtimeDir, 'scripts', 'confirm') })
-    }
+    nuxt.options.plugins.push(resolve(runtimeDir, 'scripts/confirm/setup'))
+    addPlugin({ src: resolve(runtimeDir, 'scripts', 'confirm') })
 
-    if (options.toast) {
-      nuxt.options.plugins.push(resolve(runtimeDir, 'scripts/toast/setup.ts'))
-      addPlugin({ src: resolve(runtimeDir, 'scripts', 'toast') })
-    }
+    nuxt.options.plugins.push(resolve(runtimeDir, 'scripts/toast/setup'))
+    addPlugin({ src: resolve(runtimeDir, 'scripts', 'toast') })
 
     // Plugins
     addPlugin({ src: resolve(runtimeDir, 'plugins', 'utils') })
@@ -58,7 +54,6 @@ export default defineNuxtModule<ModuleOptions>({
     addPlugin({ src: resolve(runtimeDir, 'plugins', 'faker') })
     addPlugin({ src: resolve(runtimeDir, 'plugins', 'style') })
     addPlugin({ src: resolve(runtimeDir, 'scripts', 'modal') })
-    console.log('NTU: Plugins has been initialized!')
 
     // Components
     addComponentsDir({
@@ -104,5 +99,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Composables
     addImportsDir(resolve(runtimeDir, 'composables'))
+
+    console.log('Nuxt Tabler UI - 1.0.0 24.8.13.2')
   }
 })

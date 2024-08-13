@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
-    '../src/module'
+    'nuxt-tabler-ui'
   ],
 
   compatibilityDate: '2024-07-19',

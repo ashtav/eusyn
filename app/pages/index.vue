@@ -1,50 +1,36 @@
 <template>
-  <div class="p-5">
-    <PageHeader />
+  <div>
+    <!-- <PageHeader /> -->
 
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti repellat ea possimus aut. Dolor corrupti et facilis aliquid esse aperiam eos nam! Facilis deserunt alias minima quia dolorem sapiente. Corrupti.
+    <h4>Hello World!</h4>
+    <p>{{ $_.alpha('he3ll0o! - 123Brot3her!') }}</p>
+
+    <!-- {{ $ }} -->
+
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti repellat ea possimus aut. Dolor corrupti et
+      facilis aliquid esse aperiam eos nam! Facilis deserunt alias minima quia dolorem sapiente. Corrupti.
+    </p>
+
+    <Button label="Click Me!" @click="test" />
 
   </div>
 </template>
 
 <script lang="ts">
 export default defineComponent({
-  props: {
-
-  },
-
   data() {
     return {
     }
   },
 
   methods: {
-    onSubmit(e: any) {
-      e.submit()
-
-      setTimeout(() => {
-        e.abort()
-      }, 1500);
+    test() {
+      this.$toast.show('Hello dude!');
+      
     }
   },
 })
 </script>
 
-<style lang="scss">
-.playground {
-  .section {
-    margin: 25px 0;
-    padding: 25px 0;
-    border-top: 1px #ddd solid;
-
-    h4 {
-      margin: 0;
-      margin-bottom: 5px
-    }
-
-    p {
-      margin-bottom: 25px
-    }
-  }
-}
-</style>
+<style lang="scss"></style>
