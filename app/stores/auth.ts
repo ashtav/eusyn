@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+// import { toast } from 'nuxt-tabler-ui/runtime/scripts/toast'
 
 export const useAuthStore = defineStore('auth', {
     state: () => {
@@ -8,12 +9,20 @@ export const useAuthStore = defineStore('auth', {
     },
 
     actions: {
-        login(data: any) {
-            return new Promise<any>(async (resolve) => {
-                setTimeout(() => {
-                    this.isLogged = true
-                    resolve(true)
-                }, 1000);
+        login(payload: Record<string, any>) {
+            const nuxt = useNuxtApp()
+
+            return api.post('login', payload).then(res => {
+                this.isLogged = res.status
+
+                if (!res.status) {
+                    nuxt.$toast.error(res.message)
+                } else {
+                    const cookie = useCookie('token')
+                    cookie.value = `Bearer ${res.access_token}`
+                }
+
+                return res.status
             })
         },
     },

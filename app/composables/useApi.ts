@@ -209,6 +209,13 @@ export const useApi = () => {
     */
 }
 
+interface Response {
+    status: boolean,
+    data?: any,
+    message: string,
+    access_token?: string
+}
+
 export const api = {
 
     // example, usage in store (pinia)
@@ -227,31 +234,31 @@ export const api = {
     */
 
     post: (path: string, payload: any) => {
-        return new Promise<any>(async (resolve) => {
-            useApi().post(path, payload).then((res: any) => resolve(res))
+        return new Promise<Response>(async (resolve) => {
+            useApi().post(path, payload).then((res: Response) => resolve(res))
         })
     },
 
     get: (path: string, query: any = {}) => {
-        return new Promise<any>(async (resolve) => {
-            useApi().get(path, query).then((res: any) => resolve(res))
+        return new Promise<Response>(async (resolve) => {
+            useApi().get(path, query).then((res: Response) => resolve(res))
         })
     },
 
     put: (path: string, payload: any) => {
-        return new Promise<any>(async (resolve) => {
-            useApi().put(path, payload).then((res: any) => resolve(res))
+        return new Promise<Response>(async (resolve) => {
+            useApi().put(path, payload).then((res: Response) => resolve(res))
         })
     },
 
     delete: (path: string) => {
-        return new Promise<any>(async (resolve) => {
-            useApi().delete(path).then((res: any) => resolve(res))
+        return new Promise<Response>(async (resolve) => {
+            useApi().delete(path).then((res: Response) => resolve(res))
         })
     },
 
     response: (res: any, okmessage: Boolean = true) => {
-        return new Promise<any>(async (resolve) => {
+        return new Promise<Response>(async (resolve) => {
             resolve(res?.data)
 
             if (!res.status) {

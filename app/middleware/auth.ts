@@ -4,6 +4,9 @@ import { useAuthStore } from "@/stores/auth";
 export default defineNuxtRouteMiddleware((to, from) => {
     const app = useAppStore()
     const auth = useAuthStore()
+    const cookie = useCookie('token')
+
+    auth.isLogged = cookie.value != null
 
     const { isClient, isServer } = useNuxtApp();
 

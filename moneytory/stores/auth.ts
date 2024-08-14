@@ -8,12 +8,12 @@ export const useAuthStore = defineStore('auth', {
     },
 
     actions: {
-        login(data: any) {
-            return new Promise<any>(async (resolve) => {
-                setTimeout(() => {
-                    this.isLogged = true
-                    resolve(true)
-                }, 1000);
+        login(payload: Record<string, any>) {
+            return api.post('login', payload).then(res => {
+                this.isLogged = res.status
+
+                const cookie = useCookie('token')
+                cookie.value = `Bearer ${res.access_token}`
             })
         },
     },

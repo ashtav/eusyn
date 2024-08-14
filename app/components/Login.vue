@@ -39,7 +39,7 @@ export default {
         return {
             forms: {
                 email: 'ashtaaav@gmail.com',
-                password: 'secretly'
+                password: 'secretly-1111'
             },
 
             isSubmit: false

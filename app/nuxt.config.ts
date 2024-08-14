@@ -13,11 +13,11 @@ export default defineNuxtConfig({
     ]
   },
 
-  ui: {
-    toast: true,
-    confirm: true,
-    // plugins: ['toast', 'confirm', 'cropper']
-  },
+  // ui: {
+  //   toast: true,
+  //   confirm: true,
+  //   // plugins: ['toast', 'confirm', 'cropper']
+  // },
 
   runtimeConfig: {
     public: {
