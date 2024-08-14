@@ -18,16 +18,41 @@ export interface ConfirmOptions {
     onConfirm?: (actions: ConfirmationActions) => void;
 }
 
+const confirm: Confirm = {
+    confirm: (title: string, options: ConfirmOptions = {}) => {
+        eventBus.emit('__show_confirm', {
+            title: title,
+            ...options
+        })
+    }
+}
+
 export default defineNuxtPlugin((_) => {
     return {
         provide: {
-            confirm: (title: string, options: ConfirmOptions = {}) => {
-                eventBus.emit('__show_confirm', {
-                    title: title,
-                    ...options
-                })
-            }
+            confirm
         }
     }
 })
 
+interface Confirm {
+    confirm(title: string, options?: ConfirmOptions): void;
+}
+
+declare module '#app' {
+    interface NuxtApp {
+        $confirm: Confirm;
+    }
+}
+
+declare module 'vue' {
+    interface ComponentCustomProperties {
+        $confirm: Confirm;
+    }
+}
+
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        $confirm: Confirm;
+    }
+}

@@ -3,13 +3,6 @@
   "exclude": ["docs", "dist", "playground", "node_modules"],
   "compilerOptions": {
     "noImplicitAny": false,
-    "strictNullChecks": false,
-    "types": ["vite/client", "vue"]
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue"
-  ]
+    "strictNullChecks": false
+  }
 }

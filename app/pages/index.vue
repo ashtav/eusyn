@@ -26,8 +26,7 @@ export default defineComponent({
 
   methods: {
     test() {
-      this.$toast.show('Hello dude!');
-      
+      this.$toast.warning('Hello dude!');
     }
   },
 })

@@ -21,7 +21,7 @@ const image = (path?: string): string => {
 };
 
 
-const style = {
+const style: Style = {
     image
 }
 
@@ -32,3 +32,25 @@ export default defineNuxtPlugin((_) => {
         }
     }
 })
+
+interface Style {
+    image(path?: string): string;
+}
+
+declare module '#app' {
+    interface NuxtApp {
+        $style: Style;
+    }
+}
+
+declare module 'vue' {
+    interface ComponentCustomProperties {
+        $style: Style;
+    }
+}
+
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        $style: Style;
+    }
+}
