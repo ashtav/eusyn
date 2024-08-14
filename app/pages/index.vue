@@ -12,7 +12,7 @@
       facilis aliquid esse aperiam eos nam! Facilis deserunt alias minima quia dolorem sapiente. Corrupti.
     </p>
 
-    <button label="Click Me!" @click="test"> Click Me! </button>
+    <Button label="Click Me!" @click="test" />
 
   </div>
 </template>
