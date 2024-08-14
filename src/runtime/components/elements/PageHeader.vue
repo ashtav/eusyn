@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { utils } from '../../utils';
+import { utils } from '../../plugins/utils';
 
 export default {
     inheritAttrs: false,

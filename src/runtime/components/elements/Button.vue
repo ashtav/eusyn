@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-import { utils } from '../../utils';
+import { utils } from '../../plugins/utils';
 
 export default defineComponent({
   // inheritAttrs: false,

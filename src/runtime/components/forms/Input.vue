@@ -8,7 +8,7 @@
             </span>
 
             <!-- date input placeholder -->
-            <div :class="['date-input-placeholders', utils.on(prefix, 'has-prefix'), utils.on(disabled, 'disabled')]"
+            <div :class="['date-input-placeholders', utils.on(prefix != '', 'has-prefix'), utils.on(disabled, 'disabled')]"
                 v-if="['date'].includes(inputType) && (localValue == '' || localValue == null)">----/--/--</div>
 
             <!-- input -->
@@ -38,8 +38,8 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, onMounted, ref, watch } from 'vue';
+import { utils } from '../../plugins/utils';
 import { formatting, handleKeyPress } from '../../scripts/input';
-import { utils } from '../../utils';
 
 export default defineComponent({
     emits: ["update:modelValue", "enter", 'blur', "suffix"],
