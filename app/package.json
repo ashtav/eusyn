@@ -10,6 +10,6 @@
   "dependencies": {
     "@pinia/nuxt": "^0.5.2",
     "nuxt": "^3.12.3",
-    "nuxt-tabler-ui": "../"
+    "nuxt-tabler-ui": "../dist/"
   }
 }

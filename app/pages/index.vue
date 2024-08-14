@@ -3,7 +3,7 @@
     <!-- <PageHeader /> -->
 
     <h4>Hello World!</h4>
-    <p>{{ $_.alpha('he3ll0o! - 123Brot3her!') }}</p>
+    <p>{{ $utils.alpha('he3ll0o! - 123Brot3her!') }}</p>
 
     <!-- {{ $ }} -->
 
