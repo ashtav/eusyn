@@ -1,7 +1,7 @@
 
-import { defineNuxtPlugin } from '#imports';
-import eventBus from '../../plugins/mitt';
-import type Toast from '../../types/toast';
+import { defineNuxtPlugin } from '#imports'
+import eventBus from '../../plugins/mitt'
+import type Toast from '../../types/toast'
 
 const show = (message: string, options: any = {}, type = 'default') => {
     eventBus.emit('__show_toast', {
@@ -16,10 +16,10 @@ const toast: Toast = {
     error: (message: string, options: any = {}) => show(message, options, 'error'),
     success: (message: string, options: any = {}) => show(message, options, 'success'),
     warning: (message: string, options: any = {}) => show(message, options, 'warning'),
-    auto: (message: string, value: boolean) => show(message, {}, value ? 'success' : 'error'),
+    auto: (message: string, value: boolean) => show(message, {}, value ? 'success' : 'error')
 }
 
-export default defineNuxtPlugin((_) => {
+export default defineNuxtPlugin(() => {
     return {
         provide: {
             toast
@@ -27,5 +27,5 @@ export default defineNuxtPlugin((_) => {
     }
 })
 
-export { toast };
+export { toast }
 

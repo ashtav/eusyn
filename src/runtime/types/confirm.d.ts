@@ -1,5 +1,21 @@
+interface ConfirmOptions {
+    message?: string,
+    icon?: string,
+    theme?: string,
+    textButton?: string,
+    data?: any,
+    hint?: string,
+    onConfirm?: (actions: ConfirmationActions) => void;
+}
+
+interface ConfirmationActions {
+    abort: Function,
+    close: Function,
+    submit: Function,
+}
+
 interface Confirm {
-    confirm(title: string, options?: ConfirmOptions): void;
+    (title: string, options?: ConfirmOptions): void;
 }
 
 declare module '#app' {
@@ -20,4 +36,5 @@ declare module '@vue/runtime-core' {
     }
 }
 
-export default Confirm
+export { Confirm, ConfirmOptions, ConfirmationActions }
+

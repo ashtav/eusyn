@@ -1,230 +1,247 @@
 <template>
-    <div :class="['select', utils.on(disabled || busy, 'disabled')]">
-        <label :class="['form-label', utils.on(required, 'required')]" v-if="label"> {{ label }} </label>
-        <div class="input-icon" :class="{ 'mb-3': !nospace }">
-            <!-- prefix -->
-            <span class="input-icon-addon" v-if="prefix">
-                <Ti :icon="prefix" size="input-prefix" />
-            </span>
+  <div :class="['select', utils.on(disabled || busy, 'disabled')]">
+    <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
+    <div class="input-icon" :class="{ 'mb-3': !nospace }">
+      <!-- prefix -->
+      <span v-if="prefix" class="input-icon-addon">
+        <Ti :icon="prefix" size="input-prefix" />
+      </span>
 
-            <!-- input -->
-            <input :value="localValue" :class="['form-control', utils.on(isFocus, 'has-focus')]" :placeholder="hint"
-                :maxlength="255" :required="required" :disabled="disabled || busy" :autofocus="autofocus" name="select"
-                autocomplete="off" ref="refSelect" @input="onInput" @focus="onFocus" @blur="onBlur"
-                @keypress="onKeyPress">
+      <!-- input -->
+      <input
+        ref="refSelect"
+        :value="localValue"
+        :class="['form-control', utils.on(isFocus, 'has-focus')]"
+        :placeholder="hint"
+        :maxlength="255"
+        :required="required"
+        :disabled="disabled || busy"
+        :autofocus="autofocus"
+        name="select"
+        autocomplete="off"
+        @input="onInput"
+        @focus="onFocus"
+        @blur="onBlur"
+        @keypress="onKeyPress"
+      >
 
-            <!-- suffixs -->
-            <div class="suffixs">
-                <span @click="onSuffix">
-                    <i class="spinner-border spinner-border-sm" v-if="busy"></i>
-                    <Ti :icon="selected ? 'ti-x' : suffix ?? 'ti-chevron-down'" v-else />
-                </span>
-            </div>
+      <!-- suffixs -->
+      <div class="suffixs">
+        <span @click="onSuffix">
+          <i v-if="busy" class="spinner-border spinner-border-sm" />
+          <Ti v-else :icon="selected ? 'ti-x' : suffix ?? 'ti-chevron-down'" />
+        </span>
+      </div>
 
-            <!-- options -->
-            <div class="options" v-if="isFocus">
-                <ul ref="refOption">
-                    <li v-for="(option, i) in localOptions" @mousedown="onSelect(option)"
-                        :class="{ 'selected': option == selected }">
-                        <span>{{ textOption(option) }}</span>
-                    </li>
-                    <li v-if="localOptions.length == 0" class="text-muted pe-none">Not found.</li>
-                </ul>
-            </div>
-        </div>
+      <!-- options -->
+      <div v-if="isFocus" class="options">
+        <ul ref="refOption">
+          <li
+            v-for="(option, i) in localOptions" :key="i"
+            :class="{ 'selected': option == selected }"
+            @mousedown="onSelect(option)"
+          >
+            <span>{{ textOption(option) }}</span>
+          </li>
+          <li v-if="localOptions.length == 0" class="text-muted pe-none">
+            Not found.
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, onMounted, ref, watch } from 'vue';
+import { utils } from '../../plugins/utils';
 import { textOption } from '../../scripts/select';
-import { utils } from '../../utils';
 
 export default defineComponent({
-    emits: ["update:modelValue", "enter", 'change'],
 
-    inheritAttrs: false,
-    props: {
-        modelValue: {
-            default: '',
-        },
-
-        label: {
-            type: String,
-            default: null
-        },
-
-        hint: {
-            type: String,
-            default: null
-        },
-
-        disabled: {
-            type: Boolean,
-            default: false
-        },
-
-        required: {
-            type: Boolean,
-            default: false
-        },
-
-        autofocus: {
-            type: Boolean,
-            default: false,
-        },
-
-        busy: {
-            type: Boolean,
-            default: false,
-        },
-
-        prefix: {
-            type: String,
-            default: null
-        },
-
-        suffix: {
-            type: String,
-            default: null
-        },
-
-        options: {
-            type: Array<any>,
-            default: () => []
-        },
-
-        nospace: {
-            type: Boolean,
-            default: false
-        }
+  inheritAttrs: false,
+  emits: ['update:modelValue', 'enter', 'change'],
+  props: {
+    modelValue: {
+      default: ''
     },
 
-    setup(props, { emit }) {
-        const instance = getCurrentInstance();
-        const localValue = ref(props.modelValue);
-        const localOptions = ref(props.options)
-        const selected = ref(null);
+    label: {
+      type: String,
+      default: null
+    },
 
-        const isFocus = ref(false);
-        const refSelect = ref(null);
-        const refOption = ref(null);
+    hint: {
+      type: String,
+      default: null
+    },
 
-        // methods
-        const onInput = (event: any) => {
-            localValue.value = event.target.value;
+    disabled: {
+      type: Boolean,
+      default: false
+    },
 
-            // do search
-            localOptions.value = props.options.filter((o) => {
-                return textOption(o).toLowerCase().includes(localValue.value.toLowerCase());
-            });
+    required: {
+      type: Boolean,
+      default: false
+    },
 
-            if (!isFocus.value) {
-                isFocus.value = true
-            }
+    autofocus: {
+      type: Boolean,
+      default: false
+    },
 
-        };
+    busy: {
+      type: Boolean,
+      default: false
+    },
 
-        const onFocus = (event: any) => {
-            isFocus.value = true;
+    prefix: {
+      type: String,
+      default: null
+    },
 
-            // focus to selected option
-            setTimeout(() => {
-                const selectedElm = document.querySelector(
-                    '.select .options li.selected'
-                );
+    suffix: {
+      type: String,
+      default: null
+    },
 
-                // scroll
-                if (selectedElm) {
-                    selectedElm.scrollIntoView({ block: "center" });
-                }
-            }, 1);
-        }
+    options: {
+      type: Array<any>,
+      default: () => []
+    },
 
-        const onBlur = (_: any) => {
-            localValue.value = textOption(selected.value)
-
-            setTimeout(() => {
-                isFocus.value = false;
-                localOptions.value = props.options
-            }, 1);
-        }
-
-        const onSelect = (option: any) => {
-            localValue.value = textOption(option)
-            selected.value = option
-
-            // set real value for v-model
-            emit("update:modelValue", textOption(option, true));
-
-            // trigger @change event
-            emit('change', option);
-        }
-
-        const onKeyPress = (event: any) => {
-            if (event.keyCode == 13 && instance?.vnode?.props?.onEnter) {
-                const options = localOptions.value
-
-                // if enter, get top option
-                if (localValue.value != textOption(selected.value) && options.length != 0 && localValue.value != '') {
-                    onSelect(options[0])
-                    
-                    const elm = (refSelect.value as HTMLInputElement)
-                    elm.blur()
-                }
-
-                emit("enter", localValue.value);
-                isFocus.value = false;
-            }
-        }
-
-        const onSuffix = () => {
-            if (!selected.value) {
-                const elm = (refSelect.value as HTMLInputElement);
-                return elm.focus()
-            }
-
-            selected.value = null;
-            localValue.value = '';
-            emit("update:modelValue", '');
-            emit('change', null);
-        }
-
-        const initOption = (value: any) => {
-            // get option by value
-            let option = props.options.find((o) => {
-                return `${textOption(o, true)}`.toLowerCase() == `${value}`.toLowerCase();
-            });
-
-            selected.value = option;
-            localValue.value = option?.label ?? option?.value ?? value;
-
-            emit("update:modelValue", value);
-        }
-
-        watch(() => props.modelValue, (value) => {
-            initOption(value)
-
-            if (value == '') {
-                localValue.value = value
-            }
-        })
-
-        watch(() => localValue.value, (value) => {
-            emit("update:modelValue", value);
-        });
-
-
-
-        // mounted
-        onMounted(() => {
-            initOption(localValue.value)
-        });
-
-        return {
-            utils, localValue, localOptions, selected, isFocus, refSelect, refOption, onInput, onFocus, onBlur, onSelect, onKeyPress, onSuffix, textOption
-        }
+    nospace: {
+      type: Boolean,
+      default: false
     }
+  },
+
+  setup (props, { emit }) {
+    const instance = getCurrentInstance()
+    const localValue = ref(props.modelValue)
+    const localOptions = ref(props.options)
+    const selected = ref(null)
+
+    const isFocus = ref(false)
+    const refSelect = ref(null)
+    const refOption = ref(null)
+
+    // methods
+    const onInput = (event: any) => {
+      localValue.value = event.target.value
+
+      // do search
+      localOptions.value = props.options.filter((o) => {
+        return textOption(o).toLowerCase().includes(localValue.value.toLowerCase())
+      })
+
+      if (!isFocus.value) {
+        isFocus.value = true
+      }
+
+    }
+
+    const onFocus = (event: any) => {
+      isFocus.value = true
+
+      // focus to selected option
+      setTimeout(() => {
+        const selectedElm = document.querySelector(
+          '.select .options li.selected'
+        )
+
+        // scroll
+        if (selectedElm) {
+          selectedElm.scrollIntoView({ block: 'center' })
+        }
+      }, 1)
+    }
+
+    const onBlur = () => {
+      localValue.value = textOption(selected.value)
+
+      setTimeout(() => {
+        isFocus.value = false
+        localOptions.value = props.options
+      }, 1)
+    }
+
+    const onSelect = (option: any) => {
+      localValue.value = textOption(option)
+      selected.value = option
+
+      // set real value for v-model
+      emit('update:modelValue', textOption(option, true))
+
+      // trigger @change event
+      emit('change', option)
+    }
+
+    const onKeyPress = (event: any) => {
+      if (event.keyCode == 13 && instance?.vnode?.props?.onEnter) {
+        const options = localOptions.value
+
+        // if enter, get top option
+        if (localValue.value != textOption(selected.value) && options.length != 0 && localValue.value != '') {
+          onSelect(options[0])
+
+          const elm = (refSelect.value as HTMLInputElement)
+          elm.blur()
+        }
+
+        emit('enter', localValue.value)
+        isFocus.value = false
+      }
+    }
+
+    const onSuffix = () => {
+      if (!selected.value) {
+        const elm = (refSelect.value as HTMLInputElement)
+        return elm.focus()
+      }
+
+      selected.value = null
+      localValue.value = ''
+      emit('update:modelValue', '')
+      emit('change', null)
+    }
+
+    const initOption = (value: any) => {
+      // get option by value
+      const option = props.options.find((o) => {
+        return `${textOption(o, true)}`.toLowerCase() == `${value}`.toLowerCase()
+      })
+
+      selected.value = option
+      localValue.value = option?.label ?? option?.value ?? value
+
+      emit('update:modelValue', value)
+    }
+
+    watch(() => props.modelValue, (value) => {
+      initOption(value)
+
+      if (value == '') {
+        localValue.value = value
+      }
+    })
+
+    watch(() => localValue.value, (value) => {
+      emit('update:modelValue', value)
+    })
+
+
+
+    // mounted
+    onMounted(() => {
+      initOption(localValue.value)
+    })
+
+    return {
+      utils, localValue, localOptions, selected, isFocus, refSelect, refOption, onInput, onFocus, onBlur, onSelect, onKeyPress, onSuffix, textOption
+    }
+  }
 })
 </script>
 

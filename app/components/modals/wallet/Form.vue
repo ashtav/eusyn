@@ -1,18 +1,18 @@
 <template>
-    <Modal id="form-wallet" :elevation="false">
-        <div class="modal-body">
-            <Input label="Name" hint="Input wallet name" />
-        </div>
-    </Modal>
+  <Modal id="form-wallet" :elevation="false">
+    <div class="modal-body">
+      <Input label="Name" hint="Input wallet name" />
+    </div>
+  </Modal>
 </template>
 
 <script lang="ts">
 export default {
-    setup() {
+  setup () {
 
 
-        return {}
-    }
+    return {}
+  }
 }
 </script>
 

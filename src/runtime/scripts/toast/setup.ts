@@ -1,12 +1,12 @@
-import { defineNuxtPlugin } from '#imports';
-import type { App } from 'vue';
-import Toast from '../../components/overlays/Toast.vue';
-import { createComponent } from '../../plugins/helper';
+import { defineNuxtPlugin } from '#imports'
+import type { App } from 'vue'
+import Toast from '../../components/overlays/Toast.vue'
+import { createComponent } from '../../plugins/helper'
 
 const Plugin = {
     install: (_: App, options: Record<string, any> = {}) => {
-        const propsData = Object.assign({}, options);
-        createComponent(Toast, propsData, document.body);
+        const propsData = Object.assign({}, options)
+        createComponent(Toast, propsData, document.body)
     }
 }
 

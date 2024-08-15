@@ -7,7 +7,6 @@
 
     <h5>{{ $utils.alpha('H3el1l0o W0or5l6d!') }}</h5>
     <!-- <h5>{{ $_.alpha('H3el1l0o W0or5l6d!') }}</h5> -->
-
   </div>
 </template>
 
@@ -17,20 +16,20 @@ export default defineComponent({
 
   },
 
-  data() {
+  data () {
     return {
     }
   },
 
   methods: {
-    onSubmit(e: any) {
+    onSubmit (e: any) {
       e.submit()
 
       setTimeout(() => {
         e.abort()
-      }, 1500);
+      }, 1500)
     }
-  },
+  }
 })
 </script>
 

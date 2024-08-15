@@ -1,40 +1,40 @@
 <template>
-    <div class="page">
-        <div class="features">
-            <div class="container">
-                <ul>
-                    <li v-for="item in features">
-                        <NuxtLink :to="item.to"> {{ item.label }} </NuxtLink>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="page-body">
-
-            <slot />
-        </div>
-
+  <div class="page">
+    <div class="features">
+      <div class="container">
+        <ul>
+          <li v-for="item in features" :key="item.to">
+            <NuxtLink :to="item.to">
+              {{ item.label }}
+            </NuxtLink>
+          </li>
+        </ul>
+      </div>
     </div>
+
+    <div class="page-body">
+      <slot />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 export default {
-    data() {
-        return {
-            features: [
-                { label: 'Utilities', to: '/utils' },
-                { label: 'Cropper', to: '/cropper' },
-                { label: 'Image Viewer', to: '/image-viewer' },
-                { label: 'Form', to: '/' },
-                { label: 'Modal, Toast & Confirm', to: '/modal-toast-confirm' },
-                { label: 'Table', to: '/table' },
-                { label: 'Dropdown', to: '/dropdown' },
-                { label: 'Shimmer', to: '/shimmer' },
-                { label: 'File Handler', to: '/file-handler' },
-            ]
-        }
+  data () {
+    return {
+      features: [
+        { label: 'Utilities', to: '/utils' },
+        { label: 'Cropper', to: '/cropper' },
+        { label: 'Image Viewer', to: '/image-viewer' },
+        { label: 'Form', to: '/' },
+        { label: 'Modal, Toast & Confirm', to: '/modal-toast-confirm' },
+        { label: 'Table', to: '/table' },
+        { label: 'Dropdown', to: '/dropdown' },
+        { label: 'Shimmer', to: '/shimmer' },
+        { label: 'File Handler', to: '/file-handler' }
+      ]
     }
+  }
 }
 </script>
 

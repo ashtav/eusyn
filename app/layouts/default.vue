@@ -1,51 +1,49 @@
 <template>
+  <div class="app" :class="{ 'expanded': app.sidebar.expanded }">
+    <div class="page">
+      <ClientOnly>
+        <Sidebar />
+      </ClientOnly>
 
-    <div class="app" :class="{ 'expanded': app.sidebar.expanded }">
-        <div class="page">
-            <ClientOnly>
-                <Sidebar />
-            </ClientOnly>
+      <div class="page-content">
+        <Navbar />
 
-            <div class="page-content">
-                <Navbar />
+        <slot />
 
-                <slot />
+        <Login />
+      </div>
 
-                <Login />
-            </div>
-
-            <div class="backdrop" :class="{ 'show': app.backdrop }"></div>
-        </div>
+      <div class="backdrop" :class="{ 'show': app.backdrop }" />
     </div>
-
+  </div>
 </template>
 
 <script lang="ts">
-import { useAppStore } from "@/stores/app";
-import { useAuthStore } from "@/stores/auth";
+import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
 
 export default {
-    setup() {
-        const app = useAppStore()
-        const auth = useAuthStore()
+  setup () {
+    const app = useAppStore()
+    const auth = useAuthStore()
 
-        const cookie = useCookie('token')
+    const cookie = useCookie('token')
 
-        auth.isLogged = cookie.value != null
-        app.backdrop = !auth.isLogged
+    auth.isLogged = cookie.value != null
+    app.backdrop = !auth.isLogged
 
 
-        return {
-            app
-        }
-    },
-
-    watch: {
-        $route: function (value) {
-            this.app.navbar.actions = []
-            this.app.assignPath(value.matched ?? [])
-        }
+    return {
+      app
     }
+  },
+
+  watch: {
+    $route: function (value) {
+      this.app.navbar.actions = []
+      this.app.assignPath(value.matched ?? [])
+    }
+  }
 }
 </script>
 

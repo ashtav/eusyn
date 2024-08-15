@@ -1,56 +1,62 @@
 <template>
-    <div>
-        <h4>Radio, Checkbox & Switch</h4>
-        <p>This section demonstrates how to use radio buttons and checkboxes in your form. You will find examples of
-            their functionalities, advantages, and practical usage scenarios.</p>
+  <div>
+    <h4>Radio, Checkbox & Switch</h4>
+    <p>
+      This section demonstrates how to use radio buttons and checkboxes in your form. You will find examples of
+      their functionalities, advantages, and practical usage scenarios.
+    </p>
 
-        <Radio label="Gender" :options="['Male', 'Female']" v-model="forms.gender" required />
-        <Radio label="Blood Type" :options="[{ label: 'A' }, { label: 'B' }, 'AB', { label: 'O', disabled: true }]"
-            v-model="forms.blood" required />
+    <Radio v-model="forms.gender" label="Gender" :options="['Male', 'Female']" required />
+    <Radio
+      v-model="forms.blood"
+      label="Blood Type"
+      :options="[{ label: 'A' }, { label: 'B' }, 'AB', { label: 'O', disabled: true }]"
+      required
+    />
 
-        <!-- 
+    <!--
             You can also use an array of objects like [{label: 'A', value: 1}, {label: 'B', value: 2}, etc.] for the options.
             Therefore, your `forms.blood` should be set to a value from this array, for example: forms.blood = 1.
         -->
 
-        <Checkbox label="Favorite Fruit" required v-model="forms.favorites" :options="fruits" />
-        <Checkbox v-model="forms.checked" />
+    <Checkbox v-model="forms.favorites" label="Favorite Fruit" required :options="fruits" />
+    <Checkbox v-model="forms.checked" />
 
-        <Switch v-model="forms.accepted" inline caption="Disable|Enable" />
+    <Switch v-model="forms.accepted" inline caption="Disable|Enable" />
 
-        <div>
-            <code>
-                {{ forms }}
-            </code>
-        </div>
+    <div>
+      <code>
+        {{ forms }}
+      </code>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
 export default {
-    setup() {
-        return {}
-    },
+  setup () {
+    return {}
+  },
 
-    data() {
-        return {
-            fruits: ['Apple', 'Banana', 'Mango', 'Papaya', 'Orange', 'Avocado', 'Strawberry', 'Pineapple'],
+  data () {
+    return {
+      fruits: ['Apple', 'Banana', 'Mango', 'Papaya', 'Orange', 'Avocado', 'Strawberry', 'Pineapple'],
 
-            forms: {
-                gender: 'Male',
-                blood: 'A',
-                checked: true,
-                favorites: ['Banana', 'Mango'],
-                accepted: false
-            }
-        }
-    },
-
-    mounted() {
-        setTimeout(() => {
-            this.forms.gender = 'Female'
-        }, 1000);
+      forms: {
+        gender: 'Male',
+        blood: 'A',
+        checked: true,
+        favorites: ['Banana', 'Mango'],
+        accepted: false
+      }
     }
+  },
+
+  mounted () {
+    setTimeout(() => {
+      this.forms.gender = 'Female'
+    }, 1000)
+  }
 }
 </script>
 

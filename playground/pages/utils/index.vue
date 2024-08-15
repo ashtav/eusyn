@@ -36,14 +36,6 @@
                 </Row>
             </div>
         </div>
-
-        <!-- <div class="mb-2">
-            {{ $_.ucwords('hello world!') }}
-        </div>
-        <pre><code>$_.ucwords('hello world!')</code></pre>
-
-        $image.quality(base64, .9) -->
-
     </div>
 </template>
 

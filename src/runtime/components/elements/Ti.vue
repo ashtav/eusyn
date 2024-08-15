@@ -1,22 +1,22 @@
 <template>
-    <i :class="['ti', icon, size]"></i>
+  <i :class="['ti', icon, size]" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-    props: {
-        icon: {
-            type: String,
-            required: true
-        },
+  props: {
+    icon: {
+      type: String,
+      required: true
+    },
 
-        size: {
-            type: String,
-            default: 'sm'
-        }
+    size: {
+      type: String,
+      default: 'sm'
     }
+  }
 })
 </script>
 

@@ -1,134 +1,134 @@
 <template>
-    <Teleport to="body">
-        <div class="nuxt-toast" :class="[show ? 'show' : '', type]" ref="toastEl">
-            <div class="nuxt-toast-content">
-                <div class="d-flex justify-content-start">
-                    <!-- <i class="ti me-2" :class="icon"></i> -->
-                    <div class="d-flex justify-content-between w-100">
-                        <span v-text="message"></span>
-                        <i class="ti ti-x" @click="onHide"></i>
-                    </div>
-                </div>
-
-                <div class="progress" :style="{ width: `${progress}%` }"></div>
-            </div>
+  <Teleport to="body">
+    <div ref="toastEl" class="nuxt-toast" :class="[show ? 'show' : '', type]">
+      <div class="nuxt-toast-content">
+        <div class="d-flex justify-content-start">
+          <!-- <i class="ti me-2" :class="icon"></i> -->
+          <div class="d-flex justify-content-between w-100">
+            <span v-text="message" />
+            <i class="ti ti-x" @click="onHide" />
+          </div>
         </div>
-    </Teleport>
+
+        <div class="progress" :style="{ width: `${progress}%` }" />
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <script lang="ts">
-import type { Ref } from "vue";
-import { onMounted, ref } from "vue";
-import eventBus from '../../plugins/mitt';
+import type { Ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import eventBus from '../../plugins/mitt'
 
 export default {
-    setup() {
-        const message: Ref<string | null> = ref(null);
-        const icon: Ref<string | null> = ref(null);
-        const progress: Ref<number> = ref(0);
-        const show: Ref<boolean> = ref(false);
-        const type: Ref<string> = ref('default');
+  setup () {
+    const message: Ref<string | null> = ref(null)
+    const icon: Ref<string | null> = ref(null)
+    const progress: Ref<number> = ref(0)
+    const show: Ref<boolean> = ref(false)
+    const type: Ref<string> = ref('default')
 
-        let currentAnimationFrame: number | null = null;
-        let originalDuration: number | null = null;
-        let originalStartTime: number | null = null;
-        let elapsedTimeUponHover: number | null = null;
+    let currentAnimationFrame: number | null = null
+    let originalDuration: number | null = null
+    let originalStartTime: number | null = null
+    let elapsedTimeUponHover: number | null = null
 
-        const toastEl = ref<HTMLElement | null>(null);
+    const toastEl = ref<HTMLElement | null>(null)
 
-        onMounted(() => {
-            eventBus.on("__show_toast", onShow)
+    onMounted(() => {
+      eventBus.on('__show_toast', onShow)
 
-            if (toastEl.value !== null) {
-                toastEl.value.addEventListener("mouseenter", () => {
-                    if (currentAnimationFrame !== null) {
-                        cancelAnimationFrame(currentAnimationFrame);
-                        currentAnimationFrame = null;
-                        elapsedTimeUponHover = performance.now() - (originalStartTime || 0);
-                    }
-                });
+      if (toastEl.value !== null) {
+        toastEl.value.addEventListener('mouseenter', () => {
+          if (currentAnimationFrame !== null) {
+            cancelAnimationFrame(currentAnimationFrame)
+            currentAnimationFrame = null
+            elapsedTimeUponHover = performance.now() - (originalStartTime || 0)
+          }
+        })
 
-                toastEl.value.addEventListener("mouseleave", () => {
-                    if (
-                        currentAnimationFrame === null &&
-                        originalDuration !== null &&
-                        elapsedTimeUponHover !== null
-                    ) {
-                        originalStartTime = performance.now() - elapsedTimeUponHover;
-                        const frame = () => {
-                            const elapsed = performance.now() - (originalStartTime ?? 0);
-                            progress.value = (elapsed / (originalDuration ?? 0)) * 100;
-
-                            if (progress.value < 100) {
-                                currentAnimationFrame = requestAnimationFrame(frame);
-                            } else {
-                                progress.value = 0;
-                                originalDuration = null;
-                                originalStartTime = null;
-                                elapsedTimeUponHover = null;
-                                show.value = false;
-                            }
-                        };
-
-                        currentAnimationFrame = requestAnimationFrame(frame);
-                    }
-                });
-            }
-        });
-
-        const onShow = (args: any) => {
-            message.value = args.message;
-            icon.value = args?.options?.icon ?? "ti-info-circle";
-
-            show.value = true;
-            originalDuration = args?.options?.duration ?? 3000; // by default 3 seconds
-            originalStartTime = performance.now();
-
-            type.value = args?.type ?? 'default';
-
-            //   add bounce class
-            toastEl.value?.classList.add("bounce");
-
-            setTimeout(() => {
-                toastEl.value?.classList.remove("bounce");
-            }, 150);
-
-            // Cancel the previous animation if any
-            if (currentAnimationFrame !== null) {
-                cancelAnimationFrame(currentAnimationFrame);
-                currentAnimationFrame = null;
-                progress.value = 0; // Reset progress
-            }
-
+        toastEl.value.addEventListener('mouseleave', () => {
+          if (
+            currentAnimationFrame === null &&
+            originalDuration !== null &&
+            elapsedTimeUponHover !== null
+          ) {
+            originalStartTime = performance.now() - elapsedTimeUponHover
             const frame = () => {
-                const elapsed = performance.now() - (originalStartTime ?? 0);
-                progress.value = (elapsed / (originalDuration ?? 0)) * 100;
+              const elapsed = performance.now() - (originalStartTime ?? 0)
+              progress.value = (elapsed / (originalDuration ?? 0)) * 100
 
-                if (progress.value < 100) {
-                    currentAnimationFrame = requestAnimationFrame(frame);
-                } else {
-                    progress.value = 0;
-                    originalDuration = null;
-                    originalStartTime = null;
-                    elapsedTimeUponHover = null;
-                    show.value = false;
-                }
-            };
+              if (progress.value < 100) {
+                currentAnimationFrame = requestAnimationFrame(frame)
+              } else {
+                progress.value = 0
+                originalDuration = null
+                originalStartTime = null
+                elapsedTimeUponHover = null
+                show.value = false
+              }
+            }
 
-            currentAnimationFrame = requestAnimationFrame(frame);
-        };
+            currentAnimationFrame = requestAnimationFrame(frame)
+          }
+        })
+      }
+    })
 
-        const onHide = () => {
-            progress.value = 0;
-            originalDuration = null;
-            originalStartTime = null;
-            elapsedTimeUponHover = null;
-            show.value = false;
-        };
+    const onShow = (args: any) => {
+      message.value = args.message
+      icon.value = args?.options?.icon ?? 'ti-info-circle'
 
-        return { onShow, onHide, show, message, icon, progress, toastEl, type };
-    },
-};
+      show.value = true
+      originalDuration = args?.options?.duration ?? 3000 // by default 3 seconds
+      originalStartTime = performance.now()
+
+      type.value = args?.type ?? 'default'
+
+      //   add bounce class
+      toastEl.value?.classList.add('bounce')
+
+      setTimeout(() => {
+        toastEl.value?.classList.remove('bounce')
+      }, 150)
+
+      // Cancel the previous animation if any
+      if (currentAnimationFrame !== null) {
+        cancelAnimationFrame(currentAnimationFrame)
+        currentAnimationFrame = null
+        progress.value = 0 // Reset progress
+      }
+
+      const frame = () => {
+        const elapsed = performance.now() - (originalStartTime ?? 0)
+        progress.value = (elapsed / (originalDuration ?? 0)) * 100
+
+        if (progress.value < 100) {
+          currentAnimationFrame = requestAnimationFrame(frame)
+        } else {
+          progress.value = 0
+          originalDuration = null
+          originalStartTime = null
+          elapsedTimeUponHover = null
+          show.value = false
+        }
+      }
+
+      currentAnimationFrame = requestAnimationFrame(frame)
+    }
+
+    const onHide = () => {
+      progress.value = 0
+      originalDuration = null
+      originalStartTime = null
+      elapsedTimeUponHover = null
+      show.value = false
+    }
+
+    return { onShow, onHide, show, message, icon, progress, toastEl, type }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

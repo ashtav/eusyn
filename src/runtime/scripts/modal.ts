@@ -1,9 +1,9 @@
 
-import { defineNuxtPlugin } from '#imports';
-import eventBus from '../plugins/mitt';
-import type Modal from '../types/modal';
+import { defineNuxtPlugin } from '#imports'
+import eventBus from '../plugins/mitt'
+import type Modal from '../types/modal'
 
-const actives = <Array<string>>[];
+const actives = <Array<string>>[]
 
 const show = (id: string, params: any = {}) => {
     if (!actives.includes(id)) {
@@ -15,30 +15,30 @@ const show = (id: string, params: any = {}) => {
 
 const close = (id?: string) => {
     if (!id) {
-        const removedId = actives.pop();
-        eventBus.emit('__close_modal', { id: removedId });
+        const removedId = actives.pop()
+        eventBus.emit('__close_modal', { id: removedId })
     } else {
-        const index = actives.indexOf(id);
+        const index = actives.indexOf(id)
         if (index > -1) {
-            actives.splice(index, 1);
-            eventBus.emit('__close_modal', { id: id });
+            actives.splice(index, 1)
+            eventBus.emit('__close_modal', { id: id })
         }
     }
 }
 
 const setTitle = (title: string) => {
-    eventBus.emit('__set_modal_title', { title: title });
+    eventBus.emit('__set_modal_title', { title: title })
 }
 
 const callback = (data: any) => {
-    eventBus.emit('__callback_modal', { data: data });
+    eventBus.emit('__callback_modal', { data: data })
 }
 
 const modal: Modal = {
     show, close, setTitle, callback
 }
 
-export default defineNuxtPlugin((_) => {
+export default defineNuxtPlugin(() => {
     return {
         provide: {
             modal
@@ -46,5 +46,5 @@ export default defineNuxtPlugin((_) => {
     }
 })
 
-export { modal };
+export { modal }
 

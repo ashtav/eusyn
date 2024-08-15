@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore } from 'pinia'
 // import { toast } from 'nuxt-tabler-ui/runtime/scripts/toast'
 
 export const useAuthStore = defineStore('auth', {
@@ -9,7 +9,7 @@ export const useAuthStore = defineStore('auth', {
     },
 
     actions: {
-        async login(payload: Record<string, any>) {
+        async login (payload: Record<string, any>) {
             const nuxt = useNuxtApp()
 
             return api.post('login', payload).then(res => {
@@ -24,6 +24,6 @@ export const useAuthStore = defineStore('auth', {
 
                 return res.status
             })
-        },
-    },
+        }
+    }
 })

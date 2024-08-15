@@ -1,5 +1,5 @@
-import { useAppStore } from "@/stores/app";
-import { useAuthStore } from "@/stores/auth";
+import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
 
 export default defineNuxtRouteMiddleware((to, from) => {
     const app = useAppStore()
@@ -8,13 +8,13 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
     auth.isLogged = cookie.value != null
 
-    const { isClient, isServer } = useNuxtApp();
+    const { isClient, isServer } = useNuxtApp()
 
     // console.log('middleware ia active', import.meta.client, import.meta.server, `logged: ${auth.isLogged}`)
 
     // skip middleware on server
     // if (import.meta.server) return
-    if (isServer) return;
+    if (isServer) return
 
     // skip middleware on client side entirely
     // if (import.meta.client) return
@@ -25,4 +25,4 @@ export default defineNuxtRouteMiddleware((to, from) => {
     // if (!auth.isLogged) {
     //     return navigateTo('/');
     // }
-});
+})

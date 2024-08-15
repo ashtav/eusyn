@@ -1,69 +1,69 @@
 <template>
-    <div class="login-form" :class="{ 'show': !auth.isLogged }">
+  <div class="login-form" :class="{ 'show': !auth.isLogged }">
+    <div class="content">
+      <h4> Authorization </h4>
+      <p class="mb-6">
+        To be able to access data on this site, please enter your email and password
+        correctly. Three failed attempts, your IP will be blocked.
+      </p>
 
-        <div class="content">
-            <h4> Authorization </h4>
-            <p class="mb-6">To be able to access data on this site, please enter your email and password
-                correctly. Three failed attempts, your IP will be blocked.</p>
+      <form @submit.prevent="onSubmit">
+        <Input v-model="forms.email" label="Email" hint="Enter email address" required />
+        <Input v-model="forms.password" label="Password" hint="Enter password" required password />
 
-            <form @submit.prevent="onSubmit">
-                <Input label="Email" hint="Enter email address" required v-model="forms.email" />
-                <Input label="Password" hint="Enter password" required password v-model="forms.password" />
+        <p class="mb-5">
+          <a href="#">Forgot Password!</a>
+        </p>
 
-                <p class="mb-5">
-                    <a href="#">Forgot Password!</a>
-                </p>
-
-                <Button label="Login" theme="w-100 btn-primary" submit :submitted="isSubmit" />
-            </form>
-        </div>
-
+        <Button label="Login" theme="w-100 btn-primary" submit :submitted="isSubmit" />
+      </form>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { useAppStore } from "@/stores/app";
-import { useAuthStore } from "@/stores/auth";
+import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
 
 export default {
-    setup() {
-        const app = useAppStore()
-        const auth = useAuthStore()
+  setup () {
+    const app = useAppStore()
+    const auth = useAuthStore()
 
-        return {
-            app, auth
-        }
-    },
-
-    data() {
-        return {
-            forms: {
-                email: 'ashtaaav@gmail.com',
-                password: 'secretly-1111'
-            },
-
-            isSubmit: false
-        }
-    },
-
-    methods: {
-        onSubmit() {
-            this.isSubmit = true
-            this.auth.login(this.forms).then(ok => {
-                this.isSubmit = false
-
-                if (ok) {
-                    this.app.backdrop = false
-                }
-            })
-        }
-    },
-
-    watch: {
-        $route: function (value) {
-            this.app.assignPath(value.matched ?? [])
-        }
+    return {
+      app, auth
     }
+  },
+
+  data () {
+    return {
+      forms: {
+        email: 'ashtaaav@gmail.com',
+        password: 'secretly-1111'
+      },
+
+      isSubmit: false
+    }
+  },
+
+  watch: {
+    $route: function (value) {
+      this.app.assignPath(value.matched ?? [])
+    }
+  },
+
+  methods: {
+    onSubmit () {
+      this.isSubmit = true
+      this.auth.login(this.forms).then(ok => {
+        this.isSubmit = false
+
+        if (ok) {
+          this.app.backdrop = false
+        }
+      })
+    }
+  }
 }
 </script>
 

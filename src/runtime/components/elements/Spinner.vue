@@ -1,19 +1,3 @@
 <template>
-    <span class="spinner-border spinner-border-sm"></span>
+  <span class="spinner-border spinner-border-sm" />
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-    props: {
-
-    },
-    setup(props, { slots }) {
-
-        return {
-
-        }
-    }
-})
-</script>

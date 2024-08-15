@@ -46,7 +46,7 @@ export default defineComponent({
             'evenly': 'space-evenly',
             'around': 'space-around',
             'between': 'space-between',
-            'center': 'center',
+            'center': 'center'
         }
 
         const rowStyle = computed(() => ({

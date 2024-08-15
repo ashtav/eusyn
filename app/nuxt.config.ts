@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   components: {
     global: true,
     dirs: [
-      '~/components',
+      '~/components'
     ]
   },
 
@@ -21,7 +21,7 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      API_BASE_URL: process.env.SERVER,
+      API_BASE_URL: process.env.SERVER
     }
-  },
+  }
 })

@@ -1,5 +1,5 @@
-import { useAuthStore } from "@/stores/auth";
-import { toast } from '../../src/runtime/scripts/toast';
+import { useAuthStore } from '@/stores/auth'
+import { toast } from '../../src/runtime/scripts/toast'
 
 export const useApi = () => {
 
@@ -9,7 +9,7 @@ export const useApi = () => {
      */
 
     // Import the `useRuntimeConfig` function to access runtime configuration.
-    const config = useRuntimeConfig();
+    const config = useRuntimeConfig()
 
     // Retrieve the API base URL from the runtime configuration.
     let baseUrl: string = config.public.API_BASE_URL as string
@@ -21,19 +21,19 @@ export const useApi = () => {
 
     /**
      * Handles HTTP request errors and returns an object with error details.
-     * 
+     *
      * @param err - The error object representing the failed HTTP request.
      * @returns An object containing error status and message details.
      */
 
     const errorHandler = (err: any) => {
-        let response = err?.response
+        const response = err?.response
 
-        let message = response?._data?.message || response?._data?.error || response?._data || err?.message
-        let code = err.response?.status
+        const message = response?._data?.message || response?._data?.error || response?._data || err?.message
+        const code = err.response?.status
 
         // get path from url
-        let path = err.response?.url
+        // const path = err.response?.url
 
         // console.log('error response: ', response)
         // console.log('error message: ', err?.message)
@@ -65,9 +65,9 @@ export const useApi = () => {
     }
 
     const useHeaders = (isFormData: boolean = false) => {
-        let headers = <any>{
+        const headers = <any>{
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
+            'Accept': 'application/json'
         }
 
         if (isFormData) delete headers['Content-Type']
@@ -78,7 +78,7 @@ export const useApi = () => {
 
     /**
     * Sends an HTTP GET request to a specified URL with optional query parameters.
-    * 
+    *
     * @param url - The URL to send the GET request to.
     * @param queryParams - (Optional) An object containing query parameters to include in the request.
     * @returns A Promise that resolves to the response of the GET request.
@@ -101,7 +101,7 @@ export const useApi = () => {
 
     /**
      * Sends an HTTP POST request to a specified URL with data in either JSON or FormData format.
-     * 
+     *
      * @param url - The URL to send the POST request to.
      * @param data - The data to include in the request body, which can be JSON or FormData.
      * @returns A Promise that resolves to the response of the POST request.
@@ -122,7 +122,7 @@ export const useApi = () => {
 
     /**
      * Sends an HTTP PUT request to a specified URL with data in either JSON or FormData format.
-     * 
+     *
      * @param url - The URL to send the PUT request to.
      * @param data - The data to include in the request body, which can be JSON or FormData.
      * @returns A Promise that resolves to the response of the PUT request.
@@ -143,7 +143,7 @@ export const useApi = () => {
 
     /**
      * Sends an HTTP DELETE request to a specified URL.
-     * 
+     *
      * @param url - The URL to send the DELETE request to.
      * @returns A Promise that resolves to the response of the DELETE request.
      */
@@ -162,7 +162,7 @@ export const useApi = () => {
 
     /**
      * Sends a custom HTTP request to a specified URL with the provided method and data.
-     * 
+     *
      * @param url - The URL to send the custom request to.
      * @param method - The HTTP method for the request (e.g., 'GET', 'POST', 'PUT', 'DELETE', etc.).
      * @param data - (Optional) The data to include in the request body, which can be JSON or FormData.
@@ -171,8 +171,8 @@ export const useApi = () => {
 
     const custom_ = (url: string, method: string, data: any = {}): Promise<any> => {
         return new Promise(async (resolve) => {
-            let contentType = data instanceof FormData ? '' : 'application/json'
-            let headers = {
+            const contentType = data instanceof FormData ? '' : 'application/json'
+            const headers = {
                 'Accept': 'application/json',
                 contentType,
                 ...useToken()
@@ -223,7 +223,7 @@ export const api = {
 
         login(data: any): any {
             return api.post('login', data)
-            
+
             // or .then to manage data from the store, remember to return
             return api.post('login', data).then(res => {
                 console.log('from store', res)

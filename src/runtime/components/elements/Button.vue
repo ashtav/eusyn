@@ -1,23 +1,28 @@
 <template>
-  <NuxtLink :to="to" :class="['btn', theme]" v-if="to">
-    <Ti :icon="icon" class="me-2" v-if="icon != null" />
+  <NuxtLink v-if="to" :to="to" :class="['btn', theme]">
+    <Ti v-if="icon != null" :icon="icon" class="me-2" />
 
     {{ label ?? '' }}
   </NuxtLink>
 
-  <button :class="['btn', theme]" :type="utils.on(submit, 'submit', 'button')" :disabled="submitted || disabled"
-    @click="click_" v-else>
-    <Spinner class="me-2" v-if="submitted" />
+  <button
+    v-else
+    :class="['btn', theme]"
+    :type="utils.on(submit, 'submit', 'button')"
+    :disabled="submitted || disabled"
+    @click="click_"
+  >
+    <Spinner v-if="submitted" class="me-2" />
 
     <Row :reverse="iconAlign == 'end'" :gap="icon != null && !submitted ? 7 : 0">
-      <Ti :icon="icon ?? ''" v-if="icon != null && !submitted" /> {{ label ?? '' }}
+      <Ti v-if="icon != null && !submitted" :icon="icon ?? ''" /> {{ label ?? '' }}
     </Row>
   </button>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
-import { utils } from '../../plugins/utils';
+import { defineComponent, ref, watch } from 'vue'
+import { utils } from '../../plugins/utils'
 
 export default defineComponent({
   // inheritAttrs: false,
@@ -44,12 +49,12 @@ export default defineComponent({
 
     theme: {
       type: String,
-      default: "btn-primary",
+      default: 'btn-primary'
     },
 
     icon: {
       type: String,
-      default: null,
+      default: null
     },
 
     iconAlign: {
@@ -63,8 +68,8 @@ export default defineComponent({
     }
   },
 
-  setup(props, { emit }) {
-    const isSubmit = ref(props.submitted);
+  setup (props, { emit }) {
+    const isSubmit = ref(props.submitted)
 
 
     watch(() => props.submitted, (value) => {
@@ -74,7 +79,7 @@ export default defineComponent({
 
     const events = {
       submit: () => isSubmit.value = true,
-      abort: () => isSubmit.value = false,
+      abort: () => isSubmit.value = false
     }
 
     const click_ = () => {

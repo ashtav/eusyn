@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore } from 'pinia'
 
 export const useAppStore = defineStore('app', {
     state: () => {
@@ -18,16 +18,16 @@ export const useAppStore = defineStore('app', {
     },
 
     actions: {
-        expand(_: any) {
+        expand () {
             this.sidebar.expanded = !this.sidebar.expanded
         },
 
-        assignPath(paths: Array<any>) {
+        assignPath (paths: Array<any>) {
             if (paths.length == 1 && paths[0].name == 'index') {
                 return this.paths = []
             }
 
             this.paths = paths
         }
-    },
+    }
 })

@@ -1,22 +1,29 @@
 <template>
-    <div :class="{ 'mb-3': !nospace }">
-        <label :class="['form-label', utils.on(required, 'required')]" v-if="label"> {{ label }} </label>
+  <div :class="{ 'mb-3': !nospace }">
+    <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
 
-        <div>
-            <label class="form-check form-check-inline" v-for="(option, i) in options" :key="i">
-                <input class="form-check-input" type="radio" :name="inputName" :value="textOption(option, true)"
-                    v-model="localValue" :disabled="disabled || (option?.disabled ?? false)" :required="required"
-                    @input="onInput(option)" />
-                <span class="form-check-label"> {{ textOption(option) }} </span>
-            </label>
-        </div>
+    <div>
+      <label v-for="(option, i) in options" :key="i" class="form-check form-check-inline">
+        <input
+          v-model="localValue"
+          class="form-check-input"
+          type="radio"
+          :name="inputName"
+          :value="textOption(option, true)"
+          :disabled="disabled || (option?.disabled ?? false)"
+          :required="required"
+          @input="onInput(option)"
+        >
+        <span class="form-check-label"> {{ textOption(option) }} </span>
+      </label>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
 
 // description:
-// This component renders a group of radio buttons with customizable options and behavior. 
+// This component renders a group of radio buttons with customizable options and behavior.
 
 // It provides the following features:
 // - Displays an optional label above the radio button group if the `label` prop is provided. The label is also marked as required if the `required` prop is true.
@@ -32,76 +39,76 @@
 // - The `textOption` function is used to format and display the text of each option.
 // - If an option has a `disabled` property, it will override the global `disabled` prop for that specific radio button.
 
-import { defineComponent, onMounted, ref, watch } from 'vue';
-import { utils } from '../../plugins/utils';
-import { hasValueProperty, textOption, validateOptions } from '../../scripts/select';
+import { defineComponent, onMounted, ref, watch } from 'vue'
+import { utils } from '../../plugins/utils'
+import { hasValueProperty, textOption, validateOptions } from '../../scripts/select'
 
 export default defineComponent({
-    emits: ["update:modelValue", 'change'],
 
-    inheritAttrs: false,
-    props: {
-        modelValue: {
-            default: '',
-        },
-
-        label: {
-            type: String,
-            default: null
-        },
-
-        disabled: {
-            type: Boolean,
-            default: false
-        },
-
-        required: {
-            type: Boolean,
-            default: false
-        },
-
-        options: {
-            type: Array<any>,
-            default: () => []
-        },
-
-        nospace: {
-            type: Boolean,
-            default: false
-        }
+  inheritAttrs: false,
+  emits: ['update:modelValue', 'change'],
+  props: {
+    modelValue: {
+      default: ''
     },
 
-    setup(props, { emit }) {
-        const localValue = ref(props.modelValue);
-        const inputName = ref('radio-' + utils.randString(5));
+    label: {
+      type: String,
+      default: null
+    },
 
-        // methods
-        const onInput = (option: any) => {
-            localValue.value = textOption(option, hasValueProperty(props.options))
-            emit("update:modelValue", localValue.value);
-            emit('change', option)
-        };
+    disabled: {
+      type: Boolean,
+      default: false
+    },
 
-        watch(() => props.modelValue, (value) => {
-            const hasValue = hasValueProperty(props.options)
+    required: {
+      type: Boolean,
+      default: false
+    },
 
-            // get option by value
-            let option = props.options.find((o) => {
-                return textOption(o, hasValue).toLowerCase() == `${value}`.toLowerCase();
-            });
+    options: {
+      type: Array<any>,
+      default: () => []
+    },
 
-            localValue.value = textOption(option, hasValue)
-            emit("update:modelValue", value);
-        })
-
-        // mounted
-        onMounted(() => {
-            validateOptions(props.options)
-        });
-
-        return {
-            utils, localValue, inputName, onInput, textOption
-        }
+    nospace: {
+      type: Boolean,
+      default: false
     }
+  },
+
+  setup (props, { emit }) {
+    const localValue = ref(props.modelValue)
+    const inputName = ref('radio-' + utils.randString(5))
+
+    // methods
+    const onInput = (option: any) => {
+      localValue.value = textOption(option, hasValueProperty(props.options))
+      emit('update:modelValue', localValue.value)
+      emit('change', option)
+    }
+
+    watch(() => props.modelValue, (value) => {
+      const hasValue = hasValueProperty(props.options)
+
+      // get option by value
+      const option = props.options.find((o) => {
+        return textOption(o, hasValue).toLowerCase() == `${value}`.toLowerCase()
+      })
+
+      localValue.value = textOption(option, hasValue)
+      emit('update:modelValue', value)
+    })
+
+    // mounted
+    onMounted(() => {
+      validateOptions(props.options)
+    })
+
+    return {
+      utils, localValue, inputName, onInput, textOption
+    }
+  }
 })
 </script>
