@@ -1,7 +1,31 @@
 
-import { defineNuxtPlugin } from '#imports'
-import type Image from '../types/image'
-import { utils } from './utils'
+import { defineNuxtPlugin } from '#imports';
+import { utils } from './utils';
+
+interface Image {
+    quality: (base64: string, quality: number) => Promise<{ data: string, size: string, quality: number, dimensions: { width: number, height: number } }>,
+    resize: (base64: string, sizes: Array<number>) => Promise<{ data: string, size: string, dimensions: { width: number, height: number } }>,
+    flip: (base64: string, direction: string) => Promise<{ data: string, size: string, dimensions: { width: number, height: number } }>,
+    rotate: (base64: string, angle: string) => Promise<{ data: string, size: string, dimensions: { width: number, height: number } }>,
+}
+
+declare module '#app' {
+    interface NuxtApp {
+        $image: Image;
+    }
+}
+
+declare module 'vue' {
+    interface ComponentCustomProperties {
+        $image: Image;
+    }
+}
+
+declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+        $image: Image;
+    }
+}
 
 class Img {
     base64: string
@@ -10,7 +34,7 @@ class Img {
     image: HTMLImageElement
     quality: number = 1
 
-    constructor (base64: string) {
+    constructor(base64: string) {
         this.base64 = base64
 
         this.canvas = document.createElement('canvas')
@@ -21,7 +45,7 @@ class Img {
         this.image.src = base64
     }
 
-    load (callback: Function, error: Function) {
+    load(callback: Function, error: Function) {
         this.image.addEventListener('load', () => {
             callback()
         }, false)
@@ -31,13 +55,13 @@ class Img {
         }, false)
     }
 
-    size (base64: string): string {
+    size(base64: string): string {
         const data = base64
         const bytes = Math.round((data.length * 3 / 4) - (data.endsWith('==') ? 2 : data.endsWith('=') ? 1 : 0))
         return utils.formatBytes(bytes)
     }
 
-    draw (image: CanvasImageSource, dx: number, dy: number, dw: number, dh: number, quality: number) {
+    draw(image: CanvasImageSource, dx: number, dy: number, dw: number, dh: number, quality: number) {
         this.context?.drawImage(image, dx, dy, dw, dh)
         const data = this.canvas.toDataURL('image/jpeg', quality) // quality only affected in jpeg format
         const size = this.size(data)
