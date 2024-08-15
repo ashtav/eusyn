@@ -100,6 +100,6 @@ export default defineNuxtModule<ModuleOptions>({
     // Composables
     addImportsDir(resolve(runtimeDir, 'composables'))
 
-    console.log('Nuxt Tabler UI - 1.0.0 24.8.14.7')
+    console.log('Nuxt Tabler UI - 1.0.0 24.8.15.1')
   }
 })

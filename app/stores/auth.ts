@@ -9,7 +9,7 @@ export const useAuthStore = defineStore('auth', {
     },
 
     actions: {
-        login(payload: Record<string, any>) {
+        async login(payload: Record<string, any>) {
             const nuxt = useNuxtApp()
 
             return api.post('login', payload).then(res => {
@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('auth', {
                     nuxt.$toast.error(res.message)
                 } else {
                     const cookie = useCookie('token')
-                    cookie.value = `Bearer ${res.access_token}`
+                    cookie.value = res.access_token
                 }
 
                 return res.status

@@ -1,6 +1,7 @@
 
 import { defineNuxtPlugin } from '#imports';
 import eventBus from '../plugins/mitt';
+import type Modal from '../types/modal';
 
 const actives = <Array<string>>[];
 
@@ -46,30 +47,4 @@ export default defineNuxtPlugin((_) => {
 })
 
 export { modal };
-export type { Modal };
-
-interface Modal {
-    show(id: string, params?: any): void;
-    close(id?: string): void;
-    setTitle(title: string): void;
-    callback(data: any): void;
-}
-
-declare module '#app' {
-    interface NuxtApp {
-        $modal: Modal;
-    }
-}
-
-declare module 'vue' {
-    interface ComponentCustomProperties {
-        $modal: Modal;
-    }
-}
-
-declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-        $modal: Modal;
-    }
-}
 

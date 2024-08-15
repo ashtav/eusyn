@@ -5,6 +5,9 @@
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti repellat ea possimus aut. Dolor corrupti et
     facilis aliquid esse aperiam eos nam! Facilis deserunt alias minima quia dolorem sapiente. Corrupti.
 
+    <h5>{{ $utils.alpha('H3el1l0o W0or5l6d!') }}</h5>
+    <!-- <h5>{{ $_.alpha('H3el1l0o W0or5l6d!') }}</h5> -->
+
   </div>
 </template>
 

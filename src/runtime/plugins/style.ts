@@ -1,5 +1,6 @@
 
 import { defineNuxtPlugin } from '#imports';
+import type Style from '../types/style';
 
 /**
  * Generates a random image URL.
@@ -32,25 +33,3 @@ export default defineNuxtPlugin((_) => {
         }
     }
 })
-
-interface Style {
-    image(path?: string): string;
-}
-
-declare module '#app' {
-    interface NuxtApp {
-        $style: Style;
-    }
-}
-
-declare module 'vue' {
-    interface ComponentCustomProperties {
-        $style: Style;
-    }
-}
-
-declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-        $style: Style;
-    }
-}
