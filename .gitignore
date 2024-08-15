@@ -3,7 +3,6 @@ node_modules
 .nuxt
 nuxt.d.ts
 .output
-dist
 .DS_Store
 .history
 .vercel

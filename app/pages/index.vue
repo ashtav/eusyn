@@ -28,6 +28,8 @@ export default defineComponent({
       setTimeout(() => {
         e.abort()
       }, 1500)
+
+      // this.$confirm('Delete data')
     }
   }
 })

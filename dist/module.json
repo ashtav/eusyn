@@ -1,0 +1,8 @@
+{
+  "name": "nuxt-tabler-ui",
+  "version": "1.0.0",
+  "configKey": "ui",
+  "compatibility": {
+    "nuxt": ">=3.10.0"
+  }
+}
