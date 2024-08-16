@@ -1,10 +1,7 @@
 <template>
   <div>
-    <div
-      v-for="i in iterate" :key="i"
-      class="shimmer"
-      :style="{ ...styles[i], marginBottom: `${(i == iterate) ? '0' : (gap ? gap : (iterate <= 1 ? '0' : '5'))}px` }"
-    />
+    <div v-for="i in iterate" :key="i" class="shimmer"
+      :style="{ ...styles[i], marginBottom: `${(i == iterate) ? '0' : (gap ? gap : (iterate <= 1 ? '0' : '5'))}px` }" />
   </div>
 </template>
 
@@ -36,7 +33,7 @@ export default {
     }
   },
 
-  setup (props) {
+  setup(props) {
     const styles: Ref<Array<Record<string, any>>> = ref([])
 
     const setSize = () => {
@@ -71,7 +68,13 @@ export default {
 
             if (typeof size === 'number') {
               result = format(size)
-            } else {
+            }
+
+            else if (typeof size === 'string') {
+              result = format(size)
+            }
+
+            else {
               const sizes = size as Array<any>
 
               if (!sizes || sizes.length == 0) {
@@ -139,25 +142,25 @@ export default {
 
 <style lang="scss" scoped>
 @keyframes shimmer {
-    0% {
-        background-position: -100% 0;
-    }
+  0% {
+    background-position: -100% 0;
+  }
 
-    100% {
-        background-position: 100% 0;
-    }
+  100% {
+    background-position: 100% 0;
+  }
 }
 
 @mixin shimmer($color: #ddd, $highlight: #edeef1, $duration: 1.5s) {
-    background: linear-gradient(to right,
-            $color 8%,
-            $highlight 28%,
-            $color 33%);
-    background-size: 200% 100%;
-    animation: shimmer $duration linear infinite;
+  background: linear-gradient(to right,
+      $color 8%,
+      $highlight 28%,
+      $color 33%);
+  background-size: 200% 100%;
+  animation: shimmer $duration linear infinite;
 }
 
 .shimmer {
-    @include shimmer();
+  @include shimmer();
 }
 </style>
