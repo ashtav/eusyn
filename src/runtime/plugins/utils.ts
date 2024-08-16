@@ -72,7 +72,7 @@ const ucwords = (text: string, normalize: boolean = false, strict: boolean = fal
 const ucfirst = (text: string, normalize: boolean = false): string => {
   const capitalizeFirstActualLetter = (htmlString: string) => {
     // Helper function to capitalize the first character of a string
-    function capitalizeFirst (str: string) {
+    function capitalizeFirst(str: string) {
       return str.charAt(0).toUpperCase() + str.slice(1)
     }
 

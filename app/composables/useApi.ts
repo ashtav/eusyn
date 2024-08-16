@@ -1,5 +1,4 @@
 import { useAuthStore } from '@/stores/auth'
-import { toast } from '../../src/runtime/scripts/toast'
 
 export const useApi = () => {
 
@@ -258,16 +257,18 @@ export const api = {
     },
 
     response: (res: any, okmessage: Boolean = true) => {
+        const nuxt = useNuxtApp()
+
         return new Promise<Response>(async (resolve) => {
             resolve(res?.data)
 
             if (!res.status) {
-                toast.error(res.message)
+                nuxt.$toast.error(res.message)
                 return res.status
             }
 
             if (okmessage) {
-                toast.success(res.message)
+                nuxt.$toast.success(res.message)
             }
 
             return res.status

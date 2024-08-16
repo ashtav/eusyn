@@ -1,7 +1,7 @@
 
-import { defineNuxtPlugin } from '#imports'
-import type Faker from '../types/faker'
-import { utils } from './utils'
+import { defineNuxtPlugin } from '#imports';
+import type Faker from '../types/faker';
+import { utils } from './utils';
 
 const names: Array<string> = [
     'Dutch Van Der Linde',
@@ -236,6 +236,8 @@ const image = (type: string = 'avatar'): string => {
 const faker: Faker = {
     number, price, name, gender, email, phone, address, date, time, invoice, password, image
 }
+
+export { faker };
 
 export default defineNuxtPlugin(() => {
     return {

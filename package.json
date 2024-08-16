@@ -15,9 +15,7 @@
   "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",
   "files": [
-    "dist",
-    "README.md",
-    "LICENSE.md"
+    "dist"
   ],
   "engines": {
     "node": ">=v16.20.2"

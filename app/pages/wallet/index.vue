@@ -1,20 +1,22 @@
 <template>
   <div class="p-5 wallet">
-    <PageHeader title="Wallet" />
+    <PageHeader title="Wallet" @click="getData" />
 
-    <div class="row">
+    <div v-if="isLoading" class="row">
       <div class="col-lg-4">
+        <Shimmer :size="[100, 100]" />
+      </div>
+    </div>
+
+    <div class="row" v-else>
+      <div class="col-lg-4" v-for="(data, i) in wallets" :key="i" @click="onDetail(data)">
         <div class="card card-body bg-dark text-white">
-          <h3 class="m-0">
-            Wallet Name
-          </h3>
+          <h3 class="m-0"> {{ data.name }} </h3>
           <p class="created">
-            2024 08 10 . 15 25 02
+            {{ $helper.convertTimestamp(data.created_at) }}
           </p>
 
-          <p class="m-0">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit, mpedit eum maxime!
-          </p>
+          <p class="m-0"> {{ data.description }} </p>
 
           <ul class="control">
             <li>
@@ -38,6 +40,7 @@
 
 <script lang="ts">
 import { useAppStore } from '@/stores/app';
+import { useWalletStore } from '@/stores/wallet';
 
 export default {
   setup() {
@@ -47,17 +50,43 @@ export default {
     })
 
     const app = useAppStore()
+    const wallet = useWalletStore()
 
-    return { app }
+    return { app, wallet }
+  },
+
+  computed: {
+    wallets() {
+      return this.wallet.wallets
+    }
+  },
+
+  data() {
+    return {
+      isLoading: false
+    }
   },
 
   mounted() {
     this.app.navbar.actions = [
       { icon: 'ti-plus', label: 'New Wallet', click: this.onCreate }
     ]
+
+    this.getData()
   },
 
   methods: {
+    getData() {
+      this.isLoading = true
+      this.wallet.getData().then(() => {
+        this.isLoading = false
+      })
+    },
+
+    onDetail(data: Wallet){
+      this.$router.push({ path: `/wallet/${data.id}` })
+    },
+
     onCreate() {
       this.$modal.show('form-wallet', {
         title: 'New Wallet'

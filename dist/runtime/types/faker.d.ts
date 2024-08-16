@@ -13,22 +13,4 @@ interface Faker {
     image(type?: string): string
 }
 
-declare module '#app' {
-    interface NuxtApp {
-        $faker: Faker;
-    }
-}
-
-declare module 'vue' {
-    interface ComponentCustomProperties {
-        $faker: Faker;
-    }
-}
-
-declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-        $faker: Faker;
-    }
-}
-
 export default Faker

@@ -142,6 +142,7 @@ const faker = {
   password,
   image
 };
+export { faker };
 export default defineNuxtPlugin(() => {
   return {
     provide: {

@@ -15,8 +15,7 @@ const module = defineNuxtModule({
   defaults: {
     prefix: "",
     disableGlobalStyles: false,
-    toast: false,
-    confirm: false
+    plugins: []
   },
   async setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url);
@@ -29,45 +28,30 @@ const module = defineNuxtModule({
       nuxt.options.css.push(resolve(runtimeDir, "styles/customs/override.css"));
     }
     nuxt.options.plugins.push(resolve(runtimeDir, "scripts/confirm/setup"));
-    addPlugin({ src: resolve(runtimeDir, "scripts", "confirm") });
     nuxt.options.plugins.push(resolve(runtimeDir, "scripts/toast/setup"));
-    addPlugin({ src: resolve(runtimeDir, "scripts", "toast") });
-    addPlugin({ src: resolve(runtimeDir, "plugins", "utils") });
-    addPlugin({ src: resolve(runtimeDir, "plugins", "image") });
-    addPlugin({ src: resolve(runtimeDir, "plugins", "faker") });
-    addPlugin({ src: resolve(runtimeDir, "plugins", "style") });
+    addPlugin({ src: resolve(runtimeDir, "plugins", "ntx") });
     addPlugin({ src: resolve(runtimeDir, "scripts", "modal") });
-    addComponentsDir({
-      path: resolve(runtimeDir, "components", "elements"),
-      prefix: options.prefix,
-      global: options.global,
-      watch: false
-    });
-    addComponentsDir({
-      path: resolve(runtimeDir, "components", "forms"),
-      prefix: options.prefix,
-      global: options.global,
-      watch: false
-    });
-    addComponentsDir({
-      path: resolve(runtimeDir, "components", "data"),
-      prefix: options.prefix,
-      global: options.global,
-      watch: false
-    });
-    addComponentsDir({
-      path: resolve(runtimeDir, "components", "layout"),
-      prefix: options.prefix,
-      global: options.global,
-      watch: false
-    });
+    addPlugin({ src: resolve(runtimeDir, "scripts", "confirm") });
+    addPlugin({ src: resolve(runtimeDir, "scripts", "toast") });
+    const component = (name2) => {
+      return {
+        path: resolve(runtimeDir, "components", name2),
+        prefix: options.prefix,
+        global: options.global,
+        watch: false
+      };
+    };
+    addComponentsDir(component("elements"));
+    addComponentsDir(component("forms"));
+    addComponentsDir(component("data"));
+    addComponentsDir(component("layout"));
     addComponent({
       name: "Modal",
       filePath: resolve(runtimeDir, "components", "overlays/Modal.vue"),
       global: options.global
     });
     addImportsDir(resolve(runtimeDir, "composables"));
-    console.log("Nuxt Tabler UI - 1.0.0 24.8.15.1");
+    console.log("Nuxt Tabler UI - 1.0.0 24.8.16.10");
   }
 });
 

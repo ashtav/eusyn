@@ -10,14 +10,15 @@
       <div class="card card-body p-2">
         <div class="row">
           <div class="col-auto">
-            <span class="avatar" :style="$style.image()" />
+            <!-- <span class="avatar" :style="$ntx.style.image()" /> -->
+            <span class="avatar"  />
           </div>
           <div class="col">
             <div class="text-truncate strong">
-              {{ $faker.name() }}
+              {{ $ntx.faker.name() }}
             </div>
             <div class="text-secondary small text-overflow">
-              {{ $faker.email() }}
+              {{ $ntx.faker.email() }}
             </div>
           </div>
         </div>

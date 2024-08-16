@@ -1,7 +1,19 @@
 
-import { defineNuxtPlugin } from '#imports'
-import eventBus from '../../plugins/mitt'
-import type Toast from '../../types/toast'
+import { defineNuxtPlugin } from '#imports';
+import eventBus from '../../plugins/mitt';
+import type Toast from '../../types/toast';
+
+declare module '#app' {
+    interface NuxtApp {
+        $toast: Toast;
+    }
+}
+
+declare module 'vue' {
+    interface ComponentCustomProperties {
+        $toast: Toast;
+    }
+}
 
 const show = (message: string, options: any = {}, type = 'default') => {
     eventBus.emit('__show_toast', {
@@ -27,5 +39,6 @@ export default defineNuxtPlugin(() => {
     }
 })
 
-export { toast }
+export { toast };
+
 

@@ -15,22 +15,4 @@ interface Utils {
     dateFormat: (date: string | Date, format: string) => string,
 }
 
-declare module '#app' {
-    interface NuxtApp {
-        $utils: Utils;
-    }
-}
-
-declare module 'vue' {
-    interface ComponentCustomProperties {
-        $utils: Utils;
-    }
-}
-
-declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-        $utils: Utils;
-    }
-}
-
 export default Utils

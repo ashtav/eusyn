@@ -1,15 +1,22 @@
 {
+  "name": "nuxt-app",
   "private": true,
-  "name": "app",
   "type": "module",
   "scripts": {
-    "dev": "nuxi dev",
-    "build": "nuxi build",
-    "generate": "nuxi generate"
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.5.2",
-    "nuxt": "^3.12.3",
-    "nuxt-tabler-ui": "../dist/"
+    "@pinia/nuxt": "^0.5.3",
+    "nuxt": "^3.12.4",
+    "nuxt-tabler-ui": "../nuxt-tabler-ui/dist/",
+    "vue": "latest"
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447",
+  "devDependencies": {
+    "sass-embedded": "^1.77.8"
   }
 }

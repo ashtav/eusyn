@@ -6,22 +6,4 @@ interface Toast {
     auto(message: string, value: boolean): void;
 }
 
-declare module '#app' {
-    interface NuxtApp {
-        $toast: Toast;
-    }
-}
-
-declare module 'vue' {
-    interface ComponentCustomProperties {
-        $toast: Toast;
-    }
-}
-
-declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-        $toast: Toast;
-    }
-}
-
 export default Toast

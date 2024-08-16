@@ -1,4 +1,3 @@
-import { defineNuxtPlugin } from "#imports";
 import { utils } from "./utils.mjs";
 class Img {
   base64;
@@ -188,10 +187,4 @@ const image = {
   flip,
   rotate
 };
-export default defineNuxtPlugin(() => {
-  return {
-    provide: {
-      image
-    }
-  };
-});
+export { image };

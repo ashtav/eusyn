@@ -4,8 +4,7 @@ interface ModuleOptions {
     prefix?: string;
     global?: boolean;
     disableGlobalStyles?: boolean;
-    toast?: boolean;
-    confirm?: boolean;
+    plugins?: Array<string>;
 }
 declare const _default: _nuxt_schema.NuxtModule<ModuleOptions>;
 
