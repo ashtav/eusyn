@@ -1,9 +1,9 @@
 <template>
-  <i :class="['ti', icon, size]" />
+  <i :class="['ti', icon.includes('ti-') ? icon : `ti-${icon}`, size, clean ? 'clean' : '']" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
@@ -15,6 +15,11 @@ export default defineComponent({
     size: {
       type: String,
       default: 'sm'
+    },
+
+    clean: {
+      type: Boolean,
+      default: false
     }
   }
 })
@@ -22,34 +27,38 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .ti {
+  --tblr-icon-size: 1.05rem;
+  width: var(--tblr-icon-size);
+  height: var(--tblr-icon-size);
+  font-size: var(--tblr-icon-size);
+  vertical-align: bottom;
+  stroke-width: .1rem;
+  // margin-bottom: 1px;
+  display: inline-block;
+
+  // &.clean {
+  //   margin: 0 !important
+  // }
+
+  &.xs {
+    --tblr-icon-size: 0.9rem;
+  }
+
+  &.sm {
     --tblr-icon-size: 1.05rem;
-    width: var(--tblr-icon-size);
-    height: var(--tblr-icon-size);
-    font-size: var(--tblr-icon-size);
-    vertical-align: bottom;
-    stroke-width: .1rem;
-    margin-bottom: 1px;
-    display: inline-block;
+  }
 
-    &.xs {
-        --tblr-icon-size: 0.9rem;
-    }
+  &.md {
+    --tblr-icon-size: 1.25rem;
+  }
 
-    &.sm {
-        --tblr-icon-size: 1.05rem;
-    }
+  &.lg {
+    --tblr-icon-size: 1.5rem;
+  }
 
-    &.md {
-        --tblr-icon-size: 1.25rem;
-    }
-
-    &.lg {
-        --tblr-icon-size: 1.5rem;
-    }
-
-    &.input-prefix {
-        margin-bottom: 0px;
-        margin-top: 2px;
-    }
+  &.input-prefix {
+    margin-bottom: 0px;
+    margin-top: 2px;
+  }
 }
 </style>
