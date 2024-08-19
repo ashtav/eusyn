@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.0.0](https://github.com/nuxt/ui/compare/v2.16.0...v2.17.0) (2024-07-19)
+## [1.0.0](https://github.com) (2024-08-20)
 
 
 ### Features
