@@ -10,11 +10,5 @@ export default defineNuxtConfig({
     dirs: [
       '~/components'
     ]
-  },
-
-  ui: {
-    toast: true,
-    confirm: true
-    // plugins: ['toast', 'confirm', 'cropper']
   }
 })
