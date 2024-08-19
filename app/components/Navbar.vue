@@ -9,7 +9,7 @@
           <NuxtLink to="/"> Dashboard </NuxtLink>
         </li>
         <li v-for="path in paths" :key="path.path">
-          <NuxtLink :to="path.path"> {{ $utils.ucwords(path.name) }} </NuxtLink>
+          <NuxtLink :to="path.path"> {{ $ntx.utils.ucwords(path.name) }} </NuxtLink>
         </li>
       </ul>
     </span>
@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts">
-import { useAppStore } from '@/stores/app'
-import { useAuthStore } from '@/stores/auth'
+import { useAppStore } from '@/stores/app';
+import { useAuthStore } from '@/stores/auth';
 
 export default {
   setup () {

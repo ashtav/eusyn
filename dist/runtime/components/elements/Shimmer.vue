@@ -1,10 +1,7 @@
 <template>
   <div>
-    <div
-      v-for="i in iterate" :key="i"
-      class="shimmer"
-      :style="{ ...styles[i], marginBottom: `${(i == iterate) ? '0' : (gap ? gap : (iterate <= 1 ? '0' : '5'))}px` }"
-    />
+    <div v-for="i in iterate" :key="i" class="shimmer"
+      :style="{ ...styles[i], marginBottom: `${(i == iterate) ? '0' : (gap ? gap : (iterate <= 1 ? '0' : '5'))}px` }" />
   </div>
 </template>
 
@@ -53,6 +50,8 @@ export default {
             const size = array[index];
             let result = "15px";
             if (typeof size === "number") {
+              result = format(size);
+            } else if (typeof size === "string") {
               result = format(size);
             } else {
               const sizes2 = size;

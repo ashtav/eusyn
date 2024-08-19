@@ -1,0 +1,53 @@
+.pos-absolute {
+    position: absolute;
+}
+
+.pos-relative {
+    position: relative;
+}
+
+.pos-fixed {
+    position: fixed;
+}
+
+.pos-sticky {
+    position: sticky;
+}
+
+@for $i from 0 through 100 {
+    .t-#{$i} {
+        top: #{$i}px;
+    }
+
+    .b-#{$i} {
+        bottom: #{$i}px;
+    }
+
+    .l-#{$i} {
+        left: #{$i}px;
+    }
+
+    .r-#{$i} {
+        right: #{$i}px;
+    }
+
+    .tr-#{$i} {
+        top: #{$i}px;
+        right: #{$i}px;
+    }
+
+    .tl-#{$i} {
+        top: #{$i}px;
+        left: #{$i}px;
+    }
+
+    .br-#{$i} {
+        bottom: #{$i}px;
+        right: #{$i}px;
+    }
+
+    .bl-#{$i} {
+        bottom: #{$i}px;
+        left: #{$i}px;
+    }
+}

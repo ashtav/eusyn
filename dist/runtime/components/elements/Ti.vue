@@ -1,5 +1,5 @@
 <template>
-  <i :class="['ti', icon, size]" />
+  <i :class="['ti', icon.includes('ti-') ? icon : `ti-${icon}`, size, clean ? 'clean' : '']" />
 </template>
 
 <script>
@@ -13,6 +13,10 @@ export default defineComponent({
     size: {
       type: String,
       default: "sm"
+    },
+    clean: {
+      type: Boolean,
+      default: false
     }
   }
 });
@@ -26,7 +30,6 @@ export default defineComponent({
   font-size: var(--tblr-icon-size);
   vertical-align: bottom;
   stroke-width: 0.1rem;
-  margin-bottom: 1px;
   display: inline-block;
 }
 .ti.xs {

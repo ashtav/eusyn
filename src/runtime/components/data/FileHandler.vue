@@ -33,8 +33,8 @@ export default {
 
     props: {
         accept: {
-            type: Array<string>,
-            default: ['image:jpeg,jpg,png']
+            type: String,
+            default: 'image:jpeg,jpg,png'
             // format can be: ['application:pdf,xlxs', 'audio:wav,mp3', 'text:plain,csv', 'video:mp4', 'image:jpeg,jpg,png']
         },
 
@@ -70,7 +70,9 @@ export default {
 
         // formatting file accept, ['image:jpeg,jpg,png'] = image/jpeg, image/png, image/jpg
         const reFormat = () => {
-            acceptFile.value = props.accept
+            const accept = props.accept.split('|')
+
+            acceptFile.value = accept
                 .map(format => {
                     const [type, extensions] = format.split(':');
                     return extensions.split(',').map(ext => `${type}/${ext}`).join(', ');

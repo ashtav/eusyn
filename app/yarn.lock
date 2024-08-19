@@ -3579,7 +3579,7 @@ nuxi@^3.12.0:
   optionalDependencies:
     fsevents "~2.3.3"
 
-nuxt-tabler-ui@../nuxt-tabler-ui/dist/:
+nuxt-tabler-ui@../dist/:
   version "0.0.0"
 
 nuxt@^3.12.4:

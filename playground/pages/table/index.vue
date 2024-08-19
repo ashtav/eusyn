@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <PageHeader
       title="Product"
       :actions="[
@@ -8,7 +8,7 @@
     />
 
     <Table :columns="table.columns" :rows="table.rows" /> <br>
-    <pre><code>&lt;Table :columns="table.columns" :rows="table.rows" /&gt;</code></pre>
+    <Code code='<Table :columns="table.columns" :rows="table.rows" />' />
   </div>
 </template>
 

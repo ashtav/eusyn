@@ -1,35 +1,40 @@
 <template>
-  <div class="container">
+  <div>
     <!-- header -->
     <PageHeader title="Shimmer" />
 
-    <!-- simple -->
-    <Shimmer />
-    <code>&lt;Shimmer /&gt; // simple </code> <br>
+    <div class="row">
+      <div class="col-lg-6">
+        <!-- simple -->
+        <Shimmer /> <br>
+        <Code class="mb-5" code="<Shimmer />" />
 
-    <!-- with size -->
-    <Row align="end" gap="5">
-      <Shimmer size="80" />
-      <Shimmer :size="[50, 100]" />
-    </Row>
-    <code>
-      &lt;Shimmer size="80" /&gt; // with size <br>
-      &lt;Shimmer :size="[50, 100]" /&gt; // [width, height]
-    </code>
+        <!-- with size -->
+        <Row align="end" gap="5">
+          <Shimmer size="80" />
+          <Shimmer :size="[50, 100]" />
+        </Row>
 
-    <!-- with random size -->
-    <Shimmer :size="[[50, 300]]" />
-    <code>&lt;Shimmer :size="[[50, 300]]" /&gt; // with random size</code>
+        <br>
+        <Code class="mb-5" code='<Shimmer size="80" />
+<Shimmer :size="[50, 100]" />' description="[width, height]" />
 
-    <!-- with iteration -->
-    <Shimmer :size="[[50, 300]]" :iterate="2" />
-    <code>&lt;Shimmer :size="[[50, 300]]" :iterate="2" /&gt; // with iteration</code>
+        <!-- with random size -->
+        <Shimmer :size="[[50, 300]]" /> <br>
+        <Code class="mb-5" code='<Shimmer :size="[[50, 300]]" />' description="With random size." />
+
+        <!-- with iteration -->
+        <Shimmer :size="[[50, 300]]" :iterate="2" /> <br>
+        <Code class="mb-5" code='<Shimmer :size="[[50, 300]]" :iterate="2" />'
+          description="With random size and iteration." />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  setup () {
+  setup() {
 
 
     return {}
@@ -39,12 +44,12 @@ export default {
 
 <style lang="scss" scoped>
 code {
-    background: #f5f5f5;
-    margin-bottom: 25px;
-    margin-top: 10px;
-    display: inline-block;
-    padding: 10px 10px;
-    padding-right: 50px;
-    border: 1px #e5e5e5 solid
+  background: #f5f5f5;
+  margin-bottom: 25px;
+  margin-top: 10px;
+  display: inline-block;
+  padding: 10px 10px;
+  padding-right: 50px;
+  border: 1px #e5e5e5 solid
 }
 </style>

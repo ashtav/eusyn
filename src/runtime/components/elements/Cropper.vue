@@ -332,6 +332,7 @@ export default {
     opacity: 0;
     pointer-events: none;
     transition: .2s;
+    z-index: 999999;
 
     &.show {
         opacity: 1;

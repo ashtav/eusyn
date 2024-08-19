@@ -4,7 +4,7 @@
 
     <div v-if="isLoading" class="row">
       <div class="col-lg-4">
-        <Shimmer :size="[100, 100]" />
+        <Shimmer :size="['100%', 120]" />
       </div>
     </div>
 

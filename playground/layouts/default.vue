@@ -1,17 +1,5 @@
 <template>
   <div class="page">
-    <!-- <div class="features">
-      <div class="container">
-        <ul>
-          <li v-for="item in features" :key="item.to">
-            <NuxtLink :to="item.to">
-              {{ item.label }}
-            </NuxtLink>
-          </li>
-        </ul>
-      </div>
-    </div> -->
-
     <div>
       <!-- toggle -->
       <div :class="['toggle', { 'show': showFeature }]" @click="showFeature = !showFeature">
@@ -31,7 +19,7 @@
           <li v-for="x in features">
             <span> {{ x.label }} </span>
             <ul>
-              <li v-for="y in x.features">
+              <li v-for="y in x.features" :class="{ 'active': y.to == active }">
                 <NuxtLink :to="y.to">
                   <Ti :icon="y.icon" class="me-1" />
                   {{ y.label }}
@@ -57,28 +45,44 @@ export default {
         {
           label: 'Forms',
           features: [
-            { label: 'Utilities', to: '/utils', icon: 'category' },
-            { label: 'Cropper', to: '/cropper', icon: 'crop' },
-            { label: 'Image Viewer', to: '/image-viewer', icon: 'photo' },
-            { label: 'Form', to: '/', icon: 'forms' },
-            { label: 'Modal, Toast & Confirm', to: '/modal-toast-confirm', icon: 'square-chevron-up' },
-            { label: 'Table', to: '/table', icon: 'table' },
-            { label: 'Dropdown', to: '/dropdown', icon: 'select' },
-            { label: 'Shimmer', to: '/shimmer', icon: 'wash-dry-shade' },
-            { label: 'File Handler', to: '/file-handler', icon: 'book-upload' }
+            { label: 'Input', to: '/forms/input', icon: 'forms' },
+            { label: 'Select Option', to: '/forms/select', icon: 'select' },
+            { label: 'Radio & Checkbox', to: '/forms/radio-checkbox', icon: 'checkbox' },
+            { label: 'Button', to: '/forms/button', icon: 'click' },
+            { label: 'File Handler', to: '/file-handler', icon: 'files' }
           ]
         },
 
         {
           label: 'Elements',
           features: [
+            { label: 'Cropper', to: '/cropper', icon: 'crop' },
             { label: 'Image Viewer', to: '/image-viewer', icon: 'photo' },
             { label: 'Shimmer', to: '/shimmer', icon: 'wash-dry-shade' },
+            { label: 'Dropdown', to: '/dropdown', icon: 'align-justified' },
+            { label: 'Table', to: '/table', icon: 'table' },
+            { label: 'Modal, Toast & Confirm', to: '/modal-toast-confirm', icon: 'square-chevron-up' },
+          ]
+        },
+
+        {
+          label: 'Plugins',
+          features: [
+            { label: 'Faker', to: '/plugins/faker', icon: 'writing' },
+            { label: 'Images', to: '/plugins/image', icon: 'layout-collage' },
+            { label: 'Utilities', to: '/plugins', icon: 'category' },
           ]
         }
       ],
 
-      showFeature: false
+      showFeature: true,
+      active: '/'
+    }
+  },
+
+  watch: {
+    $route(value) {
+      this.active = value.path
     }
   }
 }
@@ -99,6 +103,7 @@ export default {
   justify-content: center;
   transition: .2s;
   background-color: white;
+  z-index: 9;
 
   &:hover {
     border-color: #333;
@@ -171,13 +176,39 @@ export default {
         display: block;
         padding: 10px 20px;
         text-decoration: none;
-        color: #333;
+        color: #555;
         font-size: 13px;
       }
 
-      &:hover {
-        a {
-          color: #777;
+      li {
+        position: relative;
+
+
+        &::before {
+          content: '';
+          position: absolute;
+          width: 2px;
+          height: 100%;
+          right: 0;
+          background: #0054a6;
+          opacity: 0;
+          transition: .2s;
+        }
+
+        &.active {
+          a {
+            color: #0054a6;
+          }
+
+          &::before {
+            opacity: 1;
+          }
+        }
+
+        &:hover:not(&.active) {
+          a {
+            color: #222;
+          }
         }
       }
     }
@@ -186,9 +217,11 @@ export default {
 
 .page-body {
   transition: .5s;
+  padding: 26px;
+  padding-top: 70px;
 
   &.expanded {
-    margin-left: 260px;
+    margin-left: 240px;
   }
 }
 </style>

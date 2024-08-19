@@ -1,41 +1,42 @@
 <template>
-  <div class="container">
+  <div>
     <PageHeader title="Image Viewer" />
 
-    <h4 class="mb-0">
-      <Ti icon="ti-album" class="me-1" /> Album
-    </h4>
-    <p class="mb-5">
-      {{ images.length }} images found, click one of these images to show image viewer.
-    </p>
+    <div class="row">
+      <div class="col-lg-6">
+        <h4 class="mb-0">
+          <Ti icon="ti-album" class="me-1" /> Album
+        </h4>
+        <p class="mb-5">
+          {{ images.length }} images are available, click one of these images to show image viewer.
+        </p>
 
-    <div class="album mb-3">
-      <div class="body">
-        <img :src="images[0]" alt="" @click="view(0)">
-        <div class="small-images">
-          <img :src="images[1]" alt="" @click="view(1)">
-          <img :src="images[2]" alt="" @click="view(2)">
+        <div class="album mb-3">
+          <div class="body">
+            <img :src="images[0]" alt="" @click="view(0)">
+            <div class="small-images">
+              <img :src="images[1]" alt="" @click="view(1)">
+              <img :src="images[2]" alt="" @click="view(2)">
+            </div>
+          </div>
         </div>
+
+        <Code class="mt-2 mb-5" code='<ImageViewer v-model="show" :images="images" :active="image" :actions="[]" :config="{ max: 250, loop: true }" />' />
       </div>
     </div>
 
-    <ImageViewer
-      v-model="show"
-      :images="images"
-      :active="image"
-      :actions="['download', 'copy']"
-      :config="{ max: 250, loop: true }"
-    />
+    <ImageViewer v-model="show" :images="images" :active="image" :actions="['download', 'copy']"
+      :config="{ max: 250, loop: true }" />
   </div>
 </template>
 
 <script lang="ts">
 export default {
-  setup () {
+  setup() {
     return {}
   },
 
-  data () {
+  data() {
     return {
       show: false,
       image: '',
@@ -55,12 +56,12 @@ export default {
   },
 
   methods: {
-    view (index: number) {
+    view(index: number) {
       this.image = this.images[index]
       this.show = true
     },
 
-    download (image: string) {
+    download(image: string) {
       console.log('downloading... ', image)
     }
   }
@@ -69,50 +70,50 @@ export default {
 
 <style lang="scss" scoped>
 .album {
+  display: inline-flex;
+  align-items: flex-start;
+
+  img {
+    object-fit: cover;
+
+    &:hover {
+      cursor: pointer;
+      opacity: .7;
+    }
+  }
+
+  border-radius: 5px;
+  border: 1px #ddd solid;
+  padding: 3px;
+  background: white;
+
+  .body {
+    border-radius: 2px;
+    overflow: hidden;
     display: inline-flex;
     align-items: flex-start;
-
-    img {
-        object-fit: cover;
-
-        &:hover {
-            cursor: pointer;
-            opacity: .7;
-        }
-    }
-
-    border-radius: 5px;
-    border: 1px #ddd solid;
-    padding: 3px;
-    background: white;
-
-    .body {
-        border-radius: 2px;
-        overflow: hidden;
-        display: inline-flex;
-        align-items: flex-start;
-    }
+  }
 }
 
 .album img:first-child {
-    width: 200px;
-    height: 203px;
+  width: 200px;
+  height: 203px;
 }
 
 .album .small-images {
-    display: flex;
-    flex-direction: column;
-    margin-left: 3px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 3px;
 }
 
 .album .small-images img {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 3px;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 3px;
 }
 
 .album .small-images img:last-child {
-    margin-bottom: 0;
-    /* Removes the margin from the last small image */
+  margin-bottom: 0;
+  /* Removes the margin from the last small image */
 }
 </style>

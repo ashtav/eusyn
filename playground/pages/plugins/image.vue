@@ -1,10 +1,16 @@
 <template>
-    <div class="container">
-        <PageHeader title="Utilities" />
+    <div>
+        <PageHeader title="Image Utility" />
 
         <div class="row">
-            <div class="col-6">
+            <div class="col-6 mb-5">
                 <FileHandler @select="handleFile" />
+
+                <Code code='// to decrease image quality
+const image = await this.$ntx.image.quality(<base64-image>, .5);
+
+// to resize image size                    
+const image_resizes = await this.$ntx.image.resize(<base64-image>, [100, 100])' description="For more and details example, please look at the code." />
             </div>
 
             <div v-if="image.data">
@@ -12,7 +18,6 @@
                 <Row :gap="15">
                     <div style="width: 200px" v-for="img in images" class="d-inline-block me-2">
                         <img :src="img.data" alt="" class="rounded mb-3 d-block" style="object-fit: cover">
-
                         <code class="ps-0">Q: {{ img.quality ?? 1 }} | {{ img.size }} | {{ img.dimension }}</code>
                     </div>
                 </Row>
@@ -64,12 +69,12 @@ export default {
                 const sizes = [[500], [250], [100, 100]]
 
                 qualities.forEach(async (q: number) => {
-                    const image = await this.$image.quality(this.image.data, q)
+                    const image = await this.$ntx.image.quality(this.image.data, q)
                     this.images.push({ ...image, dimension: `${image.dimensions.width} x ${image.dimensions.height}` })
                 });
 
                 sizes.forEach(async (size: Array<number>) => {
-                    const image_resizes = await this.$image.resize(this.image.data, size)
+                    const image_resizes = await this.$ntx.image.resize(this.image.data, size)
                     this.image_resizes.push({ ...image_resizes, dimension: `${image_resizes.dimensions.width} x ${image_resizes.dimensions.height}` })
                 })
             }
@@ -77,14 +82,14 @@ export default {
 
         onFlip(type: string) {
             this.image_resizes.forEach(async (image: any) => {
-                const result = await this.$image.flip(image.data, type)
+                const result = await this.$ntx.image.flip(image.data, type)
                 image.data = result.data
             })
         },
 
         onRotate() {
             this.image_resizes.forEach(async (image: any) => {
-                const result = await this.$image.rotate(image.data, 'right')
+                const result = await this.$ntx.image.rotate(image.data, 'right')
                 image.data = result.data
             })
         }

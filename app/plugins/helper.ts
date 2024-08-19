@@ -1,4 +1,8 @@
-const convertTimestamp = (input: string): string => {
+const convertTimestamp = (input?: string): string => {
+    if (!input) {
+        return ''
+    }
+
     const datePart = input.split('T')[0]; // Extract date part (2024-08-15)
     const timePart = input.split('T')[1]?.split('.')[0]; // Extract time part (21:57:29)
 
