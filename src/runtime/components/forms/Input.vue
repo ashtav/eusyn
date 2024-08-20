@@ -134,25 +134,18 @@ export default defineComponent({
   },
 
   setup(props, { emit }) {
+    const getType = (): string => {
+      return ['range'].includes(props.type) ? 'text' : props.type
+    }
+
     const instance = getCurrentInstance()
 
     const localValue = ref(props.modelValue)
-    const inputType = ref(props.type)
+    const inputType = ref(getType())
     const inputSuffixs = ref(props.suffixs)
     const obsecure = ref(true)
 
     let inputEvent: HTMLInputElement = null
-
-    const getCaretPosition = (oField: HTMLInputElement): number => {
-      let caretPos = 0;
-
-      // Check if the browser supports the selection properties
-      if (typeof oField.selectionStart === "number") {
-        caretPos = oField.selectionDirection === 'backward' ? oField.selectionStart : oField.selectionEnd;
-      }
-
-      return caretPos;
-    };
 
     // methods
     const onInput = (event: any) => {
@@ -255,8 +248,8 @@ export default defineComponent({
     }
 
     // watch input type
-    watch(() => props.type, (value) => {
-      inputType.value = value
+    watch(() => props.type, () => {
+      inputType.value = getType()
     })
 
     // watch input password
@@ -331,6 +324,7 @@ export default defineComponent({
     onMounted(() => {
       checkPassword(props.password)
       onMask()
+      inputType.value = getType()
     })
 
     return {

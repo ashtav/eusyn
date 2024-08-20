@@ -13,7 +13,11 @@
                 <Switch v-model="forms.accepted" inline caption="Disable|Enable" />
                 <Code class="mb-5" code='<Switch v-model="forms.accepted" inline caption="Disable|Enable" />' />
 
-                <input type="range" class="form-range mb-2" value="40" min="0" max="100" step="10">
+                <input type="range" class="form-range mb-2" value="40" min="0" max="100" step="1">
+
+                <Range v-model="forms.range" /> <br>
+                <Code class="mb-5" code='<Range v-model="forms.range" />' />
+
 
                 <div>
                     <code>
@@ -35,7 +39,8 @@ export default {
         return {
 
             forms: {
-                accepted: false
+                accepted: false,
+                range: 0
             }
         }
     },
