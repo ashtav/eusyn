@@ -1,6 +1,6 @@
 <template>
     <div>
-        <PageHeader title="Image Utility" />
+        <PageHeader title="Image Utilities" />
 
         <div class="row">
             <div class="col-6 mb-5">

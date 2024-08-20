@@ -1,6 +1,6 @@
 <template>
     <div>
-        <PageHeader title="Faker" />
+        <PageHeader title="Faker Generator" />
 
         <div class="row">
             <div class="col-lg-6">

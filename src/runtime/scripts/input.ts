@@ -209,5 +209,9 @@ const formatting = (formatters: Array<string>, emit: any, value: string, type: s
     then(result)
 }
 
-export { formatting, handleKeyPress }
+const handleMask = () => {
+
+}
+
+export { formatting, handleKeyPress, handleMask }
 

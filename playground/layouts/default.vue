@@ -48,6 +48,7 @@ export default {
             { label: 'Input', to: '/forms/input', icon: 'forms' },
             { label: 'Select Option', to: '/forms/select', icon: 'select' },
             { label: 'Radio & Checkbox', to: '/forms/radio-checkbox', icon: 'checkbox' },
+            { label: 'Range & Switches', to: '/forms/range-switches', icon: 'toggle-right' },
             { label: 'Button', to: '/forms/button', icon: 'click' },
             { label: 'File Handler', to: '/file-handler', icon: 'files' }
           ]
@@ -68,8 +69,8 @@ export default {
         {
           label: 'Plugins',
           features: [
-            { label: 'Faker', to: '/plugins/faker', icon: 'writing' },
-            { label: 'Images', to: '/plugins/image', icon: 'layout-collage' },
+            { label: 'Faker Generator', to: '/plugins/faker', icon: 'writing' },
+            { label: 'Image Utilities', to: '/plugins/image', icon: 'layout-collage' },
             { label: 'Utilities', to: '/plugins', icon: 'category' },
           ]
         }

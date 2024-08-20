@@ -27,8 +27,6 @@
                     code='<Checkbox v-model="forms.favorites" label="Favorite Fruit" required :options="fruits" />' />
 
                 <Checkbox v-model="forms.checked" />
-
-                <Switch v-model="forms.accepted" inline caption="Disable|Enable" />
                 <Code class="mb-5" code='<Switch v-model="forms.accepted" inline caption="Disable|Enable" />' />
 
                 <div>
@@ -56,7 +54,6 @@ export default {
                 blood: 'A',
                 checked: true,
                 favorites: ['Banana', 'Mango'],
-                accepted: false
             }
         }
     },

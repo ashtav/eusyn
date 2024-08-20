@@ -46,6 +46,11 @@
                 <Code class="mb-5"
                     code='<Textarea label="Description" hint="Type description about you..." prefix="ti-note" formatters="ucfirst" />' />
 
+                <Input label="Input Mask" prefix="calendar-event" mask="date:d/m/y" v-model="forms.date" />
+
+                <Code class="mb-5"
+                    code='<Input label="Input Mask" prefix="calendar-event" mask="date:d/m/y" v-model="forms.date" />' />
+
                 <code>
         {{ forms }}
       </code>
@@ -66,7 +71,8 @@ export default {
                 name: '',
                 email: '',
                 password: '',
-                price: ''
+                price: '',
+                date: ''
             }
         }
     },
