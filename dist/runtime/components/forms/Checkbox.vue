@@ -31,75 +31,88 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, ref, watch } from "vue";
-import { utils } from "../../plugins/utils";
-import { textOption } from "../../scripts/select";
+<script lang="ts">
+import { defineComponent, ref, watch } from 'vue'
+import { utils } from '../../plugins/utils'
+import { textOption } from '../../scripts/select'
+
 export default defineComponent({
+
   inheritAttrs: false,
-  emits: ["update:modelValue", "change"],
+  emits: ['update:modelValue', 'change'],
   props: {
     modelValue: {
-      type: [Array, Boolean],
+      type: [Array<any>, Boolean],
       default: []
     },
+
     label: {
       type: String,
       default: null
     },
+
     disabled: {
       type: Boolean,
       default: false
     },
+
     required: {
       type: Boolean,
       default: false
     },
+
     options: {
-      type: Array,
+      type: Array<any>,
       default: () => []
     },
+
     nospace: {
       type: Boolean,
       default: false
     }
   },
-  setup(props, { emit }) {
-    const localValue = ref(props.modelValue);
-    const localOptions = ref(props.options);
-    const inputName = ref("checkbox-" + utils.randString(5));
-    const single = ref(props.options.length == 0);
-    const onInput = (event, option) => {
-      if (props.disabled || typeof option === "object" && (option?.disabled ?? false))
-        return;
-      const target = event.target;
-      const value = textOption(option);
+
+  setup (props, { emit }) {
+    const localValue = ref(props.modelValue)
+    const localOptions = ref(props.options)
+    const inputName = ref('checkbox-' + utils.randString(5))
+    const single = ref(props.options.length == 0)
+
+    // methods
+    const onInput = (event: any, option: any) => {
+      if (props.disabled || (typeof option === 'object' && (option?.disabled ?? false))) return
+
+      const target = event.target
+      const value = textOption(option)
+
       if (Array.isArray(props.modelValue)) {
-        const values = localValue.value;
-        localValue.value = target.checked ? [...values, value] : values.filter((e) => e !== value);
-        emit("update:modelValue", localValue.value);
+        const values = localValue.value as Array<any>
+
+        localValue.value = target.checked
+          ? [...values, value]
+          : values.filter((e) => e !== value)
+
+        emit('update:modelValue', localValue.value)
       }
-    };
+    }
+
     watch(() => localValue.value, (value) => {
-      if (typeof value === "boolean") {
-        emit("update:modelValue", value);
+      if (typeof value === 'boolean') {
+        emit('update:modelValue', value)
       }
-    });
+    })
+
     watch(() => props.modelValue, (value) => {
-      localValue.value = value;
-    });
+      localValue.value = value
+    })
+
     watch(() => props.options, (value) => {
-      localOptions.value = value;
-    });
+      localOptions.value = value
+    })
+
     return {
-      utils,
-      localValue,
-      localOptions,
-      inputName,
-      single,
-      onInput,
-      textOption
-    };
+      utils, localValue, localOptions, inputName, single, onInput, textOption
+    }
   }
-});
+})
 </script>

@@ -79,99 +79,138 @@
   </div>
 </template>
 
-<script>
-import { onMounted, ref } from "vue";
+<script lang="ts">
+import type { Ref } from 'vue';
+import { onMounted, ref } from 'vue';
+
+
+interface Column {
+  key?: string,
+  label: string,
+  sortable?: boolean
+}
+
 export default {
   props: {
+
     columns: {
-      type: Array,
+      type: Array<Column>,
       default: []
     },
+
     rows: {
-      type: Array,
+      type: Array<Record<string, any>>,
       default: []
-    }
+    },
+
+
   },
-  setup(props, {}) {
-    const originData = props.rows.map((e) => ({ ...e }));
-    const headers = ref(props.columns);
-    const dataTable = ref(props.rows);
-    let sortBy = "";
-    let sortKey = null;
-    const toKey = (e) => {
-      return e.key ? e.key : e.label.toLowerCase().replaceAll(" ", "_");
-    };
-    const sortByKeyAsc = (arr, key) => {
+
+  setup(props, { }) {
+    const originData = props.rows.map((e: any) => ({ ...e }))
+    const headers: Ref<Array<Record<string, any>>> = ref(props.columns)
+    const dataTable: Ref<Record<string, any>> = ref(props.rows);
+
+    let sortBy: string = ''
+    let sortKey: string | null = null
+
+    const toKey = (e: Record<string, any>) => {
+      return e.key ? e.key : e.label.toLowerCase().replaceAll(' ', '_')
+    }
+
+    const sortByKeyAsc = <T>(arr: T[], key: keyof T): T[] => {
       return arr.sort((a, b) => {
-        if (a[key] < b[key])
-          return -1;
-        if (a[key] > b[key])
-          return 1;
+        if (a[key] < b[key]) return -1;
+        if (a[key] > b[key]) return 1;
         return 0;
       });
     };
-    const sortByKeyDesc = (arr, key) => {
+
+    const sortByKeyDesc = <T>(arr: T[], key: keyof T): T[] => {
       return arr.sort((a, b) => {
-        if (a[key] < b[key])
-          return 1;
-        if (a[key] > b[key])
-          return -1;
+        if (a[key] < b[key]) return 1;
+        if (a[key] > b[key]) return -1;
         return 0;
       });
     };
-    const keys = props.columns.map((e) => toKey(e));
-    const doSortBy = (data) => {
+
+    // create keys
+    const keys = props.columns.map((e: Column) => toKey(e))
+
+    const doSortBy = (data: Record<string, any>) => {
       if (data?.sortable) {
-        let key = toKey(data);
+        let key = toKey(data)
+
         if (sortKey != key) {
-          sortBy = "";
+          sortBy = ''
         }
-        sortKey = key;
+
+        sortKey = key
+
+        // set all headers sort icon to default
         headers.value.forEach((e) => {
-          e.sort_icon = "ti-arrows-sort";
-        });
-        const i = headers.value.findIndex((e) => toKey(e) == key);
-        const header = headers.value[i];
-        if (sortBy == "") {
-          dataTable.value = sortByKeyAsc(props.rows, key);
-          sortBy = "asc";
-          header.sort_icon = "ti-sort-ascending";
-        } else if (sortBy == "asc") {
-          dataTable.value = sortByKeyDesc(props.rows, key);
-          sortBy = "desc";
-          header.sort_icon = "ti-sort-descending";
-        } else {
-          dataTable.value = originData;
-          sortBy = "";
-          header.sort_icon = "ti-arrows-sort";
+          e.sort_icon = 'ti-arrows-sort'
+        })
+
+        // find specific header for icon changes
+        const i = headers.value.findIndex((e: any) => toKey(e) == key)
+        const header = headers.value[i]
+
+        if (sortBy == '') {
+          dataTable.value = sortByKeyAsc(props.rows, key)
+          sortBy = 'asc'
+          header.sort_icon = 'ti-sort-ascending'
+        }
+
+        else if (sortBy == 'asc') {
+          dataTable.value = sortByKeyDesc(props.rows, key)
+          sortBy = 'desc'
+          header.sort_icon = 'ti-sort-descending'
+        }
+
+        else {
+          dataTable.value = originData
+          sortBy = ''
+          header.sort_icon = 'ti-arrows-sort'
         }
       }
-    };
+    }
+
     onMounted(() => {
-      headers.value = props.columns.map((e) => {
+      headers.value = props.columns.map((e: Column) => {
         return {
           ...e,
-          sort_icon: "ti-arrows-sort"
-        };
-      });
-    });
-    return { keys, headers, dataTable, doSortBy };
+          sort_icon: 'ti-arrows-sort'
+        }
+      })
+    })
+
+
+
+    return { keys, headers, dataTable, doSortBy }
   }
-};
+}
 </script>
 
-<style scoped>
-.table thead tr th span {
-  padding: 8px 0;
-  font-weight: bold;
-}
-.table thead tr th span.hoverable {
-  cursor: pointer;
-}
-.table thead tr th span.hoverable:hover {
-  opacity: 0.6;
-}
-.table thead tr th span.hoverable:active {
-  opacity: 1;
+<style lang="scss" scoped>
+.table {
+  thead {
+    tr th span {
+      padding: 8px 0;
+      font-weight: bold;
+    }
+
+    tr th span.hoverable {
+      cursor: pointer;
+
+      &:hover {
+        opacity: .6;
+      }
+
+      &:active {
+        opacity: 1;
+      }
+    }
+  }
 }
 </style>

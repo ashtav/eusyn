@@ -26,152 +26,200 @@
   </ClientOnly>
 </template>
 
-<script>
-import { onMounted, ref, watch } from "vue";
-import { utils } from "../../plugins/utils";
+<script lang="ts">
+import type { Ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+// import type { Utils } from '../../plugins/utils';
+import { utils } from '../../plugins/utils';
+
+interface Dropdown {
+  label: string,
+  icon?: string,
+  danger?: boolean
+}
+
 export default {
   inheritAttrs: false,
-  emits: ["select"],
+  emits: ['select'],
+
   props: {
     options: {
-      type: [Array, Array],
+      type: [Array<Dropdown>, Array<string>],
       default: []
     },
+
     icons: {
-      type: Array,
+      type: Array<String>,
       default: () => []
     },
+
     size: {
       type: String,
-      default: "lg"
+      default: 'lg'
     },
+
     placement: {
       type: String,
-      default: "start"
+      default: 'start'
     },
+
     separate: {
-      type: Array,
+      type: Array<number>,
       default: () => []
     }
   },
-  setup(props, { emit }) {
-    const options_ = ref(props.options);
-    const dropdown = ref(null), slot = ref(null);
-    const key = ref("");
-    const dkey = utils.randString();
-    const show = ref(false);
-    const additionalStyle = ref({});
-    const extract = (option, key2) => {
-      typeof option == "string" ? option : option[key2];
-    };
+
+  setup (props, { emit }) {
+    const options_ = ref(props.options)
+
+    const dropdown = ref(null), slot = ref(null)
+    const key = ref('')
+    const dkey: string = utils.randString()
+
+    const show: Ref<boolean> = ref(false)
+    const additionalStyle: Ref<Record<string, any>> = ref({})
+
+    const extract = (option: Dropdown | string, key: string): any => {
+      typeof option == 'string' ? option : option[key]
+    }
+
     const toggle = () => {
-      show.value = !show.value;
+      show.value = !show.value
       additionalStyle.value = {
         opacity: 0
-      };
-      const elSlot = slot.value;
-      const height = elSlot.offsetHeight;
+      }
+
+      const elSlot = slot.value as HTMLElement
+      const height = elSlot.offsetHeight
+
       setTimeout(() => {
-        const el = dropdown.value;
+        const el = dropdown.value as HTMLElement
         if (isElementOutOfScreenBottom(el)) {
           additionalStyle.value = {
-            inset: "auto 0px 0px auto",
+            inset: 'auto 0px 0px auto',
             transform: `translate(0px, -${height + 15}px)`,
             opacity: 0
-          };
+          }
         }
+
         setTimeout(() => {
           if (isElementOutOfScreenTop(el)) {
-            additionalStyle.value = {};
+            additionalStyle.value = {}
           }
-          additionalStyle.value["opacity"] = 1;
-          if (props.placement == "end") {
-            additionalStyle.value["right"] = 0;
+
+          additionalStyle.value['opacity'] = 1
+
+          if (props.placement == 'end') {
+            additionalStyle.value['right'] = 0
           }
-        }, 1);
-      }, 1);
-    };
-    const textOption = (data) => {
-      return typeof data === "string" ? data : data?.label ?? "";
-    };
-    const onSelect = (option) => {
-      show.value = false;
-      emit("select", option);
-    };
-    const isElementOutOfScreenTop = (element) => {
-      return element.offsetTop < 0;
-    };
-    const isElementOutOfScreenBottom = (element) => {
-      const rect = element.getBoundingClientRect();
-      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-      return rect.bottom > windowHeight;
-    };
+        }, 1)
+      }, 1)
+    }
+
+    const textOption = (data: any) => {
+      return typeof data === 'string' ? data : (data?.label ?? '')
+    }
+
+    const onSelect = (option: any) => {
+      show.value = false
+      emit('select', option)
+    }
+
+    const isElementOutOfScreenTop = (element: HTMLElement): boolean => {
+      return element.offsetTop < 0
+    }
+
+    const isElementOutOfScreenBottom = (element: HTMLElement): boolean => {
+      const rect = element.getBoundingClientRect()
+      const windowHeight = (window.innerHeight || document.documentElement.clientHeight)
+
+      return rect.bottom > windowHeight
+    }
+
+    // watch options
     watch(() => props.options, (value) => {
-      options_.value = value;
-    });
+      options_.value = value
+    })
+
     onMounted(() => {
-      key.value = utils.randString();
-      document.addEventListener("click", (e) => {
+      key.value = utils.randString()
+
+      // listen click event
+      document.addEventListener('click', (e) => {
         if (show.value) {
-          const parentClass = dkey;
-          const targetElement = e.target;
-          const isInsideParentClass = (element) => {
+          const parentClass = dkey
+          const targetElement = e.target as HTMLElement
+
+          // function to check if an element or its parent has the parentClass
+          const isInsideParentClass = (element: HTMLElement | null): boolean => {
             while (element) {
               if (element.classList.contains(parentClass)) {
-                return true;
+                return true
               }
-              element = element.parentElement;
+              element = element.parentElement
             }
-            return false;
-          };
+            return false
+          }
+
+          // check if the clicked target is outside the parentClass
           if (!isInsideParentClass(targetElement)) {
-            show.value = false;
+            show.value = false
           }
         }
-      });
-    });
-    return { show, utils, options_, dropdown, slot, dkey, additionalStyle, toggle, textOption, onSelect, extract };
+      })
+    })
+
+    return { show, utils, options_, dropdown, slot, dkey, additionalStyle, toggle, textOption, onSelect, extract }
   }
-};
+}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .dropdown-menu {
-  max-height: 290px;
-  overflow-y: auto;
-  position: absolute;
-  scrollbar-width: none;
-  /* Firefox */
-  -ms-overflow-style: none;
-  /* Internet Explorer 10+ */
-}
-.dropdown-menu::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
-  /* Chrome/Safari/Webkit */
-}
-.dropdown-menu .dropdown-item {
-  color: #666;
-  cursor: pointer;
-}
-.dropdown-menu .dropdown-item:hover {
-  background: #fafafa;
-  color: #333;
-}
-.dropdown-menu .dropdown-item.active {
-  color: #0054a6 !important;
-}
-.dropdown-menu .dropdown-divider {
-  margin: 4px 0;
-}
-.dropdown-menu.sm {
-  min-width: 80px !important;
-  max-width: 80px !important;
-  overflow: hidden;
-}
-.dropdown-menu.md {
-  min-width: 160px !important;
-  max-width: 160px !important;
-  overflow: hidden;
+    max-height: 290px;
+    overflow-y: auto;
+    position: absolute;
+
+    // hide scrollbar
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+
+    &::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+        /* Chrome/Safari/Webkit */
+    }
+
+    .dropdown-item {
+        color: #666;
+        cursor: pointer;
+
+        &:hover {
+            background: #fafafa;
+            color: #333;
+        }
+
+        &.active {
+            color: #0054a6 !important;
+        }
+    }
+
+    .dropdown-divider {
+        margin: 4px 0;
+    }
+
+    &.sm {
+        min-width: 80px !important;
+        max-width: 80px !important;
+        overflow: hidden;
+    }
+
+    &.md {
+        min-width: 160px !important;
+        max-width: 160px !important;
+        overflow: hidden;
+    }
 }
 </style>

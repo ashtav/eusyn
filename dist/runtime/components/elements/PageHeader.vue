@@ -64,24 +64,28 @@
   </div>
 </template>
 
-<script>
-import { utils } from "../../plugins/utils";
+<script lang="ts">
+import { utils } from '../../plugins/utils';
+
 export default {
   inheritAttrs: false,
-  setup(_, { emit }) {
-    return { emit, utils };
+
+  setup (_, { emit }) {
+    return { emit, utils }
   },
+
   props: {
     title: {
       type: String,
-      default: "Dashboard"
+      default: 'Dashboard'
     },
+
     actions: {
-      type: Array,
+      type: Array<any>,
       default: () => []
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped></style>
