@@ -48,6 +48,12 @@ export default {
     return {
       features: [
         {
+          label: 'Dashboard',
+          features: [
+            { label: 'Welcome', to: '/', icon: 'home' },
+          ]
+        },
+        {
           label: 'Forms',
           features: [
             { label: 'Input', to: '/forms/input', icon: 'forms' },
@@ -62,6 +68,7 @@ export default {
         {
           label: 'Elements',
           features: [
+            { label: 'Accordion', to: '/accordion', icon: 'layout-navbar-expand' },
             { label: 'Cropper', to: '/cropper', icon: 'crop' },
             { label: 'Image Viewer', to: '/image-viewer', icon: 'photo' },
             { label: 'Shimmer', to: '/shimmer', icon: 'wash-dry-shade' },
@@ -148,6 +155,7 @@ export default {
   z-index: 999;
   border-right: 1px #f1f1f1 solid;
   background: white;
+  padding-bottom: 100px;
 
   &.show {
     left: 0;
