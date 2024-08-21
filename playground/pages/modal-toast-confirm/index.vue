@@ -50,7 +50,7 @@
           <Input v-model="forms.title" label="Modal Title" hint="Type username" required formatters="ucwords"
             prefix="ti-news" />
         </div>
-        <div class="modal-footer border-0 bg-white">
+        <div class="modal-footer border-0 bg-transparent">
           <Button theme="btn" label="Close" @click="onClose" />
           <Button theme="btn-primary" label="Save changes" submit />
         </div>

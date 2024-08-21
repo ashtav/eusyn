@@ -1,11 +1,6 @@
 <template>
-  <div
-    class="modal modal-blur fade"
-    :class="{ 'show': show }"
-    tabindex="-1"
-    :style="{ display: preShow ? 'block' : 'none' }"
-    aria-hidden="true"
-  >
+  <div class="modal modal-blur fade" :class="{ 'show': show }" tabindex="-1"
+    :style="{ display: preShow ? 'block' : 'none' }" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document" :class="`modal-${size}`">
       <div class="modal-content">
         <!-- modal header -->
@@ -18,13 +13,9 @@
           <div class="modal-action">
             <ul>
               <template v-for="(item, i) in actions">
-                <li
-                  v-if="(item?.visible ?? true)"
-                  :key="i"
-                  :icon-tooltip="item?.tooltip"
+                <li v-if="(item?.visible ?? true)" :key="i" :icon-tooltip="item?.tooltip"
                   :class="[item?.disabled ? 'disabled opacity-50' : '']"
-                  @click="item?.click?.call(null, { ...item, index: i })"
-                >
+                  @click="item?.click?.call(null, { ...item, index: i })">
                   <Ti :icon="item?.icon" />
                 </li>
               </template>
@@ -32,13 +23,8 @@
           </div>
 
           <!-- close modal -->
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-            @click="() => modal.close(id)"
-          />
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            @click="() => modal.close(id)" />
         </div>
 
         <!-- modal body -->
@@ -84,7 +70,7 @@ export default {
     }
   },
 
-  setup (props) {
+  setup(props) {
     const show = ref(false)
     const preShow = ref(false)
 
@@ -151,98 +137,128 @@ export default {
 
 <style lang="scss" scoped>
 .btn-close {
-    outline: none;
-    --tblr-btn-close-focus-shadow: none
+  outline: none;
+  --tblr-btn-close-focus-shadow: none
 }
 
 .modal {
-    scrollbar-width: thin;
+  scrollbar-width: thin;
 }
 
 .modal-header {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    background: rgba(255, 255, 255, .1) !important;
-    backdrop-filter: blur(10px) !important;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: rgba(255, 255, 255, .1) !important;
+  backdrop-filter: blur(10px) !important;
 
-    .modal-action {
-        flex-grow: 1;
-        flex-shrink: 0;
-        white-space: nowrap;
-        text-align: right;
+  .modal-action {
+    flex-grow: 1;
+    flex-shrink: 0;
+    white-space: nowrap;
+    text-align: right;
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
 
-            li {
-                display: inline-block;
-                margin-left: 18px;
-                transition: .1s;
-                cursor: pointer;
+      li {
+        display: inline-block;
+        margin-left: 18px;
+        transition: .1s;
+        cursor: pointer;
 
-                i {
-                    color: #999;
-                    transition: .2s;
-                }
-
-                &.disabled {
-                    pointer-events: none;
-                }
-
-                &:hover {
-                    i {
-                        color: #333;
-                    }
-                }
-
-                &:active {
-                    opacity: .6;
-                }
-
-                &[icon-tooltip] {
-                    position: relative;
-
-                    &::before,
-                    &::after {
-                        position: absolute;
-                        opacity: 0;
-                        pointer-events: none;
-                        transition: .1s ease-in-out;
-                        left: 50%;
-                    }
-
-                    &::before {
-                        content: attr(icon-tooltip);
-                        padding: 5px 10px;
-                        background: #212121;
-                        top: -46px;
-                        transform: translateX(-50%);
-                        color: white;
-                        border-radius: 4px;
-                        font-size: 13px;
-                    }
-
-                    &::after {
-                        content: "";
-                        width: 0;
-                        height: 0;
-                        top: -18px;
-                        transform: translateX(-50%) rotate(180deg);
-                        border-left: 7px solid transparent;
-                        border-right: 7px solid transparent;
-                        border-bottom: 7px solid #212121;
-                    }
-
-                    &:hover::before,
-                    &:hover::after {
-                        opacity: 1;
-                    }
-                }
-            }
+        i {
+          color: #999;
+          transition: .2s;
         }
+
+        &.disabled {
+          pointer-events: none;
+        }
+
+        &:hover {
+          i {
+            color: #333;
+          }
+        }
+
+        &:active {
+          opacity: .6;
+        }
+
+        &[icon-tooltip] {
+          position: relative;
+
+          &::before,
+          &::after {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            transition: .1s ease-in-out;
+            left: 50%;
+          }
+
+          &::before {
+            content: attr(icon-tooltip);
+            padding: 5px 10px;
+            background: #212121;
+            top: -46px;
+            transform: translateX(-50%);
+            color: white;
+            border-radius: 4px;
+            font-size: 13px;
+          }
+
+          &::after {
+            content: "";
+            width: 0;
+            height: 0;
+            top: -18px;
+            transform: translateX(-50%) rotate(180deg);
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 7px solid #212121;
+          }
+
+          &:hover::before,
+          &:hover::after {
+            opacity: 1;
+          }
+        }
+      }
     }
+  }
+}
+
+[data-bs-theme=dark] {
+  .modal-header {
+    background: rgb(#314257, .1) !important;
+
+    ul li {
+      &:hover {
+        i {
+          color: #ccc;
+        }
+      }
+
+      &[icon-tooltip] {
+
+        &::before {
+          background: #000;
+        }
+
+        &::after {
+          border-bottom: 7px solid #000;
+        }
+      }
+    }
+  }
+
+  .modal-content {
+    border-color: #2d3d50;
+    box-shadow: none;
+  }
 }
 </style>

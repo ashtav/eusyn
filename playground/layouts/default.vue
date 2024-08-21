@@ -2,8 +2,14 @@
   <div class="page">
     <div>
       <!-- toggle -->
-      <div :class="['toggle', { 'show': showFeature }]" @click="showFeature = !showFeature">
-        <Ti :icon="showFeature ? 'arrow-left' : 'category'" />
+      <div :class="['app-navbar', { 'show': showFeature }]">
+        <div :class="['toggle']" @click="showFeature = !showFeature">
+          <Ti :icon="showFeature ? 'arrow-left' : 'category'" />
+        </div>
+
+        <div :class="['toggle']" @click="$ntx.theme.set()">
+          <Ti :icon="$ntx.theme.get.value != 'dark' ? 'sun' : 'moon'" />
+        </div>
       </div>
 
       <!-- features -->
@@ -13,7 +19,6 @@
           <img src="https://t4.ftcdn.net/jpg/04/18/46/85/360_F_418468557_n9ik8bBHAFZD339wdKOzc0XqeJFFAMSn.jpg">
           <h2>NTX.</h2>
         </div>
-
 
         <ul>
           <li v-for="x in features">
@@ -77,8 +82,18 @@ export default {
       ],
 
       showFeature: true,
-      active: '/'
+      active: '/',
+      darkTheme: true
     }
+  },
+
+  methods: {
+
+  },
+
+  mounted() {
+    this.$ntx.theme.set('system')
+    this.active = this.$route.path
   },
 
   watch: {
@@ -90,33 +105,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.toggle {
+.app-navbar {
   position: fixed;
+  top: 25px;
+  left: calc(25px + 0px);
+  transition: .2s;
+  display: inline-flex;
+  gap: 5px;
+  z-index: 9;
+
+  &.show {
+    left: calc(25px + 240px);
+  }
+
+}
+
+.toggle {
   width: 40px;
   height: 40px;
   border: 1px #ccc solid;
   border-radius: 5px;
   cursor: pointer;
-  top: 25px;
-  left: calc(25px + 0px);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: .2s;
   background-color: white;
-  z-index: 9;
 
   &:hover {
     border-color: #333;
   }
-
-  &.show {
-    left: calc(25px + 240px);
-  }
 }
 
 .features {
-  background-color: white;
   width: 240px;
   overflow: auto;
   scrollbar-width: none;
@@ -127,6 +147,7 @@ export default {
   transition: .2s;
   z-index: 999;
   border-right: 1px #f1f1f1 solid;
+  background: white;
 
   &.show {
     left: 0;
@@ -223,6 +244,56 @@ export default {
 
   &.expanded {
     margin-left: 240px;
+  }
+}
+
+[data-bs-theme=dark] {
+
+  .features,
+  .toggle {
+    background: #182433;
+    border-color: #1f2d3d;
+
+    a {
+      color: #ccc
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      li,
+      a {
+        text-wrap: nowrap;
+      }
+
+      li {
+        li {
+          &::before {
+            background: #fff;
+          }
+
+          &.active {
+            a {
+              color: #fff;
+            }
+          }
+
+          &:hover:not(&.active) {
+            a {
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .toggle {
+    &:hover {
+      border-color: #3d4e63;
+    }
   }
 }
 </style>

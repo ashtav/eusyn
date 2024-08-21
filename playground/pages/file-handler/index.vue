@@ -21,12 +21,12 @@
     accept="image:jpg,jpeg,png|audio:mp3,wav" 
     @dragged="onDragged" @select="onSelect">
     // create you own custom style here
-</FileHandler>'/>
+</FileHandler>' />
 
 
                 <br>
                 <FileHandler @select="onSelect" :config="{ label: 'Select File', required: true }" />
-                <Code code='<FileHandler :config="{}" @select="onSelect" />'/>
+                <Code code='<FileHandler :config="{}" @select="onSelect" />' />
 
                 <br>
                 <ul class="gallery">
@@ -121,7 +121,7 @@ export default {
         display: -webkit-box;
         overflow: hidden;
         text-overflow: ellipsis;
-        -webkit-line-clamp: 2;
+        line-clamp: 2;
         -webkit-box-orient: vertical;
     }
 
@@ -130,6 +130,13 @@ export default {
         height: 100px;
         border-radius: 5px;
         object-fit: cover
+    }
+}
+
+[data-bs-theme=dark] {
+    .file-handler {
+        background-color: #182433;
+        border-color: #344558;
     }
 }
 </style>

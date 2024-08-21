@@ -28,7 +28,7 @@
           </div>
 
           <!-- controls -->
-          <div class="modal-footer bg-white border-0">
+          <div class="modal-footer border-0">
             <div class="w-100">
               <div class="row">
                 <div class="col">
@@ -163,5 +163,16 @@ export default {
             border-color: #0054a6;
         }
     }
+
+    .modal-footer {
+      background-color: transparent
+    }
+}
+
+[data-bs-theme=dark] {
+  .modal-content {
+    border-color: #2d3d50;
+    box-shadow: none;
+  }
 }
 </style>

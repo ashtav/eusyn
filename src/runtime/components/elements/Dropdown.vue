@@ -9,10 +9,8 @@
         <span v-if="options_.length == 0" class="dropdown-item text-muted disabled">No data found!</span>
 
         <template v-for="(option, i) in options_" :key="i" v-else>
-          <span
-            :class="['dropdown-item', { 'text-danger': extract(option, 'danger') }]"
-            @click="onSelect(option)"
-          >
+          <span :class="['dropdown-item', { 'text-danger': extract(option, 'danger') == true }]"
+            @click="onSelect(option)">
             <Row justify="between" class="w-100">
               <span>{{ textOption(option) }}</span>
               <Ti v-if="extract(option, 'icon')" :icon="extract(option, 'icon')" />
@@ -69,7 +67,7 @@ export default {
     }
   },
 
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const options_ = ref(props.options)
 
     const dropdown = ref(null), slot = ref(null)
@@ -80,7 +78,7 @@ export default {
     const additionalStyle: Ref<Record<string, any>> = ref({})
 
     const extract = (option: Dropdown | string, key: string): any => {
-      typeof option == 'string' ? option : option[key]
+      return typeof option == 'string' ? option : option[key]
     }
 
     const toggle = () => {
@@ -176,50 +174,69 @@ export default {
 
 <style lang="scss" scoped>
 .dropdown-menu {
-    max-height: 290px;
-    overflow-y: auto;
-    position: absolute;
+  max-height: 290px;
+  overflow-y: auto;
+  position: absolute;
 
-    // hide scrollbar
-    scrollbar-width: none;
-    /* Firefox */
-    -ms-overflow-style: none;
-    /* Internet Explorer 10+ */
+  // hide scrollbar
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
 
-    &::-webkit-scrollbar {
-        width: 0px;
-        background: transparent;
-        /* Chrome/Safari/Webkit */
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+    /* Chrome/Safari/Webkit */
+  }
+
+  .dropdown-item {
+    color: #666;
+    cursor: pointer;
+
+    &:hover {
+      background: #fafafa;
+      color: #333;
     }
 
-    .dropdown-item {
-        color: #666;
-        cursor: pointer;
-
-        &:hover {
-            background: #fafafa;
-            color: #333;
-        }
-
-        &.active {
-            color: #0054a6 !important;
-        }
+    &.active {
+      color: #0054a6 !important;
     }
 
-    .dropdown-divider {
-        margin: 4px 0;
+    &:not(.text-danger) i {
+      color: #999;
+    }
+  }
+
+  .dropdown-divider {
+    margin: 4px 0;
+  }
+
+  &.sm {
+    min-width: 80px !important;
+    max-width: 80px !important;
+    overflow: hidden;
+  }
+
+  &.md {
+    min-width: 160px !important;
+    max-width: 160px !important;
+    overflow: hidden;
+  }
+}
+
+[data-bs-theme=dark] {
+  .dropdown-item {
+    color: #ccc;
+
+    &:hover {
+      background: #1f2d3d;
+      color: #fff;
     }
 
-    &.sm {
-        min-width: 80px !important;
-        max-width: 80px !important;
-        overflow: hidden;
+    &.active {
+      color: #0054a6 !important;
     }
-
-    &.md {
-        min-width: 160px !important;
-        max-width: 160px !important;
-        overflow: hidden;
-    }
+  }
 }
 </style>

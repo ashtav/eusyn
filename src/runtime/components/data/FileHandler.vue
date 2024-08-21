@@ -6,11 +6,11 @@
             <Input :label="config.label" :hint="config.hint ?? 'Please select file'" readonly
                 :required="config.required" :suffixs="[{
         text: 'Browse', kbd: true
-    }]" v-model="input" />
+    }]" v-model="input" :disabled="disabled" />
         </div>
 
         <input type="file" ref="fileInput" :accept="acceptFile" @change="handeFiles" class="d-none"
-            :multiple="multiple" />
+            :multiple="multiple" :disabled="disabled" />
     </div>
 </template>
 
@@ -58,6 +58,11 @@ export default {
         draggable: {
             type: Boolean,
             default: false
+        },
+
+        disabled: {
+            type: Boolean,
+            default: false
         }
     },
 
@@ -87,10 +92,11 @@ export default {
         }
 
         const onDragged = (event: DragEvent) => {
-            if (!props.draggable || !event.dataTransfer) return
-
             event.stopPropagation();
             event.preventDefault();
+
+            if (!props.draggable || !event.dataTransfer || props.disabled) return
+
             dragging = event.type === 'dragover';
             event.dataTransfer.dropEffect = 'copy';
 
@@ -98,10 +104,11 @@ export default {
         }
 
         const onDropped = async (event: DragEvent) => {
-            if (!props.draggable || !event.dataTransfer) return
-
             event.stopPropagation();
             event.preventDefault();
+
+            if (!props.draggable || !event.dataTransfer || props.disabled) return
+
             dragging = false;
 
             const result = await filterFiles(event.dataTransfer.files);

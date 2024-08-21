@@ -171,7 +171,6 @@ export default {
             background-color: #a9b4bd;
 
         }
-
     }
 
     .background {
@@ -267,6 +266,12 @@ export default {
                 border-color: rgba(0, 0, 0, 0.7) transparent transparent transparent;
             }
         }
+    }
+}
+
+[data-bs-theme=dark] {
+    .background {
+        background: #26374b;
     }
 }
 </style>

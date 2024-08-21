@@ -35,10 +35,10 @@ export default {
     data() {
         return {
             options: [
-                { label: 'Details', icon: 'ti-info-circle' },
-                { label: 'Edit', icon: 'ti-pencil' },
-                { label: 'Delete', icon: 'ti-trash', danger: true },
-                { label: 'Settings', icon: 'ti-settings' },
+                { label: 'Details', icon: 'info-circle' },
+                { label: 'Edit', icon: 'pencil' },
+                { label: 'Delete', icon: 'trash', danger: true },
+                { label: 'Settings', icon: 'settings' },
             ],
 
             data: <any>{

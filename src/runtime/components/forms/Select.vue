@@ -8,22 +8,9 @@
       </span>
 
       <!-- input -->
-      <input
-        ref="refSelect"
-        :value="localValue"
-        :class="['form-control', utils.on(isFocus, 'has-focus')]"
-        :placeholder="hint"
-        :maxlength="255"
-        :required="required"
-        :disabled="disabled || busy"
-        :autofocus="autofocus"
-        name="select"
-        autocomplete="off"
-        @input="onInput"
-        @focus="onFocus"
-        @blur="onBlur"
-        @keypress="onKeyPress"
-      >
+      <input ref="refSelect" :value="localValue" :class="['form-control', utils.on(isFocus, 'has-focus')]"
+        :placeholder="hint" :maxlength="255" :required="required" :disabled="disabled || busy" :autofocus="autofocus"
+        name="select" autocomplete="off" @input="onInput" @focus="onFocus" @blur="onBlur" @keypress="onKeyPress">
 
       <!-- suffixs -->
       <div class="suffixs">
@@ -36,11 +23,8 @@
       <!-- options -->
       <div v-if="isFocus" class="options">
         <ul ref="refOption">
-          <li
-            v-for="(option, i) in localOptions" :key="i"
-            :class="{ 'selected': option == selected }"
-            @mousedown="onSelect(option)"
-          >
+          <li v-for="(option, i) in localOptions" :key="i" :class="{ 'selected': option == selected }"
+            @mousedown="onSelect(option)">
             <span>{{ textOption(option) }}</span>
           </li>
           <li v-if="localOptions.length == 0" class="text-muted pe-none">
@@ -117,7 +101,7 @@ export default defineComponent({
     }
   },
 
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const instance = getCurrentInstance()
     const localValue = ref(props.modelValue)
     const localOptions = ref(props.options)
@@ -248,107 +232,131 @@ export default defineComponent({
 <style scoped lang="scss">
 .select {
 
-    input.has-focus {
-        border-radius: 4px 4px 4px 0;
-    }
+  input.has-focus {
+    border-radius: 4px 4px 4px 0;
+  }
 
-    &.disabled {
-        pointer-events: none;
-
-        .suffixs {
-            opacity: .6;
-
-            span {
-                &.disabled {
-                    opacity: 1;
-                }
-            }
-        }
-    }
+  &.disabled {
+    pointer-events: none;
 
     .suffixs {
-        position: absolute;
-        right: 5px;
-        top: 0;
+      opacity: .6;
 
-        span {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            height: 40px;
-            padding: 0 7px;
-            padding-top: 1px;
-            cursor: pointer;
-            text-wrap: nowrap;
-            user-select: none;
-
-            span {
-                font-size: 12.5px;
-                letter-spacing: .5px;
-            }
-
-            &.disabled {
-                pointer-events: none;
-                opacity: .6;
-            }
-
-            i {
-                opacity: .6;
-            }
-
-            &:hover {
-                i {
-                    opacity: 1;
-                }
-            }
-
-            &:active {
-                i {
-                    opacity: .6;
-                }
-            }
+      span {
+        &.disabled {
+          opacity: 1;
         }
+      }
     }
+  }
 
+  .suffixs {
+    position: absolute;
+    right: 5px;
+    top: 0;
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      padding: 0 7px;
+      padding-top: 1px;
+      cursor: pointer;
+      text-wrap: nowrap;
+      user-select: none;
+
+      span {
+        font-size: 12.5px;
+        letter-spacing: .5px;
+      }
+
+      &.disabled {
+        pointer-events: none;
+        opacity: .6;
+      }
+
+      i {
+        opacity: .6;
+      }
+
+      &:hover {
+        i {
+          opacity: 1;
+        }
+      }
+
+      &:active {
+        i {
+          opacity: .6;
+        }
+      }
+    }
+  }
+
+  .options {
+    position: absolute;
+    z-index: 10;
+    width: 50%;
+    left: 1px;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      max-height: 250px;
+      min-width: 50%;
+      max-width: 100%;
+      overflow: auto;
+      scrollbar-width: thin;
+      background-color: white;
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 0.5rem 2rem rgba(var(--tblr-body-color-rgb), 0.1);
+
+      li {
+        padding: 10px 13px;
+
+        &:hover {
+          cursor: pointer;
+          background-color: #f6f8fb;
+        }
+
+        &.selected {
+          background-color: #f6f8fb;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 480px) {
     .options {
-        position: absolute;
-        z-index: 10;
-        width: 50%;
-        left: 1px;
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            max-height: 250px;
-            min-width: 50%;
-            max-width: 100%;
-            overflow: auto;
-            scrollbar-width: thin;
-            background-color: white;
-            border-radius: 0 0 4px 4px;
-            box-shadow: 0 0.5rem 2rem rgba(var(--tblr-body-color-rgb), 0.1);
-
-            li {
-                padding: 10px 13px;
-
-                &:hover {
-                    cursor: pointer;
-                    background-color: #f6f8fb;
-                }
-
-                &.selected {
-                    background-color: #f6f8fb;
-                    font-weight: 500;
-                }
-            }
-        }
+      width: calc(100% - 37px);
     }
+  }
+}
 
-    @media only screen and (max-width: 480px) {
-        .options {
-            width: calc(100% - 37px);
+[data-bs-theme=dark] {
+
+  .options {
+    ul {
+      background-color: #151f2c;
+      box-shadow: 0 0.5rem 2rem #101822;
+      color: #cacaca;
+
+      li {
+        padding: 10px 13px;
+
+        &:hover {
+          background-color: #1f2d3d;
         }
+
+        &.selected {
+          background-color: #1f2d3d;
+          color: white;
+        }
+      }
     }
+  }
 }
 </style>

@@ -8,9 +8,9 @@
       </span>
 
       <!-- date input placeholder -->
-      <div v-if="['date'].includes(inputType) && (localValue == '' || localValue == null)"
+      <div v-if="['date'].includes(inputType) "
         :class="['date-input-placeholders', utils.on(prefix != '', 'has-prefix'), utils.on(disabled, 'disabled')]">
-        ----/--/--
+        ----/--/--2
       </div>
 
       <!-- input -->
@@ -145,7 +145,7 @@ export default defineComponent({
     const inputSuffixs = ref(props.suffixs)
     const obsecure = ref(true)
 
-    let inputEvent: HTMLInputElement = null
+    let inputEvent: HTMLInputElement | null = null
 
     // methods
     const onInput = (event: any) => {
@@ -163,7 +163,7 @@ export default defineComponent({
 
       if (firstUnderscoreIndex !== -1) {
         setTimeout(() => {
-          inputEvent.setSelectionRange(firstUnderscoreIndex, firstUnderscoreIndex);
+          inputEvent?.setSelectionRange(firstUnderscoreIndex, firstUnderscoreIndex);
         }, 1);
       }
     }
@@ -220,7 +220,7 @@ export default defineComponent({
       const masks = props.mask.split(':')
 
       let format = 'y/m/d'
-      let value = { y: '____', d: '__', m: '__' }
+      let value: Record<any, string> = { y: '____', d: '__', m: '__' }
 
       if (masks.length > 1) {
         let f = masks[1];
@@ -334,7 +334,7 @@ export default defineComponent({
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .input {
 
   &.disabled {
@@ -415,6 +415,12 @@ export default defineComponent({
     &.has-prefix {
       left: 40px;
     }
+  }
+}
+
+[data-bs-theme=dark] {
+  .date-input-placeholders {
+    background-color: #151f2c !important;
   }
 }
 </style>

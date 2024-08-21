@@ -127,4 +127,22 @@ pre {
         display: block;
     }
 }
+
+[data-bs-theme=dark] {
+    pre, .description {
+        background-color: #182433;
+        border-color: #1f2d3d;
+        color: #b1b1b1;
+    }
+
+    pre {
+        border: 1px #1f2d3d solid;
+    }
+
+    .copy-code {
+        &:hover {
+            color: #ccc;
+        }
+    }
+}
 </style>

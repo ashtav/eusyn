@@ -220,7 +220,7 @@ export default defineComponent({
       const masks = props.mask.split(':')
 
       let format = 'y/m/d'
-      let value = { y: '____', d: '__', m: '__' }
+      let value: Record<any, string> = { y: '____', d: '__', m: '__' }
 
       if (masks.length > 1) {
         let f = masks[1];
@@ -414,6 +414,21 @@ export default defineComponent({
 
     &.has-prefix {
       left: 40px;
+    }
+  }
+}
+
+[data-bs-theme=dark] {
+  .date-input-placeholders {
+    background-color: #151f2c;
+    color: #999;
+  }
+
+  .input {
+    &.disabled {
+      .date-input-placeholders {
+        background-color: #1b293a;
+      }
     }
   }
 }
