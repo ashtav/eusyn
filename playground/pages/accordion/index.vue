@@ -4,7 +4,10 @@
 
         <div class="row">
             <div class="col-7">
-                <Accordion :items="items" />
+                <Accordion :items="items" :open="[0]" />
+
+                <br>
+                <Code code='<Accordion :items="items" :open="[0]" />' />
             </div>
         </div>
 

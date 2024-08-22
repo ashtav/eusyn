@@ -1,82 +1,113 @@
 <template>
-    <div class="accordion" id="accordion-example">
+    <div class="accordion" ref="accordion">
         <div class="accordion-item" v-for="(item, i) in items" :key="i">
-            <h2 class="accordion-header" :id="'heading-' + i" @click="onExpand(i)">
-                <button :class="['accordion-button', { 'collapsed': !expanded.includes(i) }]" type="button"
-                    :aria-expanded="expanded.includes(i)">
+            <h2 class="accordion-header">
+                <button :class="['accordion-button', { collapsed: !isOpen(i) }]" type="button">
                     {{ item.label }}
                 </button>
             </h2>
-            <Transition name="accordion">
-                <div v-show="expanded.includes(i)" :id="'collapse-' + i" class="accordion-collapse">
-                    <div class="accordion-body pt-0">
-                        {{ item.content }}
-                    </div>
+            <div class="accordion-collapse">
+                <div class="accordion-body pt-0">
+                    {{ item.content }}
                 </div>
-            </Transition>
+            </div>
         </div>
     </div>
 </template>
 
-
 <script lang="ts">
-import { ref, type Ref } from 'vue';
+import { ref, onMounted, type Ref } from 'vue';
 
 export default {
-
     props: {
         items: {
-            type: Array<Accordion>,
-            default: []
+            type: Array as () => Array<{ label: string, content: string }>,
+            default: () => []
         },
 
         multiple: {
             type: Boolean,
             default: false
+        },
+
+        open: {
+            type: Array as () => number[],
+            default: () => []
         }
     },
 
     setup(props) {
-        const expanded: Ref<Array<number>> = ref([])
+        const accordion: Ref<HTMLDivElement | null> = ref(null);
 
-        const onExpand = (i: number) => {
-            if (props.multiple) {
-                if (expanded.value.includes(i)) {
-                    expanded.value = expanded.value.filter((e) => e != i)
-                    return
-                }
+        const isOpen = (index: number) => props.open.includes(index);
+        const isDefaultOpen = (index: number) => props.open.includes(index) && !props.open.includes(index);
 
-                expanded.value.push(i)
-            } else {
-                if (expanded.value.includes(i)) {
-                    return expanded.value = []
-                }
+        const handleClick = (header: Element, index: number) => {
+            const currentItem = header.parentElement as HTMLElement;
+            const content = currentItem.querySelector('.accordion-collapse') as HTMLElement;
+            const button = header.querySelector('button');
 
-                expanded.value = []
-                expanded.value.push(i)
-
+            if (!props.multiple) {
+                // Collapse all items if multiple is false
+                const items = accordion.value?.querySelectorAll('.accordion-item') || [];
+                items.forEach((item: Element) => {
+                    const otherButton = item.querySelector('button');
+                    const otherContent = item.querySelector('.accordion-collapse') as HTMLElement;
+                    if (item !== currentItem) {
+                        item.classList.remove('active');
+                        otherContent.style.maxHeight = null;
+                        otherButton?.classList.add('collapsed');
+                    }
+                });
             }
-        }
 
-        return { expanded, onExpand }
+            // Toggle current item
+            currentItem.classList.toggle('active');
+            if (currentItem.classList.contains('active')) {
+                content.style.maxHeight = content.scrollHeight + 'px';
+                button?.classList.remove('collapsed');
+            } else {
+                content.style.maxHeight = null;
+                button?.classList.add('collapsed');
+            }
+        };
+
+        onMounted(() => {
+            const els = accordion.value;
+
+            if (els) {
+                const headers = els.querySelectorAll('.accordion-header');
+                headers.forEach((header: Element, index: number) => {
+                    const button = header.querySelector('button');
+                    button?.addEventListener('click', () => handleClick(header, index));
+
+                    const currentItem = header.parentElement as HTMLElement;
+                    const content = currentItem.querySelector('.accordion-collapse') as HTMLElement;
+
+                    // Initialize open state based on props.open
+                    if (isOpen(index)) {
+                        currentItem.classList.add('active');
+                        content.style.transition = 'max-height 0s ease';
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        button?.classList.remove('collapsed');
+                    }
+
+                    setTimeout(() => {
+                        content.style.transition = 'max-height 0.2s ease';
+                    }, 0);
+                });
+            }
+        });
+
+        return { accordion, isOpen, isDefaultOpen };
     }
 }
 </script>
-
+  
 <style lang="scss" scoped>
-.accordion-enter-active, .accordion-leave-active {
-    transition: max-height 1.4s ease, padding 1.4s ease;
-}
-
-.accordion-enter, .accordion-leave-to {
+.accordion-collapse {
     max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    overflow: hidden;
-}
-
-.accordion-enter-active {
-    max-height: 500px; /* Sesuaikan dengan konten maksimum yang kamu harapkan */
     overflow: hidden;
 }
 </style>
+  

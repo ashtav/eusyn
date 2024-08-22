@@ -1,2 +1,2 @@
-export * from "D:/Development/Web/js/nuxt-packages/nuxt-tabler-ui/src/module";
-export { default } from "D:/Development/Web/js/nuxt-packages/nuxt-tabler-ui/src/module";
+export * from "/Users/ashta/Documents/Development/Personal/nuxt-tabler-ui/src/module";
+export { default } from "/Users/ashta/Documents/Development/Personal/nuxt-tabler-ui/src/module";

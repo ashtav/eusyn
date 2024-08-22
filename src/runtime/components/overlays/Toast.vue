@@ -22,7 +22,7 @@ import { onMounted, ref } from 'vue'
 import eventBus from '../../plugins/mitt'
 
 export default {
-  setup () {
+  setup() {
     const message: Ref<string | null> = ref(null)
     const icon: Ref<string | null> = ref(null)
     const progress: Ref<number> = ref(0)
@@ -133,92 +133,98 @@ export default {
 
 <style lang="scss" scoped>
 .nuxt-toast {
-    position: fixed;
-    z-index: 99999;
-    top: 20px;
-    right: 20px;
-    min-width: 280px;
-    max-width: 300px;
-    background: white;
-    box-shadow: 0 0.5rem 1rem rgba(var(--tblr-body-color-rgb), 0.15);
-    border-radius: 4px;
-    opacity: 0;
-    transition: 0.2s ease-in-out;
-    overflow: hidden;
-    pointer-events: none;
+  position: fixed;
+  z-index: 99999;
+  top: 20px;
+  right: 20px;
+  min-width: 280px;
+  max-width: 300px;
+  background: white;
+  box-shadow: 0 0.5rem 1rem rgba(var(--tblr-body-color-rgb), 0.15);
+  border-radius: 4px;
+  opacity: 0;
+  transition: 0.2s ease-in-out;
+  overflow: hidden;
+  pointer-events: none;
 
-    &.show {
-        opacity: 1;
-        pointer-events: all;
+  &.show {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  &.error {
+    background-color: #d63939;
+  }
+
+  &.warning {
+    background-color: #f76707;
+  }
+
+  &.success {
+    background-color: #2fb344;
+  }
+
+  &.error,
+  &.warning,
+  &.success {
+    color: white !important;
+
+    .ti-x {
+      color: white !important;
     }
 
-    &.error {
-        background-color: #d63939;
+    .progress {
+      background: white !important;
+    }
+  }
+
+  &.bounce {
+    transition: 0.1s ease-in-out;
+    transform: scale(1.05);
+  }
+
+  .nuxt-toast-content {
+    position: relative;
+    padding: 15px 20px;
+    max-height: 350px;
+    overflow: auto;
+
+    // hide scrollbar
+    &::-webkit-scrollbar {
+      width: 0px;
+      background: transparent;
     }
 
-    &.warning {
-        background-color: #f76707;
+    .progress {
+      position: absolute;
+      height: 1px;
+      background: #212121;
+      bottom: 0;
+      left: 0;
     }
 
-    &.success {
-        background-color: #2fb344;
+    .ti-x {
+      --tblr-icon-size: 1.08rem;
+      width: var(--tblr-icon-size);
+      height: var(--tblr-icon-size);
+      font-size: var(--tblr-icon-size);
+
+      margin-left: 15px;
+      margin-top: 3px;
+      color: #888;
+      transition: 0.2s;
+
+      &:hover {
+        color: #212121;
+        cursor: pointer;
+      }
     }
+  }
+}
 
-    &.error,
-    &.warning,
-    &.success {
-        color: white !important;
-
-        .ti-x {
-            color: white !important;
-        }
-
-        .progress {
-            background: white !important;
-        }
-    }
-
-    &.bounce {
-        transition: 0.1s ease-in-out;
-        transform: scale(1.05);
-    }
-
-    .nuxt-toast-content {
-        position: relative;
-        padding: 15px 20px;
-        max-height: 350px;
-        overflow: auto;
-
-        // hide scrollbar
-        &::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
-
-        .progress {
-            position: absolute;
-            height: 1px;
-            background: #212121;
-            bottom: 0;
-            left: 0;
-        }
-
-        .ti-x {
-            --tblr-icon-size: 1.08rem;
-            width: var(--tblr-icon-size);
-            height: var(--tblr-icon-size);
-            font-size: var(--tblr-icon-size);
-
-            margin-left: 15px;
-            margin-top: 3px;
-            color: #888;
-            transition: 0.2s;
-
-            &:hover {
-                color: #212121;
-                cursor: pointer;
-            }
-        }
-    }
+[data-bs-theme=dark] {
+  .nuxt-toast {
+    box-shadow: 0 0.5rem 1rem darken($color: #1f2d3d, $amount: 5%);
+  }
 }
 </style>

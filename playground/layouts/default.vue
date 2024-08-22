@@ -74,6 +74,7 @@ export default {
             { label: 'Shimmer', to: '/shimmer', icon: 'wash-dry-shade' },
             { label: 'Dropdown', to: '/dropdown', icon: 'align-justified' },
             { label: 'Table', to: '/table', icon: 'table' },
+            { label: 'Page Header', to: 'page-header', icon: 'layout-navbar' },
             { label: 'Modal, Toast & Confirm', to: '/modal-toast-confirm', icon: 'square-chevron-up' },
           ]
         },
@@ -83,6 +84,7 @@ export default {
           features: [
             { label: 'Faker Generator', to: '/plugins/faker', icon: 'writing' },
             { label: 'Image Utilities', to: '/plugins/image', icon: 'layout-collage' },
+            { label: 'Themes', to: '/plugins', icon: 'palette' },
             { label: 'Utilities', to: '/plugins', icon: 'category' },
           ]
         }
