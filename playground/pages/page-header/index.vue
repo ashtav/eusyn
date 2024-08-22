@@ -1,6 +1,6 @@
 <template>
     <div>
-        <PageHeader title="Page Header" :actions="actions" />
+        <PageHeader title="Page Header" :actions="actions" @click="onRefresh" />
 
         <div class="row">
             <div class="col-7">
@@ -20,8 +20,20 @@ export default {
     data() {
         return {
             actions: [
-                { label: 'Create New', icon: 'ti-plus' }
+                { icon: 'settings', theme: 'white', submit: false },
+                { label: 'Create New', icon: 'plus', click: this.createNew },
             ]
+        }
+    },
+
+    methods: {
+        onRefresh() {
+            this.$toast.show('Page has been refreshed!')
+        },
+
+        createNew() {
+            this.$toast.show('Create new data!')
+            this.actions[0].submit = true
         }
     }
 }

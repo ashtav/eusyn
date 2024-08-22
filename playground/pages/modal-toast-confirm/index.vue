@@ -105,7 +105,7 @@ export default {
     },
 
     showToast() {
-      this.$toast.error('500 - Server error!')
+      this.$toast.error('500 - Server error!', { pos: 'bottom-right' });
     },
 
     showConfirm() {
