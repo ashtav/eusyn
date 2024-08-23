@@ -1,6 +1,6 @@
 <template>
     <div class="code">
-        <pre :class="{ 'has-desc': description }">
+        <pre :class="{ 'has-desc': description }" ref="pre">
 <code v-html="highlightedCode"></code></pre>
         <div class="description" v-if="description">
             {{ description }}
@@ -25,31 +25,88 @@ export default defineComponent({
         description: {
             type: String,
             default: null
+        },
+
+        lang: {
+            type: String,
+            default: 'js'
         }
     },
 
     setup(props) {
-        const copied = ref(false);
+        const keywords = [
+            "this",
+            "const",
+            "let",
+            "var",
+            "function",
+            "return",
+            "if",
+            "else",
+            "for",
+            "while",
+            "switch",
+            "case",
+            "break",
+            "continue"
+        ];
 
-        const escapeHtml = (code: string) => {
-            return code
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
-        };
+        const pre: Ref<HTMLElement | null> = ref(null)
+        const copied = ref(false);
 
         const highlightCode = (code: string) => {
             if (!code) {
                 return '';
             }
 
-            const escapedCode = escapeHtml(code);
+            const isComponent = code.charAt(0) == '<'
 
-            // Contoh highlighting sederhana
-            const keywords = /(\bfunction\b|\bconst\b|\blet\b|\bvar\b|\breturn\b)/g;
-            const highlighted = escapedCode.replace(keywords, '<span class="keyword">$1</span>');
-            return highlighted;
+
+            let highlighted = code
+            highlighted = highlighted.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+            const jsHighlighted = () => {
+                // Highlight strings
+                highlighted = highlighted.replace(/(["'`])(?:\\.|(?!\1)[^\\])*?\1/g, `<span class="string">$&</span>`);
+
+                // Highlight numbers, excluding those in strings
+                highlighted = highlighted.replace(/(?<!["'`])\b\d+\b(?!["'`])/g, (match) => {
+                    // Check if the match is surrounded by '-' indicating it's part of a date
+                    if (highlighted.match(/['"][^'"]*[-]\d+[-][^'"]*['"]/)) {
+                        return match; // Return match as is if it's part of a date
+                    }
+                    return `<span class="number">${match}</span>`;
+                });
+
+                // Highlight 'this' keyword
+                highlighted = highlighted.replace(/\bthis\b/g, `<span class="this-keyword">$&</span>`);
+
+                // Highlight keywords
+                keywords.forEach(keyword => {
+                    const regex = new RegExp(`(^|\\s|\\()${keyword}($|\\s|\\))`, "g");
+                    highlighted = highlighted.replace(regex, `$1<span class="keyword">${keyword}</span>$2`);
+                });
+
+                // Highlight function names
+                highlighted = highlighted.replace(/(\b\w+)(?=\()/g, `<span class="function-name">$1</span>`);
+
+            }
+
+            if (isComponent) {
+                highlighted = code.replace(/(\w+)="([^"]*)"/g, (match, p1, p2) => {
+                    return `<span class="attr">${p1}</span>="<span class="string">${p2}</span>"`;
+                });
+
+
+                highlighted = highlighted.replace(/<(\w+)([^>]*)>/, '&lt;<span class="tag-component">$1</span>$2>');
+
+            }
+
+            else {
+                jsHighlighted()
+            }
+
+            return highlighted
         };
 
         const highlightedCode = computed(() => highlightCode(props.code));
@@ -72,13 +129,13 @@ export default defineComponent({
         };
 
         return {
-            highlightedCode, copied, doCopy
+            pre, highlightedCode, copied, doCopy
         };
     },
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .code {
     position: relative;
 
@@ -95,7 +152,7 @@ export default defineComponent({
     }
 
     .description {
-        border: 1px #ddd solid;
+        border: 1px #e9e9e9 solid;
         padding: 13px 15px;
         border-radius: 0 0 5px 5px;
         position: relative;
@@ -107,7 +164,7 @@ export default defineComponent({
 }
 
 pre {
-    background-color: #ddd;
+    background-color: #e9e9e9;
     color: #666;
     padding: 15px !important;
     margin: 0 !important;
@@ -125,11 +182,37 @@ pre {
         padding-right: 25px !important;
         margin: 0 !important;
         display: block;
+
+        .tag-component {
+            color: #4ebc7d;
+        }
+
+        .attr {
+            color: #69aadb;
+        }
+
+        .keyword {
+            color: #0077aa;
+        }
+
+        .function-name {
+            color: #dd4a68;
+        }
+
+        .string {
+            color: #669900;
+        }
+
+        .number {
+            color: #a60055;
+        }
     }
 }
 
 [data-bs-theme=dark] {
-    pre, .description {
+
+    pre,
+    .description {
         background-color: #182433;
         border-color: #1f2d3d;
         color: #b1b1b1;

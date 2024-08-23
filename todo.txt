@@ -1,0 +1,15 @@
+
+    # todo
+
+    1. text editor
+    2. input mask - validate date
+    3. input mask - time
+    4. input mask - date time
+    5. table
+    6. form validation utility
+    7. avatar component
+    8. card
+    9. basic chart (bar, line, pie, donut)
+    10. progress (bar, circle)
+    11. page loader
+    12. for more, check https://tabler.io/preview select interface menu

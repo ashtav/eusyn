@@ -23,8 +23,7 @@
                         { icon: 'ti-archive', disabled: true }
                     ]" required @suffix="onSuffix" />
 
-                <Code class="mb-5"
-                description="suffixs value is Object, ex: { icon: 'ti-send', disabled: false }"
+                <Code class="mb-5" description="suffixs value is Object, ex: { icon: 'ti-send', disabled: false }"
                     code='<Input label="Email Address" hint="Enter your email address" prefix="ti-mail" v-model="forms.email" :suffixs="[{}]" required @suffix="onSuffix" /> ' />
 
                 <Input label="Password" hint="Enter your password" prefix="ti-lock" required password @enter="onEnter"
