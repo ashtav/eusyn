@@ -7,7 +7,6 @@
     4. input mask - date time
     5. table
     6. form validation utility
-    7. avatar component
     8. card
     9. basic chart (bar, line, pie, donut)
     10. progress (bar, circle)

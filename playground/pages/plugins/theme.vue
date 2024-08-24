@@ -15,13 +15,19 @@
                 <Code class="mb-2" code='$ntx.theme.set("dark")'
                     description="Forces the app theme to dark mode, regardless of the system's theme preference." />
 
-                <Code code='$ntx.theme.set("light")'
+                <Code class="mb-5" code='$ntx.theme.set("light")'
                     description="Forces the app theme to light mode, regardless of the system's theme preference." />
 
-
-                <Theme :active="on">
-                    <Switch @change="on = !on" caption="OFF|ON" />
+                <Theme v-slot="{ theme }">
+                    <Switch @change="theme()" caption="Animation Theme" />
                 </Theme>
+
+                <ClientOnly>
+                    <Code class="mb-5" code='<Theme v-slot="{ theme }">
+    <Switch @change="theme" caption="Animation Theme" />
+</Theme>'/>
+                    </ClientOnly>
+
 
             </div>
         </div>
@@ -37,7 +43,7 @@ export default {
 
     data() {
         return {
-            on: false
+
         }
     },
 }

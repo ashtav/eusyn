@@ -69,13 +69,21 @@ export default {
           label: 'Elements',
           features: [
             { label: 'Accordion', to: '/accordion', icon: 'layout-navbar-expand' },
-            { label: 'Cropper', to: '/cropper', icon: 'crop' },
-            { label: 'Image Viewer', to: '/image-viewer', icon: 'photo' },
+            { label: 'Avatar', to: '/elements/avatar', icon: 'user-circle' },
+            { label: 'Cards', to: '/elements/card', icon: 'id' },
             { label: 'Shimmer', to: '/shimmer', icon: 'wash-dry-shade' },
             { label: 'Dropdown', to: '/dropdown', icon: 'align-justified' },
             { label: 'Table', to: '/table', icon: 'table' },
             { label: 'Page Header', to: '/page-header', icon: 'layout-navbar' },
             { label: 'Modal, Toast & Confirm', to: '/modal-toast-confirm', icon: 'square-chevron-up' },
+          ]
+        },
+
+        {
+          label: 'Media Utilities',
+          features: [
+            { label: 'Cropper', to: '/cropper', icon: 'crop' },
+            { label: 'Image Viewer', to: '/image-viewer', icon: 'photo' },
           ]
         },
 
