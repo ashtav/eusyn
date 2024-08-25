@@ -82,8 +82,9 @@ export default {
         {
           label: 'Media Utilities',
           features: [
-            { label: 'Cropper', to: '/cropper', icon: 'crop' },
-            { label: 'Image Viewer', to: '/image-viewer', icon: 'photo' },
+            { label: 'Carousel', to: '/media/carousel', icon: 'carousel-horizontal' },
+            { label: 'Cropper', to: '/media/cropper', icon: 'crop' },
+            { label: 'Image Viewer', to: '/media/image-viewer', icon: 'photo' },
           ]
         },
 
