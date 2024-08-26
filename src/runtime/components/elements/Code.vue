@@ -1,7 +1,6 @@
 <template>
     <div class="code">
-        <pre v-if="code"><code ref="codeElement" :class="`language-${language}`">{{ code }}</code></pre>
-        <pre v-else><code ref="codeElement" :class="`language-${language}`"> <slot /> </code></pre>
+        <pre><code ref="codeElement" :class="`language-${language}`">{{ code }}</code></pre>
 
         <div class="description" v-if="description">
             {{ description }}

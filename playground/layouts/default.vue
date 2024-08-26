@@ -1,43 +1,48 @@
 <template>
   <div class="page">
-    <div>
-      <!-- toggle -->
-      <div :class="['app-navbar', { 'show': showFeature }]">
-        <div :class="['toggle']" @click="showFeature = !showFeature">
-          <Ti :icon="showFeature ? 'arrow-left' : 'category'" />
+
+    <PageLoader v-if="!mounted" />
+
+    <div v-else>
+      <div>
+        <!-- toggle -->
+        <div :class="['app-navbar', { 'show': showFeature }]">
+          <div :class="['toggle']" @click="showFeature = !showFeature">
+            <Ti :icon="showFeature ? 'arrow-left' : 'category'" />
+          </div>
+
+          <div :class="['toggle']" @click="$ntx.theme.set()">
+            <Ti :icon="$ntx.theme.get.value != 'dark' ? 'sun' : 'moon'" />
+          </div>
         </div>
 
-        <div :class="['toggle']" @click="$ntx.theme.set()">
-          <Ti :icon="$ntx.theme.get.value != 'dark' ? 'sun' : 'moon'" />
+        <!-- features -->
+        <div class="features" :class="{ 'show': showFeature }">
+
+          <div class="logo">
+            <img src="https://t4.ftcdn.net/jpg/04/18/46/85/360_F_418468557_n9ik8bBHAFZD339wdKOzc0XqeJFFAMSn.jpg">
+            <h2>NTX.</h2>
+          </div>
+
+          <ul>
+            <li v-for="x in features">
+              <span> {{ x.label }} </span>
+              <ul>
+                <li v-for="y in x.features" :class="{ 'active': y.to == active }">
+                  <NuxtLink :to="y.to">
+                    <Ti :icon="y.icon" class="me-1" />
+                    {{ y.label }}
+                  </NuxtLink>
+                </li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
 
-      <!-- features -->
-      <div class="features" :class="{ 'show': showFeature }">
-
-        <div class="logo">
-          <img src="https://t4.ftcdn.net/jpg/04/18/46/85/360_F_418468557_n9ik8bBHAFZD339wdKOzc0XqeJFFAMSn.jpg">
-          <h2>NTX.</h2>
-        </div>
-
-        <ul>
-          <li v-for="x in features">
-            <span> {{ x.label }} </span>
-            <ul>
-              <li v-for="y in x.features" :class="{ 'active': y.to == active }">
-                <NuxtLink :to="y.to">
-                  <Ti :icon="y.icon" class="me-1" />
-                  {{ y.label }}
-                </NuxtLink>
-              </li>
-            </ul>
-          </li>
-        </ul>
+      <div class="page-body" :class="{ 'expanded': showFeature }">
+        <slot />
       </div>
-    </div>
-
-    <div class="page-body" :class="{ 'expanded': showFeature }">
-      <slot />
     </div>
   </div>
 </template>
@@ -101,7 +106,8 @@ export default {
 
       showFeature: true,
       active: '/',
-      darkTheme: true
+      darkTheme: true,
+      mounted: false
     }
   },
 
@@ -112,6 +118,7 @@ export default {
   mounted() {
     this.$ntx.theme.set('system')
     this.active = this.$route.path
+    this.mounted = true
   },
 
   watch: {

@@ -2,9 +2,13 @@
     <div class="carousel" ref="carousel">
         <div class="carousel-track-container">
             <ul class="carousel-track" ref="track">
-                <li v-for="(image, i) in images" :class="['carousel-slide', { 'current-slide': i == currentIndex }]">
-                    <img :src="image" alt="" :height="height">
-                </li>
+                <slot>
+                    <li v-for="(image, i) in images" :key="i"
+                        :class="['carousel-slide', { 'current-slide': i == currentIndex }]" v-if="images">
+                        <img :src="image" alt="" :height="height" draggable="false" onmousedown="return false"
+                            style="pointer-events: none;">
+                    </li>
+                </slot>
             </ul>
 
             <ul class="dots">
@@ -14,30 +18,31 @@
         </div>
 
         <!-- controls -->
-        <button class="carousel-button carousel-button--left" ref="prevButton">
-            <Ti icon="chevron-left" />
-        </button>
-        <button class="carousel-button carousel-button--right" ref="nextButton">
-            <Ti icon="chevron-right" />
+        <button v-for="(btn, i) in ['left', 'right']" :class="['carousel-button', btn]"
+            :ref="['prevButton', 'nextButton'][i]">
+            <Ti :icon="(config.arrows ?? []).length == 2 ? config.arrows[i] : `chevron-${btn}`" />
         </button>
     </div>
 </template>
 
-
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted, onUnmounted, type PropType } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted, ref, type PropType } from 'vue';
 
 interface CarouselConfig {
     autoPlay?: boolean,
     autoPlayInterval?: number, // milliseconds
-    maxDots?: number
+    maxDots?: number,
+    draggable?: boolean,
+    infinite?: boolean,
+    slideToShow?: number,
+    arrows?: Array<string>
 }
 
 export default defineComponent({
     props: {
         images: {
             type: Array<string>,
-            required: true
+            default: () => []
         },
 
         initIndex: {
@@ -52,15 +57,19 @@ export default defineComponent({
 
         config: {
             type: Object as PropType<CarouselConfig>,
-            default: {
+            default: () => ({
                 autoPlay: false,
                 autoPlayInterval: 3000,
-                maxDots: 7
-            }
+                maxDots: 7,
+                draggable: false,
+                infinite: true,
+                slideToShow: 1,
+                arrows: ['chevron-left', 'chevron-right']
+            })
         }
     },
 
-    setup(props) {
+    setup(props, { slots }) {
         const carousel = ref<HTMLElement | null>(null);
         const track = ref<HTMLElement | null>(null);
         const prevButton = ref<HTMLButtonElement | null>(null);
@@ -68,72 +77,6 @@ export default defineComponent({
         const currentIndex = ref(props.initIndex);
 
         let autoplayInterval: NodeJS.Timeout | undefined;
-        let isDragging = false;
-        let startPos = 0;
-        let currentTranslate = 0;
-        let prevTranslate = 0;
-        let animationID: number | null = null;
-
-        const handleDragStart = (e: MouseEvent) => {
-            isDragging = true;
-            startPos = e.clientX;
-            track.value!.style.transition = 'none';
-            animationID = requestAnimationFrame(animation);
-        };
-
-        const handleDragging = (e: MouseEvent) => {
-            if (!isDragging) return;
-            const currentPosition = e.clientX;
-            currentTranslate = prevTranslate + currentPosition - startPos;
-
-            const slides = Array.from(track.value?.children ?? []) as HTMLLIElement[];
-            const slideWidth = slides[0].offsetWidth;
-
-            // Hitung batas pergeseran maksimum
-            const maxTranslate = -Math.min(currentIndex.value + 1, slides.length - 1) * slideWidth;
-
-            // Pastikan currentTranslate tidak melebihi batas maksimum dan minimum
-            currentTranslate = Math.max(currentTranslate, maxTranslate); // Batas minimum
-            currentTranslate = Math.min(currentTranslate, 0); // Batas maksimum (tidak boleh lebih dari 0)
-        };
-
-
-        const handleDragEnd = () => {
-            isDragging = false;
-            cancelAnimationFrame(animationID!);
-
-            const slides = Array.from(track.value?.children ?? []) as HTMLLIElement[];
-            const slideWidth = slides[0].offsetWidth;
-            const movedBy = currentTranslate - prevTranslate;
-
-            // Determine the next index based on drag distance
-            let nextIndex = currentIndex.value;
-
-            if (movedBy < -slideWidth / 3 && currentIndex.value < slides.length - 1) {
-                nextIndex = currentIndex.value + 1;
-            } else if (movedBy > slideWidth / 3 && currentIndex.value > 0) {
-                nextIndex = currentIndex.value - 1;
-            }
-
-            // Snap back to the closest slide
-            moveToSlide(nextIndex);
-
-            // Ensure the previous translation is correctly set after snapping back
-            prevTranslate = -nextIndex * slideWidth;
-
-            // Reset currentTranslate to the snapped position
-            currentTranslate = prevTranslate;
-        };
-
-
-        const animation = () => {
-            if (track.value) {
-                track.value.style.transform = `translateX(${currentTranslate}px)`;
-                if (isDragging) {
-                    requestAnimationFrame(animation);
-                }
-            }
-        };
 
         const startAutoplay = () => {
             if (props.config?.autoPlay) {
@@ -155,7 +98,7 @@ export default defineComponent({
             if (track.value) {
                 const slides = Array.from(track.value.children) as HTMLLIElement[];
                 const amountToMove = -slides[index].offsetLeft;
-                track.value.style.transition = animate ? 'transform 0.5s ease-in-out' : ''
+                track.value.style.transition = animate ? 'transform 0.5s ease-in-out' : '';
                 track.value.style.transform = `translateX(${amountToMove}px)`;
                 currentIndex.value = index;
             }
@@ -164,7 +107,7 @@ export default defineComponent({
         const displayedDots = computed(() => {
             const maxDots = props.config?.maxDots ?? 7;
 
-            const totalDots = props.images.length;
+            const totalDots = track.value?.children.length || 0;
             const half = Math.floor(maxDots / 2);
             let start = Math.max(currentIndex.value - half, 0);
             let end = Math.min(start + maxDots, totalDots);
@@ -185,41 +128,58 @@ export default defineComponent({
             };
         };
 
+        const initControls = () => {
+
+            const buttonStatus = (infinite: boolean, slides: Array<any>) => {
+                if (!infinite) {
+                    if (currentIndex.value === 0) {
+                        prevButton.value[0].classList.add('disabled');
+                    } else {
+                        prevButton.value[0].classList.remove('disabled');
+                    }
+
+                    if (currentIndex.value === slides.length - 1) {
+                        nextButton.value[0].classList.add('disabled');
+                    } else {
+                        nextButton.value[0].classList.remove('disabled');
+                    }
+                }
+            }
+
+            [nextButton.value[0], prevButton.value[0]].forEach((e: HTMLButtonElement, i: number) => {
+                if (e) {
+                    const slides = Array.from(track.value?.children ?? []) as HTMLLIElement[];
+                    const infinite = props.config?.infinite ?? true
+
+                    e.addEventListener('click', () => {
+
+                        const nextIndex = currentIndex.value === slides.length - 1
+                            ? (infinite ? 0 : slides.length - 1)
+                            : currentIndex.value + 1;
+
+                        const prevIndex = currentIndex.value === 0
+                            ? (infinite ? slides.length - 1 : 0)
+                            : currentIndex.value - 1;
+
+
+                        const index = i == 0 ? nextIndex : prevIndex
+                        moveToSlide(index);
+                        buttonStatus(infinite, slides)
+                    })
+
+                    buttonStatus(infinite, slides)
+                }
+            })
+        }
+
         onMounted(() => {
             moveToSlide(currentIndex.value, false)
-            startAutoplay();
-
-            if (track.value) {
-                track.value.addEventListener('mousedown', handleDragStart);
-                window.addEventListener('mousemove', handleDragging);
-                window.addEventListener('mouseup', handleDragEnd);
-            }
-
-            if (nextButton.value) {
-                nextButton.value.addEventListener('click', () => {
-                    const slides = Array.from(track.value?.children ?? []) as HTMLLIElement[];
-                    const nextIndex = currentIndex.value === slides.length - 1 ? 0 : currentIndex.value + 1;
-                    moveToSlide(nextIndex);
-                });
-            }
-
-            if (prevButton.value) {
-                prevButton.value.addEventListener('click', () => {
-                    const slides = Array.from(track.value?.children ?? []) as HTMLLIElement[];
-                    const prevIndex = currentIndex.value === 0 ? slides.length - 1 : currentIndex.value - 1;
-                    moveToSlide(prevIndex);
-                });
-            }
+            startAutoplay()
+            initControls()
         });
 
         onUnmounted(() => {
             stopAutoplay();
-
-            if (track.value) {
-                track.value.removeEventListener('mousedown', handleDragStart);
-                window.removeEventListener('mousemove', handleDragging);
-                window.removeEventListener('mouseup', handleDragEnd);
-            }
         });
 
         return {
@@ -236,12 +196,14 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+
+<style lang="scss">
 .carousel {
     position: relative;
     width: 100%;
     overflow: hidden;
     margin: 0 auto;
+    user-select: none;
 
     ul {
         list-style: none;
@@ -272,32 +234,33 @@ export default defineComponent({
             }
         }
     }
-}
 
-.carousel-track-container {
-    overflow: hidden;
-    width: 100%;
-    background-color: #182433;
-}
+    .carousel-track-container {
+        overflow: hidden;
+        width: 100%;
+        background-color: #182433;
 
-.carousel-track {
-    display: flex;
-    width: 100%;
-    padding: 0;
-}
+        .carousel-track {
+            display: flex;
+            width: 100%;
+            padding: 0;
 
-.carousel-slide {
-    min-width: 100%;
-    list-style: none;
-    cursor: pointer;
-}
+            .carousel-slide {
+                min-width: 100%;
+                list-style: none;
+                cursor: pointer;
 
-.carousel-slide img {
-    width: 100%;
-    display: block;
-    object-fit: cover;
-    user-select: none;
-    pointer-events: none;
+                img {
+                    width: 100%;
+                    display: block;
+                    object-fit: cover;
+                    user-select: none !important;
+                    -webkit-user-drag: none !important;
+                    pointer-events: none !important;
+                }
+            }
+        }
+    }
 }
 
 .carousel-button {
@@ -309,13 +272,18 @@ export default defineComponent({
     color: white;
     padding: 10px;
     cursor: pointer;
-}
+    transition: .2s;
 
-.carousel-button--left {
-    left: 10px;
-}
+    &.disabled {
+        opacity: 0 !important;
+    }
 
-.carousel-button--right {
-    right: 10px;
+    &.left {
+        left: 10px;
+    }
+
+    &.right {
+        right: 10px;
+    }
 }
 </style>

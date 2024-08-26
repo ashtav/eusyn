@@ -5,8 +5,31 @@
         <div class="row">
             <div class="col-lg-6">
                 <Carousel :images="images" height="300" class="rounded" :config="{ autoPlay: false }" />
+                <Code class="mt-3 mb-1" code='<Carousel :images="images" height="300" />' />
 
-                <Code class="mt-3 mb-5" code='<Carousel :images="images" height="300" />' />
+                <ClientOnly>
+                    <Code class="mt-3 mb-5" code='<Carousel class="rounded border" :config="{ infinite: false }">
+    <template v-slot>
+        <li v-for="i in 5" :key="i" class="carousel-slide">
+            <div class="custom-slide"> {{ i }} </div>
+        </li>
+    </template>
+</Carousel>' />
+
+                </ClientOnly>
+            </div>
+            <div class="col-lg-4">
+                <Carousel class="rounded border" :config="{ infinite: false, arrows: ['arrow-left', 'arrow-right'] }">
+                    <template v-slot>
+                        <li v-for="i in 5" :key="i" class="carousel-slide">
+                            <div class="custom-slide">
+                                {{ i }}
+                            </div>
+                        </li>
+                    </template>
+                </Carousel>
+
+
             </div>
         </div>
     </div>
@@ -39,4 +62,20 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" >
+.border {
+    border: 1px #2e3f52 solid !important;
+
+    .carousel-button {
+        background: rgba(0, 0, 0, 0.0) !important;
+    }
+}
+
+.custom-slide {
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+}
+</style>
