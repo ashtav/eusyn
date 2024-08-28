@@ -38,398 +38,304 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, getCurrentInstance, onMounted, ref, watch } from 'vue';
-import { utils } from '../../plugins/utils';
-import { formatting, handleKeyPress } from '../../scripts/input';
-
+<script>
+import { defineComponent, getCurrentInstance, onMounted, ref, watch } from "vue";
+import { utils } from "../../plugins/utils";
+import { formatting, handleKeyPress } from "../../scripts/input";
 export default defineComponent({
   inheritAttrs: false,
-  emits: ['update:modelValue', 'enter', 'blur', 'focus', 'suffix'],
+  emits: ["update:modelValue", "enter", "blur", "focus", "suffix"],
   props: {
     modelValue: {
-      default: '',
+      default: "",
       type: String
     },
-
     label: {
       type: String,
       default: null
     },
-
     hint: {
       type: String,
       default: null
     },
-
     type: {
       type: String,
-      default: 'text'
+      default: "text"
     },
-
     disabled: {
       type: Boolean,
       default: false
     },
-
     readonly: {
       type: Boolean,
       default: false
     },
-
     required: {
       type: Boolean,
       default: false
     },
-
     autofocus: {
       type: Boolean,
       default: false
     },
-
     maxLength: {
       type: Number,
       default: 255
     },
-
     prefix: {
       type: String,
       default: null
     },
-
     suffixs: {
-      type: Array<any>,
+      type: Array,
       default: () => []
     },
-
     password: {
       type: Boolean,
       default: false
     },
-
     minDate: {
       type: String,
       default: null
     },
-
     maxDate: {
       type: String,
       default: null
     },
-
     formatters: {
       type: String,
-      default: '' // "ucwords|ucfirst|lower|upper|trim|numeric|currency|alpha|alphanumeric|date|address|hashtag|decimal"
+      default: ""
+      // "ucwords|ucfirst|lower|upper|trim|numeric|currency|alpha|alphanumeric|date|address|hashtag|decimal"
     },
-
     nospace: {
       type: Boolean,
       default: false
     },
-
     mask: {
       type: String,
-      default: null // "date:y/m/d"
+      default: null
+      // "date:y/m/d"
     }
   },
-
   setup(props, { emit }) {
-    const getType = (): string => {
-      return ['range'].includes(props.type) ? 'text' : props.type
-    }
-
-    const instance = getCurrentInstance()
-
-    const localValue = ref(props.modelValue)
-    const inputType = ref(getType())
-    const inputSuffixs = ref(props.suffixs)
-    const obsecure = ref(true)
-
-    let inputEvent: HTMLInputElement = null
-
-    // methods
-    const onInput = (event: any) => {
-      localValue.value = event.target.value
-    }
-
+    const getType = () => {
+      return ["range"].includes(props.type) ? "text" : props.type;
+    };
+    const instance = getCurrentInstance();
+    const localValue = ref(props.modelValue);
+    const inputType = ref(getType());
+    const inputSuffixs = ref(props.suffixs);
+    const obsecure = ref(true);
+    let inputEvent = null;
+    const onInput = (event) => {
+      localValue.value = event.target.value;
+    };
     const moveCursor = () => {
-      let value = localValue.value.split('/')
-
-      // Flatten the array and join it into a single string
-      let joinedValue = value.join('/');
-
-      // Find the index of the first '_'
-      let firstUnderscoreIndex = joinedValue.indexOf('_');
-
+      let value = localValue.value.split("/");
+      let joinedValue = value.join("/");
+      let firstUnderscoreIndex = joinedValue.indexOf("_");
       if (firstUnderscoreIndex !== -1) {
         setTimeout(() => {
           inputEvent.setSelectionRange(firstUnderscoreIndex, firstUnderscoreIndex);
         }, 1);
       }
-    }
-
-    const onMouseDown = (event: any) => {
-      if (props.mask && props.mask.split(':')[0] == 'date') {
-        moveCursor()
+    };
+    const onMouseDown = (event) => {
+      if (props.mask && props.mask.split(":")[0] == "date") {
+        moveCursor();
       }
-    }
-
-    const onFocus = (event: any) => {
-      inputEvent = event.target as HTMLInputElement;
-      emit('focus', event)
-
+    };
+    const onFocus = (event) => {
+      inputEvent = event.target;
+      emit("focus", event);
       if (props.mask) {
-        moveCursor()
+        moveCursor();
       }
-    }
-
-    const onSuffix = (data: any) => {
+    };
+    const onSuffix = (data) => {
       if (data?._toggle) {
-        const index = inputSuffixs.value.findIndex((e: any) => e._toggle)
-        obsecure.value = !obsecure.value
-
-        inputSuffixs.value[index] = { icon: obsecure.value ? 'ti-eye' : 'ti-eye-off', _toggle: true }
+        const index = inputSuffixs.value.findIndex((e) => e._toggle);
+        obsecure.value = !obsecure.value;
+        inputSuffixs.value[index] = { icon: obsecure.value ? "ti-eye" : "ti-eye-off", _toggle: true };
       }
-
-      emit('suffix', data)
-    }
-
-    const checkPassword = (value: Boolean) => {
-      const suffixs = inputSuffixs.value
-      inputType.value = value ? 'password' : props.type
-
+      emit("suffix", data);
+    };
+    const checkPassword = (value) => {
+      const suffixs = inputSuffixs.value;
+      inputType.value = value ? "password" : props.type;
       if (value) {
-        const index = suffixs.findIndex((e) => e._toggle)
+        const index = suffixs.findIndex((e) => e._toggle);
         if (index == -1) {
           inputSuffixs.value.push({
-            icon: 'ti-eye', _toggle: true
-          })
+            icon: "ti-eye",
+            _toggle: true
+          });
         }
-        return
+        return;
       }
-
-      // do remove
-      inputSuffixs.value = suffixs.filter((e: any) => !e._toggle)
-    }
-
-    const onKeyPress = (event: any) => {
-      handleKeyPress(instance, emit, props, event, localValue.value, props.formatters.split('|'))
-    }
-
+      inputSuffixs.value = suffixs.filter((e) => !e._toggle);
+    };
+    const onKeyPress = (event) => {
+      handleKeyPress(instance, emit, props, event, localValue.value, props.formatters.split("|"));
+    };
     const getDateMaskFormat = () => {
-      const masks = props.mask.split(':')
-
-      let format = 'y/m/d'
-      let value: Record<any, string> = { y: '____', d: '__', m: '__' }
-
+      const masks = props.mask.split(":");
+      let format = "y/m/d";
+      let value = { y: "____", d: "__", m: "__" };
       if (masks.length > 1) {
         let f = masks[1];
-        const hasD = f.includes('d');
-        const hasM = f.includes('m');
-        const hasY = f.includes('y');
-
+        const hasD = f.includes("d");
+        const hasM = f.includes("m");
+        const hasY = f.includes("y");
         if (hasD && hasM && hasY) {
-          format = masks[1]
+          format = masks[1];
         }
       }
-
-      return format.split('/').map((e) => value[e]).join('/')
-    }
-
-    // handle mask input
+      return format.split("/").map((e) => value[e]).join("/");
+    };
     const onMask = () => {
       if (props.mask) {
-        const masks = props.mask.split(':')
-
-        if (masks[0] == 'date') {
-          localValue.value = getDateMaskFormat()
+        const masks = props.mask.split(":");
+        if (masks[0] == "date") {
+          localValue.value = getDateMaskFormat();
         }
       }
-    }
-
-    // watch input type
+    };
     watch(() => props.type, () => {
-      inputType.value = getType()
-    })
-
-    // watch input password
+      inputType.value = getType();
+    });
     watch(() => props.password, (value) => {
-      checkPassword(value)
-    })
-
-    // watch suffix icons
+      checkPassword(value);
+    });
     watch(() => props.suffixs, (value) => {
-      inputSuffixs.value = value
-      checkPassword(props.password)
-    }, { immediate: true })
-
-    // watch v-model
+      inputSuffixs.value = value;
+      checkPassword(props.password);
+    }, { immediate: true });
     watch(() => props.modelValue, (value) => {
-      localValue.value = value
-    })
-
-    // watch obsecure value
+      localValue.value = value;
+    });
     watch(() => obsecure.value, (value) => {
-      inputType.value = value ? 'password' : 'text'
-    })
-
-    // watch local value
+      inputType.value = value ? "password" : "text";
+    });
     watch(() => localValue.value, (value) => {
       if (props.mask) {
-        let values = getDateMaskFormat().split('');
-
-        // Assuming utils.numeric(value) extracts only the digits from the input value
+        let values = getDateMaskFormat().split("");
         let number = utils.numeric(value);
-
-        // Track the position in the numeric input
         let numIndex = 0;
         let cursorPosition = number.length;
-
         for (let i = 0; i < cursorPosition; i++) {
-          if (values[i] === '/') {
+          if (values[i] === "/") {
             cursorPosition++;
           }
         }
-
-        // Replace placeholders in the mask with user input, skipping over '/'
         for (let i = 0; i < values.length && numIndex < number.length; i++) {
-          if (values[i] === '_') {
+          if (values[i] === "_") {
             values[i] = number[numIndex];
             numIndex++;
           }
         }
-
-        localValue.value = values.join('')
-
+        localValue.value = values.join("");
         setTimeout(() => {
           inputEvent?.setSelectionRange(cursorPosition, cursorPosition);
         }, 5);
-
-        if (!values.includes('_')) {
-          emit('update:modelValue', localValue.value)
+        if (!values.includes("_")) {
+          emit("update:modelValue", localValue.value);
         }
-
-        return
+        return;
       }
-
-      formatting(props.formatters.split('|'), emit, value, props.type, (value: string) => {
-        emit('update:modelValue', value) // this will trigger `watch(() => props.modelValue`
-      })
-    })
-
-    // watch mask props
-    watch(() => props.mask, () => onMask())
-
-    // mounted
+      formatting(props.formatters.split("|"), emit, value, props.type, (value2) => {
+        emit("update:modelValue", value2);
+      });
+    });
+    watch(() => props.mask, () => onMask());
     onMounted(() => {
-      checkPassword(props.password)
-      onMask()
-      inputType.value = getType()
-    })
-
+      checkPassword(props.password);
+      onMask();
+      inputType.value = getType();
+    });
     return {
-      utils, localValue, inputType, inputSuffixs, onInput, onFocus, onMouseDown, onSuffix, onKeyPress
-    }
+      utils,
+      localValue,
+      inputType,
+      inputSuffixs,
+      onInput,
+      onFocus,
+      onMouseDown,
+      onSuffix,
+      onKeyPress
+    };
   }
-})
+});
 </script>
 
-<style scoped lang="scss">
-.input {
-
-  &.disabled {
-    pointer-events: none;
-
-    .date-input-placeholders {
-      background-color: #f6f8fb;
-    }
-
-    .suffixs {
-      opacity: .6;
-
-      span {
-        &.disabled {
-          opacity: 1;
-        }
-      }
-    }
-  }
-
-  .suffixs {
-    position: absolute;
-    right: 5px;
-    top: 0;
-
-    span {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 40px;
-      padding: 0 7px;
-      padding-top: 1px;
-      cursor: pointer;
-      text-wrap: nowrap;
-      user-select: none;
-
-      span {
-        font-size: 12.5px;
-        letter-spacing: .5px;
-      }
-
-      &.disabled {
-        pointer-events: none;
-        opacity: .6;
-      }
-
-      i {
-        opacity: .6;
-      }
-
-      &:hover {
-        i {
-          opacity: 1;
-        }
-      }
-
-      &:active {
-        i {
-          opacity: .6;
-        }
-      }
-    }
-  }
-
-  .date-input-placeholders {
-    position: absolute;
-    left: 12px;
-    top: 1px;
-    width: 90%;
-    background-color: white;
-    border-radius: 4px;
-    height: 38px;
-    display: inline-flex;
-    align-items: center;
-    padding-left: 3px;
-    pointer-events: none;
-
-    &.has-prefix {
-      left: 40px;
-    }
-  }
+<style scoped>
+.input.disabled {
+  pointer-events: none;
+}
+.input.disabled .date-input-placeholders {
+  background-color: #f6f8fb;
+}
+.input.disabled .suffixs {
+  opacity: 0.6;
+}
+.input.disabled .suffixs span.disabled {
+  opacity: 1;
+}
+.input .suffixs {
+  position: absolute;
+  right: 5px;
+  top: 0;
+}
+.input .suffixs span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 7px;
+  padding-top: 1px;
+  cursor: pointer;
+  text-wrap: nowrap;
+  user-select: none;
+}
+.input .suffixs span span {
+  font-size: 12.5px;
+  letter-spacing: 0.5px;
+}
+.input .suffixs span.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+.input .suffixs span i {
+  opacity: 0.6;
+}
+.input .suffixs span:hover i {
+  opacity: 1;
+}
+.input .suffixs span:active i {
+  opacity: 0.6;
+}
+.input .date-input-placeholders {
+  position: absolute;
+  left: 12px;
+  top: 1px;
+  width: 90%;
+  background-color: white;
+  border-radius: 4px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  padding-left: 3px;
+  pointer-events: none;
+}
+.input .date-input-placeholders.has-prefix {
+  left: 40px;
 }
 
-[data-bs-theme=dark] {
-  .date-input-placeholders {
-    background-color: #151f2c;
-    color: #999;
-  }
-
-  .input {
-    &.disabled {
-      .date-input-placeholders {
-        background-color: #1b293a;
-      }
-    }
-  }
+[data-bs-theme=dark] .date-input-placeholders {
+  background-color: #151f2c;
+  color: #999;
+}
+[data-bs-theme=dark] .input.disabled .date-input-placeholders {
+  background-color: #1b293a;
 }
 </style>

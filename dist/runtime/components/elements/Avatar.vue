@@ -13,79 +13,57 @@
     </span>
 </template>
 
-<script lang="ts">
-
-interface Avatar {
-    url?: string,
-    alt?: string
-}
-
+<script>
 export default {
-    props: {
-        url: {
-            type: String
-        },
-
-        size: {
-            type: String,
-            default: 'md'
-        },
-
-        alt: {
-            type: String
-        },
-
-        radius: {
-            type: String,
-            default: '5px'
-        },
-
-        list: {
-            type: Array<Avatar>,
-            default: []
-        },
-
-        stacked: {
-            type: Boolean,
-            default: true
-        }
-
-
+  props: {
+    url: {
+      type: String
     },
-
-    setup() {
-
-
-        return {}
+    size: {
+      type: String,
+      default: "md"
+    },
+    alt: {
+      type: String
+    },
+    radius: {
+      type: String,
+      default: "5px"
+    },
+    list: {
+      type: Array,
+      default: []
+    },
+    stacked: {
+      type: Boolean,
+      default: true
     }
-}
+  },
+  setup() {
+    return {};
+  }
+};
 </script>
 
-<style lang="scss" scoped>
-    .avatar {
-        &.xs {
-            width: 32px;
-            height: 32px;
-        }
-
-        &.sm {
-            width: 40px;
-            height: 40px;
-        }
-
-        &.md {
-            width: 64px;
-            height: 64px;
-        }
-
-        &.lg {
-            width: 88px;
-            height: 88px;
-        }
-
-        &.xl {
-            width: 112px;
-            height: 112px;
-        }
-    }
+<style scoped>
+.avatar.xs {
+  width: 32px;
+  height: 32px;
+}
+.avatar.sm {
+  width: 40px;
+  height: 40px;
+}
+.avatar.md {
+  width: 64px;
+  height: 64px;
+}
+.avatar.lg {
+  width: 88px;
+  height: 88px;
+}
+.avatar.xl {
+  width: 112px;
+  height: 112px;
+}
 </style>

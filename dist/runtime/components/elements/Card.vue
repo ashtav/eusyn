@@ -42,80 +42,57 @@
 
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watch, type Ref } from 'vue';
-
-interface TabData {
-    label?: string,
-    icon?: string
-}
-
-interface TabAction {
-    icon: string,
-    click?: (data: TabAction) => {}
-}
-
+<script>
+import { ref } from "vue";
 export default {
-    props: {
-        title: {
-            type: String,
-        },
-
-        thumbnail: {
-            type: String
-        },
-
-        elevation: {
-            type: Boolean,
-            default: false
-        },
-
-        stacked: {
-            type: Boolean,
-            default: false
-        },
-
-        actions: {
-            type: Array<TabAction>,
-            default: []
-        },
-
-        tabs: {
-            type: Array<TabData>,
-            default: []
-        },
-
-        tabPos: {
-            type: String,
-            default: 'top'
-        }
+  props: {
+    title: {
+      type: String
     },
-
-    setup() {
-        const tabActive: Ref<number> = ref(0)
-
-        const onTab = (i: number) => tabActive.value = i
-
-        return { tabActive, onTab }
+    thumbnail: {
+      type: String
+    },
+    elevation: {
+      type: Boolean,
+      default: false
+    },
+    stacked: {
+      type: Boolean,
+      default: false
+    },
+    actions: {
+      type: Array,
+      default: []
+    },
+    tabs: {
+      type: Array,
+      default: []
+    },
+    tabPos: {
+      type: String,
+      default: "top"
     }
-}
+  },
+  setup() {
+    const tabActive = ref(0);
+    const onTab = (i) => tabActive.value = i;
+    return { tabActive, onTab };
+  }
+};
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .nav-item span,
 .btn-action {
-    cursor: pointer;
-    user-select: none;
+  cursor: pointer;
+  user-select: none;
 }
 
-.card-tabs {
-    &.reverse {
-        display: flex;
-        flex-direction: column-reverse;
-
-        .tab-content .tab-pane{
-            border-radius: 4px 4px 4px 0;
-        }
-    }
+.card-tabs.reverse {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.card-tabs.reverse .tab-content .tab-pane {
+  border-radius: 4px 4px 4px 0;
 }
 </style>

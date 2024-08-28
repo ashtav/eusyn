@@ -1,6 +1,7 @@
 import { defineNuxtPlugin } from '#imports'
 import { toast } from '../scripts/toast/index'
 import type Utils from '../types/utils'
+import type { Manipulate } from '../types/utils'
 
 /**
  * Removes all non-alphabetical characters from the input text.
@@ -249,8 +250,48 @@ const dateFormat = (date: string | Date, format: string): string => {
   return formattedDate
 }
 
+/**
+ * Transforms the input data according to the provided manipulation actions.
+ * - `ucwords`: Capitalizes the first letter of each word in the specified keys.
+ * - `numeric`: Removes any commas in the specified keys to convert to plain numbers.
+ * - `currency`: Adds commas to numbers in the specified keys for currency formatting.
+ *
+ * @param {Record<string, any>} data - The input data object to manipulate.
+ * @param {Manipulate} action - The manipulation actions to perform on the data.
+ * @returns {Record<string, any>} - The transformed data object.
+ */
+const manipulate = (data: Record<any, any>, action: Manipulate): Record<any, any> => {
+  const result: Record<any, any> = { ...data };
+
+  if (action.ucwords) {
+    action.ucwords.forEach((key) => {
+      if (result[key]) {
+        result[key] = ucwords(result[key])
+      }
+    });
+  }
+
+  if (action.numeric) {
+    action.numeric.forEach((key) => {
+      if (result[key]) {
+        result[key] = numeric(result[key])
+      }
+    });
+  }
+
+  if (action.currency) {
+    action.currency.forEach((key) => {
+      if (result[key]) {
+        result[key] = currency(result[key])
+      }
+    });
+  }
+
+  return result;
+}
+
 const utils: Utils = {
-  alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes, on, copy, downloadFile, dateFormat
+  alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes, on, copy, downloadFile, dateFormat, manipulate
 }
 
 const _ = utils

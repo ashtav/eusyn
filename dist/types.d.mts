@@ -1,25 +1,16 @@
 
-import type { ModuleOptions, ModuleHooks, RuntimeModuleHooks, ModuleRuntimeHooks, ModuleRuntimeConfig, ModulePublicRuntimeConfig } from './module.js'
+import type { ModuleOptions } from './module.js'
 
-declare module '#app' {
-  interface RuntimeNuxtHooks extends RuntimeModuleHooks, ModuleRuntimeHooks {}
-}
 
 declare module '@nuxt/schema' {
   interface NuxtConfig { ['ui']?: Partial<ModuleOptions> }
   interface NuxtOptions { ['ui']?: ModuleOptions }
-  interface NuxtHooks extends ModuleHooks {}
-  interface RuntimeConfig extends ModuleRuntimeConfig {}
-  interface PublicRuntimeConfig extends ModulePublicRuntimeConfig {}
 }
 
 declare module 'nuxt/schema' {
   interface NuxtConfig { ['ui']?: Partial<ModuleOptions> }
   interface NuxtOptions { ['ui']?: ModuleOptions }
-  interface NuxtHooks extends ModuleHooks {}
-  interface RuntimeConfig extends ModuleRuntimeConfig {}
-  interface PublicRuntimeConfig extends ModulePublicRuntimeConfig {}
 }
 
 
-export type { default } from './module.js'
+export type { ModuleOptions, default } from './module.js'

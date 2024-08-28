@@ -54,125 +54,99 @@
   </div>
 </template>
 
-<script lang="ts">
-import type { Ref } from 'vue';
-import { onMounted, ref, watch } from 'vue';
-import eventBus from '../../plugins/mitt';
-import type { ConfirmationActions } from '../../types/confirm';
-
+<script>
+import { onMounted, ref, watch } from "vue";
+import eventBus from "../../plugins/mitt";
 export default {
-  setup () {
-    const show: Ref<boolean> = ref(false)
-    const preShow = ref(false)
-
-    const data: Ref<any> = ref({})
-    const isSubmit = ref(false)
-
-    const input: Ref<string> = ref('')
-    const elInput = ref(null)
-
-    const defaultMessage = 'Are you sure want to delete this data? This action cannot be undone.'
-
+  setup() {
+    const show = ref(false);
+    const preShow = ref(false);
+    const data = ref({});
+    const isSubmit = ref(false);
+    const input = ref("");
+    const elInput = ref(null);
+    const defaultMessage = "Are you sure want to delete this data? This action cannot be undone.";
     watch(() => show.value, (value) => {
       if (value) {
-        isSubmit.value = false
+        isSubmit.value = false;
       }
-    })
-
-    const onShow = (args: Record<string, any>) => {
-      input.value = ''
-
-      const actions: ConfirmationActions = {
-        submit: () => (isSubmit.value = true),
-        abort: () => (isSubmit.value = false),
-        close: (delay: number = 0) => {
-          setTimeout(() => onHide(), delay * 1000)
+    });
+    const onShow = (args) => {
+      input.value = "";
+      const actions = {
+        submit: () => isSubmit.value = true,
+        abort: () => isSubmit.value = false,
+        close: (delay = 0) => {
+          setTimeout(() => onHide(), delay * 1e3);
         }
-      }
-
-      const textButton: Array<string> = args.textButton ? `${args.textButton}`.split('|') : []
-      const cancelText = textButton.length == 0 ? 'Cancel' : textButton[0]
-      const confirmText = [0, 1].includes(textButton.length) ? 'Delete' : textButton[1]
-
+      };
+      const textButton = args.textButton ? `${args.textButton}`.split("|") : [];
+      const cancelText = textButton.length == 0 ? "Cancel" : textButton[0];
+      const confirmText = [0, 1].includes(textButton.length) ? "Delete" : textButton[1];
       data.value = {
         title: args.title,
         message: args.message ?? defaultMessage,
-        icon: args.icon || 'ti-exclamation-mark',
-        theme: args.theme || 'danger',
-        cancelText: cancelText,
-        confirmText: confirmText,
+        icon: args.icon || "ti-exclamation-mark",
+        theme: args.theme || "danger",
+        cancelText,
+        confirmText,
         data: args.data,
         hint: args.hint,
-        onConfirm: !args?.onConfirm ? () => { } : () => args?.onConfirm(actions)
-      }
-
-      preShow.value = true
-
+        onConfirm: !args?.onConfirm ? () => {
+        } : () => args?.onConfirm(actions)
+      };
+      preShow.value = true;
       setTimeout(() => {
-        show.value = true
-      }, 1)
-
-      // set focus to input
+        show.value = true;
+      }, 1);
       if (elInput.value) {
         setTimeout(() => {
-          (elInput.value as HTMLInputElement).focus()
-        }, 250)
+          elInput.value.focus();
+        }, 250);
       }
-    }
-
+    };
     const onHide = () => {
-      show.value = false
-
+      show.value = false;
       setTimeout(() => {
-        preShow.value = false
-      }, 250)
-    }
-
+        preShow.value = false;
+      }, 250);
+    };
     onMounted(() => {
-      eventBus.on('__show_confirm', onShow)
-    })
-
-    return { show, preShow, data, isSubmit, input, elInput, onHide }
+      eventBus.on("__show_confirm", onShow);
+    });
+    return { show, preShow, data, isSubmit, input, elInput, onHide };
   }
-}
+};
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .modal {
-    z-index: 99998;
-
-    .confirm-icon {
-        $size: 50px;
-
-        font-size: $size;
-        width: $size;
-        height: $size;
-        margin-bottom: 15px;
-    }
-
-    input {
-        border: none;
-        border-top: 1px #ddd solid;
-        border-bottom: 1px #ddd solid;
-        outline: none;
-        box-shadow: none;
-        text-align: center;
-        border-radius: 0;
-
-        &:focus {
-            border-color: #0054a6;
-        }
-    }
-
-    .modal-footer {
-      background-color: transparent
-    }
+  z-index: 99998;
+}
+.modal .confirm-icon {
+  font-size: 50px;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 15px;
+}
+.modal input {
+  border: none;
+  border-top: 1px #ddd solid;
+  border-bottom: 1px #ddd solid;
+  outline: none;
+  box-shadow: none;
+  text-align: center;
+  border-radius: 0;
+}
+.modal input:focus {
+  border-color: #0054a6;
+}
+.modal .modal-footer {
+  background-color: transparent;
 }
 
-[data-bs-theme=dark] {
-  .modal-content {
-    border-color: #2d3d50;
-    box-shadow: none;
-  }
+[data-bs-theme=dark] .modal-content {
+  border-color: #2d3d50;
+  box-shadow: none;
 }
 </style>

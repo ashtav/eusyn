@@ -16,10 +16,9 @@
   </button>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watch, type PropType } from 'vue';
-import { utils } from '../../plugins/utils';
-
+<script>
+import { defineComponent, ref, watch } from "vue";
+import { utils } from "../../plugins/utils";
 export default defineComponent({
   // inheritAttrs: false,
   props: {
@@ -27,69 +26,55 @@ export default defineComponent({
       type: String,
       default: null
     },
-
     disabled: {
       type: Boolean,
       default: false
     },
-
     submitted: {
       type: Boolean,
       default: false
     },
-
     submit: {
       type: Boolean,
       default: false
     },
-
     theme: {
       type: String,
-      default: 'btn-primary'
+      default: "btn-primary"
     },
-
     icon: {
       type: String,
       default: null
     },
-
     iconAlign: {
       type: String,
-      default: 'start'
+      default: "start"
     },
-
     to: {
       type: String,
       default: null
     },
-
     onClick: {
-      type: Function as PropType<(action: ButtonAction) => void>,
+      type: Function
     }
   },
-
   setup(props, { emit }) {
-    const isSubmit = ref(props.submitted)
-
-
+    const isSubmit = ref(props.submitted);
     watch(() => props.submitted, (value) => {
-      isSubmit.value = value
-    })
-
-
-    const events: ButtonAction = {
+      isSubmit.value = value;
+    });
+    const events = {
       submit: () => isSubmit.value = true,
       abort: () => isSubmit.value = false
-    }
-
+    };
     const click_ = () => {
-      emit('click', events)
-    }
-
+      emit("click", events);
+    };
     return {
       isSubmit,
-      utils, click_
-    }
+      utils,
+      click_
+    };
   }
-})
+});
 </script>

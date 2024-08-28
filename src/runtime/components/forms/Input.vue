@@ -216,7 +216,7 @@ export default defineComponent({
       handleKeyPress(instance, emit, props, event, localValue.value, props.formatters.split('|'))
     }
 
-    const getDateMaskFormat = () => {
+    const getDateMaskFormat = (): string => {
       const masks = props.mask.split(':')
 
       let format = 'y/m/d'
@@ -233,8 +233,36 @@ export default defineComponent({
         }
       }
 
-      return format.split('/').map((e) => value[e]).join('/')
+      const result = format.split('/').map((e) => value[e]).join('/')
+      return result
     }
+
+    const validateDate = (date: string, format: string) => {
+      const dateParts = date.split('/');
+      const formatParts = format.split('/');
+
+      let day = parseInt(dateParts[formatParts.indexOf('d')], 10);
+      let month = parseInt(dateParts[formatParts.indexOf('m')], 10);
+      const year = parseInt(dateParts[formatParts.indexOf('y')], 10);
+
+      // Clamp month between 1 and 12
+      month = Math.min(Math.max(month, 1), 12);
+
+      // Get the maximum day in the month
+      const daysInMonth = new Date(year, month, 0).getDate();
+
+      // Clamp day between 1 and the maximum day of the month
+      day = Math.min(Math.max(day, 1), daysInMonth);
+
+      // Format the corrected date based on the original format
+      const formattedDate = formatParts.map(part => {
+        if (part === 'd') return day.toString().padStart(2, '0');
+        if (part === 'm') return month.toString().padStart(2, '0');
+        if (part === 'y') return year.toString();
+      }).join('/');
+
+      return formattedDate;
+    };
 
     // handle mask input
     const onMask = () => {
@@ -306,7 +334,10 @@ export default defineComponent({
         }, 5);
 
         if (!values.includes('_')) {
-          emit('update:modelValue', localValue.value)
+          const masks = props.mask.split(':')
+          let format = masks.length > 1 ? masks[1] : 'y/m/d'
+
+          emit('update:modelValue', validateDate(localValue.value, format))
         }
 
         return

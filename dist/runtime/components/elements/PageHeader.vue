@@ -42,54 +42,36 @@
   </div>
 </template>
 
-<script lang="ts">
-import { utils } from '../../plugins/utils';
-
-interface PageHeaderActions {
-  url?: string,
-  label?: string,
-  icon?: string,
-  theme?: string,
-  visible?: boolean,
-  submit?: boolean,
-  click?: Function
-}
-
+<script>
+import { utils } from "../../plugins/utils";
 export default {
   inheritAttrs: false,
-
   setup(_, { emit }) {
-    return { emit, utils }
+    return { emit, utils };
   },
-
   props: {
     pretitle: {
       type: String,
-      default: 'overview'
+      default: "overview"
     },
-
     title: {
       type: String,
-      default: 'Dashboard'
+      default: "Dashboard"
     },
-
     actions: {
-      type: Array<PageHeaderActions>,
+      type: Array,
       default: () => []
     }
   }
-}
+};
 </script>
 
-<style lang="scss" scoped>
-.page-header {
-  .hoverable {
-    user-select: none;
-
-    &:hover {
-      opacity: .7;
-      cursor: pointer
-    }
-  }
+<style scoped>
+.page-header .hoverable {
+  user-select: none;
+}
+.page-header .hoverable:hover {
+  opacity: 0.7;
+  cursor: pointer;
 }
 </style>

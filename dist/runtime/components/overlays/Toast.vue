@@ -16,131 +16,103 @@
   </Teleport>
 </template>
 
-<script lang="ts">
-import type { Ref } from 'vue'
-import { onMounted, ref } from 'vue'
-import eventBus from '../../plugins/mitt'
-
-enum Alignment {
-  topRight,
-  topLeft,
-  bottomRight,
-  bottomLeft
-}
-
+<script>
+import { onMounted, ref } from "vue";
+import eventBus from "../../plugins/mitt";
+var Alignment = /* @__PURE__ */ ((Alignment2) => {
+  Alignment2[Alignment2["topRight"] = 0] = "topRight";
+  Alignment2[Alignment2["topLeft"] = 1] = "topLeft";
+  Alignment2[Alignment2["bottomRight"] = 2] = "bottomRight";
+  Alignment2[Alignment2["bottomLeft"] = 3] = "bottomLeft";
+  return Alignment2;
+})(Alignment || {});
 export default {
   setup() {
-    const message: Ref<string | null> = ref(null)
-    // const icon: Ref<string | null> = ref(null)
-    const progress: Ref<number> = ref(0)
-    const show: Ref<boolean> = ref(false)
-    const type: Ref<string> = ref('default')
-    const alignment: Ref<string> = ref('top-right')
-
-    let currentAnimationFrame: number | null = null
-    let originalDuration: number | null = null
-    let originalStartTime: number | null = null
-    let elapsedTimeUponHover: number | null = null
-
-    const toastEl = ref<HTMLElement | null>(null)
-
+    const message = ref(null);
+    const progress = ref(0);
+    const show = ref(false);
+    const type = ref("default");
+    const alignment = ref("top-right");
+    let currentAnimationFrame = null;
+    let originalDuration = null;
+    let originalStartTime = null;
+    let elapsedTimeUponHover = null;
+    const toastEl = ref(null);
     onMounted(() => {
-      eventBus.on('__show_toast', onShow)
-
+      eventBus.on("__show_toast", onShow);
       if (toastEl.value !== null) {
-        toastEl.value.addEventListener('mouseenter', () => {
+        toastEl.value.addEventListener("mouseenter", () => {
           if (currentAnimationFrame !== null) {
-            cancelAnimationFrame(currentAnimationFrame)
-            currentAnimationFrame = null
-            elapsedTimeUponHover = performance.now() - (originalStartTime || 0)
+            cancelAnimationFrame(currentAnimationFrame);
+            currentAnimationFrame = null;
+            elapsedTimeUponHover = performance.now() - (originalStartTime || 0);
           }
-        })
-
-        toastEl.value.addEventListener('mouseleave', () => {
-          if (
-            currentAnimationFrame === null &&
-            originalDuration !== null &&
-            elapsedTimeUponHover !== null
-          ) {
-            originalStartTime = performance.now() - elapsedTimeUponHover
+        });
+        toastEl.value.addEventListener("mouseleave", () => {
+          if (currentAnimationFrame === null && originalDuration !== null && elapsedTimeUponHover !== null) {
+            originalStartTime = performance.now() - elapsedTimeUponHover;
             const frame = () => {
-              const elapsed = performance.now() - (originalStartTime ?? 0)
-              progress.value = (elapsed / (originalDuration ?? 0)) * 100
-
+              const elapsed = performance.now() - (originalStartTime ?? 0);
+              progress.value = elapsed / (originalDuration ?? 0) * 100;
               if (progress.value < 100) {
-                currentAnimationFrame = requestAnimationFrame(frame)
+                currentAnimationFrame = requestAnimationFrame(frame);
               } else {
-                progress.value = 0
-                originalDuration = null
-                originalStartTime = null
-                elapsedTimeUponHover = null
-                show.value = false
+                progress.value = 0;
+                originalDuration = null;
+                originalStartTime = null;
+                elapsedTimeUponHover = null;
+                show.value = false;
               }
-            }
-
-            currentAnimationFrame = requestAnimationFrame(frame)
+            };
+            currentAnimationFrame = requestAnimationFrame(frame);
           }
-        })
+        });
       }
-    })
-
-    const onShow = (args: any) => {
-      message.value = args.message
-      // icon.value = args?.options?.icon ?? 'ti-info-circle'
-      alignment.value = args?.options?.pos ?? 'top-right'
-
-      show.value = true
-      originalDuration = args?.options?.duration ?? 3000 // by default 3 seconds
-      originalStartTime = performance.now()
-
-      type.value = args?.type ?? 'default'
-
-      //   add bounce class
-      toastEl.value?.classList.add('bounce')
-
+    });
+    const onShow = (args) => {
+      message.value = args.message;
+      alignment.value = args?.options?.pos ?? "top-right";
+      show.value = true;
+      originalDuration = args?.options?.duration ?? 3e3;
+      originalStartTime = performance.now();
+      type.value = args?.type ?? "default";
+      toastEl.value?.classList.add("bounce");
       setTimeout(() => {
-        toastEl.value?.classList.remove('bounce')
-      }, 150)
-
-      // Cancel the previous animation if any
+        toastEl.value?.classList.remove("bounce");
+      }, 150);
       if (currentAnimationFrame !== null) {
-        cancelAnimationFrame(currentAnimationFrame)
-        currentAnimationFrame = null
-        progress.value = 0 // Reset progress
+        cancelAnimationFrame(currentAnimationFrame);
+        currentAnimationFrame = null;
+        progress.value = 0;
       }
-
       const frame = () => {
-        const elapsed = performance.now() - (originalStartTime ?? 0)
-        progress.value = (elapsed / (originalDuration ?? 0)) * 100
-
+        const elapsed = performance.now() - (originalStartTime ?? 0);
+        progress.value = elapsed / (originalDuration ?? 0) * 100;
         if (progress.value < 100) {
-          currentAnimationFrame = requestAnimationFrame(frame)
+          currentAnimationFrame = requestAnimationFrame(frame);
         } else {
-          progress.value = 0
-          originalDuration = null
-          originalStartTime = null
-          elapsedTimeUponHover = null
-          show.value = false
+          progress.value = 0;
+          originalDuration = null;
+          originalStartTime = null;
+          elapsedTimeUponHover = null;
+          show.value = false;
         }
-      }
-
-      currentAnimationFrame = requestAnimationFrame(frame)
-    }
-
+      };
+      currentAnimationFrame = requestAnimationFrame(frame);
+    };
     const onHide = () => {
-      progress.value = 0
-      originalDuration = null
-      originalStartTime = null
-      elapsedTimeUponHover = null
-      show.value = false
-    }
-
-    return { onShow, onHide, show, message, progress, toastEl, type, alignment }
+      progress.value = 0;
+      originalDuration = null;
+      originalStartTime = null;
+      elapsedTimeUponHover = null;
+      show.value = false;
+    };
+    return { onShow, onHide, show, message, progress, toastEl, type, alignment };
   }
-}
+};
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .nuxt-toast {
   position: fixed;
   z-index: 99999;
@@ -153,113 +125,88 @@ export default {
   transition: 0.2s ease-in-out;
   overflow: hidden;
   pointer-events: none;
-
-  &.top-right {
-    top: 20px;
-    right: 20px;
-  }
-
-  &.top-left {
-    top: 20px;
-    left: 20px;
-  }
-
-  &.bottom-right {
-    bottom: 20px;
-    right: 20px;
-  }
-
-  &.bottom-left {
-    bottom: 20px;
-    left: 20px;
-  }
-
-  &.show {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  &.error {
-    background-color: #d63939;
-  }
-
-  &.warning {
-    background-color: #f76707;
-  }
-
-  &.success {
-    background-color: #2fb344;
-  }
-
-  &.error,
-  &.warning,
-  &.success {
-    color: white !important;
-
-    .ti-x {
-      color: white !important;
-    }
-
-    .progress {
-      background: white !important;
-    }
-  }
-
-  &.bounce {
-    transition: 0.1s ease-in-out;
-    transform: scale(1.05);
-  }
-
-  .nuxt-toast-content {
-    position: relative;
-    padding: 15px 20px;
-    max-height: 350px;
-    overflow: auto;
-
-    // hide scrollbar
-    &::-webkit-scrollbar {
-      width: 0px;
-      background: transparent;
-    }
-
-    .progress {
-      position: absolute;
-      height: 1px;
-      background: #212121;
-      bottom: 0;
-      left: 0;
-    }
-
-    .ti-x {
-      --tblr-icon-size: 1.08rem;
-      width: var(--tblr-icon-size);
-      height: var(--tblr-icon-size);
-      font-size: var(--tblr-icon-size);
-
-      margin-left: 15px;
-      margin-top: 3px;
-      color: #888;
-      transition: 0.2s;
-
-      &:hover {
-        color: #212121;
-        cursor: pointer;
-      }
-    }
-  }
+}
+.nuxt-toast.top-right {
+  top: 20px;
+  right: 20px;
+}
+.nuxt-toast.top-left {
+  top: 20px;
+  left: 20px;
+}
+.nuxt-toast.bottom-right {
+  bottom: 20px;
+  right: 20px;
+}
+.nuxt-toast.bottom-left {
+  bottom: 20px;
+  left: 20px;
+}
+.nuxt-toast.show {
+  opacity: 1;
+  pointer-events: all;
+}
+.nuxt-toast.error {
+  background-color: #d63939;
+}
+.nuxt-toast.warning {
+  background-color: #f76707;
+}
+.nuxt-toast.success {
+  background-color: #2fb344;
+}
+.nuxt-toast.error, .nuxt-toast.warning, .nuxt-toast.success {
+  color: white !important;
+}
+.nuxt-toast.error .ti-x, .nuxt-toast.warning .ti-x, .nuxt-toast.success .ti-x {
+  color: white !important;
+}
+.nuxt-toast.error .progress, .nuxt-toast.warning .progress, .nuxt-toast.success .progress {
+  background: white !important;
+}
+.nuxt-toast.bounce {
+  transition: 0.1s ease-in-out;
+  transform: scale(1.05);
+}
+.nuxt-toast .nuxt-toast-content {
+  position: relative;
+  padding: 15px 20px;
+  max-height: 350px;
+  overflow: auto;
+}
+.nuxt-toast .nuxt-toast-content::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+.nuxt-toast .nuxt-toast-content .progress {
+  position: absolute;
+  height: 1px;
+  background: #212121;
+  bottom: 0;
+  left: 0;
+}
+.nuxt-toast .nuxt-toast-content .ti-x {
+  --tblr-icon-size: 1.08rem;
+  width: var(--tblr-icon-size);
+  height: var(--tblr-icon-size);
+  font-size: var(--tblr-icon-size);
+  margin-left: 15px;
+  margin-top: 3px;
+  color: #888;
+  transition: 0.2s;
+}
+.nuxt-toast .nuxt-toast-content .ti-x:hover {
+  color: #212121;
+  cursor: pointer;
 }
 
-[data-bs-theme=dark] {
-  .nuxt-toast {
-    box-shadow: 0 0.5rem 1rem darken($color: #1f2d3d, $amount: 5%);
-
-    &:not(&.error, &.warning, &.success) {
-      background-color: #1f2d3d;
-    }
-
-    .progress {
-      background: white !important;
-    }
-  }
+[data-bs-theme=dark] .nuxt-toast {
+  box-shadow: 0 0.5rem 1rem #16212c;
+}
+[data-bs-theme=dark] .nuxt-toast:not([data-bs-theme=dark] .nuxt-toast.error, [data-bs-theme=dark] .nuxt-toast.warning, [data-bs-theme=dark] .nuxt-toast.success) {
+  background-color: #1f2d3d;
+}
+[data-bs-theme=dark] .nuxt-toast .progress {
+  background: white !important;
 }
 </style>
