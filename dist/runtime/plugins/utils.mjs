@@ -118,6 +118,31 @@ const dateFormat = (date, format) => {
   });
   return formattedDate;
 };
+const manipulate = (data, action) => {
+  const result = { ...data };
+  if (action.ucwords) {
+    action.ucwords.forEach((key) => {
+      if (result[key]) {
+        result[key] = ucwords(result[key]);
+      }
+    });
+  }
+  if (action.numeric) {
+    action.numeric.forEach((key) => {
+      if (result[key]) {
+        result[key] = numeric(result[key]);
+      }
+    });
+  }
+  if (action.currency) {
+    action.currency.forEach((key) => {
+      if (result[key]) {
+        result[key] = currency(result[key]);
+      }
+    });
+  }
+  return result;
+};
 const utils = {
   alpha,
   numeric,
@@ -132,7 +157,8 @@ const utils = {
   on,
   copy,
   downloadFile,
-  dateFormat
+  dateFormat,
+  manipulate
 };
 const _ = utils;
 export { _, utils };

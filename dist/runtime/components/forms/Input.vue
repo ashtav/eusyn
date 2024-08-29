@@ -191,7 +191,27 @@ export default defineComponent({
           format = masks[1];
         }
       }
-      return format.split("/").map((e) => value[e]).join("/");
+      const result = format.split("/").map((e) => value[e]).join("/");
+      return result;
+    };
+    const validateDate = (date, format) => {
+      const dateParts = date.split("/");
+      const formatParts = format.split("/");
+      let day = parseInt(dateParts[formatParts.indexOf("d")], 10);
+      let month = parseInt(dateParts[formatParts.indexOf("m")], 10);
+      const year = parseInt(dateParts[formatParts.indexOf("y")], 10);
+      month = Math.min(Math.max(month, 1), 12);
+      const daysInMonth = new Date(year, month, 0).getDate();
+      day = Math.min(Math.max(day, 1), daysInMonth);
+      const formattedDate = formatParts.map((part) => {
+        if (part === "d")
+          return day.toString().padStart(2, "0");
+        if (part === "m")
+          return month.toString().padStart(2, "0");
+        if (part === "y")
+          return year.toString();
+      }).join("/");
+      return formattedDate;
     };
     const onMask = () => {
       if (props.mask) {
@@ -239,7 +259,9 @@ export default defineComponent({
           inputEvent?.setSelectionRange(cursorPosition, cursorPosition);
         }, 5);
         if (!values.includes("_")) {
-          emit("update:modelValue", localValue.value);
+          const masks = props.mask.split(":");
+          let format = masks.length > 1 ? masks[1] : "y/m/d";
+          emit("update:modelValue", validateDate(localValue.value, format));
         }
         return;
       }

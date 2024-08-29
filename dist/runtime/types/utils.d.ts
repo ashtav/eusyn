@@ -1,3 +1,9 @@
+interface Manipulate {
+    ucwords?: Array<string>,
+    numeric?: Array<string>,
+    currency?: Array<string>,
+}
+
 interface Utils {
     alpha: (text: string) => string,
     numeric: (text: string) => string,
@@ -13,6 +19,8 @@ interface Utils {
     copy: (value: any, message?: string) => void,
     downloadFile: (url: string, filename?: string) => Promise<void>,
     dateFormat: (date: string | Date, format: string) => string,
+    manipulate: (data: Record<any, any>, action: Manipulate) => Record<any, any>
 }
 
 export default Utils
+export { Manipulate }

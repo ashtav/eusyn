@@ -5,19 +5,18 @@
     </div> -->
     <div class="card-body border-bottom py-3">
       <div class="d-flex">
-        <div class="text-secondary">
-          Show
-          <div class="mx-2 d-inline-block">
-            <input type="text" class="form-control form-control-sm" value="8" size="3" aria-label="Invoices count">
-          </div>
-          entries
-        </div>
-        <div class="ms-auto text-secondary">
+
+        <!-- entries -->
+        <Dropdown :options="entries" size="sm" @select="onEntries">
+          <Button :label="`Show: ${entry}`" theme="btn-white py-2" icon="adjustments-alt" />
+        </Dropdown>
+
+        <!-- <div class="ms-auto text-secondary">
           Search:
           <div class="ms-2 d-inline-block">
             <input type="text" class="form-control form-control-sm" aria-label="Search invoice">
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -45,33 +44,22 @@
     </div>
 
     <!-- pagination -->
-    <div class="card-footer d-flex align-items-center">
-      <p class="m-0 text-secondary">Showing <span>1</span> to <span>8</span> of <span>16</span> entries</p>
+    <div class="card-footer d-flex align-items-center py-2 border-0" v-if="meta && meta.total != 0">
+      <p class="m-0 text-secondary d-none d-lg-block">Showing <span>{{ meta.from }}</span> to <span> {{ meta.to }}
+        </span> of <span>{{
+          meta.total }}</span> entries</p>
       <ul class="pagination m-0 ms-auto">
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-            <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M15 6l-6 6l6 6"></path>
-            </svg>
-            prev
+        <li :class="['page-item me-1', $ntx.utils.on(active <= 1, 'disabled')]">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="true" @click="onNavigate(active - 1)">
+            Prev
           </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item active"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item"><a class="page-link" href="#">5</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">
-            next <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M9 6l6 6l-6 6"></path>
-            </svg>
+        <li v-for="page in pageNumber()" :class="['page-item', $ntx.utils.on(page == meta.current_page, 'active')]">
+          <a class="page-link" href="javascript:void(0)" @click="onNavigate(page)"> {{ page }} </a>
+        </li>
+        <li :class="['page-item ms-1', $ntx.utils.on(active >= meta.last_page, 'disabled')]">
+          <a class="page-link" href="#" @click="onNavigate(active + 1)">
+            Next
           </a>
         </li>
       </ul>
@@ -80,9 +68,8 @@
 </template>
 
 <script lang="ts">
-import type { Ref } from 'vue';
+import type { PropType, Ref } from 'vue';
 import { onMounted, ref } from 'vue';
-
 
 interface Column {
   key?: string,
@@ -90,9 +77,22 @@ interface Column {
   sortable?: boolean
 }
 
-export default {
-  props: {
+interface TableConfig {
+  entries?: Array<number>
+}
 
+interface Meta {
+  current_page: number,
+  last_page: number,
+  from: number,
+  to: number,
+  total: number
+}
+
+export default {
+  emits: ["update:modelValue", "paginate"],
+
+  props: {
     columns: {
       type: Array<Column>,
       default: []
@@ -103,16 +103,31 @@ export default {
       default: []
     },
 
+    meta: {
+      type: Object as PropType<Meta>,
+    },
 
+    config: {
+      type: Object as PropType<TableConfig>,
+      default: {
+        entries: [5, 15, 25, 50, 100]
+      }
+    },
   },
 
-  setup(props, { }) {
+  setup(props, { emit }) {
     const originData = props.rows.map((e: any) => ({ ...e }))
     const headers: Ref<Array<Record<string, any>>> = ref(props.columns)
     const dataTable: Ref<Record<string, any>> = ref(props.rows);
 
+    const entries: Ref<Array<number>> = ref(props.config.entries)
+    const entry: Ref<any> = ref(props.config.entries.length == 0 ? '-' : props.config.entries[0])
+
     let sortBy: string = ''
     let sortKey: string | null = null
+
+    // pagination
+    let active: Ref<number> = ref(1);
 
     const toKey = (e: Record<string, any>) => {
       return e.key ? e.key : e.label.toLowerCase().replaceAll(' ', '_')
@@ -176,6 +191,45 @@ export default {
       }
     }
 
+    const onEntries = (data: any) => {
+      entry.value = data
+    }
+
+    const pageNumber = (): Array<number> => {
+      let limit = props.meta.last_page
+      let max = 5
+
+      const halfMax = Math.floor(max / 2);
+
+      let start = active.value - halfMax;
+      let end = active.value + halfMax;
+
+      if (start < 1) {
+        start = 1;
+        end = Math.min(limit, max);
+      }
+
+      if (end > limit) {
+        end = limit;
+        start = Math.max(1, limit - max + 1);
+      }
+
+      const pageNumbers = [];
+      for (let i = start; i <= end; i++) {
+        pageNumbers.push(i);
+      }
+
+      return pageNumbers;
+    }
+
+    const onNavigate = (page: number) => {
+      if (page < 0 || page > props.meta?.last_page) return
+
+      active.value = page
+      emit("paginate", page)
+      emit("update:modelValue", page);
+    }
+
     onMounted(() => {
       headers.value = props.columns.map((e: Column) => {
         return {
@@ -187,7 +241,7 @@ export default {
 
 
 
-    return { keys, headers, dataTable, doSortBy }
+    return { keys, headers, dataTable, doSortBy, entries, onEntries, entry, active, onNavigate, pageNumber }
   }
 }
 </script>

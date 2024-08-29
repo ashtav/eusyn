@@ -1,26 +1,35 @@
 <template>
   <div>
-    <PageHeader
-      title="Product"
-      :actions="[
-        { label: 'Create New', icon: 'ti-plus' }
-      ]"
-    />
+    <PageHeader title="Product" :actions="[
+      { label: 'Create New', icon: 'ti-plus' }
+    ]" />
 
-    <Table :columns="table.columns" :rows="table.rows" /> <br>
+    <Table :columns="table.columns" :rows="table.rows" :meta="meta" /> <br>
     <Code code='<Table :columns="table.columns" :rows="table.rows" />' />
   </div>
 </template>
 
 <script lang="ts">
 export default {
-  setup () {
+  setup() {
 
 
     return {}
   },
 
-  data () {
+  computed: {
+    meta() {
+      return {
+        current_page: 1,
+        last_page: 2,
+        from: 1,
+        to: 5,
+        total: this.table.rows.length
+      }
+    }
+  },
+
+  data() {
     return {
       table: {
         columns: [

@@ -42,7 +42,7 @@ export default {
 
   props: {
     options: {
-      type: [Array<Dropdown>, Array<string>],
+      type: [Array<Dropdown>, Array<string>, Array<number>],
       default: []
     },
 
@@ -115,7 +115,7 @@ export default {
     }
 
     const textOption = (data: any) => {
-      return typeof data === 'string' ? data : (data?.label ?? '')
+      return ['number','string'].includes(typeof data) ? data : (data?.label ?? '')
     }
 
     const onSelect = (option: any) => {
