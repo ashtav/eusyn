@@ -5,19 +5,18 @@
     </div> -->
     <div class="card-body border-bottom py-3">
       <div class="d-flex">
-        <div class="text-secondary">
-          Show
-          <div class="mx-2 d-inline-block">
-            <input type="text" class="form-control form-control-sm" value="8" size="3" aria-label="Invoices count">
-          </div>
-          entries
-        </div>
-        <div class="ms-auto text-secondary">
+
+        <!-- entries -->
+        <Dropdown :options="entries" size="sm" @select="onEntries">
+          <Button :label="`Show: ${entry}`" theme="btn-white py-2" icon="adjustments-alt" />
+        </Dropdown>
+
+        <!-- <div class="ms-auto text-secondary">
           Search:
           <div class="ms-2 d-inline-block">
             <input type="text" class="form-control form-control-sm" aria-label="Search invoice">
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -45,33 +44,23 @@
     </div>
 
     <!-- pagination -->
-    <div class="card-footer d-flex align-items-center">
-      <p class="m-0 text-secondary">Showing <span>1</span> to <span>8</span> of <span>16</span> entries</p>
+    <div class="card-footer d-flex align-items-center py-2 border-0"
+      v-if="meta && Object.keys(meta).length != 0 && meta.total != 0">
+      <p class="m-0 text-secondary d-none d-lg-block"><span>{{ meta.from }}</span> to <span> {{ meta.to }}
+        </span> of <span>{{
+          meta.total }}</span> entries</p>
       <ul class="pagination m-0 ms-auto">
-        <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-            <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M15 6l-6 6l6 6"></path>
-            </svg>
-            prev
+        <li :class="['page-item me-1', $ntx.utils.on(active <= 1, 'disabled')]">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="true" @click="onNavigate(active - 1)">
+            Prev
           </a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item active"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item"><a class="page-link" href="#">5</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">
-            next <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M9 6l6 6l-6 6"></path>
-            </svg>
+        <li v-for="page in pageNumber()" :class="['page-item', $ntx.utils.on(page == active, 'active')]">
+          <a class="page-link" href="javascript:void(0)" @click="onNavigate(page)"> {{ page }} </a>
+        </li>
+        <li :class="['page-item ms-1', $ntx.utils.on(active >= meta.last_page, 'disabled')]">
+          <a class="page-link" href="#" @click="onNavigate(active + 1)">
+            Next
           </a>
         </li>
       </ul>
@@ -80,41 +69,67 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 export default {
   props: {
     columns: {
       type: Array,
-      default: []
+      default: () => []
     },
     rows: {
       type: Array,
       default: []
+    },
+    pagination: {
+      type: Object,
+      default: {
+        client: false,
+        meta: {},
+        length: 5,
+        paginate: (page) => {
+        }
+      }
+    },
+    entries: {
+      type: Object,
+      default: {
+        entries: [5, 15, 25, 50, 100],
+        entry: (value) => {
+        }
+      }
     }
   },
   setup(props, {}) {
     const originData = props.rows.map((e) => ({ ...e }));
     const headers = ref(props.columns);
     const dataTable = ref(props.rows);
+    const entries = ref(props.entries?.entries ?? [5, 15, 25, 50, 100]);
+    const entry = ref(entries.value.length == 0 ? "-" : entries.value[0]);
+    const meta = ref(props.pagination?.meta);
     let sortBy = "";
     let sortKey = null;
+    let active = ref(1);
     const toKey = (e) => {
       return e.key ? e.key : e.label.toLowerCase().replaceAll(" ", "_");
     };
     const sortByKeyAsc = (arr, key) => {
       return arr.sort((a, b) => {
-        if (a[key] < b[key])
+        const valA = typeof a[key] === "string" && !isNaN(Number(a[key])) ? Number(a[key]) : a[key];
+        const valB = typeof b[key] === "string" && !isNaN(Number(b[key])) ? Number(b[key]) : b[key];
+        if (valA < valB)
           return -1;
-        if (a[key] > b[key])
+        if (valA > valB)
           return 1;
         return 0;
       });
     };
     const sortByKeyDesc = (arr, key) => {
       return arr.sort((a, b) => {
-        if (a[key] < b[key])
+        const valA = typeof a[key] === "string" && !isNaN(Number(a[key])) ? Number(a[key]) : a[key];
+        const valB = typeof b[key] === "string" && !isNaN(Number(b[key])) ? Number(b[key]) : b[key];
+        if (valA < valB)
           return 1;
-        if (a[key] > b[key])
+        if (valA > valB)
           return -1;
         return 0;
       });
@@ -147,6 +162,37 @@ export default {
         }
       }
     };
+    const onEntries = (data) => {
+      active.value = 1;
+      entry.value = data;
+      props.entries?.entry(data);
+    };
+    const pageNumber = () => {
+      let limit = meta.value.last_page;
+      let max = props.pagination.length ?? 5;
+      const halfMax = Math.floor(max / 2);
+      let start = active.value - halfMax;
+      let end = active.value + halfMax;
+      if (start < 1) {
+        start = 1;
+        end = Math.min(limit, max);
+      }
+      if (end > limit) {
+        end = limit;
+        start = Math.max(1, limit - max + 1);
+      }
+      const pageNumbers = [];
+      for (let i = start; i <= end; i++) {
+        pageNumbers.push(i);
+      }
+      return pageNumbers;
+    };
+    const onNavigate = (page) => {
+      if (page < 0 || page > meta.value?.last_page)
+        return;
+      active.value = page;
+      props.pagination?.paginate(page);
+    };
     onMounted(() => {
       headers.value = props.columns.map((e) => {
         return {
@@ -155,7 +201,13 @@ export default {
         };
       });
     });
-    return { keys, headers, dataTable, doSortBy };
+    watch(() => props.rows, (data) => {
+      dataTable.value = data;
+    }, { deep: true });
+    watch(() => props.pagination, (data) => {
+      meta.value = data.meta;
+    }, { deep: true });
+    return { keys, headers, dataTable, doSortBy, entries, onEntries, meta, entry, active, onNavigate, pageNumber };
   }
 };
 </script>

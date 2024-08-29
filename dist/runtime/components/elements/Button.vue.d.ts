@@ -79,9 +79,9 @@ declare const _default: import("vue").DefineComponent<{
     label: string;
     disabled: boolean;
     submit: boolean;
-    icon: string;
     submitted: boolean;
     theme: string;
+    icon: string;
     iconAlign: string;
     to: string;
 }, {}>;

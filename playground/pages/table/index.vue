@@ -4,39 +4,50 @@
       { label: 'Create New', icon: 'ti-plus' }
     ]" />
 
-    <Table :columns="table.columns" :rows="table.rows" :meta="meta" /> <br>
+    <Table :columns="table.columns" :rows="data" :pagination="{ meta: meta, paginate: onPaginate }"
+      :entries="{ entry: onEntry }" /> <br>
+
+    <Spinner v-if="isLoading" />
     <Code code='<Table :columns="table.columns" :rows="table.rows" />' />
   </div>
 </template>
 
 <script lang="ts">
+
 export default {
   setup() {
-
-
     return {}
   },
 
   computed: {
-    meta() {
-      return {
-        current_page: 1,
-        last_page: 2,
-        from: 1,
-        to: 5,
-        total: this.table.rows.length
-      }
-    }
+    // meta() {
+    //   return {
+    //     current_page: 1,
+    //     last_page: 4,
+    //     from: 1,
+    //     to: 5,
+    //     total: this.table.rows.length
+    //   }
+    // }
   },
 
   data() {
     return {
+      query: {
+        page: 1,
+        per_page: 5
+      },
+
+      isLoading: true,
+      data: [],
+      meta: <any>{},
+
       table: {
         columns: [
           { label: 'Name', sortable: true },
+          { label: 'Description', sortable: true },
           { label: 'Price', sortable: true },
           { label: 'Stock', sortable: true },
-          { label: 'Category' }
         ],
 
         rows: [
@@ -67,10 +78,47 @@ export default {
             price: 'IDR 31.800',
             stock: 98,
             category: 'Food'
+          },
+          {
+            id: 5,
+            name: 'Mocha Float',
+            price: 'IDR 21.300',
+            stock: 22,
+            category: 'Drink'
           }
         ]
       }
     }
+  },
+
+  methods: {
+    getData() {
+      this.isLoading = true
+      $fetch('https://api.igsa.pw/api/dummy', { query: this.query }).then((result: any) => {
+        this.isLoading = false
+        this.data = result.data ?? []
+        this.meta = result.meta ?? {}
+      })
+    },
+
+    onEntry(value: number) {
+      if (this.query.per_page != value) {
+        this.query.page = 1
+        this.query.per_page = value
+        this.getData()
+      }
+    },
+
+    onPaginate(page: number) {
+      if (this.query.page != page) {
+        this.query.page = page
+        this.getData()
+      }
+    }
+  },
+
+  mounted() {
+    this.getData()
   }
 }
 </script>

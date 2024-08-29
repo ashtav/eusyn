@@ -44,8 +44,9 @@
     </div>
 
     <!-- pagination -->
-    <div class="card-footer d-flex align-items-center py-2 border-0" v-if="meta && meta.total != 0">
-      <p class="m-0 text-secondary d-none d-lg-block">Showing <span>{{ meta.from }}</span> to <span> {{ meta.to }}
+    <div class="card-footer d-flex align-items-center py-2 border-0"
+      v-if="meta && Object.keys(meta).length != 0 && meta.total != 0">
+      <p class="m-0 text-secondary d-none d-lg-block"><span>{{ meta.from }}</span> to <span> {{ meta.to }}
         </span> of <span>{{
           meta.total }}</span> entries</p>
       <ul class="pagination m-0 ms-auto">
@@ -54,7 +55,7 @@
             Prev
           </a>
         </li>
-        <li v-for="page in pageNumber()" :class="['page-item', $ntx.utils.on(page == meta.current_page, 'active')]">
+        <li v-for="page in pageNumber()" :class="['page-item', $ntx.utils.on(page == active, 'active')]">
           <a class="page-link" href="javascript:void(0)" @click="onNavigate(page)"> {{ page }} </a>
         </li>
         <li :class="['page-item ms-1', $ntx.utils.on(active >= meta.last_page, 'disabled')]">
@@ -69,33 +70,13 @@
 
 <script lang="ts">
 import type { PropType, Ref } from 'vue';
-import { onMounted, ref } from 'vue';
-
-interface Column {
-  key?: string,
-  label: string,
-  sortable?: boolean
-}
-
-interface TableConfig {
-  entries?: Array<number>
-}
-
-interface Meta {
-  current_page: number,
-  last_page: number,
-  from: number,
-  to: number,
-  total: number
-}
+import { onMounted, ref, watch } from 'vue';
 
 export default {
-  emits: ["update:modelValue", "paginate"],
-
   props: {
     columns: {
-      type: Array<Column>,
-      default: []
+      type: Array as PropType<Array<Column>>,
+      default: () => []
     },
 
     rows: {
@@ -103,25 +84,33 @@ export default {
       default: []
     },
 
-    meta: {
-      type: Object as PropType<Meta>,
-    },
-
-    config: {
-      type: Object as PropType<TableConfig>,
+    pagination: {
+      type: Object as PropType<TablePagination>,
       default: {
-        entries: [5, 15, 25, 50, 100]
+        client: false,
+        meta: <Meta>{},
+        length: 5,
+        paginate: (page: number) => { }
       }
     },
+
+    entries: {
+      type: Object as PropType<TableEntries>,
+      default: {
+        entries: [5, 15, 25, 50, 100],
+        entry: (value: number) => { }
+      }
+    }
   },
 
-  setup(props, { emit }) {
+  setup(props, { }) {
     const originData = props.rows.map((e: any) => ({ ...e }))
     const headers: Ref<Array<Record<string, any>>> = ref(props.columns)
     const dataTable: Ref<Record<string, any>> = ref(props.rows);
 
-    const entries: Ref<Array<number>> = ref(props.config.entries)
-    const entry: Ref<any> = ref(props.config.entries.length == 0 ? '-' : props.config.entries[0])
+    const entries: Ref<Array<number>> = ref(props.entries?.entries ?? [5, 15, 25, 50, 100])
+    const entry: Ref<any> = ref(entries.value.length == 0 ? '-' : entries.value[0])
+    const meta = ref(props.pagination?.meta)
 
     let sortBy: string = ''
     let sortKey: string | null = null
@@ -135,16 +124,22 @@ export default {
 
     const sortByKeyAsc = <T>(arr: T[], key: keyof T): T[] => {
       return arr.sort((a, b) => {
-        if (a[key] < b[key]) return -1;
-        if (a[key] > b[key]) return 1;
+        const valA = typeof a[key] === 'string' && !isNaN(Number(a[key])) ? Number(a[key]) : a[key];
+        const valB = typeof b[key] === 'string' && !isNaN(Number(b[key])) ? Number(b[key]) : b[key];
+
+        if (valA < valB) return -1;
+        if (valA > valB) return 1;
         return 0;
       });
     };
 
     const sortByKeyDesc = <T>(arr: T[], key: keyof T): T[] => {
       return arr.sort((a, b) => {
-        if (a[key] < b[key]) return 1;
-        if (a[key] > b[key]) return -1;
+        const valA = typeof a[key] === 'string' && !isNaN(Number(a[key])) ? Number(a[key]) : a[key];
+        const valB = typeof b[key] === 'string' && !isNaN(Number(b[key])) ? Number(b[key]) : b[key];
+
+        if (valA < valB) return 1;
+        if (valA > valB) return -1;
         return 0;
       });
     };
@@ -192,12 +187,14 @@ export default {
     }
 
     const onEntries = (data: any) => {
+      active.value = 1
       entry.value = data
+      props.entries?.entry(data)
     }
 
     const pageNumber = (): Array<number> => {
-      let limit = props.meta.last_page
-      let max = 5
+      let limit = meta.value.last_page
+      let max = props.pagination.length ?? 5
 
       const halfMax = Math.floor(max / 2);
 
@@ -215,6 +212,7 @@ export default {
       }
 
       const pageNumbers = [];
+
       for (let i = start; i <= end; i++) {
         pageNumbers.push(i);
       }
@@ -223,11 +221,11 @@ export default {
     }
 
     const onNavigate = (page: number) => {
-      if (page < 0 || page > props.meta?.last_page) return
+      if (page < 0 || page > meta.value?.last_page) return
 
       active.value = page
-      emit("paginate", page)
-      emit("update:modelValue", page);
+      props.pagination?.paginate(page)
+      // emit("paginate", page)
     }
 
     onMounted(() => {
@@ -239,9 +237,15 @@ export default {
       })
     })
 
+    watch(() => props.rows, (data) => {
+      dataTable.value = data
+    }, { deep: true })
 
+    watch(() => props.pagination, (data) => {
+      meta.value = data.meta
+    }, { deep: true })
 
-    return { keys, headers, dataTable, doSortBy, entries, onEntries, entry, active, onNavigate, pageNumber }
+    return { keys, headers, dataTable, doSortBy, entries, onEntries, meta, entry, active, onNavigate, pageNumber }
   }
 }
 </script>

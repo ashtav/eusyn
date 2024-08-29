@@ -32,6 +32,19 @@ declare const _default: import("vue").DefineComponent<{
             from<T, U>(iterable: Iterable<T> | ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
             of<T>(...items: T[]): T[];
             readonly [Symbol.species]: ArrayConstructor;
+        } | {
+            (arrayLength: number): number[];
+            (...items: number[]): number[];
+            new (arrayLength: number): number[];
+            new (...items: number[]): number[];
+            isArray(arg: any): arg is any[];
+            readonly prototype: any[];
+            from<T>(arrayLike: ArrayLike<T>): T[];
+            from<T, U>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
+            from<T>(iterable: Iterable<T> | ArrayLike<T>): T[];
+            from<T, U>(iterable: Iterable<T> | ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
+            of<T>(...items: T[]): T[];
+            readonly [Symbol.species]: ArrayConstructor;
         })[];
         default: never[];
     };
@@ -80,7 +93,7 @@ declare const _default: import("vue").DefineComponent<{
 }, {
     show: Ref<boolean>;
     utils: import("../../types/utils").default;
-    options_: Ref<string[] | {
+    options_: Ref<string[] | number[] | {
         label: string;
         icon?: string;
         danger?: boolean;
@@ -113,6 +126,19 @@ declare const _default: import("vue").DefineComponent<{
             (...items: string[]): string[];
             new (arrayLength: number): string[];
             new (...items: string[]): string[];
+            isArray(arg: any): arg is any[];
+            readonly prototype: any[];
+            from<T>(arrayLike: ArrayLike<T>): T[];
+            from<T, U>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
+            from<T>(iterable: Iterable<T> | ArrayLike<T>): T[];
+            from<T, U>(iterable: Iterable<T> | ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
+            of<T>(...items: T[]): T[];
+            readonly [Symbol.species]: ArrayConstructor;
+        } | {
+            (arrayLength: number): number[];
+            (...items: number[]): number[];
+            new (arrayLength: number): number[];
+            new (...items: number[]): number[];
             isArray(arg: any): arg is any[];
             readonly prototype: any[];
             from<T>(arrayLike: ArrayLike<T>): T[];
@@ -170,7 +196,7 @@ declare const _default: import("vue").DefineComponent<{
     onSelect?: ((...args: any[]) => any) | undefined;
 }, {
     size: string;
-    options: string[] | Dropdown[];
+    options: string[] | number[] | Dropdown[];
     icons: String[];
     placement: string;
     separate: number[];

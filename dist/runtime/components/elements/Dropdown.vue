@@ -32,7 +32,7 @@ export default {
   emits: ["select"],
   props: {
     options: {
-      type: [Array, Array],
+      type: [Array, Array, Array],
       default: []
     },
     icons: {
@@ -90,7 +90,7 @@ export default {
       }, 1);
     };
     const textOption = (data) => {
-      return typeof data === "string" ? data : data?.label ?? "";
+      return ["number", "string"].includes(typeof data) ? data : data?.label ?? "";
     };
     const onSelect = (option) => {
       show.value = false;
