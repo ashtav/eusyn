@@ -38,7 +38,7 @@ declare const _default: import("vue").DefineComponent<{
     show: import("vue").Ref<boolean>;
     title: import("vue").Ref<string>;
     onClose: (args: any) => void;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("init" | "onClose")[], "init" | "onClose", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     id: {
         type: StringConstructor;
         required: true;
@@ -72,7 +72,10 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-}>>, {
+}>> & {
+    onInit?: ((...args: any[]) => any) | undefined;
+    onOnClose?: ((...args: any[]) => any) | undefined;
+}, {
     size: string;
     elevation: boolean;
     actions: any[];

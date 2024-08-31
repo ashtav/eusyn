@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <Modal id="modal" :elevation="false" :actions="icons">
+    <Modal id="modal" :elevation="false" :actions="icons" @init="onInit">
       <form @submit.prevent="onSubmit">
         <div class="modal-body">
           <p class="mb-5">
@@ -77,6 +77,10 @@ export default {
   },
 
   methods: {
+    onInit(data: any) {
+      console.log(data)
+    },
+
     onClick() {
       this.$modal.show('modal', {
         title: 'New Data',
@@ -105,7 +109,7 @@ export default {
     },
 
     showToast() {
-      this.$toast.error('500 - Server error!', { pos: 'bottom-right' });
+      this.$toast.error('500 - Server error!', { align: 'bottom-right' });
     },
 
     showConfirm() {

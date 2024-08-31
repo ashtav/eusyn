@@ -1,6 +1,6 @@
 <template>
   <div class="modal modal-blur fade" :class="{ 'show': show }" tabindex="-1"
-    :style="{ display: preShow ? 'block' : 'none' }" aria-hidden="true">
+    :style="{ display: preShow ? 'block' : 'none' }">
     <div class="modal-dialog modal-dialog-centered" role="document" :class="`modal-${size}`">
       <div class="modal-content">
         <!-- modal header -->
@@ -42,6 +42,7 @@ import eventBus from "../../plugins/mitt";
 import { modal } from "../../scripts/modal";
 export default {
   inheritAttrs: false,
+  emits: ["init", "onClose"],
   props: {
     id: {
       type: String,
@@ -64,7 +65,7 @@ export default {
       default: false
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const show = ref(false);
     const preShow = ref(false);
     const title = ref("");
@@ -76,6 +77,7 @@ export default {
         callback = args?.params?.callback ?? null;
         setTimeout(() => {
           show.value = true;
+          emit("init", { title: title.value, data: args?.params?.data });
         }, 1);
         document.body.style.overflow = "hidden";
         document.onkeydown = (e) => {

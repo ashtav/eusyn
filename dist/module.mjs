@@ -52,7 +52,7 @@ const module = defineNuxtModule({
       global: options.global
     });
     addImportsDir(resolve(runtimeDir, "composables"));
-    console.log("Nuxt Tabler UI - 1.0.0 24.8.28.1");
+    console.log("NTX - 1.0.0 24831.1");
   }
 });
 

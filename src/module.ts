@@ -37,7 +37,7 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.css.push(resolve(runtimeDir, 'styles/tabler/css/tabler.min.css'))
       nuxt.options.css.push(resolve(runtimeDir, 'styles/tabler/css/tabler-icons.css'))
       nuxt.options.css.push(resolve(runtimeDir, 'styles/customs/override.css'))
-      nuxt.options.css.push(resolve(runtimeDir, 'styles/customs/utilities.scss'))
+      nuxt.options.css.push(resolve(runtimeDir, 'styles/customs/utilities.css'))
     }
 
     // Injections
@@ -81,6 +81,6 @@ export default defineNuxtModule<ModuleOptions>({
     // Composables
     addImportsDir(resolve(runtimeDir, 'composables'))
 
-    console.log('Nuxt Tabler UI - 1.0.0 24.8.28.1')
+    console.log('NTX - 1.0.0 24831.1')
   }
 })
