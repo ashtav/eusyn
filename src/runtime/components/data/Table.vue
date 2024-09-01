@@ -21,11 +21,11 @@
     </div>
 
     <!-- table content -->
-    <div class="table-responsive">
+    <div class="table-respons ive">
       <table class="table card-table table-vcenter text-nowrap table-striped">
         <thead>
           <tr>
-            <th v-for="item in headers">
+            <th v-for="item in [...headers, { label: '' }]">
               <span :class="{ 'hoverable': item.sortable }" @click="doSortBy(item)">
                 {{ item.label }}
                 <Ti :icon="item.sort_icon ?? ''" size="xs" v-if="item.sortable" />
@@ -37,6 +37,11 @@
           <tr v-for="(item, i) in dataTable">
             <td v-for="(key, j) in keys">
               {{ item[key] }}
+            </td>
+            <td class="w-1">
+              <Dropdown :options="['Details', 'Edit', 'Delete']" placement="end" class="x">
+                <Button icon="settings" theme="white p-2"  />
+              </Dropdown>
             </td>
           </tr>
         </tbody>
@@ -90,7 +95,7 @@ export default {
         client: false,
         meta: <Meta>{},
         length: 5,
-        paginate: (page: number) => { }
+        paginate: (page: number): any => { }
       }
     },
 
@@ -98,7 +103,7 @@ export default {
       type: Object as PropType<TableEntries>,
       default: {
         entries: [5, 15, 25, 50, 100],
-        entry: (value: number) => { }
+        entry: (value: number): void => { }
       }
     }
   },

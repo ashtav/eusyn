@@ -5,15 +5,15 @@ interface Column {
 }
 
 interface TablePagination {
-    client?: boolean,
-    meta?: Meta,
-    length?: number,
-    paginate?: (page: number) => {}
+    client?: boolean;
+    meta?: Meta;
+    length?: number;
+    paginate?: (page: number) => void;
 }
 
 interface TableEntries {
-    entries?: Array<number>,
-    entry?: (value: number) => {}
+    entries?: Array<number>;
+    entry?: (value: number) => void;
 }
 
 interface Meta {

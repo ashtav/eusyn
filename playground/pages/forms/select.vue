@@ -22,6 +22,10 @@
                 <Code class="mb-5" description="Using value as input."
                     code='<Select label="Province" hint="Select your province" suffix="ti-map-2" required :options="provinces" v-model="forms.province" />' />
 
+                <Select label="From Api" hint="Select your data" suffix="ti-file" required :options="options"
+                    v-model="forms.option" />
+
+                <Button label="Get Data" @click="onSubmit" /> <br> <br>
                 <code>
         {{ forms }}
       </code>
@@ -43,7 +47,8 @@ export default {
             forms: {
                 hobby: '',
                 province: '',
-                city: ''
+                city: '',
+                option: ''
             },
 
             hobbies: [
@@ -72,8 +77,9 @@ export default {
                 { label: 'Yogyakarta', value: 5 },
                 { label: 'East Java', value: 6 },
                 { label: 'Banten', value: 7 }
+            ],
 
-            ]
+            options: []
         }
     },
 
@@ -89,6 +95,19 @@ export default {
     methods: {
         onEnter(data: any) {
             console.log(data)
+        },
+
+        onSubmit(action: ButtonAction) {
+            action.submit()
+            $fetch('https://api.igsa.pw/api/dummy').then((result: any) => {
+                this.options = (result.data ?? []).map((e: any) => {
+                    return {
+                        label: e.description,
+                        value: e.id
+                    }
+                })
+                action.abort()
+            })
         }
     }
 }

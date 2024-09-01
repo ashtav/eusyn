@@ -215,7 +215,9 @@ export default defineComponent({
       emit('update:modelValue', value)
     })
 
-
+    watch(() => props.options, (value) => {
+      localOptions.value = value
+    })
 
     // mounted
     onMounted(() => {

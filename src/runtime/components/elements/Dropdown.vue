@@ -77,7 +77,7 @@ export default {
     const show: Ref<boolean> = ref(false)
     const additionalStyle: Ref<Record<string, any>> = ref({})
 
-    const extract = (option: Dropdown | string, key: string): any => {
+    const extract = (option: Dropdown | string | number, key: string): any => {
       return typeof option == 'string' ? option : option[key]
     }
 

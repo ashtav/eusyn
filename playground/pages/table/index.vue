@@ -101,7 +101,7 @@ export default {
       })
     },
 
-    onEntry(value: number) {
+    onEntry(value: number): any {
       if (this.query.per_page != value) {
         this.query.page = 1
         this.query.per_page = value
@@ -109,7 +109,7 @@ export default {
       }
     },
 
-    onPaginate(page: number) {
+    onPaginate(page: number): any {
       if (this.query.page != page) {
         this.query.page = page
         this.getData()
