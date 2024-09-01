@@ -8,7 +8,7 @@
       :entries="{ entry: onEntry }">
 
       <template v-slot:actions>
-
+        Test
       </template>
     </Table> <br>
 
