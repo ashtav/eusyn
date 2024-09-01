@@ -17,6 +17,9 @@
             <input type="text" class="form-control form-control-sm" aria-label="Search invoice">
           </div>
         </div> -->
+        <div class="ms-auto text-secondary">
+          <slot name="actions"></slot>
+        </div>
       </div>
     </div>
 
@@ -40,7 +43,7 @@
             </td>
             <td class="w-1">
               <Dropdown :options="['Details', 'Edit', 'Delete']" placement="end" class="x">
-                <Button icon="settings" theme="white p-2"  />
+                <Button icon="settings" theme="white p-2" />
               </Dropdown>
             </td>
           </tr>

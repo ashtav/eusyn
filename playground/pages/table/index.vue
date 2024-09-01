@@ -5,7 +5,12 @@
     ]" />
 
     <Table :columns="table.columns" :rows="data" :pagination="{ meta: meta, paginate: onPaginate }"
-      :entries="{ entry: onEntry }" /> <br>
+      :entries="{ entry: onEntry }">
+
+      <template v-slot:actions>
+
+      </template>
+    </Table> <br>
 
     <Spinner v-if="isLoading" />
     <Code code='<Table :columns="table.columns" :rows="table.rows" />' />
