@@ -8,7 +8,9 @@
       :entries="{ entry: onEntry }">
 
       <template v-slot:actions>
-        Test
+        <div>
+          <Button icon="layout" theme="white" />
+        </div>
       </template>
     </Table> <br>
 

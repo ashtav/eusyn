@@ -17,7 +17,7 @@
             <input type="text" class="form-control form-control-sm" aria-label="Search invoice">
           </div>
         </div> -->
-        <div class="ms-auto text-secondary">
+        <div class="ms-auto text-secondary d-flex align-items-center">
           <slot name="actions"></slot>
         </div>
       </div>
@@ -37,7 +37,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, i) in dataTable">
+          <tr v-for="_ in $ntx.utils.randInt(1, 5)" v-if="loading">
+            <td v-for="_ in [...headers, { label: '' }]">
+              <Shimmer :size="[['50%', '100%']]" v-if="_.label != ''" />
+            </td>
+          </tr>
+
+          <tr v-if="!loading && dataTable.length == 0">
+            <td :colspan="[...headers, { label: '' }].length"> {{ config.emptyMessage ?? 'No data found.' }} </td>
+          </tr>
+
+          <tr v-for="(item, i) in dataTable" v-if="!loading && dataTable.length != 0">
             <td v-for="(key, j) in keys">
               {{ item[key] }}
             </td>
@@ -53,7 +63,7 @@
 
     <!-- pagination -->
     <div class="card-footer d-flex align-items-center py-2 border-0"
-      v-if="meta && Object.keys(meta).length != 0 && meta.total != 0">
+      v-if="meta && Object.keys(meta).length != 0 && meta.total != 0 && !loading && dataTable.length != 0">
       <p class="m-0 text-secondary d-none d-lg-block"><span>{{ meta.from }}</span> to <span> {{ meta.to }}
         </span> of <span>{{
           meta.total }}</span> entries</p>
@@ -108,6 +118,18 @@ export default {
         entries: [5, 15, 25, 50, 100],
         entry: (value: number): void => { }
       }
+    },
+
+    config: {
+      type: Object as PropType<TableConfig>,
+      default: {
+        emptyMessage: 'No data found.'
+      }
+    },
+
+    loading: {
+      type: Boolean,
+      default: () => false
     }
   },
 

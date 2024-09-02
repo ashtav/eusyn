@@ -105,7 +105,7 @@ declare const _default: import("vue").DefineComponent<{
     toggle: () => void;
     textOption: (data: any) => any;
     onSelect: (option: any) => void;
-    extract: (option: Dropdown | string, key: string) => any;
+    extract: (option: Dropdown | string | number, key: string) => any;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "select"[], "select", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     options: {
         type: ({

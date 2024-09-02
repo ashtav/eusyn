@@ -27,7 +27,7 @@ declare const _default: import("vue").DefineComponent<{
             client: boolean;
             meta: Meta;
             length: number;
-            paginate: (page: number) => void;
+            paginate: (page: number) => any;
         };
     };
     entries: {
@@ -36,6 +36,16 @@ declare const _default: import("vue").DefineComponent<{
             entries: number[];
             entry: (value: number) => void;
         };
+    };
+    config: {
+        type: PropType<TableConfig>;
+        default: {
+            emptyMessage: string;
+        };
+    };
+    loading: {
+        type: BooleanConstructor;
+        default: () => boolean;
     };
 }, {
     keys: any[];
@@ -77,7 +87,7 @@ declare const _default: import("vue").DefineComponent<{
             client: boolean;
             meta: Meta;
             length: number;
-            paginate: (page: number) => void;
+            paginate: (page: number) => any;
         };
     };
     entries: {
@@ -87,10 +97,22 @@ declare const _default: import("vue").DefineComponent<{
             entry: (value: number) => void;
         };
     };
+    config: {
+        type: PropType<TableConfig>;
+        default: {
+            emptyMessage: string;
+        };
+    };
+    loading: {
+        type: BooleanConstructor;
+        default: () => boolean;
+    };
 }>>, {
     entries: any;
+    config: any;
     columns: Column[];
     rows: Record<string, any>[];
     pagination: any;
+    loading: boolean;
 }, {}>;
 export default _default;

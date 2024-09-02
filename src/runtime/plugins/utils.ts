@@ -290,8 +290,26 @@ const manipulate = (data: Record<any, any>, action: Manipulate): Record<any, any
   return result;
 }
 
+/**
+ * Generates initials from a full name.
+ *
+ * @param {string} value - The full name to generate initials from.
+ * @returns {string} The initials derived from the full name.
+ *
+ * @example
+ * ```typescript
+ * getInitials("John Doe"); // Returns "JD"
+ * ```
+ */
+const getInitials = (value: string): string => {
+  return value.split(' ')
+    .map(word => word[0])
+    .join('')
+    .toUpperCase();
+};
+
 const utils: Utils = {
-  alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes, on, copy, downloadFile, dateFormat, manipulate
+  alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes, on, copy, downloadFile, dateFormat, manipulate, getInitials
 }
 
 const _ = utils

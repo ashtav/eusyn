@@ -168,6 +168,9 @@ export default defineComponent({
     watch(() => localValue.value, (value) => {
       emit("update:modelValue", value);
     });
+    watch(() => props.options, (value) => {
+      localOptions.value = value;
+    });
     onMounted(() => {
       initOption(localValue.value);
     });

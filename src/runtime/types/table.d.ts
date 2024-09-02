@@ -23,3 +23,7 @@ interface Meta {
     to: number,
     total: number
 }
+
+interface TableConfig {
+    emptyMessage: string
+}

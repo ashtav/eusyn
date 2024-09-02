@@ -143,6 +143,9 @@ const manipulate = (data, action) => {
   }
   return result;
 };
+const getInitials = (value) => {
+  return value.split(" ").map((word) => word[0]).join("").toUpperCase();
+};
 const utils = {
   alpha,
   numeric,
@@ -158,7 +161,8 @@ const utils = {
   copy,
   downloadFile,
   dateFormat,
-  manipulate
+  manipulate,
+  getInitials
 };
 const _ = utils;
 export { _, utils };
