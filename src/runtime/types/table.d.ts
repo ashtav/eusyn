@@ -25,5 +25,11 @@ interface Meta {
 }
 
 interface TableConfig {
-    emptyMessage: string
+    emptyMessage: string,
+    loadingNumber: number,
+}
+
+interface TableRowAction {
+    options: (data: any) => Array<string>,
+    actions: (data: any) => void
 }

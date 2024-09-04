@@ -5,7 +5,7 @@
     ]" />
 
     <Table :columns="table.columns" :rows="data" :pagination="{ meta: meta, paginate: onPaginate }"
-      :entries="{ entry: onEntry }">
+      :entries="{ entry: onEntry }" :loading="isLoading" :rowActions="rowActions">
 
       <template v-slot:actions>
         <div>
@@ -14,7 +14,6 @@
       </template>
     </Table> <br>
 
-    <Spinner v-if="isLoading" />
     <Code code='<Table :columns="table.columns" :rows="table.rows" />' />
   </div>
 </template>
@@ -121,6 +120,10 @@ export default {
         this.query.page = page
         this.getData()
       }
+    },
+
+    rowActions(data: any): Array<string> {
+      return Number(data.stock) < 20 ? ['Details', 'Edit', 'Delete'] : ['Details']
     }
   },
 

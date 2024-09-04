@@ -37,7 +37,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="_ in $ntx.utils.randInt(1, 5)" v-if="loading">
+          <tr v-for="_ in $ntx.utils.randInt(1, config.loadingNumber)" v-if="loading">
             <td v-for="_ in [...headers, { label: '' }]">
               <Shimmer :size="[['50%', '100%']]" v-if="_.label != ''" />
             </td>
@@ -52,7 +52,7 @@
               {{ item[key] }}
             </td>
             <td class="w-1">
-              <Dropdown :options="['Details', 'Edit', 'Delete']" placement="end" class="x">
+              <Dropdown :options="rowActions.options(item) ?? []" placement="end" class="x">
                 <Button icon="settings" theme="white p-2" />
               </Dropdown>
             </td>
@@ -123,13 +123,22 @@ export default {
     config: {
       type: Object as PropType<TableConfig>,
       default: {
-        emptyMessage: 'No data found.'
+        emptyMessage: 'No data found.',
+        loadingNumber: 3
       }
     },
 
     loading: {
       type: Boolean,
       default: () => false
+    },
+
+    rowActions: {
+      type: Object as PropType<TableRowAction>,
+      default: {
+        options: (data: any): Array<string> => [],
+        actions: (data: any): void => { }
+      }
     }
   },
 
