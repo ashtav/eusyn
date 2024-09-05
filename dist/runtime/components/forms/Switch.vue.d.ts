@@ -28,7 +28,7 @@ declare const _default: import("vue").DefineComponent<{
     localValue: import("vue").Ref<boolean>;
     inputName: import("vue").Ref<string>;
     textCaption: import("vue").Ref<string>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "change")[], "update:modelValue" | "change", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("change" | "update:modelValue")[], "change" | "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: BooleanConstructor;
         default: boolean;
@@ -61,7 +61,7 @@ declare const _default: import("vue").DefineComponent<{
     label: string;
     disabled: boolean;
     modelValue: boolean;
-    nospace: boolean;
     inline: boolean;
+    nospace: boolean;
 }, {}>;
 export default _default;

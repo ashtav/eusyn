@@ -28,16 +28,17 @@
       <table class="table card-table table-vcenter text-nowrap table-striped">
         <thead>
           <tr>
-            <th v-for="item in [...headers, { label: '' }]">
+            <th v-for="item in headers">
               <span :class="{ 'hoverable': item.sortable }" @click="doSortBy(item)">
                 {{ item.label }}
                 <Ti :icon="item.sort_icon ?? ''" size="xs" v-if="item.sortable" />
               </span>
             </th>
+            <th v-if="rowOptions"></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="_ in $ntx.utils.randInt(1, 5)" v-if="loading">
+          <tr v-for="_ in $ntx.utils.randInt(1, config.loadingNumber)" v-if="loading">
             <td v-for="_ in [...headers, { label: '' }]">
               <Shimmer :size="[['50%', '100%']]" v-if="_.label != ''" />
             </td>
@@ -51,8 +52,8 @@
             <td v-for="(key, j) in keys">
               {{ item[key] }}
             </td>
-            <td class="w-1">
-              <Dropdown :options="['Details', 'Edit', 'Delete']" placement="end" class="x">
+            <td class="w-1" v-if="rowOptions">
+              <Dropdown :options="rowOptions(item) ?? []" @select="(o: any) => rowActions ? rowActions(o, item) : null" placement="end">
                 <Button icon="settings" theme="white p-2" />
               </Dropdown>
             </td>
@@ -95,8 +96,8 @@ export default {
       default: () => []
     },
     rows: {
-      type: Array,
-      default: []
+      type: Object,
+      default: () => []
     },
     pagination: {
       type: Object,
@@ -119,7 +120,8 @@ export default {
     config: {
       type: Object,
       default: {
-        emptyMessage: "No data found."
+        emptyMessage: "No data found.",
+        loadingNumber: 3
       }
     },
     loading: {
@@ -128,9 +130,12 @@ export default {
     }
   },
   setup(props, {}) {
-    const originData = props.rows.map((e) => ({ ...e }));
+    let originData = [];
+    const rowOptions = ref((data) => []);
+    const rowActions = ref((option, data) => {
+    });
     const headers = ref(props.columns);
-    const dataTable = ref(props.rows);
+    const dataTable = ref([]);
     const entries = ref(props.entries?.entries ?? [5, 15, 25, 50, 100]);
     const entry = ref(entries.value.length == 0 ? "-" : entries.value[0]);
     const meta = ref(props.pagination?.meta);
@@ -175,12 +180,13 @@ export default {
         });
         const i = headers.value.findIndex((e) => toKey(e) == key);
         const header = headers.value[i];
+        const rows = Array.isArray(props.rows) ? props.rows : props.rows?.data ?? [];
         if (sortBy == "") {
-          dataTable.value = sortByKeyAsc(props.rows, key);
+          dataTable.value = sortByKeyAsc(rows, key);
           sortBy = "asc";
           header.sort_icon = "ti-sort-ascending";
         } else if (sortBy == "asc") {
-          dataTable.value = sortByKeyDesc(props.rows, key);
+          dataTable.value = sortByKeyDesc(rows, key);
           sortBy = "desc";
           header.sort_icon = "ti-sort-descending";
         } else {
@@ -222,6 +228,14 @@ export default {
       props.pagination?.paginate(page);
     };
     onMounted(() => {
+      const data = (Array.isArray(props.rows) ? props.rows : props.rows?.data ?? []).map((e) => ({ ...e }));
+      originData = data;
+      dataTable.value = data;
+      if (!Array.isArray(props.rows)) {
+        rowOptions.value = props.rows.options ? props.rows.options : (_) => [];
+        rowActions.value = props.rows.actions ? props.rows.actions : (_, __) => {
+        };
+      }
       headers.value = props.columns.map((e) => {
         return {
           ...e,
@@ -230,12 +244,18 @@ export default {
       });
     });
     watch(() => props.rows, (data) => {
-      dataTable.value = data;
+      const rowsData = (Array.isArray(props.rows) ? props.rows : props.rows?.data ?? []).map((e) => ({ ...e }));
+      originData = rowsData;
+      dataTable.value = rowsData;
+      if (!Array.isArray(props.rows)) {
+        rowOptions.value = props.rows.options;
+        rowActions.value = props.rows.actions;
+      }
     }, { deep: true });
     watch(() => props.pagination, (data) => {
       meta.value = data.meta;
     }, { deep: true });
-    return { keys, headers, dataTable, doSortBy, entries, onEntries, meta, entry, active, onNavigate, pageNumber };
+    return { keys, headers, dataTable, doSortBy, entries, onEntries, meta, entry, active, onNavigate, pageNumber, rowOptions, rowActions };
   }
 };
 </script>

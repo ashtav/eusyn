@@ -17,7 +17,7 @@
             </Row>
           </span>
 
-          <div v-if="separate.includes(i) && i < (options_.length - 1)" class="dropdown-divider" />
+          <div v-if="separator.includes(i) && i < (options_.length - 1)" class="dropdown-divider" />
         </template>
       </div>
     </div>
@@ -54,6 +54,7 @@ export default {
   },
   setup(props, { emit }) {
     const options_ = ref(props.options);
+    const separator = ref(props.separate);
     const dropdown = ref(null), slot = ref(null);
     const key = ref("");
     const dkey = utils.randString();
@@ -104,10 +105,22 @@ export default {
       const windowHeight = window.innerHeight || document.documentElement.clientHeight;
       return rect.bottom > windowHeight;
     };
+    const initOptions = (value) => {
+      let options = [];
+      value.forEach((e, i) => {
+        if (e != "-") {
+          options.push(e);
+        } else {
+          separator.value.push(i < 0 ? i : i - 1);
+        }
+      });
+      options_.value = options;
+    };
     watch(() => props.options, (value) => {
-      options_.value = value;
+      initOptions(value);
     });
     onMounted(() => {
+      initOptions(props.options);
       key.value = utils.randString();
       document.addEventListener("click", (e) => {
         if (show.value) {
@@ -128,7 +141,7 @@ export default {
         }
       });
     });
-    return { show, utils, options_, dropdown, slot, dkey, additionalStyle, toggle, textOption, onSelect, extract };
+    return { show, utils, options_, dropdown, slot, dkey, additionalStyle, toggle, textOption, onSelect, extract, separator };
   }
 };
 </script>

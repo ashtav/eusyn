@@ -90,7 +90,7 @@ declare const _default: import("vue").DefineComponent<{
     onMouseDown: (event: any) => void;
     onSuffix: (data: any) => void;
     onKeyPress: (event: any) => void;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "enter" | "blur" | "focus" | "suffix")[], "update:modelValue" | "enter" | "blur" | "focus" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("blur" | "focus" | "update:modelValue" | "enter" | "suffix")[], "blur" | "focus" | "update:modelValue" | "enter" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
         type: StringConstructor;
@@ -179,14 +179,14 @@ declare const _default: import("vue").DefineComponent<{
     onEnter?: ((...args: any[]) => any) | undefined;
     onSuffix?: ((...args: any[]) => any) | undefined;
 }, {
-    label: string;
-    disabled: boolean;
     type: string;
+    label: string;
     mask: string;
     readonly: boolean;
-    password: boolean;
-    modelValue: string;
+    disabled: boolean;
     required: boolean;
+    modelValue: string;
+    password: boolean;
     nospace: boolean;
     hint: string;
     autofocus: boolean;

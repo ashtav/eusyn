@@ -97,9 +97,9 @@ declare const _default: import("vue").DefineComponent<{
         };
     };
 }>>, {
-    config: CarouselConfig;
     images: string[];
     initIndex: number;
     height: string | number;
+    config: CarouselConfig;
 }, {}>;
 export default _default;

@@ -43,7 +43,7 @@ declare const _default: import("vue").DefineComponent<{
     thumb1: Ref<HTMLElement | null>;
     thumb2: Ref<HTMLElement | null>;
     slider: Ref<HTMLElement | null>;
-    mousedown: Ref<false | "end" | "start">;
+    mousedown: Ref<false | "start" | "end">;
     lastTouched: Ref<string>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
@@ -88,8 +88,8 @@ declare const _default: import("vue").DefineComponent<{
 }, {
     multiple: boolean;
     disabled: boolean;
-    range: number[];
     modelValue: any;
+    range: number[];
     step: number;
     indicator: boolean;
 }, {}>;

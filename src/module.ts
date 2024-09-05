@@ -81,6 +81,6 @@ export default defineNuxtModule<ModuleOptions>({
     // Composables
     addImportsDir(resolve(runtimeDir, 'composables'))
 
-    console.log('NTX - 1.0.0 24902.1')
+    console.log('NTX - 1.0.0 24905.1')
   }
 })
