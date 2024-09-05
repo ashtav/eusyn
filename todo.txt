@@ -9,6 +9,3 @@
     9. basic chart (bar, line, pie, donut)
     10. progress (bar, circle)
     12. for more, check https://tabler.io/preview select interface menu
-
-    - make dummy api for select option
-    - table actions

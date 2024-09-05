@@ -17,7 +17,7 @@
             </Row>
           </span>
 
-          <div v-if="separate.includes(i) && i < (options_.length - 1)" class="dropdown-divider" />
+          <div v-if="separator.includes(i) && i < (options_.length - 1)" class="dropdown-divider" />
         </template>
       </div>
     </div>
@@ -69,6 +69,7 @@ export default {
 
   setup(props, { emit }) {
     const options_ = ref(props.options)
+    const separator = ref(props.separate)
 
     const dropdown = ref(null), slot = ref(null)
     const key = ref('')
@@ -115,7 +116,7 @@ export default {
     }
 
     const textOption = (data: any) => {
-      return ['number','string'].includes(typeof data) ? data : (data?.label ?? '')
+      return ['number', 'string'].includes(typeof data) ? data : (data?.label ?? '')
     }
 
     const onSelect = (option: any) => {
@@ -134,12 +135,28 @@ export default {
       return rect.bottom > windowHeight
     }
 
+    const initOptions = (value: string[] | Dropdown[] | number[]) => {
+
+      let options = []
+
+      value.forEach((e: any, i: number) => {
+        if (e != '-') {
+          options.push(e)
+        } else {
+          separator.value.push(i < 0 ? i : i - 1)
+        }
+      })
+
+      options_.value = options
+    }
+
     // watch options
     watch(() => props.options, (value) => {
-      options_.value = value
+      initOptions(value)
     })
 
     onMounted(() => {
+      initOptions(props.options)
       key.value = utils.randString()
 
       // listen click event
@@ -167,7 +184,7 @@ export default {
       })
     })
 
-    return { show, utils, options_, dropdown, slot, dkey, additionalStyle, toggle, textOption, onSelect, extract }
+    return { show, utils, options_, dropdown, slot, dkey, additionalStyle, toggle, textOption, onSelect, extract, separator }
   }
 }
 </script>

@@ -29,7 +29,8 @@ interface TableConfig {
     loadingNumber: number,
 }
 
-interface TableRowAction {
-    options: (data: any) => Array<string>,
-    actions: (data: any) => void
+interface TableRows {
+    data: Array<Record<any, any>>,
+    options?: (data: any) => Array<string>,
+    actions?: (option: any, data: any) => void
 }

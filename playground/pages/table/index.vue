@@ -4,8 +4,8 @@
       { label: 'Create New', icon: 'ti-plus' }
     ]" />
 
-    <Table :columns="table.columns" :rows="data" :pagination="{ meta: meta, paginate: onPaginate }"
-      :entries="{ entry: onEntry }" :loading="isLoading" :rowActions="rowActions">
+    <Table :columns="table.columns" :rows="{data: data, options: options, actions: actions }" :pagination="{ meta: meta, paginate: onPaginate }"
+      :entries="{ entry: onEntry }" :loading="isLoading">
 
       <template v-slot:actions>
         <div>
@@ -14,7 +14,13 @@
       </template>
     </Table> <br>
 
-    <Code code='<Table :columns="table.columns" :rows="table.rows" />' />
+    <Code
+      code='<Table :columns="table.columns" :rows="{ data: data, options: options, actions: actions }" :pagination="{ meta: meta, paginate: onPaginate }" :entries="{ entry: onEntry }" :loading="isLoading" />' />
+    <Code class="mt-2" code='// meta
+const meta = { "current_page": 1, "from": 1, "to": 5, "total": 30, "last_page": 6, "per_page": 5 }' />
+
+    <Code class="mt-2" code='// onPaginate
+onPaginate(page: number): any { }' />
   </div>
 </template>
 
@@ -54,44 +60,6 @@ export default {
           { label: 'Description', sortable: true },
           { label: 'Price', sortable: true },
           { label: 'Stock', sortable: true },
-        ],
-
-        rows: [
-          {
-            id: 1,
-            name: 'Mocha Float',
-            price: 'IDR 15.500',
-            stock: 241,
-            category: 'Drink'
-          },
-          {
-            id: 2,
-            name: 'Apple Pie',
-            price: 'IDR 18.000',
-            stock: 132,
-            category: 'Fruite'
-          },
-          {
-            id: 3,
-            name: 'Blue Berry',
-            price: 'IDR 11.300',
-            stock: 216,
-            category: 'Fruite'
-          },
-          {
-            id: 4,
-            name: 'Burger Fillet',
-            price: 'IDR 31.800',
-            stock: 98,
-            category: 'Food'
-          },
-          {
-            id: 5,
-            name: 'Mocha Float',
-            price: 'IDR 21.300',
-            stock: 22,
-            category: 'Drink'
-          }
         ]
       }
     }
@@ -122,8 +90,12 @@ export default {
       }
     },
 
-    rowActions(data: any): Array<string> {
-      return Number(data.stock) < 20 ? ['Details', 'Edit', 'Delete'] : ['Details']
+    options(data: any): Array<string> {
+      return Number(data.stock) < 20 ? ['Details', '-', 'Edit', 'Delete'] : ['Details']
+    },
+
+    actions(option: any, data: any) {
+      console.log(option, data)
     }
   },
 
