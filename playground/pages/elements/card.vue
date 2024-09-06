@@ -73,7 +73,7 @@
     <p v-if="tab == 0">Your content is here...</p>
 </Card>' />
 
-                    <Card title="Dense Card" dense
+                    <Card title="Dense Card" dense titleStyle="h4"
                         :ribbon="{ content: 'icon:user', position: 'right', background: 'bg-green' }">
                         <p class="m-0">This is some text within a card body.</p>
                     </Card>
