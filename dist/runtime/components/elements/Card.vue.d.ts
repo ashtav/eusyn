@@ -1,4 +1,4 @@
-import { type Ref } from 'vue';
+import { type PropType, type Ref } from 'vue';
 interface TabData {
     label?: string;
     icon?: string;
@@ -6,6 +6,11 @@ interface TabData {
 interface TabAction {
     icon: string;
     click?: (data: TabAction) => {};
+}
+interface RibbonCard {
+    background?: string;
+    content: string | number;
+    position?: string;
 }
 declare const _default: import("vue").DefineComponent<{
     title: {
@@ -21,6 +26,14 @@ declare const _default: import("vue").DefineComponent<{
     stacked: {
         type: BooleanConstructor;
         default: boolean;
+    };
+    dense: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    ribbon: {
+        type: PropType<RibbonCard>;
+        default: null;
     };
     actions: {
         type: {
@@ -78,6 +91,14 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
+    dense: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
+    ribbon: {
+        type: PropType<RibbonCard>;
+        default: null;
+    };
     actions: {
         type: {
             (arrayLength: number): TabAction[];
@@ -119,6 +140,8 @@ declare const _default: import("vue").DefineComponent<{
 }>>, {
     stacked: boolean;
     elevation: boolean;
+    dense: boolean;
+    ribbon: RibbonCard;
     actions: TabAction[];
     tabs: TabData[];
     tabPos: string;

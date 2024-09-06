@@ -23,7 +23,7 @@
                 :style="{ backgroundImage: `url('${thumbnail}')` }">
             </div>
             <div>
-                <div :class="['card-header', { 'border-0': !elevation }]">
+                <div :class="['card-header', { 'border-0': !elevation, 'pb-0': dense }]">
                     <h3 class="card-title"> {{ title }} </h3>
                     <div class="card-actions btn-actions" v-if="actions.length != 0">
                         <span class="btn-action" v-for="action in actions" @click="action?.click(action)">
@@ -37,6 +37,12 @@
                     <slot />
                 </div>
             </div>
+        </div>
+
+        <div :class="['ribbon', `ribbon-${ribbon?.position}`, ribbon?.background ?? 'bg-red']"
+            v-if="tabs.length == 0 && actions.length == 0 && ribbon">
+            <Ti v-if="ribbon?.content.toString().includes(':')" :icon="ribbon?.content.toString().split(':')[1]" />
+            <span v-else>{{ ribbon?.content }}</span>
         </div>
     </div>
 
@@ -59,6 +65,14 @@ export default {
     stacked: {
       type: Boolean,
       default: false
+    },
+    dense: {
+      type: Boolean,
+      default: false
+    },
+    ribbon: {
+      type: Object,
+      default: null
     },
     actions: {
       type: Array,

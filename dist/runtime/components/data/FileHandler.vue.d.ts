@@ -75,10 +75,10 @@ declare const _default: import("vue").DefineComponent<{
     onSelect?: ((...args: any[]) => any) | undefined;
     onDragged?: ((...args: any[]) => any) | undefined;
 }, {
+    accept: string;
     multiple: boolean;
-    disabled: boolean;
     config: Config;
     draggable: boolean;
-    accept: string;
+    disabled: boolean;
 }, {}>;
 export default _default;

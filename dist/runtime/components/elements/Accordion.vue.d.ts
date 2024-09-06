@@ -36,11 +36,11 @@ declare const _default: import("vue").DefineComponent<{
         default: () => never[];
     };
 }>>, {
+    multiple: boolean;
     items: {
         label: string;
         content: string;
     }[];
-    multiple: boolean;
     open: number[];
 }, {}>;
 export default _default;

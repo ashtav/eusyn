@@ -38,7 +38,7 @@ const ucfirst = (text, normalize = false) => {
   return isHTML(value) ? capitalizeFirstActualLetter(value) : value.charAt(0).toUpperCase() + value.slice(1);
 };
 const currency = (text, separator = ",") => {
-  return text.replace(/[^0-9]/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, separator);
+  return text.toString().replace(/[^0-9]/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 };
 const cleanMap = (self, key) => {
   if (typeof key === "string") {

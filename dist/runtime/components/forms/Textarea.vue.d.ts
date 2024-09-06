@@ -145,9 +145,9 @@ declare const _default: import("vue").DefineComponent<{
 }, {
     label: string;
     disabled: boolean;
+    password: boolean;
     required: boolean;
     modelValue: string;
-    password: boolean;
     nospace: boolean;
     hint: string;
     autofocus: boolean;

@@ -88,9 +88,9 @@ declare const _default: import("vue").DefineComponent<{
 }>>, {
     entries: any;
     config: any;
-    loading: boolean;
     columns: Column[];
     rows: any;
     pagination: any;
+    loading: boolean;
 }, {}>;
 export default _default;

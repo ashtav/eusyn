@@ -179,14 +179,14 @@ declare const _default: import("vue").DefineComponent<{
     onEnter?: ((...args: any[]) => any) | undefined;
     onSuffix?: ((...args: any[]) => any) | undefined;
 }, {
-    type: string;
     label: string;
+    disabled: boolean;
+    type: string;
     mask: string;
     readonly: boolean;
-    disabled: boolean;
+    password: boolean;
     required: boolean;
     modelValue: string;
-    password: boolean;
     nospace: boolean;
     hint: string;
     autofocus: boolean;
