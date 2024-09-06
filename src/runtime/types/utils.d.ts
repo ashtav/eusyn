@@ -10,7 +10,7 @@ interface Utils {
     alphanumeric: (text: string) => string,
     ucwords: (text: string, normalize?: boolean, strict?: boolean) => string,
     ucfirst: (text: string, normalize?: boolean) => string,
-    currency: (text: string, separator?: string) => string,
+    currency: (text: string | number, separator?: string) => string,
     cleanMap: (self: any, key: any) => void,
     randInt: (min: number, max: number) => number,
     randString: (length?: number, withSpecialChar?: boolean) => string,
@@ -25,3 +25,4 @@ interface Utils {
 
 export default Utils
 export { Manipulate }
+

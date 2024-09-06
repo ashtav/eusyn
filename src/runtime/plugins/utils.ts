@@ -98,8 +98,8 @@ const ucfirst = (text: string, normalize: boolean = false): string => {
  * @param separator - The separator to use for thousands. Defaults to ','.
  * @returns The formatted currency string.
  */
-const currency = (text: string, separator: string = ','): string => {
-  return text.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, separator)
+const currency = (text: string | number, separator: string = ','): string => {
+  return text.toString().replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, separator)
 }
 
 /**

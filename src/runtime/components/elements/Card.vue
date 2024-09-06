@@ -23,7 +23,7 @@
                 :style="{ backgroundImage: `url('${thumbnail}')` }">
             </div>
             <div>
-                <div :class="['card-header', { 'border-0': !elevation }]">
+                <div :class="['card-header', { 'border-0': !elevation, 'pb-0': dense }]">
                     <h3 class="card-title"> {{ title }} </h3>
                     <div class="card-actions btn-actions" v-if="actions.length != 0">
                         <span class="btn-action" v-for="action in actions" @click="action?.click(action)">
@@ -38,12 +38,18 @@
                 </div>
             </div>
         </div>
+
+        <div :class="['ribbon', `ribbon-${ribbon?.position}`, ribbon?.background ?? 'bg-red']"
+            v-if="tabs.length == 0 && actions.length == 0 && ribbon">
+            <Ti v-if="ribbon?.content.toString().includes(':')" :icon="ribbon?.content.toString().split(':')[1]" />
+            <span v-else>{{ ribbon?.content }}</span>
+        </div>
     </div>
 
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, type Ref } from 'vue';
+import { ref, type PropType, type Ref } from 'vue';
 
 interface TabData {
     label?: string,
@@ -53,6 +59,12 @@ interface TabData {
 interface TabAction {
     icon: string,
     click?: (data: TabAction) => {}
+}
+
+interface RibbonCard {
+    background?: string,
+    content: string | number,
+    position?: string
 }
 
 export default {
@@ -73,6 +85,16 @@ export default {
         stacked: {
             type: Boolean,
             default: false
+        },
+
+        dense: {
+            type: Boolean,
+            default: false
+        },
+
+        ribbon: {
+            type: Object as PropType<RibbonCard>,
+            default: null
         },
 
         actions: {
@@ -113,7 +135,7 @@ export default {
         display: flex;
         flex-direction: column-reverse;
 
-        .tab-content .tab-pane{
+        .tab-content .tab-pane {
             border-radius: 4px 4px 4px 0;
         }
     }

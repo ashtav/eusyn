@@ -28,7 +28,7 @@
     <p>This is some text within a card body.</p>
 </Card>' />
 
-<Code class="mt-3 mb-5" code="actions: <Array<any>>[
+                    <Code class="mt-3 mb-5" code="actions: <Array<any>>[
     { icon: 'pencil', click: this.onActions },
     { icon: 'trash', click: this.onActions },
 ]" />
@@ -42,7 +42,8 @@
                         </p>
 
                         <div class="d-flex align-items-center pt-4 mt-auto">
-                            <Avatar size="sm" url="https://img.freepik.com/premium-photo/3d-illustration-cartoon-character-avatar-profile_1183071-178.jpg?w=360" />
+                            <Avatar size="sm"
+                                url="https://img.freepik.com/premium-photo/3d-illustration-cartoon-character-avatar-profile_1183071-178.jpg?w=360" />
                             <div class="ms-3">
                                 <a href="#" class="text-body">John Doe</a>
                                 <div class="text-secondary">3 days ago</div>
@@ -71,6 +72,13 @@
                     <Code class="mt-3 mb-5" code='<Card title="Tabbed Card" :tabs="[]" v-slot="{ tab }">
     <p v-if="tab == 0">Your content is here...</p>
 </Card>' />
+
+                    <Card title="Dense Card" dense
+                        :ribbon="{ content: 'icon:user', position: 'right', background: 'bg-green' }">
+                        <p class="m-0">This is some text within a card body.</p>
+                    </Card>
+
+                    <Code class="mt-3 mb-5" :code="c" />
                 </div>
             </div>
         </ClientOnly>
@@ -94,7 +102,9 @@ export default {
                 { label: 'Biodata', icon: 'user' },
                 { label: 'Education', icon: 'school' },
                 { label: 'Works', icon: 'briefcase' },
-            ]
+            ],
+
+            c: "<Card title=\"Dense Card\" dense :ribbon=\"{ content: 'icon:user' }\"> </Card>"
         }
     },
 
