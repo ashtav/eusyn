@@ -85,11 +85,13 @@ declare const _default: import("vue").DefineComponent<{
     localValue: import("vue").Ref<string>;
     inputType: import("vue").Ref<string>;
     inputSuffixs: import("vue").Ref<any[]>;
+    input: import("vue").Ref<null>;
     onInput: (event: any) => void;
     onFocus: (event: any) => void;
     onMouseDown: (event: any) => void;
     onSuffix: (data: any) => void;
     onKeyPress: (event: any) => void;
+    doFocus: () => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("blur" | "focus" | "update:modelValue" | "enter" | "suffix")[], "blur" | "focus" | "update:modelValue" | "enter" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;

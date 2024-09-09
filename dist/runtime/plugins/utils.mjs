@@ -104,17 +104,28 @@ const dateFormat = (date, format) => {
   const pad = (number, length) => {
     return number.toString().padStart(length, "0");
   };
+  const getMonthShort = () => parsedDate.toLocaleString("en", { month: "short" });
+  const getMonthLong = () => parsedDate.toLocaleString("id", { month: "long" });
+  const getDayShort = () => parsedDate.toLocaleString("en", { weekday: "short" });
+  const getDayLong = () => parsedDate.toLocaleString("en", { weekday: "long" });
   const formatMapping = {
     "Y": parsedDate.getFullYear().toString(),
     "y": parsedDate.getFullYear().toString().slice(-2),
     "M": pad(parsedDate.getMonth() + 1, 2),
     "m": pad(parsedDate.getMonth() + 1, 2),
     "D": pad(parsedDate.getDate(), 2),
-    "d": pad(parsedDate.getDate(), 2)
+    "d": pad(parsedDate.getDate(), 2),
+    "H": pad(parsedDate.getHours(), 2),
+    "i": pad(parsedDate.getMinutes(), 2),
+    "s": pad(parsedDate.getSeconds(), 2),
+    "MMM": getMonthShort(),
+    "MMMM": getMonthLong(),
+    "DDD": getDayShort(),
+    "DDDD": getDayLong()
   };
-  let formattedDate = format;
-  Object.keys(formatMapping).forEach((key) => {
-    formattedDate = formattedDate.replace(new RegExp(key, "g"), formatMapping[key]);
+  let formattedDate = format ?? "Y-m-d H:i:s";
+  Object.keys(formatMapping).sort((a, b) => b.length - a.length).forEach((key) => {
+    formattedDate = formattedDate.replace(new RegExp(`\\b${key}\\b`, "g"), formatMapping[key]);
   });
   return formattedDate;
 };

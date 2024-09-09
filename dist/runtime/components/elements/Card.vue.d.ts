@@ -31,6 +31,9 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
+    titleStyle: {
+        type: StringConstructor;
+    };
     ribbon: {
         type: PropType<RibbonCard>;
         default: null;
@@ -94,6 +97,9 @@ declare const _default: import("vue").DefineComponent<{
     dense: {
         type: BooleanConstructor;
         default: boolean;
+    };
+    titleStyle: {
+        type: StringConstructor;
     };
     ribbon: {
         type: PropType<RibbonCard>;

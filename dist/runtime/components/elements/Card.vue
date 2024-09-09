@@ -24,7 +24,7 @@
             </div>
             <div>
                 <div :class="['card-header', { 'border-0': !elevation, 'pb-0': dense }]">
-                    <h3 class="card-title"> {{ title }} </h3>
+                    <h3 class="card-title" :class="titleStyle"> {{ title }} </h3>
                     <div class="card-actions btn-actions" v-if="actions.length != 0">
                         <span class="btn-action" v-for="action in actions" @click="action?.click(action)">
                             <Ti :icon="action.icon" />
@@ -69,6 +69,9 @@ export default {
     dense: {
       type: Boolean,
       default: false
+    },
+    titleStyle: {
+      type: String
     },
     ribbon: {
       type: Object,

@@ -70,6 +70,7 @@ declare const _default: import("vue").DefineComponent<{
     onKeyPress: (event: any) => void;
     onSuffix: () => void;
     textOption: (option: any, prioritizeValue?: boolean) => any;
+    doFocus: () => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("change" | "update:modelValue" | "enter")[], "change" | "update:modelValue" | "enter", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;

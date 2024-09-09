@@ -18,7 +18,7 @@ interface Utils {
     on: (condition: boolean, then: any, or?: any) => any,
     copy: (value: any, message?: string) => void,
     downloadFile: (url: string, filename?: string) => Promise<void>,
-    dateFormat: (date: string | Date, format: string) => string,
+    dateFormat: (date: string | Date, format?: string) => string,
     manipulate: (data: Record<any, any>, action: Manipulate) => Record<any, any>
     getInitials: (value: string) => string
 }

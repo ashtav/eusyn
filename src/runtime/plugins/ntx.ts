@@ -3,7 +3,6 @@ import { defineNuxtPlugin } from '#imports'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 
-
 import type Ntx from '../types/ntx'
 import { faker } from './faker'
 import { image } from './image'

@@ -35,10 +35,17 @@ const ntx = {
     get: themeValue
   }
 };
+const n = {
+  ...ntx,
+  focus: (self, ref2) => {
+    self.$refs[ref2]?.doFocus();
+  }
+};
 export default defineNuxtPlugin(() => {
   return {
     provide: {
-      ntx
+      ntx,
+      n
     }
   };
 });

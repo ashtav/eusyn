@@ -17,7 +17,7 @@
       <input :value="localValue" :type="inputType" :class="['form-control']" :placeholder="hint" :maxlength="maxLength"
         :required="required" :disabled="disabled" :readonly="readonly" :min="minDate" :max="maxDate"
         :autofocus="autofocus" name="input" autocomplete="off" @focus="onFocus" @input="onInput" @keypress="onKeyPress"
-        @mousedown="onMouseDown">
+        @mousedown="onMouseDown" ref="input">
 
       <!-- suffixs -->
       <div v-if="inputSuffixs.length != 0 && !['date'].includes(type)" class="suffixs">
@@ -122,6 +122,7 @@ export default defineComponent({
       return ["range"].includes(props.type) ? "text" : props.type;
     };
     const instance = getCurrentInstance();
+    const input = ref(null);
     const localValue = ref(props.modelValue);
     const inputType = ref(getType());
     const inputSuffixs = ref(props.suffixs);
@@ -221,6 +222,11 @@ export default defineComponent({
         }
       }
     };
+    const doFocus = () => {
+      if (input.value) {
+        input.value.focus();
+      }
+    };
     watch(() => props.type, () => {
       inputType.value = getType();
     });
@@ -270,21 +276,29 @@ export default defineComponent({
       });
     });
     watch(() => props.mask, () => onMask());
+    watch(() => props.autofocus, () => {
+      if (props.autofocus)
+        doFocus();
+    });
     onMounted(() => {
       checkPassword(props.password);
       onMask();
       inputType.value = getType();
+      if (props.autofocus)
+        doFocus();
     });
     return {
       utils,
       localValue,
       inputType,
       inputSuffixs,
+      input,
       onInput,
       onFocus,
       onMouseDown,
       onSuffix,
-      onKeyPress
+      onKeyPress,
+      doFocus
     };
   }
 });

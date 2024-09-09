@@ -159,6 +159,11 @@ export default defineComponent({
       localValue.value = option?.label ?? option?.value ?? value;
       emit("update:modelValue", value);
     };
+    const doFocus = () => {
+      if (refSelect.value) {
+        refSelect.value.focus();
+      }
+    };
     watch(() => props.modelValue, (value) => {
       initOption(value);
       if (value == "") {
@@ -188,7 +193,8 @@ export default defineComponent({
       onSelect,
       onKeyPress,
       onSuffix,
-      textOption
+      textOption,
+      doFocus
     };
   }
 });
