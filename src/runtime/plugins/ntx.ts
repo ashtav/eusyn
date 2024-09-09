@@ -5,7 +5,6 @@ import { ref } from 'vue'
 
 
 import type Ntx from '../types/ntx'
-import { el } from './el'
 import { faker } from './faker'
 import { image } from './image'
 import { utils } from './utils'
@@ -44,7 +43,6 @@ const ntx: Ntx = {
     utils: utils,
     faker: faker,
     image: image,
-    el: el,
     theme: {
         set: theme,
         get: themeValue
