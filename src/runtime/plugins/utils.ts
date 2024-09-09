@@ -217,21 +217,27 @@ const downloadFile = async (url: string, filename?: string) => {
  * Formats a date according to the specified format string.
  *
  * @param date - The date to format, either as a string or a Date object.
- * @param format - The format string, e.g., 'Y-m-d', 'd-m-y', 'yyyy-mm-dd'.
+ * @param format - The format string, e.g., 'Y-m-d', 'd-m-y', 'yyyy-mm-dd', 'DDD, d/MMM/Y H:i:s'.
  * @returns The formatted date as a string.
  */
-const dateFormat = (date: string | Date, format: string): string => {
-  let parsedDate: Date
+const dateFormat = (date: string | Date, format?: string): string => {
+  let parsedDate: Date;
 
   if (typeof date === 'string') {
-    parsedDate = new Date(date)
+    parsedDate = new Date(date);
   } else {
-    parsedDate = date
+    parsedDate = date;
   }
 
   const pad = (number: number, length: number): string => {
-    return number.toString().padStart(length, '0')
+    return number.toString().padStart(length, '0');
   }
+
+  // Use toLocaleString to get localized month and day names
+  const getMonthShort = (): string => parsedDate.toLocaleString('en', { month: 'short' });
+  const getMonthLong = (): string => parsedDate.toLocaleString('id', { month: 'long' });
+  const getDayShort = (): string => parsedDate.toLocaleString('en', { weekday: 'short' });
+  const getDayLong = (): string => parsedDate.toLocaleString('en', { weekday: 'long' });
 
   const formatMapping: { [key: string]: string } = {
     'Y': parsedDate.getFullYear().toString(),
@@ -239,16 +245,27 @@ const dateFormat = (date: string | Date, format: string): string => {
     'M': pad(parsedDate.getMonth() + 1, 2),
     'm': pad(parsedDate.getMonth() + 1, 2),
     'D': pad(parsedDate.getDate(), 2),
-    'd': pad(parsedDate.getDate(), 2)
-  }
+    'd': pad(parsedDate.getDate(), 2),
+    'H': pad(parsedDate.getHours(), 2),
+    'i': pad(parsedDate.getMinutes(), 2),
+    's': pad(parsedDate.getSeconds(), 2),
+    'MMM': getMonthShort(),
+    'MMMM': getMonthLong(),
+    'DDD': getDayShort(),
+    'DDDD': getDayLong()
+  };
 
-  let formattedDate = format
-  Object.keys(formatMapping).forEach(key => {
-    formattedDate = formattedDate.replace(new RegExp(key, 'g'), formatMapping[key])
-  })
+  let formattedDate = format ?? 'Y-m-d H:i:s';
 
-  return formattedDate
+  // Replace in order to avoid conflicts, longer keys first
+  Object.keys(formatMapping).sort((a, b) => b.length - a.length).forEach(key => {
+    formattedDate = formattedDate.replace(new RegExp(`\\b${key}\\b`, 'g'), formatMapping[key]);
+  });
+  
+
+  return formattedDate;
 }
+
 
 /**
  * Transforms the input data according to the provided manipulation actions.

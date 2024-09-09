@@ -203,6 +203,12 @@ export default defineComponent({
       emit('update:modelValue', value)
     }
 
+    const doFocus = () => {
+      if (refSelect.value) {
+        (refSelect.value as HTMLElement).focus()
+      }
+    } 
+
     watch(() => props.modelValue, (value) => {
       initOption(value)
 
@@ -225,7 +231,7 @@ export default defineComponent({
     })
 
     return {
-      utils, localValue, localOptions, selected, isFocus, refSelect, refOption, onInput, onFocus, onBlur, onSelect, onKeyPress, onSuffix, textOption
+      utils, localValue, localOptions, selected, isFocus, refSelect, refOption, onInput, onFocus, onBlur, onSelect, onKeyPress, onSuffix, textOption, doFocus
     }
   }
 })

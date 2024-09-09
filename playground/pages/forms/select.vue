@@ -23,7 +23,7 @@
                     code='<Select label="Province" hint="Select your province" suffix="ti-map-2" required :options="provinces" v-model="forms.province" />' />
 
                 <Select label="From Api" hint="Select your data" suffix="ti-file" required :options="options"
-                    v-model="forms.option" />
+                    v-model="forms.option" ref="select" />
 
                 <Button label="Get Data" @click="onSubmit" /> <br> <br>
                 <code>
@@ -107,6 +107,8 @@ export default {
                     }
                 })
                 action.abort()
+
+                this.$n.focus(this, 'select')
             })
         }
     }

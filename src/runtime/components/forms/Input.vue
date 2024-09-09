@@ -17,7 +17,7 @@
       <input :value="localValue" :type="inputType" :class="['form-control']" :placeholder="hint" :maxlength="maxLength"
         :required="required" :disabled="disabled" :readonly="readonly" :min="minDate" :max="maxDate"
         :autofocus="autofocus" name="input" autocomplete="off" @focus="onFocus" @input="onInput" @keypress="onKeyPress"
-        @mousedown="onMouseDown">
+        @mousedown="onMouseDown" ref="input">
 
       <!-- suffixs -->
       <div v-if="inputSuffixs.length != 0 && !['date'].includes(type)" class="suffixs">
@@ -139,6 +139,7 @@ export default defineComponent({
     }
 
     const instance = getCurrentInstance()
+    const input = ref(null)
 
     const localValue = ref(props.modelValue)
     const inputType = ref(getType())
@@ -275,6 +276,12 @@ export default defineComponent({
       }
     }
 
+    const doFocus = () => {
+      if (input.value) {
+        (input.value as HTMLElement).focus()
+      }
+    }
+
     // watch input type
     watch(() => props.type, () => {
       inputType.value = getType()
@@ -351,15 +358,22 @@ export default defineComponent({
     // watch mask props
     watch(() => props.mask, () => onMask())
 
+    // watch input focus
+    watch(() => props.autofocus, () => {
+      if (props.autofocus) doFocus()
+    })
+
     // mounted
     onMounted(() => {
       checkPassword(props.password)
       onMask()
       inputType.value = getType()
+
+      if (props.autofocus) doFocus()
     })
 
     return {
-      utils, localValue, inputType, inputSuffixs, onInput, onFocus, onMouseDown, onSuffix, onKeyPress
+      utils, localValue, inputType, inputSuffixs, input, onInput, onFocus, onMouseDown, onSuffix, onKeyPress, doFocus
     }
   }
 })

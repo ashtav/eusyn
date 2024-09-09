@@ -32,7 +32,8 @@ interface Ntx {
     utils: Utils,
     faker: Faker,
     image: Image,
-    theme: Theme
+    theme: Theme,
+    el: El
 }
 
 export default Ntx

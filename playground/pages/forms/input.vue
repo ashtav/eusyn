@@ -11,7 +11,7 @@
                 </p>
 
                 <Input v-model="forms.name" label="Full Name" hint="Enter your name" prefix="ti-user" required
-                    formatters="alpha|ucwords" />
+                    formatters="alpha|ucwords" autofocus />
 
                 <Code class="mb-5"
                     code='<Input label="Full Name" hint="Enter your name" prefix="ti-user" required v-model="forms.name" formatters="alpha|ucwords" />' />
@@ -21,7 +21,7 @@
                         { icon: 'ti-send' },
                         { icon: 'ti-bell' },
                         { icon: 'ti-archive', disabled: true }
-                    ]" required @suffix="onSuffix" />
+                    ]" required @suffix="onSuffix" ref="email" />
 
                 <Code class="mb-5" description="suffixs value is Object, ex: { icon: 'ti-send', disabled: false }"
                     code='<Input label="Email Address" hint="Enter your email address" prefix="ti-mail" v-model="forms.email" :suffixs="[{}]" required @suffix="onSuffix" /> ' />
@@ -79,7 +79,10 @@ export default {
     methods: {
         onSuffix(data: any) {
             console.log(data)
-            this.$ntx.utils.cleanMap(this, 'forms')
+            this.$ntx.utils.cleanMap(this, 'forms');
+
+            // (this.$refs.email as any).doFocus() // you can use this way
+            this.$n.focus(this, 'email') // or this way
         },
 
         onEnter(data: any) {
