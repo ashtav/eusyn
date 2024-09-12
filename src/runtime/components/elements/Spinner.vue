@@ -1,9 +1,31 @@
 <template>
-  <span class="spinner-border spinner-border-sm" />
+  <div class="d-inline-block">
+    <span class="spinner-border" :class="`spinner-border-${size}`" /> <span class="ms-2" v-if="label">{{ label }}</span>
+  </div>
 </template>
+
+<script lang="ts">
+export default {
+
+  props: {
+    label: {
+      type: String
+    },
+
+    size: {
+      type: String,
+      default: 'sm'
+    }
+  },
+
+
+}
+</script>
 
 <style lang="scss" scoped>
 .spinner-border {
-  margin: 2px 0;
+  &.fit-button {
+    margin-bottom: 2px;
+  }
 }
 </style>

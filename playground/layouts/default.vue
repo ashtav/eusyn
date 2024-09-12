@@ -77,6 +77,7 @@ export default {
             { label: 'Avatar', to: '/elements/avatar', icon: 'user-circle' },
             { label: 'Cards', to: '/elements/card', icon: 'id' },
             { label: 'Shimmer', to: '/shimmer', icon: 'wash-dry-shade' },
+            { label: 'Spinner', to: '/elements/spinner', icon: 'rotate-clockwise-2' },
             { label: 'Dropdown', to: '/dropdown', icon: 'align-justified' },
             { label: 'Table', to: '/table', icon: 'table' },
             { label: 'Page Header', to: '/page-header', icon: 'layout-navbar' },
