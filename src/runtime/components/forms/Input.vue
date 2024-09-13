@@ -135,7 +135,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const getType = (): string => {
-      return ['range'].includes(props.type) ? 'text' : props.type
+      return props.password ? 'password' : ['range'].includes(props.type) ? 'text' : props.type
     }
 
     const instance = getCurrentInstance()
@@ -195,9 +195,10 @@ export default defineComponent({
       emit('suffix', data)
     }
 
-    const checkPassword = (value: Boolean) => {
+    const checkPassword = (value: boolean) => {
       const suffixs = inputSuffixs.value
       inputType.value = value ? 'password' : props.type
+      obsecure.value = value
 
       if (value) {
         const index = suffixs.findIndex((e) => e._toggle)
