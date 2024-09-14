@@ -20,7 +20,9 @@ interface Utils {
     downloadFile: (url: string, filename?: string) => Promise<void>,
     dateFormat: (date: string | Date, format?: string) => string,
     manipulate: (data: Record<any, any>, action: Manipulate) => Record<any, any>
-    getInitials: (value: string) => string
+    getInitials: (value: string) => string,
+    arrDelete: <T>(array: T[], predicate: (element: T) => boolean) => void,
+    arrUpdate: <T>(array: T[], predicate: (element: T) => boolean, newItem: T) => void,
 }
 
 export default Utils

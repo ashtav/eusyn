@@ -69,7 +69,7 @@ export default {
             forms: {
                 name: '',
                 email: '',
-                password: '',
+                password: 'secret-password',
                 price: '',
                 date: ''
             }

@@ -8,7 +8,7 @@
 
   <button v-else :class="['btn', theme]" :type="utils.on(submit, 'submit', 'button')" :disabled="isSubmit || disabled"
     @click="click_">
-    <Spinner v-if="isSubmit" :class="{ 'me-2': icon == null }" />
+    <Spinner v-if="isSubmit" :class="['fit-button', { 'me-2': icon == null }]" />
 
     <Row :reverse="iconAlign == 'end'" :gap="(icon == null || label == null) ? 0 : 3">
       <Ti v-if="icon != null && !isSubmit" :icon="icon ?? ''" /> <span v-if="label" v-text="label" />
