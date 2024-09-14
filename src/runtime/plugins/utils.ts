@@ -261,7 +261,7 @@ const dateFormat = (date: string | Date, format?: string): string => {
   Object.keys(formatMapping).sort((a, b) => b.length - a.length).forEach(key => {
     formattedDate = formattedDate.replace(new RegExp(`\\b${key}\\b`, 'g'), formatMapping[key]);
   });
-  
+
 
   return formattedDate;
 }
@@ -325,8 +325,56 @@ const getInitials = (value: string): string => {
     .toUpperCase();
 };
 
+/**
+ * Removes the first element from an array that matches the predicate function.
+ *
+ * @param {T[]} array - The array from which the element will be removed.
+ * @param {(element: T) => boolean} predicate - A function to test each element of the array. 
+ *        Return `true` to delete the element.
+ * 
+ * @returns {void} - This function modifies the array in place and does not return a value.
+ *
+ * @example
+ * ```typescript
+ * const fruits = [{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }];
+ * arrDelete(fruits, (fruit) => fruit.id === 1); 
+ * // fruits will be [{ id: 2, name: 'Banana' }]
+ * ```
+ */
+const arrDelete = <T>(array: T[], predicate: (element: T) => boolean): void => {
+  const index = array.findIndex(predicate);
+  if (index !== -1) {
+    array.splice(index, 1);
+  }
+}
+
+/**
+ * Updates the first element in an array that matches the predicate function by replacing it with a new item.
+ *
+ * @param {T[]} array - The array containing the element to be updated.
+ * @param {(element: T) => boolean} predicate - A function to test each element of the array. 
+ *        Return `true` to update the element.
+ * @param {T} newItem - The new item that will replace the matched element.
+ * 
+ * @returns {void} - This function modifies the array in place and does not return a value.
+ *
+ * @example
+ * ```typescript
+ * const fruits = [{ id: 1, name: 'Apple' }, { id: 2, name: 'Banana' }];
+ * arrUpdate(fruits, (fruit) => fruit.id === 1, { id: 3, name: 'Mango' });
+ * // fruits will be [{ id: 3, name: 'Mango' }, { id: 2, name: 'Banana' }]
+ * ```
+ */
+const arrUpdate = <T>(array: T[], predicate: (element: T) => boolean, newItem: T): void => {
+  const index = array.findIndex(predicate);
+  if (index !== -1) {
+    array.splice(index, 1, newItem);
+  }
+}
+
 const utils: Utils = {
-  alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes, on, copy, downloadFile, dateFormat, manipulate, getInitials
+  alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes,
+  on, copy, downloadFile, dateFormat, manipulate, getInitials, arrDelete, arrUpdate
 }
 
 const _ = utils
