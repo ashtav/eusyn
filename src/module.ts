@@ -71,16 +71,12 @@ export default defineNuxtModule<ModuleOptions>({
       global: options.global
     })
 
-    // addComponentsDir({
-    //   path: resolve(runtimeDir, 'components', 'overlays'),
-    //   prefix: options.prefix,
-    //   global: options.global,
-    //   watch: false
-    // })
-
     // Composables
     addImportsDir(resolve(runtimeDir, 'composables'))
 
-    console.log('NTX - 1.0.0 24914.1')
+    const now = new Date()
+    const build = `${now.getFullYear()}${now.getMonth()}${now.getDate()}.1`
+
+    console.log(`NTX - 1.0.0 ${build}`)
   }
 })

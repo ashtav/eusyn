@@ -27,10 +27,10 @@ const alphanumeric = (text: string): string => {
  * Removes all non-numeric characters from the input text.
  *
  * @param {string} text - The input string to be processed.
- * @returns {string} - A string containing only numeric characters.
+ * @returns {number}
  */
-const numeric = (text: string): string => {
-  return text.replace(/[^0-9]/g, '')
+const numeric = (text: string): number => {
+  return Number(text.replace(/[^0-9]/g, ''))
 }
 
 /**
@@ -326,6 +326,28 @@ const getInitials = (value: string): string => {
 };
 
 /**
+ * Randomly shuffles the elements of an array using the Fisher-Yates algorithm.
+ *
+ * @template T The type of elements in the array.
+ * @param {T[]} array - The array to shuffle.
+ * @returns {T[]} A new array with the elements shuffled.
+ *
+ * @example
+ * ```typescript
+ * const numbers = [1, 2, 3, 4, 5];
+ * const shuffledNumbers = shuffle(numbers); // e.g., [3, 5, 1, 2, 4]
+ * ```
+ */
+const shuffle = <T>(array: T[]): T[] => {
+  const result = array.slice(); // Make a copy of the array
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]]; // Swap elements
+  }
+  return result;
+};
+
+/**
  * Removes the first element from an array that matches the predicate function.
  *
  * @param {T[]} array - The array from which the element will be removed.
@@ -374,7 +396,7 @@ const arrUpdate = <T>(array: T[], predicate: (element: T) => boolean, newItem: T
 
 const utils: Utils = {
   alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes,
-  on, copy, downloadFile, dateFormat, manipulate, getInitials, arrDelete, arrUpdate
+  on, copy, downloadFile, dateFormat, manipulate, getInitials, shuffle, arrDelete, arrUpdate
 }
 
 const _ = utils

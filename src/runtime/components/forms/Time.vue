@@ -145,23 +145,21 @@ export default {
             &:not(:first-child) {
                 padding-left: 3px;
 
-                &::before {
-                    content: '';
-                    width: 2px;
-                    height: 2px;
-                    background-color: #888;
-                    position: absolute;
-                    left: 0;
-                    top: 41%;
-                }
-
+                &::before,
                 &::after {
                     content: '';
                     width: 2px;
                     height: 2px;
-                    background-color: #777;
-                    position: absolute;
                     left: 0;
+                    position: absolute;
+                    background-color: #888;
+                }
+
+                &::before {
+                    top: 41%;
+                }
+
+                &::after {
                     bottom: 41%;
                 }
             }
@@ -206,10 +204,28 @@ export default {
 
         &:hover {
             li {
-                padding: 10px 25px;
+                padding: 10px 20px !important;
 
                 &:not(:first-child) {
                     border-color: #ddd;
+
+                    &::before,
+                    &::after {
+                        content: '';
+                        width: 2px;
+                        height: 2px;
+                        left: 0;
+                        position: absolute;
+                        background-color: transparent !important;
+                    }
+
+                    &::before {
+                        top: 41%;
+                    }
+
+                    &::after {
+                        bottom: 41%;
+                    }
                 }
             }
 
@@ -218,6 +234,67 @@ export default {
             }
         }
     }
+}
+
+[data-bs-theme=dark] {
+
+    .time-picker {
+
+        .input {
+            background-color: #151f2c;
+            border-color: #2d3d50;
+        }
+
+        ul {
+
+            li {
+                &:not(:first-child) {
+                    padding-left: 3px;
+
+                    &::before {
+                        content: '';
+                        width: 2px;
+                        height: 2px;
+                        background-color: #888;
+                        position: absolute;
+                        left: 0;
+                        top: 41%;
+                    }
+
+                    &::after {
+                        content: '';
+                        width: 2px;
+                        height: 2px;
+                        background-color: #777;
+                        position: absolute;
+                        left: 0;
+                        bottom: 41%;
+                    }
+                }
+
+                span.up,
+                span.down {
+                    &:hover {
+                        background-color: #2d3d50;
+                    }
+
+                    &:active {
+                        background-color: #2d3d50;
+                    }
+                }
+            }
+
+            &:hover {
+                li {
+                    &:not(:first-child) {
+                        border-color: #2d3d50;
+                    }
+                }
+            }
+        }
+
+    }
+
 }
 
 // .time-picker {
