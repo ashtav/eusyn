@@ -48,16 +48,16 @@ const ntx: Ntx = {
     }
 }
 
-const n = {
-    ...ntx, focus: (self: any, ref: string) => {
-        (self.$refs[ref] as any)?.doFocus()
-    }
-}
-
 export default defineNuxtPlugin(() => {
     return {
         provide: {
-            ntx, n
+            ntx,
+            n: {
+                ...ntx,
+                focus: (self: any, ref: string) => {
+                    (self.$refs[ref] as any)?.doFocus()
+                }
+            }
         }
     }
 })
@@ -65,11 +65,13 @@ export default defineNuxtPlugin(() => {
 declare module '#app' {
     interface NuxtApp {
         $ntx: Ntx;
+        $n: Ntx;
     }
 }
 
 declare module 'vue' {
     interface ComponentCustomProperties {
         $ntx: Ntx;
+        $n: Ntx;
     }
 }

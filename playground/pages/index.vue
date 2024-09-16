@@ -19,9 +19,14 @@
 
       <br>
 
-      <Input label="Select Time" type="time" hint="00:00:00" prefix="clock"/>
+      <Input label="Select Time" type="time" hint="00:00:00" prefix="clock" />
 
-      <code>{{ forms }}</code>
+      <code>{{ forms }}</code> <br>
+      <code>{{ foods }}</code>
+
+      <div class="mt-3">
+        <Button theme="white" label="Arr Update" @click="onAction" />
+      </div>
     </div>
   </div>
 </template>
@@ -36,14 +41,20 @@ export default {
     return {
       forms: {
         time: ''
-      }
+      },
+
+      foods: [
+        { id: 1, name: 'Apple' },
+        { id: 2, name: 'Mango' },
+      ]
     }
   },
 
   methods: {
 
     onAction() {
-
+      const arr = ['Banana', 'Durian', 'Cherry', 'Apple', 'Lemon']
+      this.$n.utils.arrUpdate(this.foods, (e) => e.id == 2, { id: 2, name:  this.$n.utils.shuffle(arr)[0] })
     }
   }
 }
