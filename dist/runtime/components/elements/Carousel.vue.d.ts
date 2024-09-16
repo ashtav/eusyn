@@ -31,7 +31,7 @@ declare const _default: import("vue").DefineComponent<{
         default: number;
     };
     height: {
-        type: (StringConstructor | NumberConstructor)[];
+        type: (NumberConstructor | StringConstructor)[];
         default: number;
     };
     config: {
@@ -81,7 +81,7 @@ declare const _default: import("vue").DefineComponent<{
         default: number;
     };
     height: {
-        type: (StringConstructor | NumberConstructor)[];
+        type: (NumberConstructor | StringConstructor)[];
         default: number;
     };
     config: {

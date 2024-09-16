@@ -1,7 +1,7 @@
 import type { Ref } from 'vue';
 declare const _default: import("vue").DefineComponent<{
     size: {
-        type: (StringConstructor | NumberConstructor | {
+        type: (NumberConstructor | StringConstructor | {
             (arrayLength: number): any[];
             (...items: any[]): any[];
             new (arrayLength: number): any[];
@@ -18,7 +18,7 @@ declare const _default: import("vue").DefineComponent<{
         default: number[];
     };
     radius: {
-        type: (StringConstructor | NumberConstructor)[];
+        type: (NumberConstructor | StringConstructor)[];
         default: number;
     };
     iterate: {
@@ -34,7 +34,7 @@ declare const _default: import("vue").DefineComponent<{
     styles: Ref<Record<string, any>[]>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     size: {
-        type: (StringConstructor | NumberConstructor | {
+        type: (NumberConstructor | StringConstructor | {
             (arrayLength: number): any[];
             (...items: any[]): any[];
             new (arrayLength: number): any[];
@@ -51,7 +51,7 @@ declare const _default: import("vue").DefineComponent<{
         default: number[];
     };
     radius: {
-        type: (StringConstructor | NumberConstructor)[];
+        type: (NumberConstructor | StringConstructor)[];
         default: number;
     };
     iterate: {

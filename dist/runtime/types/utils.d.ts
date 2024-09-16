@@ -6,7 +6,7 @@ interface Manipulate {
 
 interface Utils {
     alpha: (text: string) => string,
-    numeric: (text: string) => string,
+    numeric: (text: string) => number,
     alphanumeric: (text: string) => string,
     ucwords: (text: string, normalize?: boolean, strict?: boolean) => string,
     ucfirst: (text: string, normalize?: boolean) => string,
@@ -20,7 +20,10 @@ interface Utils {
     downloadFile: (url: string, filename?: string) => Promise<void>,
     dateFormat: (date: string | Date, format?: string) => string,
     manipulate: (data: Record<any, any>, action: Manipulate) => Record<any, any>
-    getInitials: (value: string) => string
+    getInitials: (value: string) => string,
+    shuffle: <T>(array: T[]) => T[],
+    arrDelete: <T>(array: T[], predicate: (element: T) => boolean) => void,
+    arrUpdate: <T>(array: T[], predicate: (element: T) => boolean, newItem: T) => void,
 }
 
 export default Utils

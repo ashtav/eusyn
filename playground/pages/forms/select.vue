@@ -25,12 +25,16 @@
                 <Select label="From Api" hint="Select your data" suffix="ti-file" required :options="options"
                     v-model="forms.option" ref="select" />
 
-                <Button label="Get Data" @click="onSubmit" /> <br> <br>
+                <Button label="Get Data" @click="onSubmit" />
+                <Button label="Auto Fill" theme="white ms-2" @click="onFill" />
+                <br> <br>
                 <code>
         {{ forms }}
       </code>
             </div>
         </div>
+
+        <div style="margin-bottom: 300px"></div>
     </div>
 </template>
 
@@ -48,7 +52,7 @@ export default {
                 hobby: '',
                 province: '',
                 city: '',
-                option: ''
+                option: '9ce7d80f-c7e6-44d3-8954-a3fb43473447'
             },
 
             hobbies: [
@@ -108,8 +112,12 @@ export default {
                 })
                 action.abort()
 
-                this.$n.focus(this, 'select')
+                // this.$n.focus(this, 'select')
             })
+        },
+
+        onFill() {
+            this.forms.option = '9ce7d80f-cc45-4c87-9fcb-9ba2d3846bac'
         }
     }
 }

@@ -7,7 +7,7 @@ const alphanumeric = (text) => {
   return text.replace(/[^a-zA-Z0-9. ]/g, "");
 };
 const numeric = (text) => {
-  return text.replace(/[^0-9]/g, "");
+  return Number(text.replace(/[^0-9]/g, ""));
 };
 const ucwords = (text, normalize = false, strict = false) => {
   const value = normalize ? (text ?? "").toLowerCase() : text ?? "";
@@ -157,6 +157,26 @@ const manipulate = (data, action) => {
 const getInitials = (value) => {
   return value.split(" ").map((word) => word[0]).join("").toUpperCase();
 };
+const shuffle = (array) => {
+  const result = array.slice();
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+};
+const arrDelete = (array, predicate) => {
+  const index = array.findIndex(predicate);
+  if (index !== -1) {
+    array.splice(index, 1);
+  }
+};
+const arrUpdate = (array, predicate, newItem) => {
+  const index = array.findIndex(predicate);
+  if (index !== -1) {
+    array.splice(index, 1, newItem);
+  }
+};
 const utils = {
   alpha,
   numeric,
@@ -173,7 +193,10 @@ const utils = {
   downloadFile,
   dateFormat,
   manipulate,
-  getInitials
+  getInitials,
+  shuffle,
+  arrDelete,
+  arrUpdate
 };
 const _ = utils;
 export { _, utils };

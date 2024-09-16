@@ -7,6 +7,7 @@ import type Ntx from '../types/ntx'
 import { faker } from './faker'
 import { image } from './image'
 import { utils } from './utils'
+import type Utils from '../types/utils'
 
 const themeValue: Ref<string> = ref('system')
 
@@ -45,19 +46,18 @@ const ntx: Ntx = {
     theme: {
         set: theme,
         get: themeValue
+    },
+    focus: (self: any, ref: string): void => {
+        (self.$refs[ref] as any)?.doFocus()
     }
 }
+
+const n: Ntx = ntx
 
 export default defineNuxtPlugin(() => {
     return {
         provide: {
-            ntx,
-            n: {
-                ...ntx,
-                focus: (self: any, ref: string) => {
-                    (self.$refs[ref] as any)?.doFocus()
-                }
-            }
+            ntx, n
         }
     }
 })

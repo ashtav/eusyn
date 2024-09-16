@@ -1,6 +1,6 @@
 declare const _default: import("vue").DefineComponent<{
     gap: {
-        type: (StringConstructor | NumberConstructor)[];
+        type: (NumberConstructor | StringConstructor)[];
         default: number;
     };
     expanded: {
@@ -34,7 +34,7 @@ declare const _default: import("vue").DefineComponent<{
     }>[]>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     gap: {
-        type: (StringConstructor | NumberConstructor)[];
+        type: (NumberConstructor | StringConstructor)[];
         default: number;
     };
     expanded: {

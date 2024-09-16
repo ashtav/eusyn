@@ -192,6 +192,13 @@ export default defineComponent({
     }
 
     const initOption = (value: any) => {
+      if (props.options.length == 0) {
+        emit('update:modelValue', '')
+        localValue.value = ''
+
+        return
+      }
+
       // get option by value
       const option = props.options.find((o) => {
         return `${textOption(o, true)}`.toLowerCase() == `${value}`.toLowerCase()
@@ -200,15 +207,16 @@ export default defineComponent({
       selected.value = option
       localValue.value = option?.label ?? option?.value ?? value
 
-      emit('update:modelValue', value)
+      // emit('update:modelValue', value)
     }
 
     const doFocus = () => {
       if (refSelect.value) {
         (refSelect.value as HTMLElement).focus()
       }
-    } 
+    }
 
+    // watch v-model to handle if user change data from input
     watch(() => props.modelValue, (value) => {
       initOption(value)
 
@@ -217,9 +225,9 @@ export default defineComponent({
       }
     })
 
-    watch(() => localValue.value, (value) => {
-      emit('update:modelValue', value)
-    })
+    // watch(() => localValue.value, (value) => {
+    //   emit('update:modelValue', value)
+    // })
 
     watch(() => props.options, (value) => {
       localOptions.value = value
