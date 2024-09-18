@@ -112,7 +112,7 @@ const formatting = (formatters: Array<string>, emit: any, value: string, type: s
                 break
 
             case 'numeric':
-                result = _.numeric(result)
+                result = _.numeric(result).toString()
                 break
 
             case 'alphanumeric':

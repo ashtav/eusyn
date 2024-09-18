@@ -315,7 +315,7 @@ export default defineComponent({
         let values = getDateMaskFormat().split('');
 
         // Assuming utils.numeric(value) extracts only the digits from the input value
-        let number = utils.numeric(value);
+        let number = utils.numeric(value).toString();
 
         // Track the position in the numeric input
         let numIndex = 0;
