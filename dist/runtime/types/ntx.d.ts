@@ -8,6 +8,7 @@ interface Ntx {
     faker: Faker,
     image: Image,
     theme: Theme,
+    focus: (self: any, ref: string) => void
 }
 
 export default Ntx

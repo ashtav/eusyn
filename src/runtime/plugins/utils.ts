@@ -394,9 +394,119 @@ const arrUpdate = <T>(array: T[], predicate: (element: T) => boolean, newItem: T
   }
 }
 
+/**
+ * Splits an array into smaller arrays (chunks) of a specified size.
+ *
+ * @template T - The type of elements in the input array.
+ * @param {T[]} array - The array to be chunked.
+ * @param {number} size - The size of each chunk.
+ * @returns {T[][]} An array of chunks, where each chunk is an array of elements.
+ *
+ * @example
+ * const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+ * const chunked = chunk(numbers, 3);
+ * console.log(chunked); // Output: [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+ */
+const chunk = <T>(array: T[], size: number = 2): T[][] => {
+  const result: T[][] = [];
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
+};
+
+/**
+ * Create deeply copy from object or array
+ *
+ * @template T - Element type from input
+ * @param {T} value - Object or array
+ * @returns {T} Deep clone from input
+ */
+const deepClone = <T>(value: T): T => {
+  if (value === null || typeof value !== 'object') {
+    return value; // return value if not object
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(item => deepClone(item)) as unknown as T; // clone array
+  }
+
+  const clonedObject = {} as T; // create empty object
+  for (const key in value) {
+    if (value.hasOwnProperty(key)) {
+      clonedObject[key] = deepClone(value[key]); // clone object property
+    }
+  }
+  return clonedObject;
+};
+
+/**
+ * Creates a debounced function that delays invoking the provided function
+ * until after wait milliseconds have elapsed since the last time the debounced function was invoked.
+ *
+ * @param {Function} func - The function to debounce.
+ * @param {number} wait - The number of milliseconds to delay.
+ * @returns {Function} A new debounced function.
+ *
+ * @example
+ * const search = debounce((query: string) => {
+ *     console.log('Searching for:', query);
+ * }, 300);
+ * 
+ * // Calling search multiple times rapidly
+ * search('apple'); // Will only execute after 300ms pause in calls
+ * search('banana');
+ * search('cherry'); // Final call after user pauses typing
+ */
+const debounce = (func: Function, wait: number) => {
+  let timeout: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+};
+
+/**
+ * Creates a throttled function that only invokes the provided function
+ * at most once per specified period of time.
+ *
+ * @param {Function} func - The function to throttle.
+ * @param {number} limit - The number of milliseconds to throttle.
+ * @returns {Function} A new throttled function.
+ *
+ * @example
+ * const logScroll = throttle(() => {
+ *     console.log('Scroll event triggered');
+ * }, 200);
+ * 
+ * // Attaching to scroll event
+ * window.addEventListener('scroll', logScroll);
+ * // This will log the scroll event at most once every 200 milliseconds
+ */
+const throttle = (func: Function, limit: number) => {
+  let lastFunc: NodeJS.Timeout;
+  let lastRan: number;
+
+  return (...args: any[]) => {
+    if (!lastRan) {
+      func.apply(this, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lastFunc);
+      lastFunc = setTimeout(() => {
+        if ((Date.now() - lastRan) >= limit) {
+          func.apply(this, args);
+          lastRan = Date.now();
+        }
+      }, limit - (Date.now() - lastRan));
+    }
+  };
+};
+
 const utils: Utils = {
   alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes,
-  on, copy, downloadFile, dateFormat, manipulate, getInitials, shuffle, arrDelete, arrUpdate
+  on, copy, downloadFile, dateFormat, manipulate, getInitials, shuffle, arrDelete, arrUpdate, chunk, deepClone,
+  debounce, throttle
 }
 
 const _ = utils

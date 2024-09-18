@@ -177,6 +177,53 @@ const arrUpdate = (array, predicate, newItem) => {
     array.splice(index, 1, newItem);
   }
 };
+const chunk = (array, size = 2) => {
+  const result = [];
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
+};
+const deepClone = (value) => {
+  if (value === null || typeof value !== "object") {
+    return value;
+  }
+  if (Array.isArray(value)) {
+    return value.map((item) => deepClone(item));
+  }
+  const clonedObject = {};
+  for (const key in value) {
+    if (value.hasOwnProperty(key)) {
+      clonedObject[key] = deepClone(value[key]);
+    }
+  }
+  return clonedObject;
+};
+const debounce = (func, wait) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(void 0, args), wait);
+  };
+};
+const throttle = (func, limit) => {
+  let lastFunc;
+  let lastRan;
+  return (...args) => {
+    if (!lastRan) {
+      func.apply(void 0, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lastFunc);
+      lastFunc = setTimeout(() => {
+        if (Date.now() - lastRan >= limit) {
+          func.apply(void 0, args);
+          lastRan = Date.now();
+        }
+      }, limit - (Date.now() - lastRan));
+    }
+  };
+};
 const utils = {
   alpha,
   numeric,
@@ -196,7 +243,11 @@ const utils = {
   getInitials,
   shuffle,
   arrDelete,
-  arrUpdate
+  arrUpdate,
+  chunk,
+  deepClone,
+  debounce,
+  throttle
 };
 const _ = utils;
 export { _, utils };

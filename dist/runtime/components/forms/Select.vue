@@ -152,12 +152,16 @@ export default defineComponent({
       emit("change", null);
     };
     const initOption = (value) => {
+      if (props.options.length == 0) {
+        emit("update:modelValue", "");
+        localValue.value = "";
+        return;
+      }
       const option = props.options.find((o) => {
         return `${textOption(o, true)}`.toLowerCase() == `${value}`.toLowerCase();
       });
       selected.value = option;
       localValue.value = option?.label ?? option?.value ?? value;
-      emit("update:modelValue", value);
     };
     const doFocus = () => {
       if (refSelect.value) {
@@ -169,9 +173,6 @@ export default defineComponent({
       if (value == "") {
         localValue.value = value;
       }
-    });
-    watch(() => localValue.value, (value) => {
-      emit("update:modelValue", value);
     });
     watch(() => props.options, (value) => {
       localOptions.value = value;

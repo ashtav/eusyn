@@ -7,12 +7,16 @@ const show = (message, options = {}, type = "default") => {
     type
   });
 };
+const error = (message, options = {}) => show(message, options, "error");
+const success = (message, options = {}) => show(message, options, "success");
+const warning = (message, options = {}) => show(message, options, "warning");
+const auto = (message, value) => show(message, {}, value ? "success" : "error");
 const toast = {
   show,
-  error: (message, options = {}) => show(message, options, "error"),
-  success: (message, options = {}) => show(message, options, "success"),
-  warning: (message, options = {}) => show(message, options, "warning"),
-  auto: (message, value) => show(message, {}, value ? "success" : "error")
+  error,
+  success,
+  warning,
+  auto
 };
 export default defineNuxtPlugin(() => {
   return {

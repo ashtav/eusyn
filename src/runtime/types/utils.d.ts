@@ -24,6 +24,10 @@ interface Utils {
     shuffle: <T>(array: T[]) => T[],
     arrDelete: <T>(array: T[], predicate: (element: T) => boolean) => void,
     arrUpdate: <T>(array: T[], predicate: (element: T) => boolean, newItem: T) => void,
+    chunk: <T>(array: T[], size?: number) => T[][],
+    deepClone: <T>(value: T) => T,
+    debounce: (func: Function, wait: number) => (...args: any[]) => void,
+    throttle: (func: Function, limit: number) => (...args: any[]) => void,
 }
 
 export default Utils

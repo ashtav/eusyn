@@ -22,7 +22,7 @@
       <Input label="Select Time" type="time" hint="00:00:00" prefix="clock" />
 
       <code>{{ forms }}</code> <br>
-      <code>{{ foods }}</code>
+      <code>{{ foods }}</code> <br><br>
 
       <div class="mt-3">
         <Button theme="white" label="Arr Update" @click="onAction" />
@@ -46,6 +46,7 @@ export default {
       foods: [
         { id: 1, name: 'Apple' },
         { id: 2, name: 'Mango' },
+        { id: 3, name: 'Banana' },
       ]
     }
   },
@@ -54,7 +55,7 @@ export default {
 
     onAction() {
       const arr = ['Banana', 'Durian', 'Cherry', 'Apple', 'Lemon']
-      this.$n.utils.arrUpdate(this.foods, (e) => e.id == 2, { id: 2, name:  this.$n.utils.shuffle(arr)[0] })
+      this.$n.utils.arrUpdate(this.foods, (e) => e.id == 2, { id: 2, name: this.$n.utils.shuffle(arr)[0] })
     }
   }
 }
