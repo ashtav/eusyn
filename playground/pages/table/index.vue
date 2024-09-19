@@ -5,7 +5,7 @@
     ]" />
 
     <Table :columns="table.columns" :rows="{data: data, options: options, actions: actions }" :pagination="{ meta: meta, paginate: onPaginate }"
-      :entries="{ entry: onEntry }" :loading="isLoading">
+      :entries="{ entry: onEntry }" :loading="isLoading" maxHeight="350px">
 
       <template v-slot:actions>
         <div>
@@ -13,6 +13,7 @@
         </div>
       </template>
     </Table> <br>
+
 
     <Code
       code='<Table :columns="table.columns" :rows="{ data: data, options: options, actions: actions }" :pagination="{ meta: meta, paginate: onPaginate }" :entries="{ entry: onEntry }" :loading="isLoading" />' />

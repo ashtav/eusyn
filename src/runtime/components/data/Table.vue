@@ -24,7 +24,7 @@
     </div>
 
     <!-- table content -->
-    <div class="table-respons ive">
+    <div class="custom-table" :style="{ maxHeight }">
       <table class="table card-table table-vcenter text-nowrap table-striped">
         <thead>
           <tr>
@@ -53,7 +53,8 @@
               {{ item[key] }}
             </td>
             <td class="w-1" v-if="rowOptions">
-              <Dropdown :options="rowOptions(item) ?? []" @select="(o: any) => rowActions ? rowActions(o, item) : null" placement="end">
+              <Dropdown :options="rowOptions(item) ?? []" @select="(o: any) => rowActions ? rowActions(o, item) : null"
+                placement="end">
                 <Button icon="settings" theme="white p-2" />
               </Dropdown>
             </td>
@@ -132,6 +133,10 @@ export default {
     loading: {
       type: Boolean,
       default: () => false
+    },
+
+    maxHeight: {
+      type: String
     }
   },
 
@@ -307,6 +312,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.custom-table {
+  overflow-y: auto;
+  scrollbar-width: thin;
+
+  thead th {
+    position: sticky;
+    z-index: 1;
+    top: 0;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+}
+
 .table {
   thead {
     tr th span {

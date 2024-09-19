@@ -63,7 +63,7 @@ const formatting = (formatters, emit, value, type, then) => {
         result = _.alpha(result);
         break;
       case "numeric":
-        result = _.numeric(result);
+        result = _.numeric(result).toString();
         break;
       case "alphanumeric":
         result = _.alphanumeric(result);

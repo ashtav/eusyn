@@ -15,7 +15,7 @@
 
       <br>
 
-      <Time label="Select Time" prefix="clock" format="h:i" v-model="forms.time" />
+      <Time label="Select Time" prefix="clock" format="h:i" v-model="forms.time" shape="block" />
 
       <br>
 

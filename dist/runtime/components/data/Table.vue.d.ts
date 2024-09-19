@@ -35,6 +35,9 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: () => boolean;
     };
+    maxHeight: {
+        type: StringConstructor;
+    };
 }, {
     keys: any[];
     headers: Ref<Record<string, any>[]>;
@@ -84,6 +87,9 @@ declare const _default: import("vue").DefineComponent<{
     loading: {
         type: BooleanConstructor;
         default: () => boolean;
+    };
+    maxHeight: {
+        type: StringConstructor;
     };
 }>>, {
     entries: any;

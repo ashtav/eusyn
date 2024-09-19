@@ -247,7 +247,7 @@ export default defineComponent({
     watch(() => localValue.value, (value) => {
       if (props.mask) {
         let values = getDateMaskFormat().split("");
-        let number = utils.numeric(value);
+        let number = utils.numeric(value).toString();
         let numIndex = 0;
         let cursorPosition = number.length;
         for (let i = 0; i < cursorPosition; i++) {

@@ -34,6 +34,11 @@
                 <Input label="Date" type="date" prefix="ti-calendar" />
                 <Code class="mb-5" code='<Input label="Date" type="date" prefix="ti-calendar" />' />
 
+                <Time label="Time" prefix="clock" format="h:i" v-model="forms.time" />
+                <Code class="mb-5"
+                    code='<Time label="Select Time" prefix="clock" format="h:i" v-model="forms.time" />' />
+
+
                 <Input v-model="forms.price" label="Currency" hint="Enter price" prefix="ti-coins" required
                     formatters="currency:," />
                 <Code class="mb-5"
@@ -71,7 +76,8 @@ export default {
                 email: '',
                 password: 'secret-password',
                 price: '',
-                date: ''
+                date: '',
+                time: ''
             }
         }
     },
