@@ -11,22 +11,10 @@
         <Ti icon="minus" /> Version. 1.0.0 24.08.19.1-alpha
       </p>
 
-      <Input label="Your Name" hint="Type your name" />
+      <Input hint="Test" class="x" />
 
-      <br>
-
-      <Time label="Select Time" prefix="clock" format="h:i" v-model="forms.time" shape="block" />
-
-      <br>
-
-      <Input label="Select Time" type="time" hint="00:00:00" prefix="clock" />
-
-      <code>{{ forms }}</code> <br>
-      <code>{{ foods }}</code> <br><br>
-
-      <div class="mt-3">
-        <Button theme="white" label="Arr Update" @click="onAction" />
-      </div>
+      <PlainInput hint="Type your name" class="custom" formatters="numeric" />
+      
     </div>
   </div>
 </template>
@@ -40,25 +28,23 @@ export default {
   data() {
     return {
       forms: {
-        time: ''
+        time: '10:15'
       },
-
-      foods: [
-        { id: 1, name: 'Apple' },
-        { id: 2, name: 'Mango' },
-        { id: 3, name: 'Banana' },
-      ]
     }
   },
 
   methods: {
 
-    onAction() {
-      const arr = ['Banana', 'Durian', 'Cherry', 'Apple', 'Lemon']
-      this.$n.utils.arrUpdate(this.foods, (e) => e.id == 2, { id: 2, name: this.$n.utils.shuffle(arr)[0] })
-    }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.custom {
+  padding: 25px 35px;
+  background-color: #151f2c;
+  outline: none;
+  border: 1px #2d3d50 solid;
+  border-radius: 4px;
+}
+</style>
