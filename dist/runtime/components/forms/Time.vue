@@ -73,6 +73,15 @@ export default {
         const currentDate = /* @__PURE__ */ new Date();
         times.value = props.format === "h:i" ? [padTime(currentDate.getHours()), padTime(currentDate.getMinutes())] : [padTime(currentDate.getHours()), padTime(currentDate.getMinutes()), padTime(currentDate.getSeconds())];
       }
+      if (props.modelValue) {
+        const timeFormat = props.format === "h:i" ? /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/ : /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
+        if (timeFormat.test(props.modelValue)) {
+          const timeParts = props.modelValue.split(":").map((part) => padTime(parseInt(part)));
+          times.value = timeParts;
+        } else {
+          emit("update:modelValue", times.value.join(":"));
+        }
+      }
     };
     const onChange = (type, index) => {
       const result = handleChanges(times.value, props.format, type, index);
@@ -92,6 +101,9 @@ export default {
     onMounted(() => setTime());
     watch(() => props.format, () => {
       times.value = initialTimes();
+      setTime();
+    });
+    watch(() => props.modelValue, () => {
       setTime();
     });
     return { times, hasFocus, onChange, onWheel, onFocus, onBlur };
