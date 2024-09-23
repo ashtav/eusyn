@@ -46,6 +46,10 @@ img {
     }
 }
 
+.dropdown {
+    display: inline-block;
+}
+
 .x {
     border: 1px red solid !important;
 }

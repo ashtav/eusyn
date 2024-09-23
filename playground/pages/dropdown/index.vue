@@ -23,35 +23,6 @@
 </Dropdown>' />
             </div>
         </div>
-
-        <div class="row my-5">
-            <div class="col-lg-4">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium quod ipsum iusto, praesentium ullam
-                veniam hic in voluptatum odio accusantium soluta repellat modi necessitatibus quaerat assumenda
-                similique, quasi exercitationem ab.
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium quod ipsum iusto, praesentium ullam
-                veniam hic in voluptatum odio accusantium soluta.
-            </div>
-        </div>
-
-        <div class="row mb-5">
-            <div class="col-lg-6">
-                <Table :columns="table.columns" :rows="{ data: table.data, options: rowOptions, actions: actions }"
-                    maxHeight="240px" />
-            </div>
-        </div>
-
-        <Dropdown :options="options" :separate="[0, 2]" @select="onSelect" placement="end">
-            <Button label="Out of View?" icon="ti-dots-vertical" iconAlign="end" />
-        </Dropdown>
-
-        <div class="row mt-5" v-for="i in 5">
-            <div class="col-lg-4">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium quod ipsum iusto, praesentium ullam
-                veniam hic in voluptatum odio accusantium soluta repellat modi necessitatibus quaerat assumenda
-                similique, quasi exercitationem ab.
-            </div>
-        </div>
     </div>
 </template>
 
@@ -73,19 +44,6 @@ export default {
             data: <any>{
                 options: null,
                 entries: null
-            },
-
-            table: {
-                columns: [
-                    { label: 'Name' },
-                ],
-
-                data: [
-                    { name: 'Lorem Ipsum' },
-                    { name: 'Sit amet' },
-                    { name: 'Consectetur' },
-                    { name: 'Adipiscing' },
-                ]
             }
         }
     },
@@ -97,14 +55,6 @@ export default {
             }
 
             this.data.options = data
-        },
-
-        rowOptions(data: any): Array<string> {
-            return ['Details', '-', 'Edit', 'Delete']
-        },
-
-        actions(option: any, data: any) {
-
         }
     }
 }

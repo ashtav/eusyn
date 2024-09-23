@@ -12,20 +12,6 @@
       <p class="text-muted mt-5">
         <Ti icon="minus" /> Version. 1.0.0 24.08.19.1-alpha
       </p> <br> <br>
-
-      <span class="dropdown">
-        <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown"
-          aria-expanded="false">Actions</button>
-        <div class="dropdown-menu dropdown-menu-end" style="">
-          <a class="dropdown-item" href="#">
-            Action
-          </a>
-          <a class="dropdown-item" href="#">
-            Another action
-          </a>
-        </div>
-      </span>
-
     </div>
   </div>
 </template>
