@@ -1,7 +1,7 @@
 <template>
   <ClientOnly>
     <div :class="['dropdown d-inline', dkey]">
-      <span ref="slot" @click="toggle">
+      <span ref="slot" class="d-inline-block" @click="toggle">
         <slot />
       </span>
 

@@ -201,7 +201,7 @@ export default {
 }
 
 [data-bs-theme=dark] .nuxt-toast {
-  box-shadow: 0 0.5rem 1rem #16212c;
+  box-shadow: 0 0.5rem 1rem rgb(22.4076086957, 32.527173913, 44.0923913043);
 }
 [data-bs-theme=dark] .nuxt-toast:not([data-bs-theme=dark] .nuxt-toast.error, [data-bs-theme=dark] .nuxt-toast.warning, [data-bs-theme=dark] .nuxt-toast.success) {
   background-color: #1f2d3d;

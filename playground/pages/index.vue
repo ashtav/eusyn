@@ -7,14 +7,25 @@
         Leveraging Tabler for its design and components, and Tabler Icons for its iconography, this collection
         provides all the essential UI elements and utilities needed to build robust Nuxt applications efficiently.</p>
 
-      <p class="text-muted">
+      <a href="https://preview.tabler.io" target="_blank">https://preview.tabler.io</a> <br>
+      <a href="https://tabler.io/icons" target="_blank">https://tabler.io/icons</a>
+      <p class="text-muted mt-5">
         <Ti icon="minus" /> Version. 1.0.0 24.08.19.1-alpha
-      </p>
+      </p> <br> <br>
 
-      <Input hint="Test" class="x" />
+      <span class="dropdown">
+        <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown"
+          aria-expanded="false">Actions</button>
+        <div class="dropdown-menu dropdown-menu-end" style="">
+          <a class="dropdown-item" href="#">
+            Action
+          </a>
+          <a class="dropdown-item" href="#">
+            Another action
+          </a>
+        </div>
+      </span>
 
-      <PlainInput hint="Type your name" class="custom" formatters="numeric" />
-      
     </div>
   </div>
 </template>

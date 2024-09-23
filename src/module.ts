@@ -43,8 +43,12 @@ export default defineNuxtModule<ModuleOptions>({
     // Injections
     nuxt.options.plugins.push(resolve(runtimeDir, 'scripts/confirm/setup'))
     nuxt.options.plugins.push(resolve(runtimeDir, 'scripts/toast/setup'))
+    nuxt.options.plugins.push({
+      src: resolve(runtimeDir, 'scripts/tabler/tabler.js'),
+      mode: 'client'
+    })
 
-    // Plugins
+    // Plugins roti, sayur kol, telur, cheese, daging, mayonise, saus, 
     addPlugin({ src: resolve(runtimeDir, 'plugins', 'ntx') })
     addPlugin({ src: resolve(runtimeDir, 'scripts', 'modal') })
     addPlugin({ src: resolve(runtimeDir, 'scripts', 'confirm') })
@@ -77,6 +81,6 @@ export default defineNuxtModule<ModuleOptions>({
     const now = new Date()
     const build = `${now.getFullYear()}${now.getMonth()}${now.getDate()}.1`
 
-    console.log(`NTX - 1.0.0 ${build}`)
+    console.log(`NTX - 1.0.0 ${build}`) // Nuxt Tabler Extension
   }
 })

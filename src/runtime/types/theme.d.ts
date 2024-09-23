@@ -23,3 +23,5 @@ interface Theme {
     set: Function,
     get: Ref<string>
 }
+
+export default Theme
