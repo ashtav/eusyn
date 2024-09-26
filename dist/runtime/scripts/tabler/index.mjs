@@ -1,3 +1,5 @@
+import { defineNuxtPlugin } from '#imports';
+
 /*!
 * Tabler v1.0.0-beta17 (https://tabler.io)
 * @version 1.0.0-beta17
@@ -6,6 +8,9 @@
 * Copyright 2018-2023 codecalm.net Paweł Kuna
 * Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
 */
+
+
+
 (function (factory) {
   typeof define === 'function' && define.amd ? define(factory) :
     factory();
@@ -8391,5 +8396,6 @@
 
 }));
 
+export default defineNuxtPlugin((nuxtApp) => {
 
-export default defineNuxtPlugin((nuxtApp) => {})
+})
