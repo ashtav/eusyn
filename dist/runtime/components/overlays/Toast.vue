@@ -119,7 +119,7 @@ export default {
   min-width: 280px;
   max-width: 300px;
   background: white;
-  box-shadow: 0 0.5rem 1rem rgba(var(--tblr-body-color-rgb), 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(220, 225, 231, 0.15);
   border-radius: 4px;
   opacity: 0;
   transition: 0.2s ease-in-out;

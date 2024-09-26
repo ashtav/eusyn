@@ -26,10 +26,14 @@ const module = defineNuxtModule({
       nuxt.options.css.push(resolve(runtimeDir, "styles/tabler/css/tabler.min.css"));
       nuxt.options.css.push(resolve(runtimeDir, "styles/tabler/css/tabler-icons.css"));
       nuxt.options.css.push(resolve(runtimeDir, "styles/customs/override.css"));
-      nuxt.options.css.push(resolve(runtimeDir, "styles/customs/utilities.scss"));
+      nuxt.options.css.push(resolve(runtimeDir, "styles/customs/utilities.css"));
     }
     nuxt.options.plugins.push(resolve(runtimeDir, "scripts/confirm/setup"));
     nuxt.options.plugins.push(resolve(runtimeDir, "scripts/toast/setup"));
+    nuxt.options.plugins.push({
+      src: resolve(runtimeDir, "scripts/tabler"),
+      mode: "client"
+    });
     addPlugin({ src: resolve(runtimeDir, "plugins", "ntx") });
     addPlugin({ src: resolve(runtimeDir, "scripts", "modal") });
     addPlugin({ src: resolve(runtimeDir, "scripts", "confirm") });

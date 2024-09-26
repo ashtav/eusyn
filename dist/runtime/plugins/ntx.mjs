@@ -1,41 +1,22 @@
 import { defineNuxtPlugin } from "#imports";
-import { ref } from "vue";
 import { faker } from "./faker.mjs";
 import { image } from "./image.mjs";
+import storage from "./storage.mjs";
+import theme from "./theme.mjs";
 import { utils } from "./utils.mjs";
-const themeValue = ref("system");
-const theme = (value) => {
-  const body = document.body;
-  const themeAttribute = "data-bs-theme";
-  const currentTheme = body.getAttribute(themeAttribute);
-  if (!value || value === "") {
-    if (currentTheme === "dark") {
-      body.setAttribute(themeAttribute, "light");
-    } else {
-      body.setAttribute(themeAttribute, "dark");
-    }
-  } else if (value === "system") {
-    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    if (prefersDarkScheme) {
-      body.setAttribute(themeAttribute, "dark");
-    } else {
-      body.setAttribute(themeAttribute, "light");
-    }
-  } else {
-    body.setAttribute(themeAttribute, value);
-  }
-  themeValue.value = body.getAttribute(themeAttribute);
-};
 const ntx = {
   utils,
+  // $n.utils.ucwords('hello')
   faker,
+  // $n.faker.name()
   image,
-  theme: {
-    set: theme,
-    get: themeValue
-  },
-  focus: (self, ref2) => {
-    self.$refs[ref2]?.doFocus();
+  // $n.image.resize()
+  theme,
+  // $n.theme.set()
+  storage,
+  // $n.storage.set()
+  focus: (self, ref) => {
+    self.$refs[ref]?.doFocus();
   }
 };
 const n = ntx;

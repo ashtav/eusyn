@@ -1,4 +1,13 @@
 
+    # publish to npm
+
+    - npm login
+    - npm publish --access public
+
+    # un-publish
+    - npm unpublish nuxt-tabler-extension --force
+
+
     # todo
 
     1. text editor

@@ -9,3 +9,5 @@ interface Toast {
     warning(message: string, options?: ToastOptions): void;
     auto(message: string, value: boolean): void;
 }
+
+export default Toast

@@ -1,27 +1,25 @@
 <template>
-  <ClientOnly>
-    <div :class="['dropdown d-inline', dkey]">
-      <span ref="slot" @click="toggle">
-        <slot />
-      </span>
+  <div class="dropdown">
+    <span class="d-inline-block" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
+      <slot />
+    </span>
 
-      <div ref="dropdown" :class="[`dropdown-menu mt-2`, size, { 'show': show }]" :style="additionalStyle">
-        <span v-if="options_.length == 0" class="dropdown-item text-muted disabled">No data found!</span>
+    <div :class="[`dropdown-menu`, size, { 'show': show }, `dropdown-menu-${placement}`]">
+      <span v-if="options_.length == 0" class="dropdown-item text-muted disabled">No data found!</span>
 
-        <template v-for="(option, i) in options_" :key="i" v-else>
-          <span :class="['dropdown-item', { 'text-danger': extract(option, 'danger') == true }]"
-            @click="onSelect(option)">
-            <Row justify="between" class="w-100">
-              <span>{{ textOption(option) }}</span>
-              <Ti v-if="extract(option, 'icon')" :icon="extract(option, 'icon')" />
-            </Row>
-          </span>
+      <template v-for="(option, i) in options_" :key="i" v-else>
+        <span :class="['dropdown-item', { 'text-danger': extract(option, 'danger') == true }]"
+          @click="onSelect(option)">
+          <Row justify="between" class="w-100">
+            <span>{{ textOption(option) }}</span>
+            <Ti v-if="extract(option, 'icon')" :icon="extract(option, 'icon')" />
+          </Row>
+        </span>
 
-          <div v-if="separator.includes(i) && i < (options_.length - 1)" class="dropdown-divider" />
-        </template>
-      </div>
+        <div v-if="separator.includes(i) && i < (options_.length - 1)" class="dropdown-divider" />
+      </template>
     </div>
-  </ClientOnly>
+  </div>
 </template>
 
 <script>

@@ -38,7 +38,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="_ in $ntx.utils.randInt(1, config.loadingNumber)" v-if="loading">
+          <tr v-for="_ in utils.randInt(1, config.loadingNumber)" v-if="loading">
             <td v-for="_ in [...headers, { label: '' }]">
               <Shimmer :size="[['50%', '100%']]" v-if="_.label != ''" />
             </td>
@@ -70,15 +70,15 @@
         </span> of <span>{{
           meta.total }}</span> entries</p>
       <ul class="pagination m-0 ms-auto">
-        <li :class="['page-item me-1', $ntx.utils.on(active <= 1, 'disabled')]">
+        <li :class="['page-item me-1', utils.on(active <= 1, 'disabled')]">
           <a class="page-link" href="#" tabindex="-1" aria-disabled="true" @click="onNavigate(active - 1)">
             Prev
           </a>
         </li>
-        <li v-for="page in pageNumber()" :class="['page-item', $ntx.utils.on(page == active, 'active')]">
+        <li v-for="page in pageNumber()" :class="['page-item', utils.on(page == active, 'active')]">
           <a class="page-link" href="javascript:void(0)" @click="onNavigate(page)"> {{ page }} </a>
         </li>
-        <li :class="['page-item ms-1', $ntx.utils.on(active >= meta.last_page, 'disabled')]">
+        <li :class="['page-item ms-1', utils.on(active >= meta.last_page, 'disabled')]">
           <a class="page-link" href="#" @click="onNavigate(active + 1)">
             Next
           </a>
@@ -90,6 +90,7 @@
 
 <script>
 import { onMounted, ref, watch } from "vue";
+import { utils } from "../../plugins/utils.js";
 export default {
   props: {
     columns: {
@@ -259,7 +260,7 @@ export default {
     watch(() => props.pagination, (data) => {
       meta.value = data.meta;
     }, { deep: true });
-    return { keys, headers, dataTable, doSortBy, entries, onEntries, meta, entry, active, onNavigate, pageNumber, rowOptions, rowActions };
+    return { utils, keys, headers, dataTable, doSortBy, entries, onEntries, meta, entry, active, onNavigate, pageNumber, rowOptions, rowActions };
   }
 };
 </script>

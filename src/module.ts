@@ -37,14 +37,14 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.css.push(resolve(runtimeDir, 'styles/tabler/css/tabler.min.css'))
       nuxt.options.css.push(resolve(runtimeDir, 'styles/tabler/css/tabler-icons.css'))
       nuxt.options.css.push(resolve(runtimeDir, 'styles/customs/override.css'))
-      nuxt.options.css.push(resolve(runtimeDir, 'styles/customs/utilities.scss'))
+      nuxt.options.css.push(resolve(runtimeDir, 'styles/customs/utilities.css'))
     }
 
     // Injections
     nuxt.options.plugins.push(resolve(runtimeDir, 'scripts/confirm/setup'))
     nuxt.options.plugins.push(resolve(runtimeDir, 'scripts/toast/setup'))
     nuxt.options.plugins.push({
-      src: resolve(runtimeDir, 'scripts/tabler/tabler.js'),
+      src: resolve(runtimeDir, 'scripts/tabler'),
       mode: 'client'
     })
 
