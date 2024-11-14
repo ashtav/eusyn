@@ -1,4 +1,7 @@
 
+    # pnpm run play = run playground
+    # pnpm run build = generate dist
+
     # publish to npm
 
     - npm login

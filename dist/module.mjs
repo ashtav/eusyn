@@ -56,9 +56,7 @@ const module = defineNuxtModule({
       global: options.global
     });
     addImportsDir(resolve(runtimeDir, "composables"));
-    const now = /* @__PURE__ */ new Date();
-    const build = `${now.getFullYear()}${now.getMonth()}${now.getDate()}.1`;
-    console.log(`NTX - 1.0.0 ${build}`);
+    console.log(`NTX - 1.0.0 24.11.14.1`);
   }
 });
 

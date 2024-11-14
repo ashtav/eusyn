@@ -13,10 +13,10 @@
 
         <div class="album mb-3">
           <div class="body">
-            <img :src="images[0]" alt="" @click="view(0)">
+            <img :src="images[0]" alt="" @click="view(0)" lazy>
             <div class="small-images">
-              <img :src="images[1]" alt="" @click="view(1)">
-              <img :src="images[2]" alt="" @click="view(2)">
+              <img :src="images[1]" alt="" @click="view(1)" lazy>
+              <img :src="images[2]" alt="" @click="view(2)" lazy>
             </div>
           </div>
         </div>

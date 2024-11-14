@@ -78,9 +78,6 @@ export default defineNuxtModule<ModuleOptions>({
     // Composables
     addImportsDir(resolve(runtimeDir, 'composables'))
 
-    const now = new Date()
-    const build = `${now.getFullYear()}${now.getMonth()}${now.getDate()}.1`
-
-    console.log(`NTX - 1.0.0 ${build}`) // Nuxt Tabler Extension
+    console.log(`NTX - 1.0.0 24.11.14.1`)
   }
 })
