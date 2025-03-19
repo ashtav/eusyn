@@ -31,7 +31,7 @@
 
 <script>
 import { computed, onMounted, ref, watch } from "vue";
-import { utils } from "../../plugins/utils.js";
+import { utils } from "../../plugins/utils";
 export default {
   inheritAttrs: false,
   props: {

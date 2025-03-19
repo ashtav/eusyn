@@ -17,7 +17,7 @@
 <script lang="ts">
 import type { Ref } from 'vue';
 import { onMounted, ref, watch } from 'vue';
-import { utils } from '../../plugins/utils.js';
+import { utils } from '../../plugins/utils';
 
 interface Config {
     maxSize?: number, // Megabytes

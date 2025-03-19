@@ -1,4 +1,13 @@
 export default defineNuxtConfig({
+  target: "static",
+  nitro: {
+    preset: "static",
+    prerender: {
+      crawlLinks: true, // Biar semua link di halaman ikut ke-generate
+      routes: ["/"], // Pastikan halaman utama digenerate
+    }
+  },
+
   app: {
     head: {
       title: 'NTX - Playgorund',
@@ -12,12 +21,13 @@ export default defineNuxtConfig({
     '../src/module'
   ],
 
-  compatibilityDate: '2024-07-19',
+  compatibilityDate: '2025-03-18',
 
   components: {
     global: true,
     dirs: [
       '~/components'
     ]
-  }
+  },
+
 })

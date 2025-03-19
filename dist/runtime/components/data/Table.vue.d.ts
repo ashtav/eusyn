@@ -39,7 +39,7 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
     };
 }, {
-    utils: import("../../types/utils.js").default;
+    utils: import("../../types/utils").default;
     keys: any[];
     headers: Ref<Record<string, any>[]>;
     dataTable: Ref<Record<string, any>>;

@@ -32,7 +32,7 @@
 <script lang="ts">
 import type { Ref } from 'vue';
 import { computed, onMounted, ref, watch } from 'vue';
-import { utils } from '../../plugins/utils.js';
+import { utils } from '../../plugins/utils';
 
 interface Config {
     min?: number,

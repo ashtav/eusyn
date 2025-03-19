@@ -91,7 +91,8 @@
 <script lang="ts">
 import type { PropType, Ref } from 'vue';
 import { onMounted, ref, watch } from 'vue';
-import { utils } from '../../plugins/utils.js';
+import { utils } from '../../plugins/utils';
+
 
 export default {
   props: {

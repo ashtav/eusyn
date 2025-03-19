@@ -1,7 +1,7 @@
 import { defineNuxtModule, createResolver, addPlugin, addComponentsDir, addComponent, addImportsDir } from '@nuxt/kit';
 
 const name = "nuxt-tabler-extension";
-const version = "1.0.0";
+const version = "1.0.3";
 
 const module = defineNuxtModule({
   meta: {
@@ -56,7 +56,6 @@ const module = defineNuxtModule({
       global: options.global
     });
     addImportsDir(resolve(runtimeDir, "composables"));
-    console.log(`NTX - 1.0.0 24.11.14.1`);
   }
 });
 

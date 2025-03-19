@@ -1,6 +1,6 @@
 {
   "name": "nuxt-tabler-extension",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "packageManager": "pnpm@9.5.0",
   "repository": "nuxt-tabler-extension",
   "homepage": "https://github.com/ashtav/nuxt-tabler-extension",
@@ -31,7 +31,8 @@
     "lint:fix": "eslint . --fix",
     "typecheck": "vue-tsc --noEmit && nuxi typecheck docs",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare docs",
-    "test": "vitest"
+    "test": "vitest",
+    "generate": "nuxi generate --prerender"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.22",
