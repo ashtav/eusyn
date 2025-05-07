@@ -115,11 +115,6 @@ export default {
     };
   },
   mounted() {
-    nextTick(() => {
-      const config = useRuntimeConfig();
-      const icon = config.public.ui?.icon;
-      this.iconX = icon == "tabler" ? "ti ti-x" : "hgi hgi-stroke hgi-cancel-01";
-    });
   }
 };
 </script>
