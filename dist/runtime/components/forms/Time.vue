@@ -3,7 +3,7 @@
         <label class="form-label" v-if="label">{{ label }}</label>
 
         <div class="input" :class="{ 'focus': hasFocus }" tabindex="0" @focus="onFocus" @blur="onBlur">
-            <Ti v-if="prefix && shape == 'form'" :icon="prefix" style="margin: 0 10px; color: #999" />
+            <Icon v-if="prefix && shape == 'form'" :icon="prefix" style="margin: 0 10px; color: #999" />
             <ul>
                 <li v-for="(time, i) in times" :key="i" @wheel="onWheel($event, i)">
                     <span class="up" @click="onChange('up', i)"></span>

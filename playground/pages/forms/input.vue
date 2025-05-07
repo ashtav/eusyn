@@ -16,11 +16,11 @@
                 <Code class="mb-5"
                     code='<Input label="Full Name" hint="Enter your name" prefix="ti-user" required v-model="forms.name" formatters="alpha|ucwords" />' />
 
-                <Input v-model="forms.email" label="Email Address" hint="Enter your email address" prefix="ti-mail"
+                <Input v-model="forms.email" label="Email Address" hint="Enter your email address" prefix="hgi-mail-01"
                     :suffixs="[
-                        { icon: 'ti-send' },
-                        { icon: 'ti-bell' },
-                        { icon: 'ti-archive', disabled: true }
+                        { icon: 'hgi-sent' },
+                        { icon: 'hgi-notification-snooze-01' },
+                        { icon: 'hgi-archive-01', disabled: true }
                     ]" required @suffix="onSuffix" ref="email" />
 
                 <Code class="mb-5" description="suffixs value is Object, ex: { icon: 'ti-send', disabled: false }"

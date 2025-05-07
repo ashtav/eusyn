@@ -14,13 +14,13 @@
             <template v-if="action?.url && (action?.visible ?? true)">
               <a v-if="action?.url && `${action?.url}`.includes('http')" :href="action?.url" target="_blank"
                 :class="[action.theme ?? 'btn-primary']" class="btn d-none d-sm-inline-block">
-                <Ti v-if="action.icon" :icon="action.icon" :class="{ 'me-1': action.label }" />
+                <Icon v-if="action.icon" :icon="action.icon" :class="{ 'me-1': action.label }" />
                 <span v-if="`${action.label}`.trim() != ''">{{ action.label }}</span>
               </a>
 
               <NuxtLink v-else :to="action?.url" :class="[action.theme ?? 'btn-primary']"
                 class="btn d-none d-sm-inline-block">
-                <Ti v-if="action.icon" :icon="action.icon" :class="{ 'me-1': action.label }" />
+                <Icon v-if="action.icon" :icon="action.icon" :class="{ 'me-1': action.label }" />
                 <span v-if="`${action.label}`.trim() != ''">{{ action.label }}</span>
               </NuxtLink>
             </template>
@@ -28,7 +28,7 @@
             <button v-if="!action?.url && (action?.visible ?? true)" :class="[action.theme ?? 'btn-primary']"
               class="btn" :disabled="action.submit ?? false" @click="action?.click?.()">
               <span v-if="action.submit" class="spinner-border spinner-border-sm" />
-              <Ti v-if="action.icon && !action.submit" :icon="action.icon" :class="{ 'me-1': action.label }" />
+              <Icon v-if="action.icon && !action.submit" :icon="action.icon" :class="{ 'me-1': action.label }" />
 
               <span v-if="`${action.label}`.trim() != ''"
                 :class="[utils.on(action.label != null, 'ms-2'), 'd-none d-md-block']">{{

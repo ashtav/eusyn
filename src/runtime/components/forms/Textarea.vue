@@ -4,7 +4,7 @@
     <div class="input-icon" :class="{ 'mb-3': !nospace }">
       <!-- prefix -->
       <span v-if="prefix" class="input-icon-addon">
-        <Ti :icon="prefix" size="input-prefix" />
+        <Icon :icon="prefix" size="input-prefix" />
       </span>
 
       <!-- input -->
@@ -38,7 +38,7 @@
           <span v-else-if="suffix?.text" :class="suffix?.class"> {{ suffix.text }} </span>
 
           <!-- if icon -->
-          <Ti v-else-if="suffix?.icon && !suffix?.text" :icon="suffix?.icon" />
+          <Icon v-else-if="suffix?.icon && !suffix?.text" :icon="suffix?.icon" />
         </span>
       </div>
     </div>

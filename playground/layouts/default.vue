@@ -8,11 +8,11 @@
         <!-- toggle -->
         <div :class="['app-navbar', { 'show': showFeature }]">
           <div :class="['toggle']" @click="showFeature = !showFeature">
-            <Ti :icon="showFeature ? 'arrow-left' : 'category'" />
+            <Icon :icon="showFeature ? 'arrow-left' : 'category'" />
           </div>
 
           <div :class="['toggle']" @click="$ntx.theme.set()">
-            <Ti :icon="$ntx.theme.get.value != 'dark' ? 'sun' : 'moon'" />
+            <Icon :icon="$ntx.theme.get.value != 'dark' ? 'sun' : 'moon'" />
           </div>
         </div>
 
@@ -30,8 +30,8 @@
               <ul>
                 <li v-for="y in x.features" :class="{ 'active': y.to == active }">
                   <NuxtLink :to="y.to">
-                    <Ti :icon="y.icon" class="me-1" />
-                    {{ y.label }}
+                    <Icon :icon="y.icon" class="me-1" />
+                    <div>{{ y.label }}</div>
                   </NuxtLink>
                 </li>
               </ul>
@@ -55,18 +55,18 @@ export default {
         {
           label: 'Dashboard',
           features: [
-            { label: 'Welcome', to: '/', icon: 'home' },
+            { label: 'Welcome', to: '/', icon: 'hgi-home-03' },
           ]
         },
         {
           label: 'Forms',
           features: [
-            { label: 'Input', to: '/forms/input', icon: 'forms' },
-            { label: 'Select Option', to: '/forms/select', icon: 'select' },
-            { label: 'Radio & Checkbox', to: '/forms/radio-checkbox', icon: 'checkbox' },
-            { label: 'Range & Switches', to: '/forms/range-switches', icon: 'toggle-right' },
-            { label: 'Button', to: '/forms/button', icon: 'click' },
-            { label: 'File Handler', to: '/file-handler', icon: 'files' }
+            { label: 'Input', to: '/forms/input', icon: 'hgi-dashboard-square-edit' },
+            { label: 'Select Option', to: '/forms/select', icon: 'hgi-cursor-rectangle-selection-01' },
+            { label: 'Radio & Checkbox', to: '/forms/radio-checkbox', icon: 'hgi-checkmark-square-02' },
+            { label: 'Range & Switches', to: '/forms/range-switches', icon: 'hgi-toggle-on' },
+            { label: 'Button', to: '/forms/button', icon: 'hgi-cursor-magic-selection-02' },
+            { label: 'File Handler', to: '/file-handler', icon: 'hgi-files-01' }
           ]
         },
 
@@ -205,6 +205,15 @@ export default {
     li,
     a {
       text-wrap: nowrap;
+
+      i {
+        top: 3px;
+      }
+
+      div {
+        display: inline-block;
+        margin-left: 10px;
+      }
     }
 
     li {

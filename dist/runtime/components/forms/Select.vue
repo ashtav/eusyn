@@ -4,7 +4,7 @@
     <div class="input-icon" :class="{ 'mb-3': !nospace }">
       <!-- prefix -->
       <span v-if="prefix" class="input-icon-addon">
-        <Ti :icon="prefix" size="input-prefix" />
+        <Icon :icon="prefix" size="input-prefix" />
       </span>
 
       <!-- input -->
@@ -16,7 +16,7 @@
       <div class="suffixs">
         <span @click="onSuffix">
           <i v-if="busy" class="spinner-border spinner-border-sm" />
-          <Ti v-else :icon="selected ? 'ti-x' : suffix ?? 'ti-chevron-down'" />
+          <Icon v-else :icon="selected ? 'ti-x' : suffix ?? 'ti-chevron-down'" />
         </span>
       </div>
 

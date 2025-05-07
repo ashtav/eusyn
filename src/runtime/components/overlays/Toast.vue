@@ -6,7 +6,7 @@
           <!-- <i class="ti me-2" :class="icon"></i> -->
           <div class="d-flex justify-content-between w-100">
             <span v-text="message" />
-            <i class="ti ti-x" @click="onHide" />
+            <i :class="iconX" @click="onHide" />
           </div>
         </div>
 
@@ -136,6 +136,20 @@ export default {
     }
 
     return { onShow, onHide, show, message, progress, toastEl, type, alignment }
+  },
+
+  data() {
+    return {
+      iconX: 'ti ti-x'
+    }
+  },
+
+  mounted() {
+    nextTick(() => {
+      const config = useRuntimeConfig()
+      const icon = config.public.ui?.icon
+      this.iconX = icon == 'tabler' ? 'ti ti-x' : 'hgi hgi-stroke hgi-cancel-01'
+    })
   }
 }
 </script>
@@ -196,7 +210,8 @@ export default {
   &.success {
     color: white !important;
 
-    .ti-x {
+    .ti-x,
+    .hgi {
       color: white !important;
     }
 
@@ -230,6 +245,17 @@ export default {
       left: 0;
     }
 
+    .hgi {
+      font-size: 17px;
+      color: #888;
+      transition: 0.2s;
+
+      &:hover {
+        color: #212121;
+        cursor: pointer;
+      }
+    }
+
     .ti-x {
       --tblr-icon-size: 1.08rem;
       width: var(--tblr-icon-size);
@@ -251,7 +277,7 @@ export default {
 
 [data-bs-theme=dark] {
   .nuxt-toast {
-    box-shadow: 0 0.5rem 1rem darken($color: #1f2d3d, $amount: 5%);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
 
     &:not(&.error, &.warning, &.success) {
       background-color: #1f2d3d;

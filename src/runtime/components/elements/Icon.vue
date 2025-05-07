@@ -1,5 +1,6 @@
 <template>
-  <i :class="['ti', icon.includes('ti-') ? icon : `ti-${icon}`, size, clean ? 'clean' : '']" />
+  <i :class="['ti', icon.includes('ti-') ? icon : `ti-${icon}`, size, clean ? 'clean' : '']" v-if="isTabler" />
+  <i :class="['hgi hgi-stroke', icon]" v-else></i>
 </template>
 
 <script lang="ts">
@@ -21,6 +22,14 @@ export default defineComponent({
       type: Boolean,
       default: false
     }
+  },
+
+  setup() {
+    const config = useRuntimeConfig()
+    const icon = config.public.ui?.icon
+    const isTabler = icon == 'tabler';
+
+    return { isTabler }
   }
 })
 </script>
@@ -59,6 +68,14 @@ export default defineComponent({
   &.input-prefix {
     margin-bottom: 0px;
     margin-top: 2px;
+  }
+}
+
+.hgi {
+  font-size: 17px;
+
+  &.fix {
+    top: 3px;
   }
 }
 </style>

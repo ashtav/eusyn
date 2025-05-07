@@ -1,5 +1,5 @@
 <template>
-  <div class="modal modal-blur fade" :class="{ 'show': show }" tabindex="-1"
+  <div class="modal fade" :class="{ 'show': show }" tabindex="-1"
     :style="{ display: preShow ? 'block' : 'none' }">
     <div class="modal-dialog modal-dialog-centered" role="document" :class="`modal-${size}`">
       <div class="modal-content">
@@ -16,7 +16,7 @@
                 <li v-if="(item?.visible ?? true)" :key="i" :icon-tooltip="item?.tooltip"
                   :class="[item?.disabled ? 'disabled opacity-50' : '']"
                   @click="item?.click?.call(null, { ...item, index: i })">
-                  <Ti :icon="item?.icon" />
+                  <Icon :icon="item?.icon" />
                 </li>
               </template>
             </ul>
@@ -89,7 +89,7 @@ export default {
 
         setTimeout(() => {
           show.value = true
-          emit('init', {title: title.value, data: args?.params?.data})
+          emit('init', { title: title.value, data: args?.params?.data })
         }, 1)
 
         // listen to keyboard: press Esc to close
@@ -262,6 +262,16 @@ export default {
   .modal-content {
     border-color: #2d3d50;
     box-shadow: none;
+  }
+}
+
+.modal-backdrop {
+  background: rgba(0, 0, 0, .7);
+  transition: .2s;
+  opacity: 0;
+
+  &.show {
+    opacity: 1;
   }
 }
 </style>

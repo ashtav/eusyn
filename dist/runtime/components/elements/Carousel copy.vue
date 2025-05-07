@@ -15,10 +15,10 @@
 
         <!-- controls -->
         <button class="carousel-button carousel-button--left" ref="prevButton">
-            <Ti icon="chevron-left" />
+            <Icon icon="chevron-left" />
         </button>
         <button class="carousel-button carousel-button--right" ref="nextButton">
-            <Ti icon="chevron-right" />
+            <Icon icon="chevron-right" />
         </button>
     </div>
 </template>

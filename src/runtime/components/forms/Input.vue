@@ -5,7 +5,7 @@
     <div class="input-icon" :class="{ 'mb-3': !nospace }">
       <!-- prefix -->
       <span v-if="prefix" class="input-icon-addon">
-        <Ti :icon="prefix" size="input-prefix" />
+        <Icon :icon="prefix" size="input-prefix" />
       </span>
 
       <!-- date input placeholder -->
@@ -32,7 +32,7 @@
           <span v-else-if="suffix?.text" :class="suffix?.class"> {{ suffix.text }} </span>
 
           <!-- if icon -->
-          <Ti v-else-if="suffix?.icon && !suffix?.text" :icon="suffix?.icon" />
+          <Icon v-else-if="suffix?.icon && !suffix?.text" :icon="suffix?.icon" />
         </span>
       </div>
     </div>
@@ -139,6 +139,13 @@ export default defineComponent({
       return props.password ? 'password' : ['range'].includes(props.type) ? 'text' : props.type
     }
 
+    const config = useRuntimeConfig()
+    const icon = config.public.ui?.icon
+    const isTabler = icon == 'tabler';
+
+    const eye = isTabler ? 'ti-eye' : 'hgi-view'
+    const eyeOff = isTabler ? 'ti-eye-off' : 'hgi-view-off'
+
     const instance = getCurrentInstance()
     const input = ref(null)
 
@@ -190,7 +197,7 @@ export default defineComponent({
         const index = inputSuffixs.value.findIndex((e: any) => e._toggle)
         obsecure.value = !obsecure.value
 
-        inputSuffixs.value[index] = { icon: obsecure.value ? 'ti-eye' : 'ti-eye-off', _toggle: true }
+        inputSuffixs.value[index] = { icon: obsecure.value ? eye : eyeOff, _toggle: true }
       }
 
       emit('suffix', data)
@@ -205,7 +212,7 @@ export default defineComponent({
         const index = suffixs.findIndex((e) => e._toggle)
         if (index == -1) {
           inputSuffixs.value.push({
-            icon: 'ti-eye', _toggle: true
+            icon: eye, _toggle: true
           })
         }
         return

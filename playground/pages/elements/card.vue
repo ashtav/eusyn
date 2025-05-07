@@ -50,7 +50,7 @@
                             </div>
                             <div class="ms-auto">
                                 <a href="#" class="icon d-none d-md-inline-block ms-3 text-secondary">
-                                    <Ti icon="heart" />
+                                    <Icon icon="heart" />
                                 </a>
                             </div>
                         </div>

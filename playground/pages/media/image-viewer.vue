@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-lg-6">
         <h4 class="mb-0">
-          <Ti icon="ti-album" class="me-1" /> Album
+          <Icon icon="ti-album" class="me-1" /> Album
         </h4>
         <p class="mb-5">
           {{ images.length }} images are available, click one of these images to show image viewer.

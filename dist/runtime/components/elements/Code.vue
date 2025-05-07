@@ -7,7 +7,7 @@
         </div>
 
         <div class="copy-code" @click="doCopy">
-            <Ti :icon="copied ? 'ti-check' : 'ti-copy'" />
+            <Icon :icon="copied ? 'ti-check' : 'ti-copy'" />
         </div>
     </div>
 </template>

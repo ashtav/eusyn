@@ -7,7 +7,7 @@
         </div>
 
         <div class="copy-code" @click="doCopy">
-            <Ti :icon="copied ? 'ti-check' : 'ti-copy'" />
+            <Icon :icon="copied ? iconCheck : iconCopy" />
         </div>
     </div>
 </template>
@@ -33,6 +33,13 @@ export default defineComponent({
     },
 
     setup(props) {
+        const config = useRuntimeConfig()
+        const icon = config.public.ui?.icon
+        const isTabler = icon == 'tabler';
+
+        const iconCheck = isTabler ? 'ti-check' : 'hgi-tick-02';
+        const iconCopy = isTabler ? 'ti-copy' : 'hgi-copy-02';
+
         const codeElement = ref<HTMLElement | null>(null);
         const copied = ref(false);
 
@@ -76,7 +83,9 @@ export default defineComponent({
             language,
             codeElement,
             copied,
-            doCopy
+            doCopy,
+            iconCheck,
+            iconCopy
         };
     },
 });

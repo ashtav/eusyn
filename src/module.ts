@@ -4,8 +4,9 @@ import { name, version } from '../package.json'
 export interface ModuleOptions {
   prefix?: string
   global?: boolean // default is false
-  disableGlobalStyles?: boolean,
+  disableGlobalStyles?: boolean
   plugins?: Array<string>
+  icon: string
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -22,6 +23,7 @@ export default defineNuxtModule<ModuleOptions>({
     prefix: '',
     disableGlobalStyles: false,
     plugins: [],
+    icon: 'tabler'
   },
 
   async setup(options, nuxt) {
@@ -33,11 +35,20 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.alias['#ui'] = runtimeDir
 
+    // Pastikan ui sudah ada
+    if (!nuxt.options.runtimeConfig.public.ui) {
+      nuxt.options.runtimeConfig.public.ui = {} as Record<string, any>;
+    }
+
+    // Pastikan untuk set icon pada ui
+    (nuxt.options.runtimeConfig.public.ui as Record<string, any>).icon = options.icon;
+
+
     if (!options.disableGlobalStyles) {
-      nuxt.options.css.push(resolve(runtimeDir, 'styles/tabler/css/tabler.min.css'))
-      nuxt.options.css.push(resolve(runtimeDir, 'styles/tabler/css/tabler-icons.css'))
-      nuxt.options.css.push(resolve(runtimeDir, 'styles/customs/override.css'))
-      nuxt.options.css.push(resolve(runtimeDir, 'styles/customs/utilities.css'))
+      nuxt.options.css.push(resolve(runtimeDir, 'assets/styles/css/tabler.min.css'))
+      nuxt.options.css.push(resolve(runtimeDir, 'assets/styles/css/tabler-icons.css'))
+      nuxt.options.css.push(resolve(runtimeDir, 'assets/styles/css/hgi-stroke-rounded.css'))
+      nuxt.options.css.push(resolve(runtimeDir, 'assets/styles/css/override.css'))
     }
 
     // Injections
@@ -77,7 +88,5 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Composables
     addImportsDir(resolve(runtimeDir, 'composables'))
-
-    // console.log(`NTX - 1.0.0 25.03.18.1`)
   }
 })

@@ -48,7 +48,7 @@
           </p>
 
           <Input v-model="forms.title" label="Modal Title" hint="Type username" required formatters="ucwords"
-            prefix="ti-news" />
+            prefix="hgi-news" />
         </div>
         <div class="modal-footer border-0 bg-transparent">
           <Button theme="btn" label="Close" @click="onClose" />
@@ -64,10 +64,10 @@ export default {
   data() {
     return {
       icons: [
-        { icon: 'ti-send', tooltip: 'Send', click: this.onAction },
-        { icon: 'ti-archive', tooltip: 'Archive', click: this.onAction },
-        { icon: 'ti-user', click: this.onAction },
-        { icon: 'ti-bulb', disabled: true }
+        { icon: 'hgi-sent', tooltip: 'Send', click: this.onAction },
+        { icon: 'hgi-archive-01', tooltip: 'Archive', click: this.onAction },
+        { icon: 'hgi-user-circle-02', click: this.onAction },
+        { icon: 'hgi-idea-01', disabled: true }
       ],
 
       forms: {

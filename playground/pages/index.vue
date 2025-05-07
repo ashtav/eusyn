@@ -10,7 +10,7 @@
       <a href="https://preview.tabler.io" target="_blank">https://preview.tabler.io</a> <br>
       <a href="https://tabler.io/icons" target="_blank">https://tabler.io/icons</a>
       <p class="text-muted mt-5">
-        <Ti icon="minus" /> Version. 1.0.0 24.08.19.1-alpha
+        <Icon icon="minus" /> Version. 1.0.0 24.08.19.1-alpha
       </p> <br> <br>
     </div>
   </div>
@@ -31,7 +31,7 @@ export default {
   },
 
   methods: {
-
+    foo(){}
   }
 }
 </script>

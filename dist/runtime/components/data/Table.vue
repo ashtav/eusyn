@@ -31,7 +31,7 @@
             <th v-for="item in headers">
               <span :class="{ 'hoverable': item.sortable }" @click="doSortBy(item)">
                 {{ item.label }}
-                <Ti :icon="item.sort_icon ?? ''" size="xs" v-if="item.sortable" />
+                <Icon :icon="item.sort_icon ?? ''" size="xs" v-if="item.sortable" />
               </span>
             </th>
             <th v-if="rowOptions"></th>

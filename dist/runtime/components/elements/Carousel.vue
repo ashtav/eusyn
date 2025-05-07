@@ -20,7 +20,7 @@
         <!-- controls -->
         <button v-for="(btn, i) in ['left', 'right']" :class="['carousel-button', btn]"
             :ref="['prevButton', 'nextButton'][i]">
-            <Ti :icon="(config.arrows ?? []).length == 2 ? config.arrows[i] : `chevron-${btn}`" />
+            <Icon :icon="(config.arrows ?? []).length == 2 ? config.arrows[i] : `chevron-${btn}`" />
         </button>
     </div>
 </template>

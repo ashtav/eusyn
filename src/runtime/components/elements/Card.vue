@@ -6,7 +6,7 @@
         <ul class="nav nav-tabs" :class="{ 'nav-tabs-bottom': tabPos == 'bottom' }" v-if="tabs.length != 0">
             <li class="nav-item" v-for="(tab, i) in tabs"><span @click="onTab(i)"
                     :class="['nav-link', { 'active': tabActive == i }]">
-                    <Ti v-if="tab.icon" :icon="tab.icon" class="me-2" size="xs" /> {{ tab.label }}
+                    <Icon v-if="tab.icon" :icon="tab.icon" class="me-2" size="xs" /> {{ tab.label }}
                 </span></li>
         </ul>
 
@@ -27,7 +27,7 @@
                     <h3 class="card-title" :class="titleStyle"> {{ title }} </h3>
                     <div class="card-actions btn-actions" v-if="actions.length != 0">
                         <span class="btn-action" v-for="action in actions" @click="action?.click(action)">
-                            <Ti :icon="action.icon" />
+                            <Icon :icon="action.icon" />
                         </span>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
 
         <div :class="['ribbon', `ribbon-${ribbon?.position}`, ribbon?.background ?? 'bg-red']"
             v-if="tabs.length == 0 && actions.length == 0 && ribbon">
-            <Ti v-if="ribbon?.content.toString().includes(':')" :icon="ribbon?.content.toString().split(':')[1]" />
+            <Icon v-if="ribbon?.content.toString().includes(':')" :icon="ribbon?.content.toString().split(':')[1]" />
             <span v-else>{{ ribbon?.content }}</span>
         </div>
     </div>

@@ -16,7 +16,7 @@
                 <li v-if="(item?.visible ?? true)" :key="i" :icon-tooltip="item?.tooltip"
                   :class="[item?.disabled ? 'disabled opacity-50' : '']"
                   @click="item?.click?.call(null, { ...item, index: i })">
-                  <Ti :icon="item?.icon" />
+                  <Icon :icon="item?.icon" />
                 </li>
               </template>
             </ul>
