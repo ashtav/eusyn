@@ -1,5 +1,5 @@
 <template>
-  <div class="modal modal-blur fade" :class="{ 'show': show }" tabindex="-1"
+  <div class="modal fade" :class="{ 'show': show }" tabindex="-1"
     :style="{ display: preShow ? 'block' : 'none' }">
     <div class="modal-dialog modal-dialog-centered" role="document" :class="`modal-${size}`">
       <div class="modal-content">
@@ -212,5 +212,14 @@ export default {
 [data-bs-theme=dark] .modal-content {
   border-color: #2d3d50;
   box-shadow: none;
+}
+
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.7);
+  transition: 0.2s;
+  opacity: 0;
+}
+.modal-backdrop.show {
+  opacity: 1;
 }
 </style>

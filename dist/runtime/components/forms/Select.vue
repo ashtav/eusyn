@@ -16,7 +16,7 @@
       <div class="suffixs">
         <span @click="onSuffix">
           <i v-if="busy" class="spinner-border spinner-border-sm" />
-          <Icon v-else :icon="selected ? 'ti-x' : suffix ?? 'ti-chevron-down'" />
+          <Icon v-else :icon="selected ? iconX : suffix ?? iconChevron" />
         </span>
       </div>
 
@@ -89,6 +89,11 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    const config = useRuntimeConfig();
+    const icon = config.public.ui?.icon;
+    const isTabler = icon == "tabler";
+    const iconX = isTabler ? "ti-x" : "hgi-cancel-01";
+    const iconChevron = isTabler ? "ti-chevron-down" : "hgi-arrow-down-01";
     const instance = getCurrentInstance();
     const localValue = ref(props.modelValue);
     const localOptions = ref(props.options);
@@ -195,7 +200,9 @@ export default defineComponent({
       onKeyPress,
       onSuffix,
       textOption,
-      doFocus
+      doFocus,
+      iconX,
+      iconChevron
     };
   }
 });

@@ -122,6 +122,11 @@ export default defineComponent({
     const getType = () => {
       return props.password ? "password" : ["range"].includes(props.type) ? "text" : props.type;
     };
+    const config = useRuntimeConfig();
+    const icon = config.public.ui?.icon;
+    const isTabler = icon == "tabler";
+    const eye = isTabler ? "ti-eye" : "hgi-view";
+    const eyeOff = isTabler ? "ti-eye-off" : "hgi-view-off";
     const instance = getCurrentInstance();
     const input = ref(null);
     const localValue = ref(props.modelValue);
@@ -158,7 +163,7 @@ export default defineComponent({
       if (data?._toggle) {
         const index = inputSuffixs.value.findIndex((e) => e._toggle);
         obsecure.value = !obsecure.value;
-        inputSuffixs.value[index] = { icon: obsecure.value ? "ti-eye" : "ti-eye-off", _toggle: true };
+        inputSuffixs.value[index] = { icon: obsecure.value ? eye : eyeOff, _toggle: true };
       }
       emit("suffix", data);
     };
@@ -170,7 +175,7 @@ export default defineComponent({
         const index = suffixs.findIndex((e) => e._toggle);
         if (index == -1) {
           inputSuffixs.value.push({
-            icon: "ti-eye",
+            icon: eye,
             _toggle: true
           });
         }

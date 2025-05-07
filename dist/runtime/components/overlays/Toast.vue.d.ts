@@ -8,5 +8,7 @@ declare const _default: import("vue").DefineComponent<{}, {
     toastEl: Ref<HTMLElement | null>;
     type: Ref<string>;
     alignment: Ref<string>;
-}, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{}>>, {}, {}>;
+}, {
+    iconX: string;
+}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{}>>, {}, {}>;
 export default _default;

@@ -15,6 +15,8 @@ declare const _default: import("vue").DefineComponent<{
     codeElement: import("vue").Ref<HTMLElement | null>;
     copied: import("vue").Ref<boolean>;
     doCopy: () => Promise<void>;
+    iconCheck: string;
+    iconCopy: string;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     code: {
         type: StringConstructor;

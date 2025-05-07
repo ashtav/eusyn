@@ -5,6 +5,7 @@ interface ModuleOptions {
     global?: boolean;
     disableGlobalStyles?: boolean;
     plugins?: Array<string>;
+    icon: string;
 }
 declare const _default: _nuxt_schema.NuxtModule<ModuleOptions>;
 

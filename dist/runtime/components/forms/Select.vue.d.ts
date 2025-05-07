@@ -71,6 +71,8 @@ declare const _default: import("vue").DefineComponent<{
     onSuffix: () => void;
     textOption: (option: any, prioritizeValue?: boolean) => any;
     doFocus: () => void;
+    iconX: string;
+    iconChevron: string;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("change" | "update:modelValue" | "enter")[], "change" | "update:modelValue" | "enter", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;

@@ -6,7 +6,7 @@
           <!-- <i class="ti me-2" :class="icon"></i> -->
           <div class="d-flex justify-content-between w-100">
             <span v-text="message" />
-            <i class="ti ti-x" @click="onHide" />
+            <i :class="iconX" @click="onHide" />
           </div>
         </div>
 
@@ -108,6 +108,18 @@ export default {
       show.value = false;
     };
     return { onShow, onHide, show, message, progress, toastEl, type, alignment };
+  },
+  data() {
+    return {
+      iconX: "ti ti-x"
+    };
+  },
+  mounted() {
+    nextTick(() => {
+      const config = useRuntimeConfig();
+      const icon = config.public.ui?.icon;
+      this.iconX = icon == "tabler" ? "ti ti-x" : "hgi hgi-stroke hgi-cancel-01";
+    });
   }
 };
 </script>
@@ -158,7 +170,10 @@ export default {
 .nuxt-toast.error, .nuxt-toast.warning, .nuxt-toast.success {
   color: white !important;
 }
-.nuxt-toast.error .ti-x, .nuxt-toast.warning .ti-x, .nuxt-toast.success .ti-x {
+.nuxt-toast.error .ti-x,
+.nuxt-toast.error .hgi, .nuxt-toast.warning .ti-x,
+.nuxt-toast.warning .hgi, .nuxt-toast.success .ti-x,
+.nuxt-toast.success .hgi {
   color: white !important;
 }
 .nuxt-toast.error .progress, .nuxt-toast.warning .progress, .nuxt-toast.success .progress {
@@ -185,6 +200,15 @@ export default {
   bottom: 0;
   left: 0;
 }
+.nuxt-toast .nuxt-toast-content .hgi {
+  font-size: 17px;
+  color: #888;
+  transition: 0.2s;
+}
+.nuxt-toast .nuxt-toast-content .hgi:hover {
+  color: #212121;
+  cursor: pointer;
+}
 .nuxt-toast .nuxt-toast-content .ti-x {
   --tblr-icon-size: 1.08rem;
   width: var(--tblr-icon-size);
@@ -201,7 +225,7 @@ export default {
 }
 
 [data-bs-theme=dark] .nuxt-toast {
-  box-shadow: 0 0.5rem 1rem rgb(22.4076086957, 32.527173913, 44.0923913043);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
 }
 [data-bs-theme=dark] .nuxt-toast:not([data-bs-theme=dark] .nuxt-toast.error, [data-bs-theme=dark] .nuxt-toast.warning, [data-bs-theme=dark] .nuxt-toast.success) {
   background-color: #1f2d3d;

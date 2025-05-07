@@ -1,13 +1,7 @@
 <template>
   <div>
-    <div
-      class="modal modal-blur fade"
-      :class="{ 'show': show }"
-      tabindex="-1"
-      aria-modal="true"
-      role="dialog"
-      :style="{ display: preShow ? 'block' : 'none' }"
-    >
+    <div class="modal fade" :class="{ 'show': show }" tabindex="-1" aria-modal="true" role="dialog"
+      :style="{ display: preShow ? 'block' : 'none' }">
       <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-body text-center py-4">
@@ -18,13 +12,8 @@
             </h3>
             <div class="text-muted" v-html="data.message" />
 
-            <input
-              v-show="data?.data"
-              ref="elInput"
-              v-model="input"
-              class="form-control mt-5"
-              :placeholder="data?.hint"
-            >
+            <input v-show="data?.data" ref="elInput" v-model="input" class="form-control mt-5"
+              :placeholder="data?.hint">
           </div>
 
           <!-- controls -->
@@ -35,13 +24,9 @@
                   <Button :label="data.cancelText ?? 'Cancel'" theme="btn w-100" @click="onHide" />
                 </div>
                 <div class="col">
-                  <Button
-                    :label="data.confirmText"
-                    :theme="`w-100 btn-${data.theme}`"
-                    :disabled="isSubmit || data?.data && data?.data != input"
-                    :submitted="isSubmit"
-                    @click="data.onConfirm"
-                  />
+                  <Button :label="data.confirmText" :theme="`w-100 btn-${data.theme}`"
+                    :disabled="isSubmit || data?.data && data?.data != input" :submitted="isSubmit"
+                    @click="data.onConfirm" />
                 </div>
               </div>
             </div>
@@ -148,5 +133,14 @@ export default {
 [data-bs-theme=dark] .modal-content {
   border-color: #2d3d50;
   box-shadow: none;
+}
+
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.7);
+  transition: 0.2s;
+  opacity: 0;
+}
+.modal-backdrop.show {
+  opacity: 1;
 }
 </style>

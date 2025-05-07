@@ -1,7 +1,7 @@
 import { defineNuxtModule, createResolver, addPlugin, addComponentsDir, addComponent, addImportsDir } from '@nuxt/kit';
 
 const name = "nuxt-tabler-extension";
-const version = "1.0.3";
+const version = "1.0.4";
 
 const module = defineNuxtModule({
   meta: {
@@ -15,18 +15,23 @@ const module = defineNuxtModule({
   defaults: {
     prefix: "",
     disableGlobalStyles: false,
-    plugins: []
+    plugins: [],
+    icon: "tabler"
   },
   async setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url);
     const runtimeDir = resolve("./runtime");
     nuxt.options.build.transpile.push(runtimeDir);
     nuxt.options.alias["#ui"] = runtimeDir;
+    if (!nuxt.options.runtimeConfig.public.ui) {
+      nuxt.options.runtimeConfig.public.ui = {};
+    }
+    nuxt.options.runtimeConfig.public.ui.icon = options.icon;
     if (!options.disableGlobalStyles) {
-      nuxt.options.css.push(resolve(runtimeDir, "styles/tabler/css/tabler.min.css"));
-      nuxt.options.css.push(resolve(runtimeDir, "styles/tabler/css/tabler-icons.css"));
-      nuxt.options.css.push(resolve(runtimeDir, "styles/customs/override.css"));
-      nuxt.options.css.push(resolve(runtimeDir, "styles/customs/utilities.css"));
+      nuxt.options.css.push(resolve(runtimeDir, "assets/styles/css/tabler.min.css"));
+      nuxt.options.css.push(resolve(runtimeDir, "assets/styles/css/tabler-icons.css"));
+      nuxt.options.css.push(resolve(runtimeDir, "assets/styles/css/hgi-stroke-rounded.css"));
+      nuxt.options.css.push(resolve(runtimeDir, "assets/styles/css/override.css"));
     }
     nuxt.options.plugins.push(resolve(runtimeDir, "scripts/confirm/setup"));
     nuxt.options.plugins.push(resolve(runtimeDir, "scripts/toast/setup"));
