@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { useRuntimeConfig } from "#imports";
 import Prism from "prismjs";
 import { defineComponent, onMounted, ref, watch } from "vue";
 export default defineComponent({

@@ -4,6 +4,7 @@
 </template>
 
 <script lang="ts">
+import { useRuntimeConfig } from '#imports';
 import { defineComponent } from 'vue';
 
 export default defineComponent({

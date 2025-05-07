@@ -1,7 +1,7 @@
 import { defineNuxtModule, createResolver, addPlugin, addComponentsDir, addComponent, addImportsDir } from '@nuxt/kit';
 
 const name = "nuxt-tabler-extension";
-const version = "1.0.5";
+const version = "1.0.6";
 
 const module = defineNuxtModule({
   meta: {
@@ -16,7 +16,7 @@ const module = defineNuxtModule({
     prefix: "",
     disableGlobalStyles: false,
     plugins: [],
-    icon: "tabler"
+    icon: "huge"
   },
   async setup(options, nuxt) {
     const { resolve } = createResolver(import.meta.url);

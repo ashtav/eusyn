@@ -23,7 +23,7 @@ export default defineNuxtModule<ModuleOptions>({
     prefix: '',
     disableGlobalStyles: false,
     plugins: [],
-    icon: 'tabler'
+    icon: 'huge'
   },
 
   async setup(options, nuxt) {

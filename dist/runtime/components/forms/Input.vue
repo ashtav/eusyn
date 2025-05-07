@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { useRuntimeConfig } from "#imports";
 import { defineComponent, getCurrentInstance, onMounted, ref, watch } from "vue";
 import { utils } from "../../plugins/utils";
 import { formatting, handleKeyPress } from "../../scripts/input";
