@@ -17,7 +17,8 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { useRuntimeConfig } from "#imports";
+import { nextTick, onMounted, ref } from "vue";
 import eventBus from "../../plugins/mitt";
 var Alignment = /* @__PURE__ */ ((Alignment2) => {
   Alignment2[Alignment2["topRight"] = 0] = "topRight";

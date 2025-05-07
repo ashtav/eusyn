@@ -1,7 +1,7 @@
 import { defineNuxtModule, createResolver, addPlugin, addComponentsDir, addComponent, addImportsDir } from '@nuxt/kit';
 
 const name = "nuxt-tabler-extension";
-const version = "1.0.6";
+const version = "1.0.7";
 
 const module = defineNuxtModule({
   meta: {

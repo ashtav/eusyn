@@ -1,6 +1,6 @@
 {
   "name": "nuxt-tabler-extension",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "packageManager": "pnpm@9.5.0",
   "repository": "nuxt-tabler-extension",
   "homepage": "https://github.com/ashtav/nuxt-tabler-extension",

@@ -17,8 +17,9 @@
 </template>
 
 <script lang="ts">
+import { useRuntimeConfig } from '#imports';
 import type { Ref } from 'vue';
-import { onMounted, ref } from 'vue';
+import { nextTick, onMounted, ref } from 'vue';
 import eventBus from '../../plugins/mitt';
 
 enum Alignment {
