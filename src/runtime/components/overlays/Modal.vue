@@ -1,6 +1,5 @@
 <template>
-  <div class="modal fade" :class="{ 'show': show }" tabindex="-1"
-    :style="{ display: preShow ? 'block' : 'none' }">
+  <div class="modal fade" :class="{ 'show': show }" tabindex="-1" :style="{ display: preShow ? 'block' : 'none' }">
     <div class="modal-dialog modal-dialog-centered" role="document" :class="`modal-${size}`">
       <div class="modal-content">
         <!-- modal header -->
@@ -12,19 +11,15 @@
           <!-- modal action -->
           <div class="modal-action">
             <ul>
-              <template v-for="(item, i) in actions">
+              <template v-for="(item, i) in [...actions, { icon: iconX, type: 'close' }]">
                 <li v-if="(item?.visible ?? true)" :key="i" :icon-tooltip="item?.tooltip"
                   :class="[item?.disabled ? 'disabled opacity-50' : '']"
-                  @click="item?.click?.call(null, { ...item, index: i })">
+                  @click="item?.type == 'close' ? modal.close(id) : item?.click?.call(null, { ...item, index: i })">
                   <Icon :icon="item?.icon" />
                 </li>
               </template>
             </ul>
           </div>
-
-          <!-- close modal -->
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-            @click="() => modal.close(id)" />
         </div>
 
         <!-- modal body -->
@@ -37,6 +32,7 @@
 </template>
 
 <script lang="ts">
+import { useRuntimeConfig } from '#imports';
 import { onMounted, ref } from 'vue';
 import eventBus from '../../plugins/mitt';
 import { modal } from '../../scripts/modal';
@@ -77,6 +73,11 @@ export default {
     const preShow = ref(false)
 
     const title = ref('')
+
+
+    const config = useRuntimeConfig()
+    const icon = config.public.ui?.icon
+    const iconX = icon == 'tabler' ? 'ti-x' : 'hgi-cancel-01'
 
     let callback: Function
 
@@ -133,17 +134,12 @@ export default {
       eventBus.on('__callback_modal', onCallback)
     })
 
-    return { modal, preShow, show, title, onClose }
+    return { modal, preShow, show, title, onClose, iconX }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.btn-close {
-  outline: none;
-  --tblr-btn-close-focus-shadow: none
-}
-
 .modal {
   scrollbar-width: thin;
 }
@@ -154,6 +150,7 @@ export default {
   z-index: 1;
   background: rgba(255, 255, 255, .1) !important;
   backdrop-filter: blur(10px) !important;
+  padding-right: 24px;
 
   .modal-action {
     flex-grow: 1;

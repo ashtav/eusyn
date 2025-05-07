@@ -8,28 +8,14 @@
       </span>
 
       <!-- input -->
-      <textarea
-        :value="localValue"
-        :class="['form-control']"
-        :placeholder="hint"
-        :maxlength="maxLength"
-        :required="required"
-        :disabled="disabled"
-        :autofocus="autofocus"
-        name="input"
-        autocomplete="off"
-        :style="{ maxHeight: `${maxHeight}px` }"
-        @input="onInput"
-        @keypress="onKeyPress"
-      />
+      <textarea :value="localValue" :class="['form-control']" :placeholder="hint" :maxlength="maxLength"
+        :required="required" :disabled="disabled" :autofocus="autofocus" name="input" autocomplete="off"
+        :style="{ maxHeight: `${maxHeight}px` }" @input="onInput" @keypress="onKeyPress" />
 
       <!-- suffixs -->
       <div v-if="inputSuffixs.length != 0" class="suffixs">
-        <span
-          v-for="(suffix, i) in inputSuffixs" :key="i"
-          :class="[utils.on(suffix.disabled, 'disabled')]"
-          @click="onSuffix(suffix)"
-        >
+        <span v-for="(suffix, i) in inputSuffixs" :key="i" :class="[utils.on(suffix.disabled, 'disabled')]"
+          @click="onSuffix(suffix)">
 
           <!-- if kbd and has text -->
           <kbd v-if="suffix?.kbd && suffix?.text">{{ suffix.text }}</kbd>
@@ -124,9 +110,7 @@ export default defineComponent({
       inputSuffixs.value = value;
     }, { immediate: true });
     watch(() => props.modelValue, (value) => {
-      if (value == "") {
-        localValue.value = value;
-      }
+      localValue.value = value;
     });
     watch(() => localValue.value, (value) => {
       formatting(props.formatters.split("|"), emit, value, "", (value2) => {
@@ -199,6 +183,6 @@ export default defineComponent({
 }
 .input .input-icon-addon {
   align-items: unset !important;
-  top: 11px;
+  top: 9px;
 }
 </style>

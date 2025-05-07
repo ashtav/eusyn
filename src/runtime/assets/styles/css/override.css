@@ -53,3 +53,75 @@ img[lazy] {
 .x {
     border: 1px red solid !important;
 }
+
+/* custom position utils */
+
+.pos-relative {
+    position: relative;
+}
+
+.pos-absolute {
+    position: absolute;
+}
+
+.pos-fixed {
+    position: fixed;
+}
+
+.pos-sticky {
+    position: sticky;
+}
+
+/* position spacing utilities in px (step: 5) */
+
+/* top */
+.t-0  { top: 0px; }
+.t-5  { top: 5px; }
+.t-10 { top: 10px; }
+.t-15 { top: 15px; }
+.t-20 { top: 20px; }
+.t-25 { top: 25px; }
+.t-30 { top: 30px; }
+.t-35 { top: 35px; }
+.t-40 { top: 40px; }
+.t-45 { top: 45px; }
+.t-50 { top: 50px; }
+
+/* left */
+.l-0  { left: 0px; }
+.l-5  { left: 5px; }
+.l-10 { left: 10px; }
+.l-15 { left: 15px; }
+.l-20 { left: 20px; }
+.l-25 { left: 25px; }
+.l-30 { left: 30px; }
+.l-35 { left: 35px; }
+.l-40 { left: 40px; }
+.l-45 { left: 45px; }
+.l-50 { left: 50px; }
+
+/* right */
+.r-0  { right: 0px; }
+.r-5  { right: 5px; }
+.r-10 { right: 10px; }
+.r-15 { right: 15px; }
+.r-20 { right: 20px; }
+.r-25 { right: 25px; }
+.r-30 { right: 30px; }
+.r-35 { right: 35px; }
+.r-40 { right: 40px; }
+.r-45 { right: 45px; }
+.r-50 { right: 50px; }
+
+/* bottom */
+.b-0  { bottom: 0px; }
+.b-5  { bottom: 5px; }
+.b-10 { bottom: 10px; }
+.b-15 { bottom: 15px; }
+.b-20 { bottom: 20px; }
+.b-25 { bottom: 25px; }
+.b-30 { bottom: 30px; }
+.b-35 { bottom: 35px; }
+.b-40 { bottom: 40px; }
+.b-45 { bottom: 45px; }
+.b-50 { bottom: 50px; }

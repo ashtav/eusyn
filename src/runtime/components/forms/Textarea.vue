@@ -8,28 +8,14 @@
       </span>
 
       <!-- input -->
-      <textarea
-        :value="localValue"
-        :class="['form-control']"
-        :placeholder="hint"
-        :maxlength="maxLength"
-        :required="required"
-        :disabled="disabled"
-        :autofocus="autofocus"
-        name="input"
-        autocomplete="off"
-        :style="{ maxHeight: `${maxHeight}px` }"
-        @input="onInput"
-        @keypress="onKeyPress"
-      />
+      <textarea :value="localValue" :class="['form-control']" :placeholder="hint" :maxlength="maxLength"
+        :required="required" :disabled="disabled" :autofocus="autofocus" name="input" autocomplete="off"
+        :style="{ maxHeight: `${maxHeight}px` }" @input="onInput" @keypress="onKeyPress" />
 
       <!-- suffixs -->
       <div v-if="inputSuffixs.length != 0" class="suffixs">
-        <span
-          v-for="(suffix, i) in inputSuffixs" :key="i"
-          :class="[utils.on(suffix.disabled, 'disabled')]"
-          @click="onSuffix(suffix)"
-        >
+        <span v-for="(suffix, i) in inputSuffixs" :key="i" :class="[utils.on(suffix.disabled, 'disabled')]"
+          @click="onSuffix(suffix)">
 
           <!-- if kbd and has text -->
           <kbd v-if="suffix?.kbd && suffix?.text">{{ suffix.text }}</kbd>
@@ -121,7 +107,7 @@ export default defineComponent({
     }
   },
 
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const instance = getCurrentInstance()
     const localValue = ref(props.modelValue)
     const inputSuffixs = ref(props.suffixs)
@@ -146,9 +132,7 @@ export default defineComponent({
     }, { immediate: true })
 
     watch(() => props.modelValue, (value) => {
-      if (value == '') {
-        localValue.value = value
-      }
+      localValue.value = value
     })
 
     watch(() => localValue.value, (value) => {
@@ -173,75 +157,75 @@ export default defineComponent({
 <style scoped lang="scss">
 .input {
 
-    &.disabled {
-        pointer-events: none;
+  &.disabled {
+    pointer-events: none;
 
-        .date-input-placeholders {
-            background-color: #f6f8fb;
-        }
-
-        .suffixs {
-            opacity: .6;
-
-            span {
-                &.disabled {
-                    opacity: 1;
-                }
-            }
-        }
+    .date-input-placeholders {
+      background-color: #f6f8fb;
     }
 
     .suffixs {
-        position: absolute;
-        right: 5px;
-        top: 0;
+      opacity: .6;
 
-        span {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            height: 40px;
-            padding: 0 7px;
-            padding-top: 1px;
-            cursor: pointer;
-            text-wrap: nowrap;
-            user-select: none;
-
-            span {
-                font-size: 12.5px;
-                letter-spacing: .5px;
-            }
-
-            &.disabled {
-                pointer-events: none;
-                opacity: .6;
-            }
-
-            i {
-                opacity: .6;
-            }
-
-            &:hover {
-                i {
-                    opacity: 1;
-                }
-            }
-
-            &:active {
-                i {
-                    opacity: .6;
-                }
-            }
+      span {
+        &.disabled {
+          opacity: 1;
         }
+      }
     }
+  }
 
-    textarea {
-        scrollbar-width: thin;
-    }
+  .suffixs {
+    position: absolute;
+    right: 5px;
+    top: 0;
 
-    .input-icon-addon {
-        align-items: unset !important;
-        top: 11px
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 40px;
+      padding: 0 7px;
+      padding-top: 1px;
+      cursor: pointer;
+      text-wrap: nowrap;
+      user-select: none;
+
+      span {
+        font-size: 12.5px;
+        letter-spacing: .5px;
+      }
+
+      &.disabled {
+        pointer-events: none;
+        opacity: .6;
+      }
+
+      i {
+        opacity: .6;
+      }
+
+      &:hover {
+        i {
+          opacity: 1;
+        }
+      }
+
+      &:active {
+        i {
+          opacity: .6;
+        }
+      }
     }
+  }
+
+  textarea {
+    scrollbar-width: thin;
+  }
+
+  .input-icon-addon {
+    align-items: unset !important;
+    top: 9px
+  }
 }
 </style>

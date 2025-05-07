@@ -8,11 +8,11 @@
         <!-- toggle -->
         <div :class="['app-navbar', { 'show': showFeature }]">
           <div :class="['toggle']" @click="showFeature = !showFeature">
-            <Icon :icon="showFeature ? 'arrow-left' : 'category'" />
+            <Icon :icon="showFeature ? 'hgi-arrow-left-02' : 'hgi-dashboard-square-02'" />
           </div>
 
           <div :class="['toggle']" @click="$ntx.theme.set()">
-            <Icon :icon="$ntx.theme.get.value != 'dark' ? 'sun' : 'moon'" />
+            <Icon :icon="$ntx.theme.get.value != 'dark' ? 'hgi-sun-03' : 'hgi-moon-02'" />
           </div>
         </div>
 
@@ -73,34 +73,34 @@ export default {
         {
           label: 'Elements',
           features: [
-            { label: 'Accordion', to: '/accordion', icon: 'layout-navbar-expand' },
-            { label: 'Avatar', to: '/elements/avatar', icon: 'user-circle' },
-            { label: 'Cards', to: '/elements/card', icon: 'id' },
-            { label: 'Shimmer', to: '/shimmer', icon: 'wash-dry-shade' },
-            { label: 'Spinner', to: '/elements/spinner', icon: 'rotate-clockwise-2' },
-            { label: 'Dropdown', to: '/dropdown', icon: 'align-justified' },
-            { label: 'Table', to: '/table', icon: 'table' },
-            { label: 'Page Header', to: '/page-header', icon: 'layout-navbar' },
-            { label: 'Modal, Toast & Confirm', to: '/modal-toast-confirm', icon: 'square-chevron-up' },
+            { label: 'Accordion', to: '/accordion', icon: 'hgi-square-arrow-down-01' },
+            { label: 'Avatar', to: '/elements/avatar', icon: 'hgi-user-circle' },
+            { label: 'Cards', to: '/elements/card', icon: 'hgi-credit-card' },
+            { label: 'Shimmer', to: '/shimmer', icon: 'hgi-equal-sign-square' },
+            { label: 'Spinner', to: '/elements/spinner', icon: 'hgi-loading-03' },
+            { label: 'Dropdown', to: '/dropdown', icon: 'hgi-align-right' },
+            { label: 'Table', to: '/table', icon: 'hgi-layout-table-02' },
+            { label: 'Page Header', to: '/page-header', icon: 'hgi-heading-02' },
+            { label: 'Modal, Toast & Confirm', to: '/modal-toast-confirm', icon: 'hgi-archive' },
           ]
         },
 
         {
           label: 'Media Utilities',
           features: [
-            { label: 'Carousel', to: '/media/carousel', icon: 'carousel-horizontal' },
-            { label: 'Cropper', to: '/media/cropper', icon: 'crop' },
-            { label: 'Image Viewer', to: '/media/image-viewer', icon: 'photo' },
+            { label: 'Carousel', to: '/media/carousel', icon: 'hgi-carousel-horizontal' },
+            { label: 'Cropper', to: '/media/cropper', icon: 'hgi-crop' },
+            { label: 'Image Viewer', to: '/media/image-viewer', icon: 'hgi-image-02' },
           ]
         },
 
         {
           label: 'Plugins',
           features: [
-            { label: 'Faker Generator', to: '/plugins/faker', icon: 'writing' },
-            { label: 'Image Utilities', to: '/plugins/image', icon: 'layout-collage' },
-            { label: 'Themes', to: '/plugins/theme', icon: 'palette' },
-            { label: 'Utilities', to: '/plugins', icon: 'category' },
+            { label: 'Faker Generator', to: '/plugins/faker', icon: 'hgi-pen-tool-03' },
+            { label: 'Image Utilities', to: '/plugins/image', icon: 'hgi-shuffle-square' },
+            { label: 'Themes', to: '/plugins/theme', icon: 'hgi-paint-brush-02' },
+            { label: 'Utilities', to: '/plugins', icon: 'hgi-wrench-01' },
           ]
         }
       ],
