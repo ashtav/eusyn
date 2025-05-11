@@ -10,7 +10,7 @@
 
       <!-- date input placeholder -->
       <div v-if="['date'].includes(inputType) && (localValue == '' || localValue == null)"
-        :class="['date-input-placeholders', utils.on(prefix != '', 'has-prefix'), utils.on(disabled, 'disabled')]">
+        :class="['date-input-placeholders', utils.on(!['', null].includes(prefix), 'has-prefix'), utils.on(disabled, 'disabled')]">
         ----/--/--
       </div>
 
@@ -18,7 +18,7 @@
       <input :value="localValue" :type="inputType" :class="['form-control']" :placeholder="hint" :maxlength="maxLength"
         :required="required" :disabled="disabled" :readonly="readonly" :min="minDate" :max="maxDate"
         :autofocus="autofocus" name="input" autocomplete="off" @focus="onFocus" @input="onInput" @keypress="onKeyPress"
-        @mousedown="onMouseDown" ref="input">
+        @mousedown="onMouseDown" ref="input" :icon="isTabler ? 'tabler' : 'huge'">
 
       <!-- suffixs -->
       <div v-if="inputSuffixs.length != 0 && !['date'].includes(type)" class="suffixs">
@@ -383,7 +383,7 @@ export default defineComponent({
     })
 
     return {
-      utils, localValue, inputType, inputSuffixs, input, onInput, onFocus, onMouseDown, onSuffix, onKeyPress, doFocus
+      utils, localValue, inputType, inputSuffixs, input, onInput, onFocus, onMouseDown, onSuffix, onKeyPress, doFocus, isTabler
     }
   }
 })
@@ -458,7 +458,7 @@ export default defineComponent({
     position: absolute;
     left: 12px;
     top: 1px;
-    width: 90%;
+    width: calc(100% - 80px);
     background-color: white;
     border-radius: 4px;
     height: 38px;

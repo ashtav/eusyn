@@ -1,7 +1,7 @@
 import { defineNuxtModule, createResolver, addPlugin, addComponentsDir, addComponent, addImportsDir } from '@nuxt/kit';
 
 const name = "nuxt-tabler-extension";
-const version = "1.0.8";
+const version = "1.0.9";
 
 const module = defineNuxtModule({
   meta: {
@@ -24,7 +24,9 @@ const module = defineNuxtModule({
     nuxt.options.build.transpile.push(runtimeDir);
     nuxt.options.alias["#ui"] = runtimeDir;
     if (!nuxt.options.runtimeConfig.public.ui) {
-      nuxt.options.runtimeConfig.public.ui = {};
+      nuxt.options.runtimeConfig.public.ui = {
+        icon: options.icon
+      };
     }
     nuxt.options.runtimeConfig.public.ui.icon = options.icon;
     if (!options.disableGlobalStyles) {

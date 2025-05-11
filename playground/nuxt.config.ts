@@ -23,5 +23,7 @@ export default defineNuxtConfig({
 
   ui: {
     icon: 'huge'
-  }
+  },
+
+  ssr: false
 })

@@ -1,6 +1,6 @@
 {
   "name": "nuxt-tabler-extension",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "configKey": "ui",
   "compatibility": {
     "nuxt": ">=3.10.0"

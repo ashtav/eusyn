@@ -7,6 +7,9 @@ interface Config {
     hint?: string;
     required?: boolean;
 }
+/**
+ * FileHandler is a file input component with drag & drop.
+ */
 declare const _default: import("vue").DefineComponent<{
     accept: {
         type: StringConstructor;
@@ -34,6 +37,10 @@ declare const _default: import("vue").DefineComponent<{
     disabled: {
         type: BooleanConstructor;
         default: boolean;
+    };
+    output: {
+        type: StringConstructor;
+        default: string;
     };
 }, {
     acceptFile: Ref<string>;
@@ -71,10 +78,15 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
+    output: {
+        type: StringConstructor;
+        default: string;
+    };
 }>> & {
     onSelect?: ((...args: any[]) => any) | undefined;
     onDragged?: ((...args: any[]) => any) | undefined;
 }, {
+    output: string;
     accept: string;
     multiple: boolean;
     config: Config;

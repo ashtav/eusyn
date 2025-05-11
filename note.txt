@@ -1,0 +1,23 @@
+
+    # pnpm run play = run playground
+    # pnpm run build = generate dist
+
+    # publish to npm
+
+    - npm login
+    - npm publish --access public
+
+    # un-publish
+    - npm unpublish nuxt-tabler-extension --force
+
+    # build playground
+    - pnpm nuxi generate playground -> output: playground/dist
+
+    # todo
+
+    1. text editor
+    3. input mask - time
+    4. input mask - date time
+    9. basic chart (bar, line, pie, donut)
+    10. progress (bar, circle)
+    12. for more, check https://tabler.io/preview select interface menu

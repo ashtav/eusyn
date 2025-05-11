@@ -5,12 +5,12 @@
         <div v-if="!$slots.default">
             <Input :label="config.label" :hint="config.hint ?? 'Please select file'" readonly
                 :required="config.required" :suffixs="[{
-        text: 'Browse', kbd: true
-    }]" v-model="input" :disabled="disabled" />
+                    text: 'Browse', kbd: true
+                }]" v-model="input" :disabled="disabled" />
         </div>
 
-        <input type="file" ref="fileInput" :accept="acceptFile" @change="handeFiles" class="d-none"
-            :multiple="multiple" :disabled="disabled" />
+        <input type="file" ref="fileInput" :accept="acceptFile" @change="handeFiles" class="d-none" :multiple="multiple"
+            :disabled="disabled" />
     </div>
 </template>
 
@@ -18,6 +18,7 @@
 import { onMounted, ref, watch } from "vue";
 import { utils } from "../../plugins/utils";
 export default {
+  name: "FileHandler",
   emits: ["select", "dragged"],
   props: {
     accept: {
@@ -47,6 +48,11 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    output: {
+      type: String,
+      default: "base64"
+      // base64, file
     }
   },
   setup(props, { emit, slots }) {
@@ -92,6 +98,7 @@ export default {
         const maxSize = megabytesToBytes(props.config.maxSize ?? 3);
         const width = props.config.width ?? [];
         const height = props.config.height ?? [];
+        const output = props.output;
         let errors = [];
         let result = [];
         const promises = Array.from(files).map((file) => {
@@ -136,7 +143,7 @@ export default {
                   }
                   if (isValid) {
                     result.push({
-                      data: event.target?.result,
+                      data: output === "file" ? file : event.target?.result,
                       name: file.name,
                       type: file.type,
                       size: utils.formatBytes(file.size),
@@ -148,10 +155,16 @@ export default {
               } else {
                 if (isValid) {
                   result.push({
-                    data: event.target?.result,
+                    data: output === "file" ? file : event.target?.result,
                     name: file.name,
                     type: file.type,
                     size: utils.formatBytes(file.size)
+                  });
+                } else {
+                  errors.push({
+                    type: "invalid",
+                    file: file.name,
+                    message: `The file ${file.name} is not valid due to size or format.`
                   });
                 }
                 resolve2();

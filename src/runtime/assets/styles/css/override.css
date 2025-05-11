@@ -1,25 +1,41 @@
 input[type=date]::-webkit-calendar-picker-indicator,
-input[type=month]::-webkit-calendar-picker-indicator {
-    background-size: 16px;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><rect x="4" y="5" width="16" height="16" rx="2"></rect><line x1="16" y1="3" x2="16" y2="7"></line><line x1="8" y1="3" x2="8" y2="7"></line><line x1="4" y1="11" x2="20" y2="11"></line><rect x="8" y="15" width="2" height="2"></rect></svg>');
-    filter: opacity(0.7);
+input[type=month]::-webkit-calendar-picker-indicator,
+input[type=time]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    background-size: 17px;
+    position: relative;
+    bottom: 1px;
+    z-index: 99;
+    filter: opacity(0.5);
 }
 
-input[type=time]::-webkit-calendar-picker-indicator {
-    background-size: 16px;
+input[type=date][icon=tabler]::-webkit-calendar-picker-indicator,
+input[type=month][icon=tabler]::-webkit-calendar-picker-indicator {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><rect x="4" y="5" width="16" height="16" rx="2"></rect><line x1="16" y1="3" x2="16" y2="7"></line><line x1="8" y1="3" x2="8" y2="7"></line><line x1="4" y1="11" x2="20" y2="11"></line><rect x="8" y="15" width="2" height="2"></rect></svg>');
+}
+
+input[type=date][icon=huge]::-webkit-calendar-picker-indicator,
+input[type=month][icon=huge]::-webkit-calendar-picker-indicator {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='44' height='44' color='%23000000' fill='none'%3E%3Cpath d='M16 2V6M8 2V6' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13 4H11C7.22876 4 5.34315 4 4.17157 5.17157C3 6.34315 3 8.22876 3 12V14C3 17.7712 3 19.6569 4.17157 20.8284C5.34315 22 7.22876 22 11 22H13C16.7712 22 18.6569 22 19.8284 20.8284C21 19.6569 21 17.7712 21 14V12C21 8.22876 21 6.34315 19.8284 5.17157C18.6569 4 16.7712 4 13 4Z' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M3 10H21' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M11 14H16M8 14H8.00898M13 18H8M16 18H15.991' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+input[type=time][icon=tabler]::-webkit-calendar-picker-indicator {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 15"></polyline></svg>');
-    filter: opacity(0.7);
+}
+
+input[type=time][icon=huge]::-webkit-calendar-picker-indicator {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='44' height='44' color='%23000000' fill='none'%3E%3Ccircle cx='12' cy='12' r='10' stroke='%23000000' stroke-width='1.5'/%3E%3Cpath d='M12 8V12L14 14' stroke='%23000000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 [data-bs-theme=dark] {
 
-    input[type=date]::-webkit-calendar-picker-indicator,
-    input[type=month]::-webkit-calendar-picker-indicator {
-        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><rect x="4" y="5" width="16" height="16" rx="2"></rect><line x1="16" y1="3" x2="16" y2="7"></line><line x1="8" y1="3" x2="8" y2="7"></line><line x1="4" y1="11" x2="20" y2="11"></line><rect x="8" y="15" width="2" height="2"></rect></svg>');
+    input[type=date][icon=huge]::-webkit-calendar-picker-indicator,
+    input[type=month][icon=huge]::-webkit-calendar-picker-indicator {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='44' height='44' color='white' fill='none'%3E%3Cpath d='M16 2V6M8 2V6' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13 4H11C7.22876 4 5.34315 4 4.17157 5.17157C3 6.34315 3 8.22876 3 12V14C3 17.7712 3 19.6569 4.17157 20.8284C5.34315 22 7.22876 22 11 22H13C16.7712 22 18.6569 22 19.8284 20.8284C21 19.6569 21 17.7712 21 14V12C21 8.22876 21 6.34315 19.8284 5.17157C18.6569 4 16.7712 4 13 4Z' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M3 10H21' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M11 14H16M8 14H8.00898M13 18H8M16 18H15.991' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     }
 
-    input[type=time]::-webkit-calendar-picker-indicator {
-        background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><circle cx="12" cy="12" r="9"></circle><polyline points="12 7 12 12 15 15"></polyline></svg>');
+    input[type=time][icon=huge]::-webkit-calendar-picker-indicator {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='44' height='44' color='white' fill='none'%3E%3Ccircle cx='12' cy='12' r='10' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M12 8V12L14 14' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     }
 
     .form-check-input {
@@ -75,53 +91,181 @@ img[lazy] {
 /* position spacing utilities in px (step: 5) */
 
 /* top */
-.t-0  { top: 0px; }
-.t-5  { top: 5px; }
-.t-10 { top: 10px; }
-.t-15 { top: 15px; }
-.t-20 { top: 20px; }
-.t-25 { top: 25px; }
-.t-30 { top: 30px; }
-.t-35 { top: 35px; }
-.t-40 { top: 40px; }
-.t-45 { top: 45px; }
-.t-50 { top: 50px; }
+.t-0 {
+    top: 0px;
+}
+
+.t-5 {
+    top: 5px;
+}
+
+.t-10 {
+    top: 10px;
+}
+
+.t-15 {
+    top: 15px;
+}
+
+.t-20 {
+    top: 20px;
+}
+
+.t-25 {
+    top: 25px;
+}
+
+.t-30 {
+    top: 30px;
+}
+
+.t-35 {
+    top: 35px;
+}
+
+.t-40 {
+    top: 40px;
+}
+
+.t-45 {
+    top: 45px;
+}
+
+.t-50 {
+    top: 50px;
+}
 
 /* left */
-.l-0  { left: 0px; }
-.l-5  { left: 5px; }
-.l-10 { left: 10px; }
-.l-15 { left: 15px; }
-.l-20 { left: 20px; }
-.l-25 { left: 25px; }
-.l-30 { left: 30px; }
-.l-35 { left: 35px; }
-.l-40 { left: 40px; }
-.l-45 { left: 45px; }
-.l-50 { left: 50px; }
+.l-0 {
+    left: 0px;
+}
+
+.l-5 {
+    left: 5px;
+}
+
+.l-10 {
+    left: 10px;
+}
+
+.l-15 {
+    left: 15px;
+}
+
+.l-20 {
+    left: 20px;
+}
+
+.l-25 {
+    left: 25px;
+}
+
+.l-30 {
+    left: 30px;
+}
+
+.l-35 {
+    left: 35px;
+}
+
+.l-40 {
+    left: 40px;
+}
+
+.l-45 {
+    left: 45px;
+}
+
+.l-50 {
+    left: 50px;
+}
 
 /* right */
-.r-0  { right: 0px; }
-.r-5  { right: 5px; }
-.r-10 { right: 10px; }
-.r-15 { right: 15px; }
-.r-20 { right: 20px; }
-.r-25 { right: 25px; }
-.r-30 { right: 30px; }
-.r-35 { right: 35px; }
-.r-40 { right: 40px; }
-.r-45 { right: 45px; }
-.r-50 { right: 50px; }
+.r-0 {
+    right: 0px;
+}
+
+.r-5 {
+    right: 5px;
+}
+
+.r-10 {
+    right: 10px;
+}
+
+.r-15 {
+    right: 15px;
+}
+
+.r-20 {
+    right: 20px;
+}
+
+.r-25 {
+    right: 25px;
+}
+
+.r-30 {
+    right: 30px;
+}
+
+.r-35 {
+    right: 35px;
+}
+
+.r-40 {
+    right: 40px;
+}
+
+.r-45 {
+    right: 45px;
+}
+
+.r-50 {
+    right: 50px;
+}
 
 /* bottom */
-.b-0  { bottom: 0px; }
-.b-5  { bottom: 5px; }
-.b-10 { bottom: 10px; }
-.b-15 { bottom: 15px; }
-.b-20 { bottom: 20px; }
-.b-25 { bottom: 25px; }
-.b-30 { bottom: 30px; }
-.b-35 { bottom: 35px; }
-.b-40 { bottom: 40px; }
-.b-45 { bottom: 45px; }
-.b-50 { bottom: 50px; }
+.b-0 {
+    bottom: 0px;
+}
+
+.b-5 {
+    bottom: 5px;
+}
+
+.b-10 {
+    bottom: 10px;
+}
+
+.b-15 {
+    bottom: 15px;
+}
+
+.b-20 {
+    bottom: 20px;
+}
+
+.b-25 {
+    bottom: 25px;
+}
+
+.b-30 {
+    bottom: 30px;
+}
+
+.b-35 {
+    bottom: 35px;
+}
+
+.b-40 {
+    bottom: 40px;
+}
+
+.b-45 {
+    bottom: 45px;
+}
+
+.b-50 {
+    bottom: 50px;
+}

@@ -8,12 +8,16 @@
 
             <!-- thumb x -->
             <div :class="['thumb-1', { 'active': mousedown === 'end', 'indicator': !indicator, 'priority': lastTouched == 'start' }]"
-                ref="thumb1" :style="{ left: (endValue <= 2 ? 0 : endValue - 3) + '%' }" :data="endValue"></div>
+                ref="thumb1"
+                :style="{ left: Math.min(100, Math.max(0, ((endValue - range[0]) / (range[1] - range[0])) * 100)) + '%' }"
+                :data="endValue"></div>
 
             <!-- thumb y -->
             <div v-if="multiple"
                 :class="['thumb-2', { 'active': mousedown === 'start', 'indicator': !indicator, 'priority': lastTouched == 'end' }]"
-                ref="thumb2" :style="{ left: (startValue <= 2 ? 0 : (startValue - 3)) + '%' }" :data="startValue"></div>
+                ref="thumb2"
+                :style="{ left: Math.min(100, Math.max(0, ((startValue - range[0]) / (range[1] - range[0])) * 100)) + '%' }"
+                :data="startValue"></div>
         </div>
     </div>
 </template>
@@ -75,8 +79,8 @@ export default {
         const updateValue = (event: MouseEvent, thumb: 'start' | 'end') => {
             if (mousedown.value && slider.value) {
                 const rect = slider.value.getBoundingClientRect();
-                const offsetX = (event.clientX - rect.left) + 8;
-                const percent = Math.min(Math.max(offsetX / rect.width, 0), 1);
+                const offsetX = (event.clientX + 7 - rect.left);
+                const percent = Math.min(Math.max(offsetX / (rect.width + 10), 0), 1);
 
                 const min = props.range.length === 0 ? 0 : props.range[0];
                 const max = props.range.length === 1 ? 100 : props.range[1];
@@ -94,6 +98,7 @@ export default {
                 } else {
                     emit('update:modelValue', endValue.value);
                 }
+
             }
         };
 
@@ -129,7 +134,7 @@ export default {
                     if (props.multiple) {
                         // Tentukan thumb mana yang lebih dekat dengan posisi mouse, lalu update sesuai dengan itu
                         const rect = slider.value.getBoundingClientRect();
-                        const offsetX = (e.clientX - rect.left) + 8;
+                        const offsetX = (e.clientX - rect.left);
                         const percent = Math.min(Math.max(offsetX / rect.width, 0), 1);
                         const clickedValue = Math.round(percent * (props.range[1] - props.range[0]) + props.range[0]);
 
@@ -167,7 +172,8 @@ export default {
         pointer-events: none;
 
         .thumb-1,
-        .thumb-2, .bar {
+        .thumb-2,
+        .bar {
             background-color: #a9b4bd;
 
         }
@@ -198,6 +204,7 @@ export default {
         cursor: pointer;
         z-index: 2;
         box-shadow: 0 0px 0px 1px rgba(1, 89, 177, 0.3);
+        transform: translateX(-50%);
 
         &.priority {
             z-index: 15 !important;

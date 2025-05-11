@@ -37,7 +37,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Pastikan ui sudah ada
     if (!nuxt.options.runtimeConfig.public.ui) {
-      nuxt.options.runtimeConfig.public.ui = {} as Record<string, any>;
+      nuxt.options.runtimeConfig.public.ui = {
+        icon: options.icon
+      }
     }
 
     // Pastikan untuk set icon pada ui

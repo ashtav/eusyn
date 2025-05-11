@@ -8,12 +8,16 @@
 
             <!-- thumb x -->
             <div :class="['thumb-1', { 'active': mousedown === 'end', 'indicator': !indicator, 'priority': lastTouched == 'start' }]"
-                ref="thumb1" :style="{ left: (endValue <= 2 ? 0 : endValue - 3) + '%' }" :data="endValue"></div>
+                ref="thumb1"
+                :style="{ left: Math.min(100, Math.max(0, ((endValue - range[0]) / (range[1] - range[0])) * 100)) + '%' }"
+                :data="endValue"></div>
 
             <!-- thumb y -->
             <div v-if="multiple"
                 :class="['thumb-2', { 'active': mousedown === 'start', 'indicator': !indicator, 'priority': lastTouched == 'end' }]"
-                ref="thumb2" :style="{ left: (startValue <= 2 ? 0 : (startValue - 3)) + '%' }" :data="startValue"></div>
+                ref="thumb2"
+                :style="{ left: Math.min(100, Math.max(0, ((startValue - range[0]) / (range[1] - range[0])) * 100)) + '%' }"
+                :data="startValue"></div>
         </div>
     </div>
 </template>
@@ -69,8 +73,8 @@ export default {
     const updateValue = (event, thumb) => {
       if (mousedown.value && slider.value) {
         const rect = slider.value.getBoundingClientRect();
-        const offsetX = event.clientX - rect.left + 8;
-        const percent = Math.min(Math.max(offsetX / rect.width, 0), 1);
+        const offsetX = event.clientX + 7 - rect.left;
+        const percent = Math.min(Math.max(offsetX / (rect.width + 10), 0), 1);
         const min = props.range.length === 0 ? 0 : props.range[0];
         const max = props.range.length === 1 ? 100 : props.range[1];
         const newValue = Math.round(percent * (max - min) + min);
@@ -113,7 +117,7 @@ export default {
         slider.value.addEventListener("mousedown", (e) => {
           if (props.multiple) {
             const rect = slider.value.getBoundingClientRect();
-            const offsetX = e.clientX - rect.left + 8;
+            const offsetX = e.clientX - rect.left;
             const percent = Math.min(Math.max(offsetX / rect.width, 0), 1);
             const clickedValue = Math.round(percent * (props.range[1] - props.range[0]) + props.range[0]);
             const startDiff = Math.abs(clickedValue - startValue.value);
@@ -147,7 +151,8 @@ export default {
   pointer-events: none;
 }
 .range-slider.disabled .thumb-1,
-.range-slider.disabled .thumb-2, .range-slider.disabled .bar {
+.range-slider.disabled .thumb-2,
+.range-slider.disabled .bar {
   background-color: #a9b4bd;
 }
 .range-slider .background {
@@ -173,6 +178,7 @@ export default {
   cursor: pointer;
   z-index: 2;
   box-shadow: 0 0px 0px 1px rgba(1, 89, 177, 0.3);
+  transform: translateX(-50%);
 }
 .range-slider .thumb-1.priority,
 .range-slider .thumb-2.priority {
