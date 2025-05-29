@@ -15,7 +15,7 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-    reverse: {
+    reversed: {
         type: BooleanConstructor;
         default: boolean;
     };
@@ -49,13 +49,13 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-    reverse: {
+    reversed: {
         type: BooleanConstructor;
         default: boolean;
     };
 }>>, {
-    reverse: boolean;
     gap: string | number;
+    reversed: boolean;
     expanded: boolean;
     align: string;
     justify: string;

@@ -63,4 +63,7 @@ export default defineComponent({
 .hgi.fix {
   top: 3px;
 }
+.hgi.fix-1 {
+  top: 1px;
+}
 </style>

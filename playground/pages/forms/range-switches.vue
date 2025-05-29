@@ -9,9 +9,8 @@
                     examples of
                     their functionalities, advantages, and practical usage scenarios.
                 </p>
-
                 <Switch v-model="forms.accepted" inline caption="Disable|Enable" />
-                <Code class="mb-5" code='<Switch v-model="forms.accepted" inline caption="Disable|Enable" />' />
+                <Code class="mb-5" code='<Switch v-model="forms.accepted" inline caption="Disable|Enable" :reversed="false" />' />
 
                 <Range v-model="forms.range" /> <br>
                 <Code class="mb-5" code='<Range v-model="forms.range" />' />

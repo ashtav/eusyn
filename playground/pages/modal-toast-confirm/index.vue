@@ -20,9 +20,13 @@
     title: 'New Data',
     data: { id: 1 },
     callback: (data: any) => {
-        console.log('data from modal', data)
+        console.log('data from modal', data.name) // John Doe
     }
-})" />
+})
+    
+// in your modal, call
+this.$modal.callback({name: 'John Doe'})
+" />
 
         <Code class="mt-2" code="this.$toast.error('500 - Server error!')" />
 

@@ -78,5 +78,9 @@ export default defineComponent({
   &.fix {
     top: 3px;
   }
+
+  &.fix-1 {
+    top: 1px;
+  }
 }
 </style>

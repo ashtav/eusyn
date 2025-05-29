@@ -27,7 +27,7 @@
                     code='<Checkbox v-model="forms.favorites" label="Favorite Fruit" required :options="fruits" />' />
 
                 <Checkbox v-model="forms.checked" />
-                <Code class="mb-5" code='<Switch v-model="forms.accepted" inline caption="Disable|Enable" />' />
+                <Code class="mb-5" code='<Checkbox v-model="forms.checked" />' />
 
                 <div>
                     <code>

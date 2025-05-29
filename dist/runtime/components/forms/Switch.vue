@@ -2,12 +2,12 @@
     <div :class="{ 'mb-3': !nospace, 'd-inline-block': inline }">
         <label :class="['form-label']" v-if="label"> {{ label }} </label>
 
-        <div :class="{ 'd-inline-block': inline }">
-            <label class="form-check form-switch d-inline-block m-0">
-                <input class="form-check-input" type="checkbox" :name="inputName" v-model="localValue"
-                    :disabled="disabled">
-                <span class="form-check-label"> &nbsp; {{ textCaption }}</span>
-            </label>
+        <div :class="{ 'd-inline-block': inline, 'cursor-pointer': true }">
+            <Row class="form-check form-check-single form-switch m-0 p-0" gap="10" :reversed="reversed">
+                <input class="form-check-input cursor-pointer" type="checkbox" :name="inputName" v-model="localValue"
+                    :disabled="disabled" ref="_switch">
+                <span class="form-check-label" @click="($refs._switch as any).click()">{{ textCaption }}</span>
+            </Row>
         </div>
     </div>
 </template>
@@ -40,6 +40,10 @@ export default defineComponent({
       default: false
     },
     inline: {
+      type: Boolean,
+      default: false
+    },
+    reversed: {
       type: Boolean,
       default: false
     }

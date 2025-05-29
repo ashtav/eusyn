@@ -27,14 +27,14 @@ export default defineComponent({
             type: String,
             default: 'start', // between | around | evenly | start | end | center
         },
-        reverse: {
+        reversed: {
             type: Boolean,
             default: false,
         }
     },
 
     setup(props) {
-        const { gap, expanded, align, justify, reverse } = toRefs(props);
+        const { gap, expanded, align, justify, reversed } = toRefs(props);
 
         // Use the useSlots hook to get slot content
         const slots = useSlots();
@@ -65,7 +65,7 @@ export default defineComponent({
         // Convert slots to an array of components
         const slotComponents = computed(() => {
             const defaultSlot = slots.default ? slots.default() : [];
-            return reverse.value ? defaultSlot.reverse() : defaultSlot;
+            return reversed.value ? defaultSlot.reverse() : defaultSlot;
         });
 
         return {

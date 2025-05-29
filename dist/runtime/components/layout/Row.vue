@@ -28,13 +28,13 @@ export default defineComponent({
       default: "start"
       // between | around | evenly | start | end | center
     },
-    reverse: {
+    reversed: {
       type: Boolean,
       default: false
     }
   },
   setup(props) {
-    const { gap, expanded, align, justify, reverse } = toRefs(props);
+    const { gap, expanded, align, justify, reversed } = toRefs(props);
     const slots = useSlots();
     const defaultSlot = slots.default ? slots.default() : [];
     const justifyMap = {
@@ -56,7 +56,7 @@ export default defineComponent({
     }));
     const slotComponents = computed(() => {
       const defaultSlot2 = slots.default ? slots.default() : [];
-      return reverse.value ? defaultSlot2.reverse() : defaultSlot2;
+      return reversed.value ? defaultSlot2.reverse() : defaultSlot2;
     });
     return {
       rowStyle,

@@ -9,17 +9,27 @@
                 <div class="my-3">
                     <Row :gap="10">
                         <Dropdown :options="options" :separate="[0, 2]" @select="onSelect">
-                            <Button label="More" icon="ti-dots-vertical" iconAlign="end" />
+                            <Button label="More" iconAlign="end" />
                         </Dropdown>
 
                         <Dropdown :options="['10', '15', '25', '50', '100']" size="sm" @select="onSelect">
-                            <Button label="Entries" icon="ti-chevron-down" theme="btn" iconAlign="end" />
+                            <Button label="Entries" icon="hgi-arrow-down-01" theme="btn" iconAlign="end" />
+                        </Dropdown>
+
+                        <Dropdown :options="[{ label: 'Details', icon: 'hgi-information-circle' }, '-', 'Edit', 'Delete']"
+                            @select="onSelect">
+                            <Button label="Dropdown Icons" icon="hgi-files-01" theme="btn" />
                         </Dropdown>
                     </Row>
                 </div>
 
                 <Code code='<Dropdown :options="options" :separate="[0, 2]" @select="onSelect">
-    <Button label="More" icon="ti-dots-vertical" iconAlign="end" />
+    <Button label="More" icon="hgi-arrow-down-01" iconAlign="end" />
+</Dropdown>' />
+                <br> <br>
+                <h4>With Icons</h4>
+                <Code code='<Dropdown :options="[{label: "Details", icon: "hgi-information-circle"},"-", "Edit", "Delete"]" @select="onSelect">
+    <Button label="Dropdown Icons" icon="hgi-files-01" theme="btn" />
 </Dropdown>' />
             </div>
         </div>

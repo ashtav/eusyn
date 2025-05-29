@@ -12,7 +12,7 @@
           @click="onSelect(option)">
           <Row justify="between" class="w-100">
             <span>{{ textOption(option) }}</span>
-            <Icon v-if="extract(option, 'icon')" :icon="extract(option, 'icon')" />
+            <Icon v-if="extract(option, 'icon')" :icon="`${extract(option, 'icon')} fix-1`" />
           </Row>
         </span>
 

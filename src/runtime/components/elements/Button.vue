@@ -1,6 +1,6 @@
 <template>
   <NuxtLink v-if="to" :to="to" :class="['btn', theme]">
-    <Icon v-if="icon != null" :icon="icon" style="margin: 1.8px 0" />
+    <Icon v-if="icon != null" :icon="`${icon} fix-1`" style="margin: 1.8px 0" />
 
     <span v-if="label" :class="{ 'ms-2': icon != null }">{{
       label ?? '' }}</span>
@@ -11,7 +11,7 @@
     <Spinner v-if="isSubmit" :class="['fit-button', { 'me-2': icon == null }]" />
 
     <Row :reverse="iconAlign == 'end'" :gap="(icon == null || label == null) ? 0 : 3">
-      <Icon v-if="icon != null && !isSubmit" :icon="icon ?? ''" /> <span v-if="label" v-text="label" />
+      <Icon v-if="icon != null && !isSubmit" :icon="`${icon ?? ''} fix-1`" /> <span v-if="label" v-text="label" />
     </Row>
   </button>
 </template>
