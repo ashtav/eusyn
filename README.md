@@ -53,6 +53,7 @@ pnpm run play
 
 - [Tabler](https://tabler.io/)
 - [Tabler Icons](https://tabler.io/icons)
+- [Huge Icons](https://hugeicons.com/icon/crop-stroke-rounded)
 
 ## License
 

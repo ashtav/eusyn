@@ -503,10 +503,28 @@ const throttle = (func: Function, limit: number) => {
   };
 };
 
+// @param {Date} date - The date for which to find the first and last dates of the month.
+// @return {Object} An object containing the first and last dates of the month.
+// @example
+// firstAndLastDate(new Date('2023-10-15')); // { first: 1, last: 31 }
+const firstAndLastDate = (date: string | Date): { first: Number, last: Number } => {
+  const d = new Date(date);
+  const firstDate = new Date(d.getFullYear(), d.getMonth(), 1);
+  const lastDate = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+
+  return {
+    first: firstDate.getDate(),
+    last: lastDate.getDate()
+  }
+}
+
+// @param {string} format - The format string for the current date. Defaults to 'Y-m-d'.
+const now = (format: string = 'Y-m-d') => dateFormat(new Date(), format)
+
 const utils: Utils = {
   alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes,
   on, copy, downloadFile, dateFormat, manipulate, getInitials, shuffle, arrDelete, arrUpdate, chunk, deepClone,
-  debounce, throttle
+  debounce, throttle, firstAndLastDate, now
 }
 
 const _ = utils

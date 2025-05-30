@@ -4,7 +4,8 @@
       <div class="modal-content">
         <!-- modal header -->
         <div v-if="!headerless" class="modal-header bg-white" :class="{ 'border-0': !elevation }">
-          <h5 class="modal-title">
+          <Icon :icon="`${icon} fix-1 me-2`" v-if="icon" />
+          <h5 class="modal-title text-truncate">
             {{ title }}
           </h5>
 
@@ -55,6 +56,11 @@ export default {
     elevation: {
       type: Boolean,
       default: true
+    },
+
+    icon: {
+      type: String,
+      default: null
     },
 
     actions: {
