@@ -25,7 +25,7 @@
                     <code
                         class="ps-0">{{ image.name }} | {{ image.type }} | {{ image.size }} | {{ image.dimension }}</code>
                 </div>
-                <Button theme="btn pos-absolute t-10 l-20" icon="ti-crop" @click="onCrop" />
+                <Button theme="btn pos-absolute t-10 l-20" icon="hgi-crop" @click="onCrop" />
             </Row>
         </div>
 

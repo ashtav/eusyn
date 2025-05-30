@@ -339,14 +339,14 @@ export default {
         pointer-events: all;
 
         .backdrop {
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.7);
+            // backdrop-filter: blur(5px);
         }
     }
 
     .backdrop {
         background: rgba(0, 0, 0, 0);
-        backdrop-filter: blur(0px);
+        // backdrop-filter: blur(0px);
         transition: .2s;
     }
 
@@ -374,7 +374,7 @@ export default {
                 transform-origin: 50% 50%;
                 will-change: transform;
                 backface-visibility: hidden;
-                filter: blur(0);
+                // filter: blur(0);
             }
 
             &::after {

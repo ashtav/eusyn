@@ -24,7 +24,7 @@ export default {
 
             setTimeout(() => {
                 const nuxt = useNuxtApp()
-                nuxt.$ntx.theme.set(value ? 'light' : 'dark')
+                nuxt.$e.theme.set(value ? 'light' : 'dark')
                 visible.value = false
             }, 210);
 

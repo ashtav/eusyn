@@ -1,27 +1,27 @@
-# Nuxt Tabler Extension
+# Eusyn
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-Nuxt Tabler Extension is a comprehensive library designed to streamline and accelerate app development with Nuxt. Leveraging Tabler for its design and components, and Tabler Icons for its iconography, this collection provides all the essential UI elements and utilities needed to build robust Nuxt applications efficiently.
+Eusyn is a comprehensive library designed to streamline and accelerate app development with Nuxt. Leveraging Tabler for its design and components, and Tabler Icons for its iconography, this collection provides all the essential UI elements and utilities needed to build robust Nuxt applications efficiently.
 
 
 ## Installation
 
 ```bash
-npm i nuxt-tabler-extension
+npm i eusyn
 ```
 or
 ```bash
-yarn add nuxt-tabler-extension
+yarn add eusyn
 ```
 ## Configuration
-To use Nuxt Tabler Extension, add it to the modules section of your `nuxt.config.ts` file:
+To use Eusyn, add it to the modules section of your `nuxt.config.ts` file:
 ```typescript
 modules: [
-    'nuxt-tabler-extension'
+    'eusyn'
 ]
 ```
 
@@ -34,7 +34,7 @@ Visit https://github.com/ to explore the documentation.
 
 Clone the repository to your local machine:
 ```bash
-git clone https://github.com/ashtav/nuxt-tabler-extension
+git clone https://github.com/ashtav/eusyn
 ```
 Install dependencies:
 ```bash
@@ -59,11 +59,11 @@ pnpm run play
 Licensed under the [MIT license](https://opensource.org/license/mit).
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/nuxt-tabler-extension/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-version-href]: https://npmjs.com/package/nuxt-tabler-extension
+[npm-version-src]: https://img.shields.io/npm/v/eusyn/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-version-href]: https://npmjs.com/package/eusyn
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-tabler-extension.svg?style=flat&colorA=18181B&colorB=28CF8D
-[npm-downloads-href]: https://npmjs.com/package/nuxt-tabler-extension
+[npm-downloads-src]: https://img.shields.io/npm/dm/eusyn.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-href]: https://npmjs.com/package/eusyn
 
 [license-src]: https://img.shields.io/github/license/nuxt/ui.svg?style=flat&colorA=18181B&colorB=28CF8D
 [license-href]: https://github.com/nuxt/ui/blob/main/LICENSE

@@ -1,4 +1,7 @@
 
+    Dari Yunani Kuno / terinspirasi gaya Greek:
+    Eusyn (gabungan eu = baik, syn = bersama) – memberi kesan “terintegrasi dengan baik dan mudah”
+
     # pnpm run play = run playground
     # pnpm run build = generate dist
 
@@ -8,7 +11,7 @@
     - npm publish --access public
 
     # un-publish
-    - npm unpublish nuxt-tabler-extension --force
+    - npm unpublish eusyn --force
 
     # build playground
     - pnpm nuxi generate playground -> output: playground/dist

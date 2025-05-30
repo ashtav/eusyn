@@ -1,16 +1,17 @@
 <template>
   <div class="row">
     <div class="col-lg-5">
-      <h1>Nuxt Tabler Extension!</h1>
-      <p>Nuxt Tabler Extension is a comprehensive library designed to streamline and accelerate app development with
+      <h1>Eusyn</h1>
+      <p>Eusyn is a comprehensive library designed to streamline and accelerate app development with
         Nuxt.
-        Leveraging Tabler for its design and components, and Tabler Icons for its iconography, this collection
-        provides all the essential UI elements and utilities needed to build robust Nuxt applications efficiently.</p>
+        Leveraging Tabler and HugeIcons for its design system and iconography, this collection provides all the
+        essential UI components and utilities needed to build robust and efficient Nuxt applications.</p>
 
       <a href="https://preview.tabler.io" target="_blank">https://preview.tabler.io</a> <br>
-      <a href="https://tabler.io/icons" target="_blank">https://tabler.io/icons</a>
+      <a href="https://tabler.io/icons" target="_blank">https://tabler.io/icons</a> <br>
+      <a href="https://hugeicons.com/icons?style=Stroke&type=Rounded">https://hugeicons.com/icons?style=Stroke&type=Rounded</a>
       <p class="text-muted mt-5">
-        <Icon icon="minus" /> Version. 1.0.0 24.08.19.1-alpha
+        <Icon icon="minus" /> Version. 0.0.1 25.05.30.1-alpha
       </p> <br> <br>
     </div>
   </div>
@@ -31,7 +32,7 @@ export default {
   },
 
   methods: {
-    foo(){}
+    foo() { }
   }
 }
 </script>

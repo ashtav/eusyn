@@ -11,8 +11,8 @@
             <Icon :icon="showFeature ? 'hgi-arrow-left-02' : 'hgi-dashboard-square-02'" />
           </div>
 
-          <div :class="['toggle']" @click="$ntx.theme.set()">
-            <Icon :icon="$ntx.theme.get.value != 'dark' ? 'hgi-sun-03' : 'hgi-moon-02'" />
+          <div :class="['toggle']" @click="$e.theme.set()">
+            <Icon :icon="$e.theme.get.value != 'dark' ? 'hgi-sun-03' : 'hgi-moon-02'" />
           </div>
         </div>
 
@@ -21,7 +21,7 @@
 
           <div class="logo">
             <img src="https://t4.ftcdn.net/jpg/04/18/46/85/360_F_418468557_n9ik8bBHAFZD339wdKOzc0XqeJFFAMSn.jpg">
-            <h2>NTX.</h2>
+            <h2>Eusyn.</h2>
           </div>
 
           <ul>
@@ -117,7 +117,7 @@ export default {
   },
 
   mounted() {
-    this.$ntx.theme.set('system')
+    this.$e.theme.set('system')
     this.active = this.$route.path
     this.mounted = true
   },

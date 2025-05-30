@@ -86,7 +86,7 @@ export default {
     methods: {
         onSuffix(data: any) {
             console.log(data)
-            this.$ntx.utils.cleanMap(this, 'forms');
+            this.$e.utils.cleanMap(this, 'forms');
 
             // (this.$refs.email as any).doFocus() // you can use this way
             this.$n.focus(this, 'email') // or this way

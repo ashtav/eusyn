@@ -20,26 +20,24 @@ const ntx: Ntx = {
     }
 }
 
-const n: Ntx = ntx
+const e: Ntx = ntx
 
 export default defineNuxtPlugin(() => {
     return {
         provide: {
-            ntx, n
+            e
         }
     }
 })
 
 declare module '#app' {
     interface NuxtApp {
-        $ntx: Ntx;
-        $n: Ntx;
+        $e: Ntx;
     }
 }
 
 declare module 'vue' {
     interface ComponentCustomProperties {
-        $ntx: Ntx;
-        $n: Ntx;
+        $e: Ntx;
     }
 }
