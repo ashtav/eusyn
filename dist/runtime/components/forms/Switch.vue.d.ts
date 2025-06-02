@@ -30,8 +30,10 @@ declare const _default: import("vue").DefineComponent<{
 }, {
     utils: import("../../types/utils").default;
     localValue: import("vue").Ref<boolean>;
+    input: import("vue").Ref<null>;
     inputName: import("vue").Ref<string>;
     textCaption: import("vue").Ref<string>;
+    toggleSwitch: () => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("change" | "update:modelValue")[], "change" | "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: BooleanConstructor;

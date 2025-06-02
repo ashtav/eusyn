@@ -13,11 +13,15 @@
       <p class="text-muted mt-5">
         <Icon icon="minus" /> Version. 0.0.1 25.05.30.1-alpha
       </p> <br> <br>
+
+      <Switch />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import Switch from '#ui/components/forms/Switch.vue';
+
 export default {
   setup() {
     return {}

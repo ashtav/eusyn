@@ -5,8 +5,8 @@
         <div :class="{ 'd-inline-block': inline, 'cursor-pointer': true }">
             <Row class="form-check form-check-single form-switch m-0 p-0" gap="10" :reversed="reversed">
                 <input class="form-check-input cursor-pointer" type="checkbox" :name="inputName" v-model="localValue"
-                    :disabled="disabled" ref="_switch">
-                <span class="form-check-label" @click="($refs._switch as any).click()">{{ textCaption }}</span>
+                    :disabled="disabled" ref="input">
+                <span class="form-check-label" @click="toggleSwitch">{{ textCaption }}</span>
             </Row>
         </div>
     </div>
@@ -61,6 +61,7 @@ export default defineComponent({
         const localValue = ref(props.modelValue)
         const inputName = ref('switch-' + utils.randString(5))
         const textCaption = ref('')
+        const input = ref(null)
 
         let captions = <Array<string>>[]
 
@@ -96,8 +97,13 @@ export default defineComponent({
             generateCaptions()
         })
 
+        const toggleSwitch = () => {
+            const el = input.value as HTMLInputElement
+            el?.click()
+        }
+
         return {
-            utils, localValue, inputName, textCaption
+            utils, localValue, input, inputName, textCaption, toggleSwitch
         }
     }
 })
