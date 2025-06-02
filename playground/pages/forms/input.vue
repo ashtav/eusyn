@@ -26,6 +26,9 @@
                 <Code class="mb-5" description="suffixs value is Object, ex: { icon: 'ti-send', disabled: false }"
                     code='<Input label="Email Address" hint="Enter your email address" prefix="ti-mail" v-model="forms.email" :suffixs="[{}]" required @suffix="onSuffix" /> ' />
 
+                <Input label="Phone Number" hint="Enter your phone number" prefix="hgi-contact-01" required
+                    v-model="forms.phone" formatters="phone" />
+
                 <Input label="Password" hint="Enter your password" prefix="hgi-lock" required password @enter="onEnter"
                     v-model="forms.password" />
                 <Code class="mb-5"
@@ -74,6 +77,7 @@ export default {
             forms: {
                 name: '',
                 email: '',
+                phone: '',
                 password: 'secret-password',
                 price: '',
                 date: '',
@@ -89,7 +93,7 @@ export default {
             this.$e.utils.cleanMap(this, 'forms');
 
             // (this.$refs.email as any).doFocus() // you can use this way
-            this.$n.focus(this, 'email') // or this way
+            this.$e.focus(this, 'email') // or this way
         },
 
         onEnter(data: any) {

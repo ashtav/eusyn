@@ -41,7 +41,7 @@ declare const _default: import("vue").DefineComponent<{
     inputName: import("vue").Ref<string>;
     onInput: (option: any) => void;
     textOption: (option: any, prioritizeValue?: boolean) => any;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "change")[], "update:modelValue" | "change", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("change" | "update:modelValue")[], "change" | "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
     };
@@ -84,9 +84,9 @@ declare const _default: import("vue").DefineComponent<{
 }, {
     label: string;
     disabled: boolean;
-    modelValue: string;
     required: boolean;
     options: any[];
+    modelValue: string;
     nospace: boolean;
 }, {}>;
 export default _default;

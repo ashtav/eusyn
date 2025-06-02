@@ -93,7 +93,7 @@ declare const _default: import("vue").DefineComponent<{
     onKeyPress: (event: any) => void;
     doFocus: () => void;
     isTabler: boolean;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "enter" | "blur" | "focus" | "suffix")[], "update:modelValue" | "enter" | "blur" | "focus" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("blur" | "focus" | "update:modelValue" | "enter" | "suffix")[], "blur" | "focus" | "update:modelValue" | "enter" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
         type: StringConstructor;
@@ -188,8 +188,8 @@ declare const _default: import("vue").DefineComponent<{
     mask: string;
     readonly: boolean;
     password: boolean;
-    modelValue: string;
     required: boolean;
+    modelValue: string;
     nospace: boolean;
     hint: string;
     autofocus: boolean;

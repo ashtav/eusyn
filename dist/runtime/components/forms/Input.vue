@@ -107,7 +107,7 @@ export default defineComponent({
     formatters: {
       type: String,
       default: ""
-      // "ucwords|ucfirst|lower|upper|trim|numeric|currency|alpha|alphanumeric|date|address|hashtag|decimal"
+      // "ucwords|ucfirst|lower|upper|trim|numeric|currency|alpha|alphanumeric|date|address|hashtag|decimal|phone|email|url"
     },
     nospace: {
       type: Boolean,

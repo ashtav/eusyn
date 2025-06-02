@@ -53,6 +53,8 @@ this.$modal.callback({name: 'John Doe'})
 
           <Input v-model="forms.title" label="Modal Title" hint="Type username" required formatters="ucwords"
             prefix="hgi-news" />
+
+          <Button label="Show Confirm" @click="onConfirm" />
         </div>
         <div class="modal-footer border-0 bg-transparent">
           <Button theme="btn" label="Close" @click="onClose" />
@@ -64,6 +66,7 @@ this.$modal.callback({name: 'John Doe'})
 </template>
 
 <script lang="ts">
+
 export default {
   data() {
     return {
@@ -83,6 +86,18 @@ export default {
   methods: {
     onInit(data: any) {
       console.log(data)
+    },
+
+    onConfirm() {
+      this.$confirm('Alert Dialog', {
+        onConfirm(actions) {
+          actions.submit()
+
+          setTimeout(() => {
+            actions.close()
+          }, 1000)
+        }
+      })
     },
 
     onClick() {

@@ -43,6 +43,7 @@ declare const _default: import("vue").DefineComponent<{
     title: import("vue").Ref<string>;
     onClose: (args: any) => void;
     iconX: string;
+    isConfirmOpen: import("vue").Ref<boolean>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("init" | "onClose")[], "init" | "onClose", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     id: {
         type: StringConstructor;

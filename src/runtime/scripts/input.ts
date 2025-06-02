@@ -72,6 +72,18 @@ const handleKeyPress = (instance: any, emit: any, props: any, event: any, value:
         }
     }
 
+    // if contains phone, then only allow phone input
+    else if (formatters.includes('phone')) {
+        // Allow only numbers, plus sign, and hyphen
+        if (
+            (event.keyCode < 48 || event.keyCode > 57) &&
+            event.keyCode != 43 && // Plus sign
+            event.keyCode != 45 // Hyphen
+        ) {
+            event.preventDefault()
+        }
+    }
+
     // enter
     if (event.keyCode == 13 && instance?.vnode?.props?.onEnter) {
         emit('enter', value)

@@ -17,6 +17,7 @@ declare module 'vue' {
 
 const confirm: Confirm = (title: string, options: ConfirmOptions = {}) => {
     eventBus.emit('__show_confirm', {
+        show: true,
         title: title,
         ...options
     })

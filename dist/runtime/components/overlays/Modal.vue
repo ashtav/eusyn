@@ -1,5 +1,5 @@
 <template>
-  <div class="modal fade" :class="{ 'show': show }" tabindex="-1" :style="{ display: preShow ? 'block' : 'none' }">
+  <div class="modal fade" :class="{ 'show': show && !isConfirmOpen }" tabindex="-1" :style="{ display: preShow ? 'block' : 'none' }">
     <div class="modal-dialog modal-dialog-centered" role="document" :class="`modal-${size}`">
       <div class="modal-content">
         <!-- modal header -->
@@ -29,7 +29,7 @@
     </div>
   </div>
 
-  <div v-if="preShow" class="modal-backdrop fade" :class="{ 'show': show }" />
+  <div v-if="preShow" class="modal-backdrop fade" :class="{ 'show': show && !isConfirmOpen }" />
 </template>
 
 <script>
@@ -69,6 +69,7 @@ export default {
   setup(props, { emit }) {
     const show = ref(false);
     const preShow = ref(false);
+    const isConfirmOpen = ref(false);
     const title = ref("");
     const config = useRuntimeConfig();
     const icon = config.public.ui?.icon;
@@ -92,6 +93,9 @@ export default {
         };
       }
     };
+    const onShowConfirm = (args) => {
+      isConfirmOpen.value = args.show;
+    };
     const onClose = (args) => {
       if (args.id == props.id) {
         show.value = false;
@@ -114,8 +118,9 @@ export default {
       eventBus.on("__close_modal", onClose);
       eventBus.on("__set_modal_title", onSetTitle);
       eventBus.on("__callback_modal", onCallback);
+      eventBus.on("__show_confirm", onShowConfirm);
     });
-    return { modal, preShow, show, title, onClose, iconX };
+    return { modal, preShow, show, title, onClose, iconX, isConfirmOpen };
   }
 };
 </script>

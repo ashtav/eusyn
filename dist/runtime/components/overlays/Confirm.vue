@@ -58,6 +58,9 @@ export default {
     });
     const onShow = (args) => {
       input.value = "";
+      if (!args.show) {
+        return;
+      }
       const actions = {
         submit: () => isSubmit.value = true,
         abort: () => isSubmit.value = false,
@@ -94,6 +97,10 @@ export default {
       show.value = false;
       setTimeout(() => {
         preShow.value = false;
+        eventBus.emit("__show_confirm", {
+          ...data.value,
+          show: false
+        });
       }, 250);
     };
     onMounted(() => {

@@ -73,7 +73,7 @@ declare const _default: import("vue").DefineComponent<{
     doFocus: () => void;
     iconX: string;
     iconChevron: string;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "change" | "enter")[], "update:modelValue" | "change" | "enter", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("change" | "update:modelValue" | "enter")[], "change" | "update:modelValue" | "enter", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
     };
@@ -137,9 +137,9 @@ declare const _default: import("vue").DefineComponent<{
 }, {
     label: string;
     disabled: boolean;
-    modelValue: string;
     required: boolean;
     options: any[];
+    modelValue: string;
     nospace: boolean;
     suffix: string;
     hint: string;
