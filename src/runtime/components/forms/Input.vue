@@ -91,7 +91,7 @@ export default defineComponent({
 
     maxLength: {
       type: Number,
-      default: 255
+      default: null
     },
 
     prefix: {
@@ -383,7 +383,7 @@ export default defineComponent({
     })
 
     return {
-      utils, localValue, inputType, inputSuffixs, input, onInput, onFocus, onMouseDown, onSuffix, onKeyPress, doFocus, isTabler
+      utils, localValue, inputType, inputSuffixs, input, onInput, onFocus, onMouseDown, onSuffix, onKeyPress, doFocus, isTabler 
     }
   }
 })

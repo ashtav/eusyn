@@ -6,9 +6,16 @@ const handleKeyPress = (instance: any, emit: any, props: any, event: any, value:
     _event = event
     formatters = formatters.map((e: string) => e.split(':')[0])
 
-    // if formatters is currency, set default max length to 15
+    // if formatters is currency, set default max length to 16
     if (formatters.includes('currency')) {
-        if (value.length >= (props.maxLength == 255 ? 15 : props.maxLength)) {
+        if (value.length >= (props.maxLength == null ? 16 : props.maxLength)) {
+            event.preventDefault()
+        }
+    }
+
+    // if formatters is phone, set default max length to 15
+    if (formatters.includes('phone')) {
+        if (value.length >= (props.maxLength == null ? 15 : props.maxLength)) {
             event.preventDefault()
         }
     }

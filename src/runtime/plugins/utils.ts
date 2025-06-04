@@ -507,14 +507,14 @@ const throttle = (func: Function, limit: number) => {
 // @return {Object} An object containing the first and last dates of the month.
 // @example
 // firstAndLastDate(new Date('2023-10-15')); // { first: 1, last: 31 }
-const firstAndLastDate = (date: string | Date): { first: Number, last: Number } => {
+const firstAndLastDate = (date: string | Date, dateOnly: Boolean): { first: Number | string, last: Number | string } => {
   const d = new Date(date);
   const firstDate = new Date(d.getFullYear(), d.getMonth(), 1);
   const lastDate = new Date(d.getFullYear(), d.getMonth() + 1, 0);
 
   return {
-    first: firstDate.getDate(),
-    last: lastDate.getDate()
+    first: !dateOnly ? dateFormat(firstDate, 'Y-m-d') : firstDate.getDate(),
+    last: !dateOnly ? dateFormat(lastDate, 'Y-m-d') : lastDate.getDate()
   }
 }
 

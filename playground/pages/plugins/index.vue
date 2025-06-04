@@ -55,7 +55,7 @@
                 <Code class="mb-3" code="$e.utils.dateFormat('2024-05-10', 'd-m-Y');"
                     description="Formats a date according to a specified format." />
 
-                <h4>$e.utils.dateFormat</h4>
+                <h4>$e.utils.firstAndLastDate</h4>
                 <Code class="mb-3" code="$e.utils.firstAndLastDate('2025-02-01');"
                     description="Returns the first and last date of the month." />
 

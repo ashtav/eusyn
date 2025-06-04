@@ -1,0 +1,17 @@
+import{_ as h}from"./sdzyUGVC.js";import{_ as p,c as f,b as e,a as n,w as c,v as b,o as C,E as g,x as k}from"./UsF_q1Ol.js";import{_ as w}from"./BzrfsdAe.js";import{_ as x}from"./BHa1rnWT.js";import{_ as v}from"./OZ8YgzZ8.js";const S={data(){return{icons:[{icon:"hgi-sent",tooltip:"Send",click:this.onAction},{icon:"hgi-archive-01",tooltip:"Archive",click:this.onAction},{icon:"hgi-user-circle-02",click:this.onAction},{icon:"hgi-idea-01",disabled:!0}],forms:{title:"New Data"}}},methods:{onInit(o){console.log(o)},onConfirm(){this.$confirm("Alert Dialog",{onConfirm(o){o.submit(),setTimeout(()=>{o.close()},1e3)}})},onClick(){this.$modal.show("modal",{title:"New Data",data:{id:1},callback:o=>{console.log("data from modal",o)}})},onClose(){this.$modal.close()},onAction(o){console.log(o),o.icon=="ti-send"&&this.$modal.callback(o)},onSubmit(){this.$modal.setTitle(this.forms.title)},showToast(){this.$toast.error("500 - Server error!",{align:"bottom-right"})},showConfirm(){this.$confirm("Delete Product",{message:"Are you sure want to delete this product?, consider that this action cannot be undone.",textButton:"Cancel|Yes, Do it!",onConfirm(o){o.submit(),setTimeout(()=>{o.close()},1e3)}})}}},T={class:"row"},y={class:"col-lg-6"},D=n("p",{class:"mb-5"}," Check out these examples of how to use Modal, Toast, and Confirm components and plugins. They make it easy to display alerts, forms, and other interactive content in your web applications. ",-1),A={class:"modal-body"},B=n("p",{class:"mb-5"}," Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi beatae delectus deleniti dolorem eveniet facere fuga iste nemo nesciunt nihil odio perspiciatis, quia quis reprehenderit sit tempora totam unde. ",-1),M={class:"modal-footer border-0 bg-transparent"};function $(o,s,I,N,l,t){const m=h,i=k,d=b,a=w,u=x,_=v;return C(),f("div",null,[e(m,{title:"Modal, Toast & Confirm"}),n("div",T,[n("div",y,[D,e(d,{gap:10},{default:c(()=>[e(i,{label:"Open Modal",onClick:t.onClick},null,8,["onClick"]),e(i,{label:"Show Toast",theme:"btn",onClick:t.showToast},null,8,["onClick"]),e(i,{label:"Show Confirm",theme:"btn",onClick:t.showConfirm},null,8,["onClick"])]),_:1}),e(a,{class:"mt-5",code:`this.$modal.show('modal', {\r
+    title: 'New Data',\r
+    data: { id: 1 },\r
+    callback: (data: any) => {\r
+        console.log('data from modal', data.name) // John Doe\r
+    }\r
+})\r
+    \r
+// in your modal, call\r
+this.$modal.callback({name: 'John Doe'})\r
+`}),e(a,{class:"mt-2",code:"this.$toast.error('500 - Server error!')"}),e(a,{class:"mt-2",code:`this.$confirm('Delete Product', {\r
+    message: 'Your message...',\r
+    textButton: 'Cancel|Yes, Do it!',\r
+    onConfirm: (actions) => {\r
+        actions.submit()\r
+    },\r
+})`})])]),e(_,{id:"modal",elevation:!1,actions:l.icons,onInit:t.onInit,icon:"hgi-book-open-02"},{default:c(()=>[n("form",{onSubmit:s[1]||(s[1]=g((...r)=>t.onSubmit&&t.onSubmit(...r),["prevent"]))},[n("div",A,[B,e(u,{modelValue:l.forms.title,"onUpdate:modelValue":s[0]||(s[0]=r=>l.forms.title=r),label:"Modal Title",hint:"Type username",required:"",formatters:"ucwords",prefix:"hgi-news"},null,8,["modelValue"]),e(i,{label:"Show Confirm",onClick:t.onConfirm},null,8,["onClick"])]),n("div",M,[e(i,{theme:"btn",label:"Close",onClick:t.onClose},null,8,["onClick"]),e(i,{theme:"btn-primary",label:"Save changes",submit:""})])],32)]),_:1},8,["actions","onInit"])])}const J=p(S,[["render",$]]);export{J as default};
