@@ -2,7 +2,7 @@
     <div :class="{ 'mb-3': !nospace, 'd-inline-block': inline }">
         <label :class="['form-label']" v-if="label"> {{ label }} </label>
 
-        <div :class="{ 'd-inline-block': inline, 'cursor-pointer': true }">
+        <div :class="{ 'd-inline-block': inline, 'cursor-pointer d-inline-block': true }">
             <Row class="form-check form-check-single form-switch m-0 p-0" gap="10" :reversed="reversed">
                 <input class="form-check-input cursor-pointer" type="checkbox" :name="inputName" v-model="localValue"
                     :disabled="disabled" ref="input">

@@ -224,13 +224,13 @@ const throttle = (func, limit) => {
     }
   };
 };
-const firstAndLastDate = (date) => {
+const firstAndLastDate = (date, dateOnly) => {
   const d = new Date(date);
   const firstDate = new Date(d.getFullYear(), d.getMonth(), 1);
   const lastDate = new Date(d.getFullYear(), d.getMonth() + 1, 0);
   return {
-    first: firstDate.getDate(),
-    last: lastDate.getDate()
+    first: !dateOnly ? dateFormat(firstDate, "Y-m-d") : firstDate.getDate(),
+    last: !dateOnly ? dateFormat(lastDate, "Y-m-d") : lastDate.getDate()
   };
 };
 const now = (format = "Y-m-d") => dateFormat(/* @__PURE__ */ new Date(), format);

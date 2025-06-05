@@ -4,7 +4,12 @@ const handleKeyPress = (instance, emit, props, event, value, formatters) => {
   _event = event;
   formatters = formatters.map((e) => e.split(":")[0]);
   if (formatters.includes("currency")) {
-    if (value.length >= (props.maxLength == 255 ? 15 : props.maxLength)) {
+    if (value.length >= (props.maxLength == null ? 16 : props.maxLength)) {
+      event.preventDefault();
+    }
+  }
+  if (formatters.includes("phone")) {
+    if (value.length >= (props.maxLength == null ? 15 : props.maxLength)) {
       event.preventDefault();
     }
   }

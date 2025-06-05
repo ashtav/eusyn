@@ -33,7 +33,7 @@ declare const _default: import("vue").DefineComponent<{
     };
     maxLength: {
         type: NumberConstructor;
-        default: number;
+        default: null;
     };
     prefix: {
         type: StringConstructor;
@@ -128,7 +128,7 @@ declare const _default: import("vue").DefineComponent<{
     };
     maxLength: {
         type: NumberConstructor;
-        default: number;
+        default: null;
     };
     prefix: {
         type: StringConstructor;

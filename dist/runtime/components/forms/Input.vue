@@ -82,7 +82,7 @@ export default defineComponent({
     },
     maxLength: {
       type: Number,
-      default: 255
+      default: null
     },
     prefix: {
       type: String,

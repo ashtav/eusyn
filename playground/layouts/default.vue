@@ -76,6 +76,7 @@ export default {
             { label: 'Accordion', to: '/accordion', icon: 'hgi-square-arrow-down-01' },
             { label: 'Avatar', to: '/elements/avatar', icon: 'hgi-user-circle' },
             { label: 'Cards', to: '/elements/card', icon: 'hgi-credit-card' },
+            { label: 'Counter', to: '/elements/counter', icon: 'hgi-arrange-by-numbers-1-9' },
             { label: 'Shimmer', to: '/shimmer', icon: 'hgi-equal-sign-square' },
             { label: 'Spinner', to: '/elements/spinner', icon: 'hgi-loading-03' },
             { label: 'Dropdown', to: '/dropdown', icon: 'hgi-align-right' },

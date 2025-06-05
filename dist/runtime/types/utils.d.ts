@@ -325,7 +325,7 @@ interface Utils {
      * const result = firstAndLastDate('2023-02-15');
      * // result will be { first: 1, last: 28 }
      */
-    firstAndLastDate: (date: string | Date) => { first: Number, last: Number },
+    firstAndLastDate: (date: string | Date, dateOnly: Boolean = false) => { first: Number | string, last: Number | string },
 
     /**
      * Returns the current date and time formatted as a string.
