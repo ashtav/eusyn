@@ -13,7 +13,7 @@
         <Row :gap="10">
           <Button label="Open Modal" @click="onClick" />
           <Button label="Show Toast" theme="btn" @click="showToast" />
-          <Button label="Show Confirm" theme="btn" @click="showConfirm" />
+          <Button label="Show Confirm" theme="btn-danger" @click="showConfirm" />
         </Row>
 
         <Code class="mt-5" code="this.$modal.show('modal', {
@@ -37,6 +37,29 @@ this.$modal.callback({name: 'John Doe'})
         actions.submit()
     },
 })" />
+
+        <div class="mt-5 mb-3">
+          If you have multiple modals, use <code>Modals</code> component to wrap your modals.
+          It will keep your performance optimal and prevent memory leaks.
+        </div>
+
+        <Row :gap="10" class="mb-5">
+          <Button label="Form User" @click="onModal('user-form')" />
+          <Button label="User Details" @click="onModal('user-details')" theme="btn-outline-primary" />
+          <Button label="Form Product" @click="onModal('product-form')" theme="btn-link" />
+        </Row>
+
+        <Code class="mt-2" code="<Modals>
+  <ModalsUserForm />
+  <ModalsUserDetails />
+</Modals>
+
+// 1. to show the modal, use: this.$modal.show('user-form')
+
+// 2. 'user-form' corresponds to the component path (user/Form.vue)
+
+// 3. inside your modal component (<ModalsUserForm />), use: id='user-form'
+" />
       </div>
     </div>
 
@@ -62,6 +85,12 @@ this.$modal.callback({name: 'John Doe'})
         </div>
       </form>
     </Modal>
+
+    <Modals>
+      <ModalsUserForm />
+      <ModalsUserDetails />
+      <ModalsProductForm />
+    </Modals>
   </div>
 </template>
 
@@ -79,7 +108,9 @@ export default {
 
       forms: {
         title: 'New Data'
-      }
+      },
+
+      modal: ''
     }
   },
 
@@ -107,6 +138,12 @@ export default {
         callback: (data: any) => {
           console.log('data from modal', data)
         }
+      })
+    },
+
+    onModal(id: string) {
+      this.$modal.show(id, {
+        title: 'Modal Example',
       })
     },
 

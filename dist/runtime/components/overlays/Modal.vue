@@ -1,5 +1,6 @@
 <template>
-  <div class="modal fade" :class="{ 'show': show && !isConfirmOpen }" tabindex="-1" :style="{ display: preShow ? 'block' : 'none' }">
+  <div class="modal fade" :class="{ 'show': show && !isConfirmOpen }" tabindex="-1"
+    :style="{ display: preShow ? 'block' : 'none' }">
     <div class="modal-dialog modal-dialog-centered" role="document" :class="`modal-${size}`">
       <div class="modal-content">
         <!-- modal header -->
@@ -34,7 +35,7 @@
 
 <script>
 import { useRuntimeConfig } from "#imports";
-import { onMounted, ref } from "vue";
+import { nextTick, onMounted, ref } from "vue";
 import eventBus from "../../plugins/mitt";
 import { modal } from "../../scripts/modal";
 export default {
@@ -75,7 +76,8 @@ export default {
     const icon = config.public.ui?.icon;
     const iconX = icon == "tabler" ? "ti-x" : "hgi-cancel-01";
     let callback;
-    const onShow = (args) => {
+    const onShow = async (args) => {
+      await nextTick();
       if (args.id == props.id) {
         preShow.value = true;
         title.value = args?.params?.title ?? "Untitled";
@@ -115,6 +117,7 @@ export default {
     };
     onMounted(() => {
       eventBus.on("__show_modal", onShow);
+      eventBus.on("__show_modal2", onShow);
       eventBus.on("__close_modal", onClose);
       eventBus.on("__set_modal_title", onSetTitle);
       eventBus.on("__callback_modal", onCallback);

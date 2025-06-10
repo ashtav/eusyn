@@ -1,21 +1,17 @@
 <template>
   <Modal id="modal-example" :elevation="false">
     <div class="modal-body">
-      <p v-for="i in 15" :key="i">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, praesentium deserunt. Voluptatem
-        voluptatibus officiis maxime perspiciatis voluptates a, vel maiores delectus incidunt iure alias aperiam
-        non
-        id magni, sit perferendis! {{ $i }}
-      </p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, praesentium deserunt. Voluptatem
+      voluptatibus officiis maxime perspiciatis voluptates a, vel maiores delectus incidunt iure alias aperiam
+      non
+      id magni, sit perferendis!
     </div>
   </Modal>
 </template>
 
-<script>
+<script lang="ts">
 export default {
-  setup () {
-
-
+  setup() {
     return {}
   }
 }

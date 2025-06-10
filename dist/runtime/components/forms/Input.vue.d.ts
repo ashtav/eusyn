@@ -191,13 +191,13 @@ declare const _default: import("vue").DefineComponent<{
     required: boolean;
     modelValue: string;
     nospace: boolean;
+    prefix: string;
+    minDate: string;
+    maxDate: string;
     hint: string;
     autofocus: boolean;
     maxLength: number;
-    prefix: string;
     suffixs: any[];
-    minDate: string;
-    maxDate: string;
     formatters: string;
 }, {}>;
 export default _default;

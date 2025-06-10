@@ -141,10 +141,10 @@ declare const _default: import("vue").DefineComponent<{
     options: any[];
     modelValue: string;
     nospace: boolean;
+    prefix: string;
     suffix: string;
     hint: string;
     autofocus: boolean;
-    prefix: string;
     busy: boolean;
 }, {}>;
 export default _default;

@@ -37,6 +37,9 @@
                 <Input label="Date" type="date" prefix="hgi-calendar-01" />
                 <Code class="mb-5" code='<Input label="Date" type="date" prefix="ti-calendar" />' />
 
+                <Date label="Date Scroll" prefix="hgi-calendar-01" :maxDate="$e.utils.now()" />
+                <Code class="mb-5" code='<Date label="Date Scroll" prefix="ti-calendar" />' />
+
                 <Time label="Time" prefix="hgi-clock-01" format="h:i" v-model="forms.time" />
                 <Code class="mb-5"
                     code='<Time label="Select Time" prefix="clock" format="h:i" v-model="forms.time" />' />

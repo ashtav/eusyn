@@ -150,10 +150,10 @@ declare const _default: import("vue").DefineComponent<{
     required: boolean;
     modelValue: string;
     nospace: boolean;
+    prefix: string;
     hint: string;
     autofocus: boolean;
     maxLength: number;
-    prefix: string;
     suffixs: any[];
     formatters: string;
 }, {}>;

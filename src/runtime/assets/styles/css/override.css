@@ -41,6 +41,25 @@ input[type=time][icon=huge]::-webkit-calendar-picker-indicator {
     .form-check-input {
         border-color: #3d4e63;
     }
+
+    .btn-link {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .btn:active:not(.btn-primary, .btn-danger, .btn-success, .btn-warning, .btn-info, .btn-secondary) {
+        color: #fff;
+        border-color: #3d4e63;
+    }
+
+    .btn-outline-primary,
+    .btn-outline-secondary,
+    .btn-outline-success,
+    .btn-outline-danger,
+    .btn-outline-warning,
+    .btn-outline-info {
+        color: #fff;
+    }
 }
 
 img[lazy] {

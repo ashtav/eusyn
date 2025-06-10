@@ -119,11 +119,11 @@ declare const _default: import("vue").DefineComponent<{
     readonly: boolean;
     required: boolean;
     modelValue: string;
+    minDate: string;
+    maxDate: string;
     hint: string;
     autofocus: boolean;
     maxLength: number;
-    minDate: string;
-    maxDate: string;
     formatters: string;
 }, {}>;
 export default _default;
