@@ -1,4 +1,5 @@
 import { defineNuxtPlugin } from "#imports";
+import changeCase from "./case.mjs";
 import { faker } from "./faker.mjs";
 import { image } from "./image.mjs";
 import storage from "./storage.mjs";
@@ -15,6 +16,7 @@ const ntx = {
   // $n.theme.set()
   storage,
   // $n.storage.set()
+  case: changeCase,
   focus: (self, ref) => {
     self.$refs[ref]?.doFocus();
   },

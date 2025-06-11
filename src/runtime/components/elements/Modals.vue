@@ -6,6 +6,7 @@
 import { computed, defineComponent, nextTick, useSlots } from "vue";
 import eventBus from '../../plugins/mitt';
 
+
 export default defineComponent({
     props: {
         log: {
@@ -23,21 +24,10 @@ export default defineComponent({
             const defaultSlot = slots.default?.() || [];
 
             const getAttribute = (vnode: any) => {
-                const filePath = (vnode.type as any)?.__file as string | undefined;
-                const fileName = filePath.split("/").pop()?.replace(".vue", "").toLowerCase();
-                const componentPath = filePath.split("components/")[1];
-                const modalId = componentPath.replace(".vue", "")
-                    .replace(/\//g, "-")
-                    .replace(/([a-z])([A-Z])/g, "$1-$2")
-                    .toLowerCase().replaceAll('modals-', '');
+                const props = (vnode.type as any)?.props;
+                const id = props?.id?.default
 
-                return {
-                    filePath,
-                    fileName,
-                    component: vnode.type,
-                    componentPath,
-                    modalId
-                };
+                return { id };
             };
 
             if (props.log) {
@@ -51,22 +41,19 @@ export default defineComponent({
             return defaultSlot.filter((vnode) => {
                 const component = getAttribute(vnode)
 
-                if(!ids.includes(component.modalId)) {
-                    ids.push(component.modalId);
+                if (!ids.includes(component.id)) {
+                    ids.push(component.id);
                 }
 
-                return component.modalId === localValue.value;
+                return component.id === localValue.value;
             });
         });
 
         const onShow = async (args: any) => {
             if (ids.includes(args.id)) {
-
-                const id = (args.id ?? '').toLowerCase();
-                localValue.value = id;
+                localValue.value = args.id || '';
 
                 await nextTick()
-
                 eventBus.emit('__show_modal2', { id: args.id, params: args.params || {} })
             }
         }

@@ -44,9 +44,9 @@ this.$modal.callback({name: 'John Doe'})
         </div>
 
         <Row :gap="10" class="mb-5">
-          <Button label="Form User" @click="onModal('user-form')" />
+          <Button label="Form User" @click="onModal('form-user')" />
           <Button label="User Details" @click="onModal('user-details')" theme="btn-outline-primary" />
-          <Button label="Form Product" @click="onModal('product-form')" theme="btn-link" />
+          <Button label="Form Product" @click="onModal('form-product')" theme="btn-link" />
         </Row>
 
         <Code class="mt-2" code="<Modals>
@@ -54,11 +54,10 @@ this.$modal.callback({name: 'John Doe'})
   <ModalsUserDetails />
 </Modals>
 
-// 1. to show the modal, use: this.$modal.show('user-form')
+// 1. to show the modal, use: this.$modal.show('form-user')
 
-// 2. 'user-form' corresponds to the component path (user/Form.vue)
-
-// 3. inside your modal component (<ModalsUserForm />), use: id='user-form'
+// 2. inside your modal component (<ModalsUserForm />), use: props: {id: {default: 'form-user'}}
+// <Modal :id='id'>
 " />
       </div>
     </div>
@@ -143,8 +142,9 @@ export default {
 
     onModal(id: string) {
       this.$modal.show(id, {
-        title: 'Modal Example',
+        title: this.$e.case.capitalCase(id),
       })
+
     },
 
     onClose() {

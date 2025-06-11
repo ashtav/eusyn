@@ -2,6 +2,7 @@
 import { defineNuxtPlugin } from '#imports'
 
 import type Ntx from '../types/ntx'
+import changeCase from './case'
 import { faker } from './faker'
 import { image } from './image'
 import storage from './storage'
@@ -14,6 +15,7 @@ const ntx: Ntx = {
     image: image, // $n.image.resize()
     theme: theme, // $n.theme.set()
     storage: storage, // $n.storage.set()
+    case: changeCase,
 
     focus: (self: any, ref: string): void => {
         (self.$refs[ref] as any)?.doFocus()

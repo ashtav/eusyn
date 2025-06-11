@@ -90,7 +90,7 @@ export default {
 
     const onShow = async (args: any) => {
       await nextTick()
-
+      
       if (args.id == props.id) {
         preShow.value = true
 
