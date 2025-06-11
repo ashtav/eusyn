@@ -70,9 +70,9 @@ declare const _default: import("vue").DefineComponent<{
     caption: string;
     label: string;
     disabled: boolean;
-    modelValue: boolean;
-    inline: boolean;
-    nospace: boolean;
     reversed: boolean;
+    inline: boolean;
+    modelValue: boolean;
+    nospace: boolean;
 }, {}>;
 export default _default;

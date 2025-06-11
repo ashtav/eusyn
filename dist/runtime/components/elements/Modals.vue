@@ -3,9 +3,10 @@
 </template>
 
 <script>
-import { computed, defineComponent, nextTick, ref, useSlots } from "vue";
+import { computed, defineComponent, nextTick, onMounted, ref, useSlots } from "vue";
 import eventBus from "../../plugins/mitt";
 export default defineComponent({
+  name: "Modals",
   props: {
     log: {
       type: Boolean,
