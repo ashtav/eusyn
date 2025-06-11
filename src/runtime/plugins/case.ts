@@ -12,18 +12,18 @@ import type Case from "../types/case"
 
 
 const changeCase: Case = {
-    camelCase: camelCase,
-    capitalCase: capitalCase,
-    constantCase: constantCase,
-    dotCase: dotCase,
-    kebabCase: kebabCase,
-    noCase: noCase,
-    pascalCase: pascalCase,
-    pascalSnakeCase: pascalSnakeCase,
-    pathCase: pathCase,
-    sentenceCase: sentenceCase,
-    snakeCase: snakeCase,
-    trainCase: trainCase
+    camel: camelCase,
+    capital: capitalCase,
+    constant: constantCase,
+    dot: dotCase,
+    kebab: kebabCase,
+    no: noCase,
+    pascal: pascalCase,
+    pascalSnake: pascalSnakeCase,
+    path: pathCase,
+    sentence: sentenceCase,
+    snake: snakeCase,
+    train: trainCase
 }
 
 export default changeCase

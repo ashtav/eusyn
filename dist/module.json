@@ -1,6 +1,6 @@
 {
   "name": "eusyn",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "configKey": "ui",
   "compatibility": {
     "nuxt": ">=3.10.0"

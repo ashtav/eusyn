@@ -142,7 +142,7 @@ export default {
 
     onModal(id: string) {
       this.$modal.show(id, {
-        title: this.$e.case.capitalCase(id),
+        title: this.$e.case.capital(id),
       })
 
     },

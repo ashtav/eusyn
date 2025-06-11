@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, useSlots } from "vue";
+import { computed, defineComponent, nextTick, ref, useSlots } from "vue";
 import eventBus from '../../plugins/mitt';
 
 
