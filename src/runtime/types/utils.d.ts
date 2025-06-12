@@ -2,6 +2,10 @@ interface Manipulate {
     ucwords?: Array<string>,
     numeric?: Array<string>,
     currency?: Array<string>,
+    lower?: Array<string>,
+    upper?: Array<string>,
+    alpha?: Array<string>,
+    alphanumeric?: Array<string>,
 }
 
 interface Utils {

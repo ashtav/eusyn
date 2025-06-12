@@ -152,6 +152,34 @@ const manipulate = (data, action) => {
       }
     });
   }
+  if (action.lower) {
+    action.lower.forEach((key) => {
+      if (result[key]) {
+        result[key] = result[key].toLowerCase();
+      }
+    });
+  }
+  if (action.upper) {
+    action.upper.forEach((key) => {
+      if (result[key]) {
+        result[key] = result[key].toUpperCase();
+      }
+    });
+  }
+  if (action.alpha) {
+    action.alpha.forEach((key) => {
+      if (result[key]) {
+        result[key] = alpha(result[key]);
+      }
+    });
+  }
+  if (action.alphanumeric) {
+    action.alphanumeric.forEach((key) => {
+      if (result[key]) {
+        result[key] = alphanumeric(result[key]);
+      }
+    });
+  }
   return result;
 };
 const getInitials = (value) => {

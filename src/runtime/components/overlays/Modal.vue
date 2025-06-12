@@ -90,8 +90,13 @@ export default {
 
     const onShow = async (args: any) => {
       await nextTick()
-      
-      if (args.id == props.id) {
+
+      const actives = args.actives || []
+
+      // get last active modal
+      const lastActive = actives[actives.length - 1] || null
+
+      if (lastActive == props.id || lastActive == args.id) {
         preShow.value = true
 
         title.value = args?.params?.title ?? 'Untitled'

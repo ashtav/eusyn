@@ -272,10 +272,15 @@ const dateFormat = (date: string | Date, format?: string): string => {
  * - `ucwords`: Capitalizes the first letter of each word in the specified keys.
  * - `numeric`: Removes any commas in the specified keys to convert to plain numbers.
  * - `currency`: Adds commas to numbers in the specified keys for currency formatting.
+ * - `lower`: Converts the specified keys to lowercase.
+ * - `upper`: Converts the specified keys to uppercase.
+ * - `alpha`: Removes all non-alphabetical characters from the specified keys.
+ * - `alphanumeric`: Removes all non-alphanumeric characters from the specified keys, except for periods and spaces.
  *
  * @param {Record<string, any>} data - The input data object to manipulate.
  * @param {Manipulate} action - The manipulation actions to perform on the data.
  * @returns {Record<string, any>} - The transformed data object.
+ * 
  */
 const manipulate = (data: Record<any, any>, action: Manipulate): Record<any, any> => {
   const result: Record<any, any> = { ...data };
@@ -300,6 +305,42 @@ const manipulate = (data: Record<any, any>, action: Manipulate): Record<any, any
     action.currency.forEach((key) => {
       if (result[key]) {
         result[key] = currency(result[key])
+      }
+    });
+  }
+
+  // lower
+  if (action.lower) {
+    action.lower.forEach((key) => {
+      if (result[key]) {
+        result[key] = result[key].toLowerCase();
+      }
+    });
+  }
+
+  // upper
+  if (action.upper) {
+    action.upper.forEach((key) => {
+      if (result[key]) {
+        result[key] = result[key].toUpperCase();
+      }
+    });
+  }
+
+  // alpha
+  if (action.alpha) {
+    action.alpha.forEach((key) => {
+      if (result[key]) {
+        result[key] = alpha(result[key]);
+      }
+    });
+  }
+
+  // alphanumeric
+  if (action.alphanumeric) {
+    action.alphanumeric.forEach((key) => {
+      if (result[key]) {
+        result[key] = alphanumeric(result[key]);
       }
     });
   }

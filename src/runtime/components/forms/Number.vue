@@ -1,5 +1,5 @@
 <template>
-    <div :class="['date', utils.on(disabled, 'disabled'), { 'mb-3': !nospace }]">
+    <div :class="['number', utils.on(disabled, 'disabled'), { 'mb-3': !nospace }]">
         <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
 
         <div class="input-group" @wheel="onWheel">
@@ -9,7 +9,7 @@
             </div>
 
             <div class="controls">
-                <span v-for="(icon, i) in ['hgi-arrow-down-01', 'hgi-arrow-up-01']" @click="onControl(i)">
+                <span v-for="(icon, i) in ['hgi-minus-sign', 'hgi-plus-sign']" @click="onControl(i)">
                     <Icon :icon="icon" />
                 </span>
             </div>
@@ -22,40 +22,27 @@ import { ref, watch } from 'vue';
 import { utils } from '../../plugins/utils';
 
 export default {
+    name: 'Number',
     inheritAttrs: false,
     emits: ['update:modelValue'],
 
     setup(props, { emit }) {
-
-        // make sure the value is date formatted, if not, set it to current date
-        const value = props.modelValue ? new Date(props.modelValue) : new Date();
-        const localValue = ref(utils.dateFormat(value, 'Y-m-d'));
+        const value =  parseInt(props.modelValue) || 0;
+        const localValue = ref<number>(value);
 
         // watch v-model
         watch(() => props.modelValue, (value) => {
-            localValue.value = value
+            localValue.value = parseInt(value) || 0;
         })
 
         const onControl = (i: number) => {
-            const date = new Date(localValue.value);
-            const minDate = props.minDate ? new Date(props.minDate) : null;
-            const maxDate = props.maxDate ? new Date(props.maxDate) : null;
+            if (props.disabled || props.readonly) return;
 
-            if (i === 0) {
-                date.setDate(date.getDate() - 1);
-            } else {
-                date.setDate(date.getDate() + 1);
-            }
+            localValue.value = i === 0
+                ? Math.max((localValue.value || 0) - 1, props.min || 0)
+                : Math.min((localValue.value || 0) + 1, props.max || Number.MAX_SAFE_INTEGER);
 
-            // Check min and max date
-            if (minDate && date < minDate) {
-                date.setTime(minDate.getTime());
-            }
-            if (maxDate && date > maxDate) {
-                date.setTime(maxDate.getTime());
-            }
-            localValue.value = utils.dateFormat(date, 'Y-m-d');
-            emit('update:modelValue', localValue.value);
+            emit('update:modelValue', localValue.value.toString());
         }
 
         const onWheel = (e: WheelEvent) => {
@@ -97,13 +84,13 @@ export default {
             default: false
         },
 
-        minDate: {
-            type: String,
+        min: {
+            type: Number,
             default: null
         },
 
-        maxDate: {
-            type: String,
+        max: {
+            type: Number,
             default: null
         },
 
@@ -116,7 +103,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.date {
+.number {
     &.disabled {
         pointer-events: none;
 
@@ -171,7 +158,7 @@ export default {
 }
 
 [data-bs-theme=dark] {
-    .date {
+    .number {
         .input-group {
             background-color: #151f2c;
             color: #fff;

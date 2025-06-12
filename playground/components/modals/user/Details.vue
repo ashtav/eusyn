@@ -7,6 +7,8 @@
         non
         id magni, sit perferendis!
       </p>
+
+      <Button label="Open Another Modal" @click="$modal.show('form-user', { title: 'Form User' })" />
     </div>
   </Modal>
 </template>

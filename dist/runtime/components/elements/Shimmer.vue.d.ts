@@ -64,8 +64,8 @@ declare const _default: import("vue").DefineComponent<{
     };
 }>>, {
     size: string | number | any[];
-    gap: string;
     radius: string | number;
     iterate: number;
+    gap: string;
 }, {}>;
 export default _default;

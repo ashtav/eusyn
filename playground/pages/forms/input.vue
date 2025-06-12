@@ -29,6 +29,9 @@
                 <Input label="Phone Number" hint="Enter your phone number" prefix="hgi-contact-01" required
                     v-model="forms.phone" formatters="phone" />
 
+                <Number label="Number" hint="Enter quantity" prefix="hgi-arrange-by-numbers-1-9" required
+                    v-model="forms.quantity" />
+
                 <Input label="Password" hint="Enter your password" prefix="hgi-lock" required password @enter="onEnter"
                     v-model="forms.password" />
                 <Code class="mb-5"
@@ -85,7 +88,8 @@ export default {
                 price: '',
                 date: '',
                 time: '',
-                note: ''
+                note: '',
+                quantity: ''
             }
         }
     },
