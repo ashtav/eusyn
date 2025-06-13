@@ -14,7 +14,6 @@ export default defineComponent({
         const slots = useSlots();
         const localValue = ref('');
         const ids = []
-        const activeModals = ref<string[]>([]);
 
         const filteredModals = computed(() => {
             const defaultSlot = slots.default?.() || [];
@@ -37,8 +36,7 @@ export default defineComponent({
                     return false
                 }
 
-                return activeModals.value.includes(component.id);
-                // return component.id === localValue.value;
+                return component.id === localValue.value;
             });
 
             return result
@@ -47,10 +45,9 @@ export default defineComponent({
         const onShow = async (args: any) => {
             if (ids.includes(args.id)) {
                 localValue.value = args.id || '';
-                activeModals.value = args.actives || [args.id];
 
                 await nextTick()
-                eventBus.emit('__show_modal2', { id: args.id, params: args.params || {}, actives: activeModals.value })
+                eventBus.emit('__show_modal2', { id: args.id, params: args.params || {} })
             }
         }
 
@@ -63,7 +60,6 @@ export default defineComponent({
         onMounted(() => {
             eventBus.on('__show_modal', onShow)
             eventBus.on('__close_modal', onClose)
-
         })
 
         return {

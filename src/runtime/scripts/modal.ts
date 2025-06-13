@@ -32,18 +32,18 @@ const show = (id: string, params: any = {}) => {
         actives.push(id)
     }
     
-    eventBus.emit('__show_modal', { id, params, actives })
+    eventBus.emit('__show_modal', { id, params})
 }
 
 const close = (id?: string) => {
     if (!id) {
         const removedId = actives.pop()
-        eventBus.emit('__close_modal', { id: removedId, actives })
+        eventBus.emit('__close_modal', { id: removedId })
     } else {
         const index = actives.indexOf(id)
         if (index > -1) {
             actives.splice(index, 1)
-            eventBus.emit('__close_modal', { id: id, actives })
+            eventBus.emit('__close_modal', { id: id })
         }
     }
 }

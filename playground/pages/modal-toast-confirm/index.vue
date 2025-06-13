@@ -62,7 +62,7 @@ this.$modal.callback({name: 'John Doe'})
       </div>
     </div>
 
-    <!-- <Modal id="modal" :elevation="false" :actions="icons" @init="onInit" icon="hgi-book-open-02">
+    <Modal id="modal" :elevation="false" :actions="icons" @init="onInit" icon="hgi-book-open-02">
       <form @submit.prevent="onSubmit">
         <div class="modal-body">
           <p class="mb-5">
@@ -83,7 +83,7 @@ this.$modal.callback({name: 'John Doe'})
           <Button theme="btn-primary" label="Save changes" submit />
         </div>
       </form>
-    </Modal> -->
+    </Modal> 
 
     <Modals>
       <ModalsUserForm />

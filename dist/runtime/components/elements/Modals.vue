@@ -11,7 +11,6 @@ export default defineComponent({
     const slots = useSlots();
     const localValue = ref("");
     const ids = [];
-    const activeModals = ref([]);
     const filteredModals = computed(() => {
       const defaultSlot = slots.default?.() || [];
       const getAttribute = (vnode) => {
@@ -27,16 +26,15 @@ export default defineComponent({
         if (localValue.value === "") {
           return false;
         }
-        return activeModals.value.includes(component.id);
+        return component.id === localValue.value;
       });
       return result;
     });
     const onShow = async (args) => {
       if (ids.includes(args.id)) {
         localValue.value = args.id || "";
-        activeModals.value = args.actives || [args.id];
         await nextTick();
-        eventBus.emit("__show_modal2", { id: args.id, params: args.params || {}, actives: activeModals.value });
+        eventBus.emit("__show_modal2", { id: args.id, params: args.params || {} });
       }
     };
     const onClose = async () => {

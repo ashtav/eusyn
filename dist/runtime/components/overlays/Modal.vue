@@ -78,9 +78,7 @@ export default {
     let callback;
     const onShow = async (args) => {
       await nextTick();
-      const actives = args.actives || [];
-      const lastActive = actives[actives.length - 1] || null;
-      if (lastActive == props.id || lastActive == args.id) {
+      if (props.id == args.id) {
         preShow.value = true;
         title.value = args?.params?.title ?? "Untitled";
         callback = args?.params?.callback ?? null;
