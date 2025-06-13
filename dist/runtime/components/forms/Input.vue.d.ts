@@ -1,7 +1,7 @@
 declare const _default: import("vue").DefineComponent<{
     modelValue: {
         default: string;
-        type: StringConstructor;
+        type: (NumberConstructor | StringConstructor)[];
     };
     label: {
         type: StringConstructor;
@@ -82,7 +82,7 @@ declare const _default: import("vue").DefineComponent<{
     };
 }, {
     utils: import("../../types/utils").default;
-    localValue: import("vue").Ref<string>;
+    localValue: import("vue").Ref<string | number>;
     inputType: import("vue").Ref<string>;
     inputSuffixs: import("vue").Ref<any[]>;
     input: import("vue").Ref<null>;
@@ -96,7 +96,7 @@ declare const _default: import("vue").DefineComponent<{
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("blur" | "focus" | "update:modelValue" | "enter" | "suffix")[], "blur" | "focus" | "update:modelValue" | "enter" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
-        type: StringConstructor;
+        type: (NumberConstructor | StringConstructor)[];
     };
     label: {
         type: StringConstructor;
@@ -189,7 +189,7 @@ declare const _default: import("vue").DefineComponent<{
     readonly: boolean;
     password: boolean;
     required: boolean;
-    modelValue: string;
+    modelValue: string | number;
     nospace: boolean;
     prefix: string;
     minDate: string;

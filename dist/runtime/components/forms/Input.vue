@@ -50,7 +50,7 @@ export default defineComponent({
   props: {
     modelValue: {
       default: "",
-      type: String
+      type: [Number, String]
     },
     label: {
       type: String,

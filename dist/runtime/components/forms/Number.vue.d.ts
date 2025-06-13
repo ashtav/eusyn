@@ -1,7 +1,7 @@
 declare const _default: import("vue").DefineComponent<{
     modelValue: {
         default: string;
-        type: StringConstructor;
+        type: (NumberConstructor | StringConstructor)[];
     };
     label: {
         type: StringConstructor;
@@ -43,7 +43,7 @@ declare const _default: import("vue").DefineComponent<{
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
-        type: StringConstructor;
+        type: (NumberConstructor | StringConstructor)[];
     };
     label: {
         type: StringConstructor;
@@ -84,7 +84,7 @@ declare const _default: import("vue").DefineComponent<{
     disabled: boolean;
     readonly: boolean;
     required: boolean;
-    modelValue: string;
+    modelValue: string | number;
     min: number;
     max: number;
     nospace: boolean;

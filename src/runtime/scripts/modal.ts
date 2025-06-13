@@ -24,7 +24,7 @@ declare module 'vue' {
 const actives = <Array<string>>[]
 
 const show = (id: string, params: any = {}) => {
-    if(actives.length > 0) {
+    if(actives.length > 1) {
         return console.warn(`For now, only one modal can be active at a time. Please close the current modal before opening a new one.`)
     }
 

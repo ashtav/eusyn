@@ -89,7 +89,7 @@ export default {
                 date: '',
                 time: '',
                 note: '',
-                quantity: ''
+                quantity: 2
             }
         }
     },
