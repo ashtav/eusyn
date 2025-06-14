@@ -21,18 +21,11 @@ declare module 'vue' {
 //     }
 // }
 
-const actives = <Array<string>>[]
+let actives = <Array<string>>[]
 
 const show = (id: string, params: any = {}) => {
-    if(actives.length > 1) {
-        return console.warn(`For now, only one modal can be active at a time. Please close the current modal before opening a new one.`)
-    }
-
-    if (!actives.includes(id)) {
-        actives.push(id)
-    }
-    
-    eventBus.emit('__show_modal', { id, params})
+    actives = [id]
+    eventBus.emit('__show_modal', { id, params })
 }
 
 const close = (id?: string) => {

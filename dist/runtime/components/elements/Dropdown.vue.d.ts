@@ -6,11 +6,11 @@ interface Dropdown {
 }
 declare const _default: import("vue").DefineComponent<{
     options: {
-        type: ({
-            (arrayLength: number): Dropdown[];
-            (...items: Dropdown[]): Dropdown[];
-            new (arrayLength: number): Dropdown[];
-            new (...items: Dropdown[]): Dropdown[];
+        type: {
+            (arrayLength: number): any[];
+            (...items: any[]): any[];
+            new (arrayLength: number): any[];
+            new (...items: any[]): any[];
             isArray(arg: any): arg is any[];
             readonly prototype: any[];
             from<T>(arrayLike: ArrayLike<T>): T[];
@@ -19,33 +19,7 @@ declare const _default: import("vue").DefineComponent<{
             from<T, U>(iterable: Iterable<T> | ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
             of<T>(...items: T[]): T[];
             readonly [Symbol.species]: ArrayConstructor;
-        } | {
-            (arrayLength: number): string[];
-            (...items: string[]): string[];
-            new (arrayLength: number): string[];
-            new (...items: string[]): string[];
-            isArray(arg: any): arg is any[];
-            readonly prototype: any[];
-            from<T>(arrayLike: ArrayLike<T>): T[];
-            from<T, U>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
-            from<T>(iterable: Iterable<T> | ArrayLike<T>): T[];
-            from<T, U>(iterable: Iterable<T> | ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
-            of<T>(...items: T[]): T[];
-            readonly [Symbol.species]: ArrayConstructor;
-        } | {
-            (arrayLength: number): number[];
-            (...items: number[]): number[];
-            new (arrayLength: number): number[];
-            new (...items: number[]): number[];
-            isArray(arg: any): arg is any[];
-            readonly prototype: any[];
-            from<T>(arrayLike: ArrayLike<T>): T[];
-            from<T, U>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
-            from<T>(iterable: Iterable<T> | ArrayLike<T>): T[];
-            from<T, U>(iterable: Iterable<T> | ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
-            of<T>(...items: T[]): T[];
-            readonly [Symbol.species]: ArrayConstructor;
-        })[];
+        }[];
         default: never[];
     };
     icons: {
@@ -90,14 +64,22 @@ declare const _default: import("vue").DefineComponent<{
         };
         default: () => never[];
     };
+    label: {
+        type: StringConstructor;
+        default: string;
+    };
+    icon: {
+        type: StringConstructor;
+        default: string;
+    };
+    theme: {
+        type: StringConstructor;
+        default: string;
+    };
 }, {
     show: Ref<boolean>;
     utils: import("../../types/utils").default;
-    options_: Ref<string[] | number[] | {
-        label: string;
-        icon?: string;
-        danger?: boolean;
-    }[]>;
+    options_: Ref<any[]>;
     dropdown: Ref<null>;
     slot: Ref<null>;
     dkey: string;
@@ -109,11 +91,11 @@ declare const _default: import("vue").DefineComponent<{
     separator: Ref<number[]>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "select"[], "select", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     options: {
-        type: ({
-            (arrayLength: number): Dropdown[];
-            (...items: Dropdown[]): Dropdown[];
-            new (arrayLength: number): Dropdown[];
-            new (...items: Dropdown[]): Dropdown[];
+        type: {
+            (arrayLength: number): any[];
+            (...items: any[]): any[];
+            new (arrayLength: number): any[];
+            new (...items: any[]): any[];
             isArray(arg: any): arg is any[];
             readonly prototype: any[];
             from<T>(arrayLike: ArrayLike<T>): T[];
@@ -122,33 +104,7 @@ declare const _default: import("vue").DefineComponent<{
             from<T, U>(iterable: Iterable<T> | ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
             of<T>(...items: T[]): T[];
             readonly [Symbol.species]: ArrayConstructor;
-        } | {
-            (arrayLength: number): string[];
-            (...items: string[]): string[];
-            new (arrayLength: number): string[];
-            new (...items: string[]): string[];
-            isArray(arg: any): arg is any[];
-            readonly prototype: any[];
-            from<T>(arrayLike: ArrayLike<T>): T[];
-            from<T, U>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
-            from<T>(iterable: Iterable<T> | ArrayLike<T>): T[];
-            from<T, U>(iterable: Iterable<T> | ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
-            of<T>(...items: T[]): T[];
-            readonly [Symbol.species]: ArrayConstructor;
-        } | {
-            (arrayLength: number): number[];
-            (...items: number[]): number[];
-            new (arrayLength: number): number[];
-            new (...items: number[]): number[];
-            isArray(arg: any): arg is any[];
-            readonly prototype: any[];
-            from<T>(arrayLike: ArrayLike<T>): T[];
-            from<T, U>(arrayLike: ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
-            from<T>(iterable: Iterable<T> | ArrayLike<T>): T[];
-            from<T, U>(iterable: Iterable<T> | ArrayLike<T>, mapfn: (v: T, k: number) => U, thisArg?: any): U[];
-            of<T>(...items: T[]): T[];
-            readonly [Symbol.species]: ArrayConstructor;
-        })[];
+        }[];
         default: never[];
     };
     icons: {
@@ -193,11 +149,26 @@ declare const _default: import("vue").DefineComponent<{
         };
         default: () => never[];
     };
+    label: {
+        type: StringConstructor;
+        default: string;
+    };
+    icon: {
+        type: StringConstructor;
+        default: string;
+    };
+    theme: {
+        type: StringConstructor;
+        default: string;
+    };
 }>> & {
     onSelect?: ((...args: any[]) => any) | undefined;
 }, {
+    label: string;
     size: string;
-    options: string[] | number[] | Dropdown[];
+    theme: string;
+    icon: string;
+    options: any[];
     icons: String[];
     placement: string;
     separate: number[];

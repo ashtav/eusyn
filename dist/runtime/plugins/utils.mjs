@@ -262,6 +262,39 @@ const firstAndLastDate = (date, dateOnly) => {
   };
 };
 const now = (format = "Y-m-d") => dateFormat(/* @__PURE__ */ new Date(), format);
+const months = (number = false) => {
+  return number ? Array.from({ length: 12 }, (_2, i) => i + 1) : [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+};
+const dates = (date = /* @__PURE__ */ new Date()) => {
+  const d = new Date(date);
+  const first = firstAndLastDate(d, true).first;
+  const last = firstAndLastDate(d, true).last;
+  return Array.from({ length: last - first + 1 }, (_2, i) => i + first);
+};
+const formatNumberToK = (input, separator = ",") => {
+  const num = typeof input === "string" ? parseFloat(input.replace(new RegExp(`\\${separator}`, "g"), "").trim()) : input;
+  if (isNaN(num))
+    return "0";
+  const absNum = Math.abs(num);
+  if (absNum >= 1e3) {
+    const thousands = num / 1e3;
+    return thousands.toLocaleString(void 0).replace(/,/g, separator) + "K";
+  }
+  return num.toLocaleString().replace(/,/g, separator);
+};
 const utils = {
   alpha,
   numeric,
@@ -287,7 +320,10 @@ const utils = {
   debounce,
   throttle,
   firstAndLastDate,
-  now
+  now,
+  months,
+  dates,
+  formatNumberToK
 };
 const _ = utils;
 export { _, utils };

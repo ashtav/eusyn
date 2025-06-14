@@ -57,8 +57,12 @@ input[type=time][icon=huge]::-webkit-calendar-picker-indicator {
     .btn-outline-success,
     .btn-outline-danger,
     .btn-outline-warning,
-    .btn-outline-info {
+    .btn-outline-info, .text-primary {
         color: #fff;
+    }
+
+    .text-primary {
+        color: #fff !important;
     }
 }
 

@@ -336,6 +336,35 @@ interface Utils {
      * If a format is provided, it will format the date accordingly.
      */
     now: (format?: string) => string
+
+    /**
+     * Returns the current date and time formatted as a string.
+     * If a format is provided, it will format the date accordingly.
+     * @example
+     * $e.utils.months().map((e) => `${e}`.substring(0, 3)) // ['Jan', 'Feb', ...]
+     * $e.utils.months(true) // [1, 2, 3, ...]
+     */
+    months: (number: boolean = false) => Array<string | number> 
+
+    /**
+     * Returns an array of dates for the given month and year.
+     * @param {string | Date} date - The date to process, either as a string or a Date object.
+     * @returns {Array<number>} An array of dates in the month.
+     * @example
+     * $e.utils.dates('2023-02-15'); // [1, 2, 3, ..., 28]
+     */
+    dates: (date?: string | Date) => Array<number>
+
+    /**
+     * Formats a number to a string with 'K' for thousands.
+     * @param {string | number} input - The input number or string to format.
+     * @param {string} [separator=','] - The separator for thousands. Defaults to ','.
+     * @returns {string} The formatted number as a string with 'K' for thousands.
+     * @example
+     * formatNumberToK(1500); // '1.5K'
+     * formatNumberToK(2500000); // '2.5M'
+     */
+    formatNumberToK: (input: string | number, separator: string = ',') => string
 }
 
 export default Utils

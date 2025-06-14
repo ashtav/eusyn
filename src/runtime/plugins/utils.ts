@@ -562,10 +562,72 @@ const firstAndLastDate = (date: string | Date, dateOnly: Boolean): { first: Numb
 // @param {string} format - The format string for the current date. Defaults to 'Y-m-d'.
 const now = (format: string = 'Y-m-d') => dateFormat(new Date(), format)
 
+/**
+ * Returns an array of month names or numbers.
+ *
+ * @param {boolean} [number=false] - If true, returns an array of month numbers (1-12). If false, returns an array of month names.
+ * @returns {string[] | number[]} An array of month names or numbers.
+ *
+ * @example
+ * months(); // ['January', 'February', ..., 'December']
+ * months(true); // [1, 2, ..., 12]
+ */
+const months = (number: boolean = false): Array<string | number> => {
+  return number ? Array.from({ length: 12 }, (_, i) => i + 1) : [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ]
+}
+
+/**
+ * Returns an array of dates for the current month, starting from the first to the last date.
+ *
+ * @param {string | Date} [date=new Date()] - The date to determine the month for. Defaults to the current date.
+ * @returns {number[]} An array of numbers representing the dates in the month.
+ *
+ * @example
+ * dates(); // [1, 2, ..., 31] for the current month
+ * dates('2023-10-15'); // [1, 2, ..., 31] for October 2023
+ */
+const dates = (date: string | Date = new Date()): Array<number> => {
+  const d = new Date(date);
+  const first = firstAndLastDate(d, true).first as number;
+  const last = firstAndLastDate(d, true).last as number;
+
+  return Array.from({ length: last - first + 1 }, (_, i) => i + first);
+}
+
+/**
+ * Formats a number or string to a string representation in thousands (K).
+ * If the input is less than 1000, it returns the number formatted with commas.
+ * If the input is 1000 or more, it divides by 1000 and appends 'K'.
+ *
+ * @param {string | number} input - The input value to format.
+ * @param {string} [separator=','] - The separator for thousands. Defaults to ','.
+ * @returns {string} The formatted string.
+ */
+const formatNumberToK = (input: string | number, separator: string = ','): string => {
+  const num = typeof input === "string"
+    ? parseFloat(input.replace(new RegExp(`\\${separator}`, "g"), "").trim())
+    : input;
+
+  if (isNaN(num)) return "0";
+
+  const absNum = Math.abs(num);
+
+  if (absNum >= 1e3) {
+    const thousands = num / 1e3;
+    return thousands.toLocaleString(undefined).replace(/,/g, separator) + "K";
+  }
+
+  return num.toLocaleString().replace(/,/g, separator);
+};
+
+
 const utils: Utils = {
   alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes,
   on, copy, downloadFile, dateFormat, manipulate, getInitials, shuffle, arrDelete, arrUpdate, chunk, deepClone,
-  debounce, throttle, firstAndLastDate, now
+  debounce, throttle, firstAndLastDate, now, months, dates, formatNumberToK
 }
 
 const _ = utils

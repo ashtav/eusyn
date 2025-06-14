@@ -36,7 +36,10 @@ export default defineComponent({
   setup(props) {
     const { gap, expanded, align, justify, reversed } = toRefs(props);
     const slots = useSlots();
-    const defaultSlot = slots.default ? slots.default() : [];
+    const slotComponents = computed(() => {
+      const defaultSlot = slots.default ? slots.default() : [];
+      return reversed.value ? defaultSlot.reverse() : defaultSlot;
+    });
     const justifyMap = {
       "start": "flex-start",
       "end": "flex-end",
@@ -49,15 +52,11 @@ export default defineComponent({
       display: "flex",
       justifyContent: justifyMap[justify.value] ?? "flex-start",
       alignItems: align.value,
-      gap: defaultSlot.length == 1 ? "0px" : `${gap.value}px`
+      gap: slotComponents.value.length == 1 ? "0px" : `${gap.value}px`
     }));
     const childStyle = computed(() => ({
       flex: expanded.value ? 1 : "initial"
     }));
-    const slotComponents = computed(() => {
-      const defaultSlot2 = slots.default ? slots.default() : [];
-      return reversed.value ? defaultSlot2.reverse() : defaultSlot2;
-    });
     return {
       rowStyle,
       childStyle,

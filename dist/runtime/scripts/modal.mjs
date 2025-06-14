@@ -1,13 +1,8 @@
 import { defineNuxtPlugin } from "#imports";
 import eventBus from "../plugins/mitt.mjs";
-const actives = [];
+let actives = [];
 const show = (id, params = {}) => {
-  if (actives.length > 1) {
-    return console.warn(`For now, only one modal can be active at a time. Please close the current modal before opening a new one.`);
-  }
-  if (!actives.includes(id)) {
-    actives.push(id);
-  }
+  actives = [id];
   eventBus.emit("__show_modal", { id, params });
 };
 const close = (id) => {

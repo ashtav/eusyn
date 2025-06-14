@@ -16,10 +16,12 @@
                             <Button label="Entries" icon="hgi-arrow-down-01" theme="btn" iconAlign="end" />
                         </Dropdown>
 
-                        <Dropdown :options="[{ label: 'Details', icon: 'hgi-information-circle' }, '-', 'Edit', 'Delete']"
-                            @select="onSelect">
+                        <Dropdown :options="[{ label: 'Details', icon: 'hgi-information-circle' }, 'Edit', 'Delete']"
+                            @select="onSelect" :separate="[0]">
                             <Button label="Dropdown Icons" icon="hgi-files-01" theme="btn" />
                         </Dropdown>
+
+                        <Dropdown :options="['Edit', 'Delete']" @select="onSelect" />
                     </Row>
                 </div>
 
@@ -31,6 +33,10 @@
                 <Code code='<Dropdown :options="[{label: "Details", icon: "hgi-information-circle"},"-", "Edit", "Delete"]" @select="onSelect">
     <Button label="Dropdown Icons" icon="hgi-files-01" theme="btn" />
 </Dropdown>' />
+
+<br> <br>
+                <h4>Simple</h4>
+                <Code code='<Dropdown :options="[]" @select="onSelect" />'/>
             </div>
         </div>
     </div>

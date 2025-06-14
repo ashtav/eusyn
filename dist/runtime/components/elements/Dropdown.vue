@@ -1,7 +1,9 @@
 <template>
   <div class="dropdown">
     <span class="d-inline-block" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
-      <slot />
+      <slot>
+        <Button :label="label" :icon="icon" :theme="theme" />
+      </slot>
     </span>
 
     <div :class="[`dropdown-menu`, size, { 'show': show }, `dropdown-menu-${placement}`]">
@@ -30,7 +32,7 @@ export default {
   emits: ["select"],
   props: {
     options: {
-      type: [Array, Array, Array],
+      type: [Array, Array, Array, Array],
       default: []
     },
     icons: {
@@ -48,6 +50,18 @@ export default {
     separate: {
       type: Array,
       default: () => []
+    },
+    label: {
+      type: String,
+      default: "Dropdown"
+    },
+    icon: {
+      type: String,
+      default: "hgi-arrow-down-01"
+    },
+    theme: {
+      type: String,
+      default: "btn-link"
     }
   },
   setup(props, { emit }) {
