@@ -1,8 +1,10 @@
 import { defineNuxtPlugin } from "#imports";
 import eventBus from "../plugins/mitt.mjs";
 let actives = [];
+let dataStored = {};
 const show = (id, params = {}) => {
   actives = [id];
+  dataStored = params?.data || {};
   eventBus.emit("__show_modal", { id, params });
 };
 const close = (id) => {
@@ -20,14 +22,16 @@ const close = (id) => {
 const setTitle = (title) => {
   eventBus.emit("__set_modal_title", { title });
 };
-const callback = (data) => {
-  eventBus.emit("__callback_modal", { data });
+const data = () => dataStored;
+const callback = (data2) => {
+  eventBus.emit("__callback_modal", { data: data2 });
 };
 const modal = {
   show,
   close,
   setTitle,
-  callback
+  callback,
+  data
 };
 export default defineNuxtPlugin(() => {
   return {

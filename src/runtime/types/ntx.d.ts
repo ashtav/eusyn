@@ -12,7 +12,7 @@ interface Ntx {
     theme: Theme,
     storage: LocalStorage,
     case: Case,
-    focus: (self: any, ref: string) => void
+    focus: (self: any, ref: string, delay?: number) => void
     overlay: (message?: string | Boolean, options?: { closeAfter?: Number }) => void
 }
 

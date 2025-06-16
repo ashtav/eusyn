@@ -78,12 +78,13 @@ export default defineComponent({
     const inputName = ref('checkbox-' + utils.randString(5))
     const single = ref(props.options.length == 0)
 
-    // methods
+    // methods 
     const onInput = (event: any, option: any) => {
       if (props.disabled || (typeof option === 'object' && (option?.disabled ?? false))) return
 
       const target = event.target
-      const value = textOption(option)
+      const value = textOption(option, true)
+
 
       if (Array.isArray(props.modelValue)) {
         const values = localValue.value as Array<any>

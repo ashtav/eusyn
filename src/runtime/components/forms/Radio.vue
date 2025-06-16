@@ -94,7 +94,10 @@ export default defineComponent({
 
       // get option by value
       const option = props.options.find((o) => {
-        return textOption(o, hasValue).toLowerCase() == `${value}`.toLowerCase()
+        const text = textOption(o, hasValue)
+        const isString = typeof text === 'string'
+
+        return (isString ? text.toLowerCase() : text) == `${value}`.toLowerCase()
       })
 
       localValue.value = textOption(option, hasValue)

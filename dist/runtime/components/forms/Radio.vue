@@ -63,7 +63,9 @@ export default defineComponent({
     watch(() => props.modelValue, (value) => {
       const hasValue = hasValueProperty(props.options);
       const option = props.options.find((o) => {
-        return textOption(o, hasValue).toLowerCase() == `${value}`.toLowerCase();
+        const text = textOption(o, hasValue);
+        const isString = typeof text === "string";
+        return (isString ? text.toLowerCase() : text) == `${value}`.toLowerCase();
       });
       localValue.value = textOption(option, hasValue);
       emit("update:modelValue", value);

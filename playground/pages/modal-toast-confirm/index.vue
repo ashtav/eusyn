@@ -73,6 +73,11 @@ this.$modal.callback({name: 'John Doe'})
             tempora totam unde.
           </p>
 
+          <p class="mb-5">
+            If you want to get data from the modal, you can use <code>$modal.data()</code> to get the data. <br> <br>
+            {{ $modal.data() }}
+          </p>
+
           <Input v-model="forms.title" label="Modal Title" hint="Type username" required formatters="ucwords"
             prefix="hgi-news" />
 

@@ -17,8 +17,10 @@ const ntx = {
   storage,
   // $n.storage.set()
   case: changeCase,
-  focus: (self, ref) => {
-    self.$refs[ref]?.doFocus();
+  focus: (self, ref, delay = 0) => {
+    setTimeout(() => {
+      self.$refs[ref]?.doFocus();
+    }, delay);
   },
   overlay: (message, options) => {
     if (message === false) {

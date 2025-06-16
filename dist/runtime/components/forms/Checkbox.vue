@@ -73,7 +73,7 @@ export default defineComponent({
       if (props.disabled || typeof option === "object" && (option?.disabled ?? false))
         return;
       const target = event.target;
-      const value = textOption(option);
+      const value = textOption(option, true);
       if (Array.isArray(props.modelValue)) {
         const values = localValue.value;
         localValue.value = target.checked ? [...values, value] : values.filter((e) => e !== value);

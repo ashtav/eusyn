@@ -3,6 +3,7 @@ interface Modal {
     close(id?: string): void;
     setTitle(title: string): void;
     callback(data: any): void;
+    data(): any;
 }
 
 export default Modal

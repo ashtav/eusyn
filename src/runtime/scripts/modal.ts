@@ -22,9 +22,11 @@ declare module 'vue' {
 // }
 
 let actives = <Array<string>>[]
+let dataStored = <any>{}
 
 const show = (id: string, params: any = {}) => {
     actives = [id]
+    dataStored = params?.data || {}
     eventBus.emit('__show_modal', { id, params })
 }
 
@@ -45,12 +47,14 @@ const setTitle = (title: string) => {
     eventBus.emit('__set_modal_title', { title: title })
 }
 
+const data = () => dataStored
+
 const callback = (data: any) => {
     eventBus.emit('__callback_modal', { data: data })
 }
 
 const modal: Modal = {
-    show, close, setTitle, callback
+    show, close, setTitle, callback, data
 }
 
 export default defineNuxtPlugin(() => {

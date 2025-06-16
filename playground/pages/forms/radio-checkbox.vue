@@ -12,7 +12,7 @@
 
                 <Radio v-model="forms.gender" label="Gender" :options="['Male', 'Female']" required />
                 <Radio v-model="forms.blood" label="Blood Type"
-                    :options="[{ label: 'A' }, { label: 'B' }, 'AB', { label: 'O', disabled: true }]" required />
+                    :options="[{ label: 'A', value: 1 }, { label: 'B' }, 'AB', { label: 'O', disabled: true }]" required />
 
                 <Code class="mb-5" code='<Radio v-model="forms.gender" label="Gender" :options="genders" required />' />
 
@@ -30,9 +30,11 @@
                 <Code class="mb-5" code='<Checkbox v-model="forms.checked" />' />
 
                 <div>
-                    <code>
+                    <code class="mb-5 d-block">
           {{ forms }}
         </code>
+
+                    <Checkbox v-model="forms.category" label="Checkbox With Value" :options="categories" required />
                 </div>
             </div>
         </div>
@@ -47,6 +49,13 @@ export default {
 
     data() {
         return {
+            categories: [
+                { label: 'Food', value: 1 },
+                { label: 'Drink', value: 2 },
+                { label: 'Fruit', value: 3 },
+                { label: 'Vegetable', value: 4, disabled: true }
+            ],
+
             fruits: ['Apple', 'Banana', 'Mango', 'Papaya', 'Orange', 'Avocado', 'Strawberry', 'Pineapple'],
 
             forms: {
@@ -54,6 +63,7 @@ export default {
                 blood: 'A',
                 checked: true,
                 favorites: ['Banana', 'Mango'],
+                category: [1,6]
             }
         }
     },
