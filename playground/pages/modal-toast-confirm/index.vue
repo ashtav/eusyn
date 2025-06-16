@@ -46,7 +46,7 @@ this.$modal.callback({name: 'John Doe'})
         <Row :gap="10" class="mb-5">
           <Button label="Form User" @click="onModal('form-user')" />
           <Button label="User Details" @click="onModal('user-details')" theme="btn-outline-primary" />
-          <Button label="Form Product" @click="onModal('form-product')" theme="btn-link" />
+          <Button label="Form Product" @click="$modal.show('form-product', 'New Product')" theme="btn-link" />
         </Row>
 
         <Code class="mt-2" code="<Modals>
@@ -88,7 +88,7 @@ this.$modal.callback({name: 'John Doe'})
           <Button theme="btn-primary" label="Save changes" submit />
         </div>
       </form>
-    </Modal> 
+    </Modal>
 
     <Modals>
       <ModalsUserForm />

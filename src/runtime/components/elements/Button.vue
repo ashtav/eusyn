@@ -76,7 +76,6 @@ export default defineComponent({
       isSubmit.value = value
     })
 
-
     const events: ButtonAction = {
       submit: () => isSubmit.value = true,
       abort: () => isSubmit.value = false
@@ -88,7 +87,7 @@ export default defineComponent({
 
     return {
       isSubmit,
-      utils, click_
+      utils, click_, events
     }
   }
 })

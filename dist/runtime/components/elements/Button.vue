@@ -73,7 +73,8 @@ export default defineComponent({
     return {
       isSubmit,
       utils,
-      click_
+      click_,
+      events
     };
   }
 });

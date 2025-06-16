@@ -48,7 +48,18 @@ const ntx = {
   }
 };
 const e = ntx;
-export default defineNuxtPlugin(() => {
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.config.globalProperties.$loading = function(value = true, key = "el") {
+    const self = this;
+    const el = self.$refs[key];
+    const type = el?.$el.classList;
+    if (type.contains("select")) {
+      el.setLoading(value);
+    } else if (type.contains("btn")) {
+      const events = el?.events || {};
+      value ? events.submit() : events.abort();
+    }
+  };
   return {
     provide: {
       e

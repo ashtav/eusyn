@@ -1,5 +1,5 @@
 <template>
-  <div :class="['select', utils.on(disabled || busy, 'disabled')]">
+  <div :class="['select', utils.on(disabled || isLoading, 'disabled')]">
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
     <div class="input-icon" :class="{ 'mb-3': !nospace }">
       <!-- prefix -->
@@ -9,13 +9,14 @@
 
       <!-- input -->
       <input ref="refSelect" :value="localValue" :class="['form-control', utils.on(isFocus, 'has-focus')]"
-        :placeholder="hint" :maxlength="255" :required="required" :disabled="disabled || busy" :autofocus="autofocus"
-        name="select" autocomplete="off" @input="onInput" @focus="onFocus" @blur="onBlur" @keypress="onKeyPress">
+        :placeholder="hint" :maxlength="255" :required="required" :disabled="disabled || isLoading"
+        :autofocus="autofocus" name="select" autocomplete="off" @input="onInput" @focus="onFocus" @blur="onBlur"
+        @keypress="onKeyPress">
 
       <!-- suffixs -->
       <div class="suffixs">
         <span @click="onSuffix">
-          <i v-if="busy" class="spinner-border spinner-border-sm" />
+          <i v-if="isLoading" class="spinner-border spinner-border-sm" />
           <Icon v-else :icon="selected ? iconX : suffix ?? iconChevron" />
         </span>
       </div>
@@ -99,6 +100,7 @@ export default defineComponent({
     const localValue = ref(props.modelValue);
     const localOptions = ref(props.options);
     const selected = ref(null);
+    const isLoading = ref(props.busy);
     const isFocus = ref(false);
     const refSelect = ref(null);
     const refOption = ref(null);
@@ -183,9 +185,15 @@ export default defineComponent({
     watch(() => props.options, (value) => {
       localOptions.value = value;
     });
+    watch(() => props.busy, (value) => {
+      isLoading.value = value;
+    });
     onMounted(() => {
       initOption(localValue.value);
     });
+    const setLoading = (value) => {
+      isLoading.value = value;
+    };
     return {
       utils,
       localValue,
@@ -194,6 +202,9 @@ export default defineComponent({
       isFocus,
       refSelect,
       refOption,
+      isLoading,
+      iconX,
+      iconChevron,
       onInput,
       onFocus,
       onBlur,
@@ -202,8 +213,7 @@ export default defineComponent({
       onSuffix,
       textOption,
       doFocus,
-      iconX,
-      iconChevron
+      setLoading
     };
   }
 });

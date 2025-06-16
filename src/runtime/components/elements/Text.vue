@@ -1,7 +1,7 @@
 <template>
     <div class="d-inline">
         <Icon v-if="icon" :icon="`${icon} fix me-2`" />
-        <span>{{ value }}</span>
+        <span :class="{ 'strong': strong }">{{ value }}</span>
     </div>
 </template>
 
@@ -17,6 +17,11 @@ export default {
             type: String,
             default: ''
         },
+
+        strong: {
+            type: Boolean,
+            default: false
+        }
     }
 }
 </script>

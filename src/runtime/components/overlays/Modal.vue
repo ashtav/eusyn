@@ -94,12 +94,14 @@ export default {
       if (props.id == args.id) {
         preShow.value = true
 
-        title.value = args?.params?.title ?? 'Untitled'
-        callback = args?.params?.callback ?? null
+        const isParamString = typeof args?.params == 'string'
+
+        title.value = isParamString ? args?.params : args?.params?.title ?? 'Untitled'
+        callback = isParamString ? null : args?.params?.callback ?? null
 
         setTimeout(() => {
           show.value = true
-          emit('init', { title: title.value, data: args?.params?.data })
+          emit('init', { title: title.value, data: isParamString ? {} : args?.params?.data })
         }, 1)
 
         // listen to keyboard: press Esc to close

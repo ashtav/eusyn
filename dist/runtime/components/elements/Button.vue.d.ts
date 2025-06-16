@@ -39,6 +39,7 @@ declare const _default: import("vue").DefineComponent<{
     isSubmit: import("vue").Ref<boolean>;
     utils: import("../../types/utils").default;
     click_: () => void;
+    events: ButtonAction;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     label: {
         type: StringConstructor;

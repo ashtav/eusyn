@@ -1,13 +1,14 @@
 
-import { defineNuxtPlugin } from '#imports'
+import { defineNuxtPlugin } from '#imports';
 
-import type Ntx from '../types/ntx'
-import changeCase from './case'
-import { faker } from './faker'
-import { image } from './image'
-import storage from './storage'
-import theme from './theme'
-import { utils } from './utils'
+import type { ComponentPublicInstance } from 'vue';
+import type Ntx from '../types/ntx';
+import changeCase from './case';
+import { faker } from './faker';
+import { image } from './image';
+import storage from './storage';
+import theme from './theme';
+import { utils } from './utils';
 
 const ntx: Ntx = {
     utils: utils, // $n.utils.ucwords('hello')
@@ -58,7 +59,25 @@ const ntx: Ntx = {
 
 const e: Ntx = ntx
 
-export default defineNuxtPlugin(() => {
+export default defineNuxtPlugin((nuxtApp: any) => {
+    nuxtApp.vueApp.config.globalProperties.$loading = function (value: boolean = true, key: string = 'el') {
+        const self = this as ComponentPublicInstance;
+        const el = self.$refs[key] as any;
+
+        const type = el?.$el.classList;
+
+        // for select components
+        if (type.contains('select')) {
+            (el as any).setLoading(value);
+        }
+
+        // for button components
+        else if (type.contains('btn')) {
+            const events = el?.events || {};
+            value ? events.submit() : events.abort();
+        }
+    }
+
     return {
         provide: {
             e
@@ -75,5 +94,16 @@ declare module '#app' {
 declare module 'vue' {
     interface ComponentCustomProperties {
         $e: Ntx;
+
+        /**
+         * Sets the loading state of the component.
+         * This method can be used with various components like buttons or select elements.
+         * 
+         * Add ref="el" to the component to use this method.
+         * @example
+         * this.$loading(true) // to set loading state
+         * this.$loading(false) // to remove loading state
+         */
+        $loading: (value?: boolean, key?: string) => void;
     }
 }

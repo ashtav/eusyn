@@ -27,6 +27,7 @@
 
                 <Button label="Get Data" @click="onSubmit" />
                 <Button label="Auto Fill" theme="white ms-2" @click="onFill" />
+                <Button label="Set Loading" theme="white ms-2" @click="setLoading" ref="el" />
                 <br> <br>
                 <code>
         {{ forms }}
@@ -118,6 +119,14 @@ export default {
 
         onFill() {
             this.forms.option = '9ce7d80f-cc45-4c87-9fcb-9ba2d3846bac'
+        },
+
+        setLoading() {
+            this.$loading()
+
+            setTimeout(() => {
+                this.$loading(false)
+            }, 1000);
         }
     }
 }

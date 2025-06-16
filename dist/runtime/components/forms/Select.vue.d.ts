@@ -63,6 +63,9 @@ declare const _default: import("vue").DefineComponent<{
     isFocus: import("vue").Ref<boolean>;
     refSelect: import("vue").Ref<null>;
     refOption: import("vue").Ref<null>;
+    isLoading: import("vue").Ref<boolean>;
+    iconX: string;
+    iconChevron: string;
     onInput: (event: any) => void;
     onFocus: (event: any) => void;
     onBlur: () => void;
@@ -71,8 +74,7 @@ declare const _default: import("vue").DefineComponent<{
     onSuffix: () => void;
     textOption: (option: any, prioritizeValue?: boolean) => any;
     doFocus: () => void;
-    iconX: string;
-    iconChevron: string;
+    setLoading: (value: boolean) => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("change" | "update:modelValue" | "enter")[], "change" | "update:modelValue" | "enter", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
