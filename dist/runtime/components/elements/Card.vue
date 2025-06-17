@@ -5,7 +5,7 @@
         <!-- card navigation for tabs -->
         <ul class="nav nav-tabs" :class="{ 'nav-tabs-bottom': tabPos == 'bottom' }" v-if="tabs.length != 0">
             <li class="nav-item" v-for="(tab, i) in tabs"><span @click="onTab(i)"
-                    :class="['nav-link', { 'active': tabActive == i }]">
+                    :class="['nav-link', { 'active': currentTab == i }]">
                     <Icon v-if="tab.icon" :icon="tab.icon" class="me-2" size="xs" /> {{ tab.label }}
                 </span></li>
         </ul>
@@ -13,7 +13,7 @@
         <!-- tab content -->
         <div class="tab-content" v-if="tabs.length != 0">
             <div id="tab-top-1" class="card tab-pane active show">
-                <slot :tab="tabActive" />
+                <slot :tab="currentTab" />
             </div>
         </div>
 
@@ -51,6 +51,7 @@
 <script>
 import { ref } from "vue";
 export default {
+  emits: ["onTab", "update:tabActive"],
   props: {
     title: {
       type: String
@@ -88,12 +89,20 @@ export default {
     tabPos: {
       type: String,
       default: "top"
+    },
+    tabActive: {
+      type: Number,
+      default: 0
     }
   },
-  setup() {
-    const tabActive = ref(0);
-    const onTab = (i) => tabActive.value = i;
-    return { tabActive, onTab };
+  setup(props, { emit }) {
+    const currentTab = ref(props.tabActive);
+    const onTab = (i) => {
+      currentTab.value = i;
+      emit("onTab", i);
+      emit("update:tabActive", i);
+    };
+    return { currentTab, onTab };
   }
 };
 </script>

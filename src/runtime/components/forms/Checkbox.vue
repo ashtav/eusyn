@@ -1,8 +1,15 @@
 <template>
-  <div :class="{ 'mb-3': !nospace, 'd-inline-block': single }">
+  <div :class="[{ 'mb-3': !nospace, 'd-inline-block': single }, 'checkbox']">
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
 
-    <div :class="{ 'd-inline-block': single }">
+    <div v-if="isLoading">
+      <label v-for="(_, i) in utils.randInt(2, 5)" :key="i" class="form-check form-check-inline mb-1">
+        <input class="form-check-input" type="checkbox" disabled>
+        <span class="form-check-label" style="margin-top: 3px;"> <Shimmer :size="[[30, 120]]" /> </span>
+      </label>
+    </div>
+
+    <div :class="{ 'd-inline-block': single }" v-else>
       <label v-if="options.length == 0" class="form-check form-check-inline m-0">
         <input
           v-model="localValue"
@@ -77,6 +84,7 @@ export default defineComponent({
     const localOptions = ref(props.options)
     const inputName = ref('checkbox-' + utils.randString(5))
     const single = ref(props.options.length == 0)
+    const isLoading = ref(false)
 
     // methods 
     const onInput = (event: any, option: any) => {
@@ -97,6 +105,10 @@ export default defineComponent({
       }
     }
 
+    const setLoading = (loading: boolean) => {
+      isLoading.value = loading
+    }
+
     watch(() => localValue.value, (value) => {
       if (typeof value === 'boolean') {
         emit('update:modelValue', value)
@@ -112,7 +124,7 @@ export default defineComponent({
     })
 
     return {
-      utils, localValue, localOptions, inputName, single, onInput, textOption
+      utils, localValue, localOptions, inputName, single, isLoading, setLoading, onInput, textOption
     }
   }
 })

@@ -76,10 +76,14 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    tabActive: {
+        type: NumberConstructor;
+        default: number;
+    };
 }, {
-    tabActive: Ref<number>;
-    onTab: (i: number) => number;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+    currentTab: Ref<number>;
+    onTab: (i: number) => void;
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("onTab" | "update:tabActive")[], "onTab" | "update:tabActive", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     title: {
         type: StringConstructor;
     };
@@ -143,7 +147,14 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-}>>, {
+    tabActive: {
+        type: NumberConstructor;
+        default: number;
+    };
+}>> & {
+    onOnTab?: ((...args: any[]) => any) | undefined;
+    "onUpdate:tabActive"?: ((...args: any[]) => any) | undefined;
+}, {
     stacked: boolean;
     elevation: boolean;
     dense: boolean;
@@ -151,5 +162,6 @@ declare const _default: import("vue").DefineComponent<{
     actions: TabAction[];
     tabs: TabData[];
     tabPos: string;
+    tabActive: number;
 }, {}>;
 export default _default;

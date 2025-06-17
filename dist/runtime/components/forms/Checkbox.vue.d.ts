@@ -55,6 +55,8 @@ declare const _default: import("vue").DefineComponent<{
     localOptions: import("vue").Ref<any[]>;
     inputName: import("vue").Ref<string>;
     single: import("vue").Ref<boolean>;
+    isLoading: import("vue").Ref<boolean>;
+    setLoading: (loading: boolean) => void;
     onInput: (event: any, option: any) => void;
     textOption: (option: any, prioritizeValue?: boolean) => any;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("change" | "update:modelValue")[], "change" | "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{

@@ -118,7 +118,7 @@ export default {
 }
 
 [data-bs-theme=dark] .shimmer {
-  background: linear-gradient(to right, #182433 8%, #263546 28%, #182433 33%);
+  background: linear-gradient(to right, #1d2b3a 8%, #2d3e52 28%, #1d2b3a 33%);
   background-size: 200% 100%;
   animation: shimmer 1.5s linear infinite;
 }

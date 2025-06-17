@@ -10,9 +10,12 @@
                     their functionalities, advantages, and practical usage scenarios.
                 </p>
 
-                <Radio v-model="forms.gender" label="Gender" :options="['Male', 'Female']" required />
+                <Radio v-model="forms.gender" label="Gender" :options="['Male', 'Female']" required nospace ref="el" />
+                <a href="javascript:void(0)" class="d-inline-block mb-5" @click="setLoading">Loading example</a>
+
                 <Radio v-model="forms.blood" label="Blood Type"
-                    :options="[{ label: 'A', value: 1 }, { label: 'B' }, 'AB', { label: 'O', disabled: true }]" required />
+                    :options="[{ label: 'A', value: 1 }, { label: 'B' }, 'AB', { label: 'O', disabled: true }]"
+                    required />
 
                 <Code class="mb-5" code='<Radio v-model="forms.gender" label="Gender" :options="genders" required />' />
 
@@ -63,8 +66,18 @@ export default {
                 blood: 'A',
                 checked: true,
                 favorites: ['Banana', 'Mango'],
-                category: [1,6]
+                category: [1, 6]
             }
+        }
+    },
+
+    methods: {
+        setLoading() {
+            this.$loading(true)
+
+            setTimeout(() => {
+                this.$loading(false)
+            }, 3000)
         }
     },
 

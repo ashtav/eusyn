@@ -1,19 +1,19 @@
 <template>
-  <div :class="{ 'mb-3': !nospace }">
+  <div :class="[{ 'mb-3': !nospace }, 'radio']">
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
 
-    <div>
+    <div v-if="isLoading">
+      <label v-for="(_, i) in utils.randInt(2, 5)" :key="i" class="form-check form-check-inline mb-1">
+        <input class="form-check-input" type="radio" disabled>
+        <span class="form-check-label" style="margin-top: 3px;"> <Shimmer :size="[[30, 120]]" /> </span>
+      </label>
+    </div>
+
+    <div v-else>
       <label v-for="(option, i) in options" :key="i" class="form-check form-check-inline">
-        <input
-          v-model="localValue"
-          class="form-check-input"
-          type="radio"
-          :name="inputName"
-          :value="textOption(option, true)"
-          :disabled="disabled || (option?.disabled ?? false)"
-          :required="required"
-          @input="onInput(option)"
-        >
+        <input v-model="localValue" class="form-check-input" type="radio" :name="inputName"
+          :value="textOption(option, true)" :disabled="disabled || (option?.disabled ?? false)" :required="required"
+          @input="onInput(option)">
         <span class="form-check-label"> {{ textOption(option) }} </span>
       </label>
     </div>
@@ -55,6 +55,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const localValue = ref(props.modelValue);
     const inputName = ref("radio-" + utils.randString(5));
+    const isLoading = ref(false);
     const onInput = (option) => {
       localValue.value = textOption(option, hasValueProperty(props.options));
       emit("update:modelValue", localValue.value);
@@ -70,6 +71,9 @@ export default defineComponent({
       localValue.value = textOption(option, hasValue);
       emit("update:modelValue", value);
     });
+    const setLoading = (loading) => {
+      isLoading.value = loading;
+    };
     onMounted(() => {
       validateOptions(props.options);
     });
@@ -77,6 +81,8 @@ export default defineComponent({
       utils,
       localValue,
       inputName,
+      isLoading,
+      setLoading,
       onInput,
       textOption
     };

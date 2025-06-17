@@ -58,6 +58,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     } else if (type.contains("btn")) {
       const events = el?.events || {};
       value ? events.submit() : events.abort();
+    } else if (type.contains("radio")) {
+      el.setLoading(value);
+    } else if (type.contains("checkbox")) {
+      el.setLoading(value);
     }
   };
   return {

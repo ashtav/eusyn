@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="col-lg-8">
-                    <Card title="Tabbed Card" :tabs="tabs" tab-pos="top" v-slot="{ tab }">
+                    <Card title="Tabbed Card" :tabs="tabs" tab-pos="top" v-slot="{ tab }" v-model:tab-active="tab" @onTab="onTab">
                         <div class="card-body">
                             <div class="card-title">Content of tab #{{ tab }}</div>
                             <p class="text-secondary">
@@ -69,7 +69,9 @@
                         </div>
                     </Card>
 
-                    <Code class="mt-3 mb-5" code='<Card title="Tabbed Card" :tabs="[]" v-slot="{ tab }">
+                    <div class="mt-3 mb-5">Tab Active: {{ tab }}</div>
+
+                    <Code class="mt-3 mb-5" code='<Card title="Tabbed Card" :tabs="[]" v-slot="{ tab }" v-model:tab-active="tab" @onTab="">
     <p v-if="tab == 0">Your content is here...</p>
 </Card>' />
 
@@ -104,6 +106,8 @@ export default {
                 { label: 'Works', icon: 'briefcase' },
             ],
 
+            tab: 1,
+
             c: "<Card title=\"Dense Card\" dense :ribbon=\"{ content: 'icon:user' }\"> </Card>"
         }
     },
@@ -111,6 +115,10 @@ export default {
     methods: {
         onActions(data: any) {
             console.log(data)
+        },
+
+        onTab(tab: number) {
+            console.log('Tab changed to:', tab)
         }
     },
 }

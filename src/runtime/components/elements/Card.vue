@@ -5,7 +5,7 @@
         <!-- card navigation for tabs -->
         <ul class="nav nav-tabs" :class="{ 'nav-tabs-bottom': tabPos == 'bottom' }" v-if="tabs.length != 0">
             <li class="nav-item" v-for="(tab, i) in tabs"><span @click="onTab(i)"
-                    :class="['nav-link', { 'active': tabActive == i }]">
+                    :class="['nav-link', { 'active': currentTab == i }]">
                     <Icon v-if="tab.icon" :icon="tab.icon" class="me-2" size="xs" /> {{ tab.label }}
                 </span></li>
         </ul>
@@ -13,7 +13,7 @@
         <!-- tab content -->
         <div class="tab-content" v-if="tabs.length != 0">
             <div id="tab-top-1" class="card tab-pane active show">
-                <slot :tab="tabActive" />
+                <slot :tab="currentTab" />
             </div>
         </div>
 
@@ -68,6 +68,8 @@ interface RibbonCard {
 }
 
 export default {
+    emits: ['onTab', 'update:tabActive'],
+
     props: {
         title: {
             type: String,
@@ -114,15 +116,25 @@ export default {
         tabPos: {
             type: String,
             default: 'top'
+        },
+
+        tabActive: {
+            type: Number,
+            default: 0
         }
     },
 
-    setup() {
-        const tabActive: Ref<number> = ref(0)
+    setup(props, { emit }) {
+        const currentTab: Ref<number> = ref(props.tabActive)
 
-        const onTab = (i: number) => tabActive.value = i
+        const onTab = (i: number) => {
+            currentTab.value = i
+            
+            emit('onTab', i)
+            emit('update:tabActive', i)
+        }
 
-        return { tabActive, onTab }
+        return { currentTab, onTab }
     }
 }
 </script>

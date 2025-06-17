@@ -166,7 +166,7 @@ export default {
 
 [data-bs-theme=dark] {
   .shimmer {
-    @include shimmer(#182433, #263546);
+    @include shimmer(#1d2b3a, #2d3e52);
   }
 }
 </style>
