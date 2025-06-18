@@ -12,7 +12,7 @@
       <a
         href="https://hugeicons.com/icons?style=Stroke&type=Rounded">https://hugeicons.com/icons?style=Stroke&type=Rounded</a>
       <p class="text-muted mt-5">
-        <Icon icon="minus" /> Version. 0.0.1 25.06.06.1-alpha
+        <Icon icon="minus" /> Version. 0.0.1 25.06.18.1-alpha
       </p> <br> <br>
     </div>
   </div>

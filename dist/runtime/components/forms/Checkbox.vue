@@ -29,7 +29,7 @@
           :name="inputName"
           :value="textOption(option, true)"
           :disabled="disabled || (option?.disabled ?? false)"
-          :required="required"
+          :required="Array.isArray(localValue) && localValue.length == 0 && required"
           @input="onInput($event, option)"
         >
         <span class="form-check-label"> {{ textOption(option) }} </span>

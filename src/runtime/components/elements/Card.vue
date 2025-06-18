@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { ref, type PropType, type Ref } from 'vue';
+import { ref, watch, type PropType, type Ref } from 'vue';
 
 interface TabData {
     label?: string,
@@ -129,10 +129,15 @@ export default {
 
         const onTab = (i: number) => {
             currentTab.value = i
-            
+
             emit('onTab', i)
             emit('update:tabActive', i)
         }
+
+        // Watch for changes in tabActive prop
+        watch(() => props.tabActive, (newVal) => {
+            currentTab.value = newVal
+        })
 
         return { currentTab, onTab }
     }

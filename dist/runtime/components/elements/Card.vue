@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 export default {
   emits: ["onTab", "update:tabActive"],
   props: {
@@ -102,6 +102,9 @@ export default {
       emit("onTab", i);
       emit("update:tabActive", i);
     };
+    watch(() => props.tabActive, (newVal) => {
+      currentTab.value = newVal;
+    });
     return { currentTab, onTab };
   }
 };

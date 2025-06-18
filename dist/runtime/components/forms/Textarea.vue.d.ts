@@ -146,7 +146,6 @@ declare const _default: import("vue").DefineComponent<{
     label: string;
     disabled: boolean;
     password: boolean;
-    maxHeight: number;
     required: boolean;
     modelValue: string;
     nospace: boolean;
@@ -156,5 +155,6 @@ declare const _default: import("vue").DefineComponent<{
     maxLength: number;
     suffixs: any[];
     formatters: string;
+    maxHeight: number;
 }, {}>;
 export default _default;
