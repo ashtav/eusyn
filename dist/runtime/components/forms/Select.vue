@@ -47,7 +47,8 @@ export default defineComponent({
   emits: ["update:modelValue", "enter", "change"],
   props: {
     modelValue: {
-      default: ""
+      default: "",
+      type: [Number, String]
     },
     label: {
       type: String,
@@ -104,10 +105,11 @@ export default defineComponent({
     const isFocus = ref(false);
     const refSelect = ref(null);
     const refOption = ref(null);
+    const originValue = ref(props.modelValue);
     const onInput = (event) => {
       localValue.value = event.target.value;
       localOptions.value = props.options.filter((o) => {
-        return textOption(o).toLowerCase().includes(localValue.value.toLowerCase());
+        return textOption(o).toLowerCase().includes(localValue.value.toString().toLowerCase());
       });
       if (!isFocus.value) {
         isFocus.value = true;
@@ -184,6 +186,7 @@ export default defineComponent({
     });
     watch(() => props.options, (value) => {
       localOptions.value = value;
+      setTimeout(() => initOption(originValue.value), 0);
     });
     watch(() => props.busy, (value) => {
       isLoading.value = value;

@@ -6,7 +6,15 @@
         <div class="page-pretitle" v-text="pretitle" />
         <h2 class="page-title d-inline" :class="utils.on($attrs?.onClick != null, 'hoverable')" @click="emit('click')"
           v-text="title" />
+
+
+        <ol class="breadcrumb mt-2" v-if="breadcrumb.length > 0">
+          <li class="breadcrumb-item" v-for="(e, i) in breadcrumb" :class="{ 'active': e.active }">
+            <NuxtLink :to="e.path"> <Icon :icon="`${e.icon} fix me-2`" v-if="e.icon" /> {{ e.label }}</NuxtLink>
+          </li>
+        </ol>
       </div>
+
       <!-- Page title actions -->
       <div class="col-auto ms-auto d-print-none">
         <div class="btn-list">
@@ -32,8 +40,8 @@
 
               <span v-if="`${action.label}`.trim() != ''"
                 :class="[utils.on(action.label != null, 'ms-2'), 'd-none d-md-block']">{{
-          action.label
-        }}</span>
+                  action.label
+                }}</span>
             </button>
           </template>
         </div>
@@ -61,6 +69,10 @@ export default {
     actions: {
       type: Array,
       default: () => []
+    },
+    breadcrumb: {
+      type: Array,
+      default: () => []
     }
   }
 };
@@ -73,5 +85,9 @@ export default {
 .page-header .hoverable:hover {
   opacity: 0.7;
   cursor: pointer;
+}
+
+[data-bs-theme=dark] .breadcrumb a {
+  color: #ddd;
 }
 </style>

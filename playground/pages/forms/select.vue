@@ -18,7 +18,7 @@
 
 
                 <Select label="Province" hint="Select your province" suffix="ti-map-2" required :options="provinces"
-                    v-model="forms.province" />
+                    v-model="forms.province" :busy="isLoadingProvince" />
                 <Code class="mb-5" description="Using value as input."
                     code='<Select label="Province" hint="Select your province" suffix="ti-map-2" required :options="provinces" v-model="forms.province" />' />
 
@@ -48,10 +48,11 @@ export default {
     data() {
         return {
             isLoading: true,
+            isLoadingProvince: true,
 
             forms: {
                 hobby: '',
-                province: '',
+                province: 3,
                 city: '',
                 option: '9ce7d80f-c7e6-44d3-8954-a3fb43473447'
             },
@@ -74,15 +75,7 @@ export default {
                 'Gaming'
             ],
 
-            provinces: [
-                { label: 'Bali', value: 1 },
-                { label: 'Jakarta', value: 2 },
-                { label: 'West Java', value: 3 },
-                { label: 'Central Java', value: 4 },
-                { label: 'Yogyakarta', value: 5 },
-                { label: 'East Java', value: 6 },
-                { label: 'Banten', value: 7 }
-            ],
+            provinces: <any>[],
 
             options: []
         }
@@ -90,11 +83,31 @@ export default {
 
     mounted() {
         this.isLoading = true
+        this.isLoadingProvince = true
 
         setTimeout(() => {
             this.isLoading = false
             this.forms.hobby = 'Traveling'
-        }, 3000)
+
+            // province data
+            this.provinces = [
+                { label: 'Bali', value: 1 },
+                { label: 'Jakarta', value: 2 },
+                { label: 'West Java', value: 3 },
+                { label: 'Central Java', value: 4 },
+                { label: 'Yogyakarta', value: 5 },
+                { label: 'East Java', value: 6 },
+                { label: 'Banten', value: 7 }
+            ]
+
+            this.isLoadingProvince = false
+
+            // setTimeout(() => {
+            //     this.forms.province = 3
+            // }, 100);
+        }, 1000)
+
+
     },
 
     methods: {

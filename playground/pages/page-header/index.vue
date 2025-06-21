@@ -1,10 +1,13 @@
 <template>
     <div>
-        <PageHeader title="Page Header" :actions="actions" @click="onRefresh" />
+        <PageHeader title="Page Header" :breadcrumb="[
+            { label: 'Back to Users', path: '/'},
+        ]"
+         :actions="actions" @click="onRefresh" />
 
         <div class="row">
             <div class="col-7">
-                <Code code='<PageHeader title="Page Header" :actions="actions" />' />
+                <Code code='<PageHeader title="Page Header" :breadcrumb="[{label, path}]" :actions="[{label, icon, click}]" />' />
             </div>
         </div>
 
@@ -20,8 +23,8 @@ export default {
     data() {
         return {
             actions: [
-                { icon: 'settings', theme: 'white', submit: false },
-                { label: 'Create New', icon: 'plus', click: this.createNew },
+                { icon: 'hgi-settings-01', theme: 'white', submit: false },
+                { label: 'Create New', icon: 'hgi-add-01', click: this.createNew },
             ]
         }
     },
@@ -34,6 +37,10 @@ export default {
         createNew() {
             this.$toast.show('Create new data!')
             this.actions[0].submit = true
+
+            setTimeout(() => {
+                this.actions[0].submit = false
+            }, 3000);
         }
     }
 }
