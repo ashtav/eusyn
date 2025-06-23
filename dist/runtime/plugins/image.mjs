@@ -181,10 +181,37 @@ const rotate = (base64, angle) => {
     }, (err) => reject(err));
   });
 };
+const base64toFile = (base64, filename) => {
+  return new Promise((resolve, reject) => {
+    const arr = base64.split(",");
+    const mime = arr[0].match(/:(.*?);/)?.[1] || "image/jpeg";
+    const bstr = atob(arr[1]);
+    const n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    for (let i = 0; i < n; i++) {
+      u8arr[i] = bstr.charCodeAt(i);
+    }
+    resolve(new File([u8arr], filename, { type: mime }));
+  });
+};
+const fileToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.onerror = (err) => {
+      reject(err);
+    };
+    reader.readAsDataURL(file);
+  });
+};
 const image = {
   quality,
   resize,
   flip,
-  rotate
+  rotate,
+  base64toFile,
+  fileToBase64
 };
 export { image };

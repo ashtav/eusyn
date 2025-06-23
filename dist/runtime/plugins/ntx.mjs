@@ -30,7 +30,7 @@ const ntx = {
       }
       return;
     }
-    const component = (message2) => `<div class="text-center">
+    const component = (message2) => `<div class="text-center text-white">
     <div class="spinner-border" class="xl"></div> <div class="mt-2"> ${message2} </div>
   </div>`;
     const overlay = document.createElement("div");

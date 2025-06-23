@@ -6,9 +6,9 @@
             <div class="col-lg-6">
                 <Row gap="5">
                     <Button label="Text Only" @click="onSubmit" />
-                    <Button label="Text Icon" icon="send" theme="btn-dark" @click="onSubmit" />
-                    <Button icon="send" theme="white" @click="onSubmit" />
-                    <Button icon="link" theme="white" to="https://google.com" />
+                    <Button label="Text Icon" icon="hgi-sent" theme="btn-dark" @click="onSubmit" />
+                    <Button icon="hgi-sent" theme="white" @click="onSubmit" />
+                    <Button icon="hgi-link-square-01" theme="white" to="https://google.com" />
                 </Row>
 
                 <Code class="mt-3" code='onSubmit(action: ButtonAction) {
@@ -49,6 +49,13 @@ export default {
     methods: {
         onSubmit(action: ButtonAction) {
             action.submit()
+
+            this.$e.overlay('Loading...')
+
+            setTimeout(() => {
+                action.abort()
+                this.$e.overlay(false)
+            }, 1000);
         },
 
         onFormSubmit() {

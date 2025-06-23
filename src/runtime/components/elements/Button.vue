@@ -92,3 +92,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss">
+.btn {
+  height: 36px;
+}
+</style>

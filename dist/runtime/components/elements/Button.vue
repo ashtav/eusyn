@@ -79,3 +79,9 @@ export default defineComponent({
   }
 });
 </script>
+
+<style>
+.btn {
+  height: 36px;
+}
+</style>

@@ -1,6 +1,21 @@
 import type Image from '../types/image';
 import { utils } from './utils';
 
+/**
+ * Represents an image utility class for handling base64 images, drawing on canvas, and exporting with quality control.
+ *
+ * @example
+ * ```typescript
+ * const img = new Img(base64String);
+ * img.load(() => {
+ *   const result = img.draw(img.image, 0, 0, 100, 100, 0.8);
+ *   console.log(result.data); // base64 JPEG data URL
+ *   console.log(result.size); // formatted size string
+ * }, (err) => {
+ *   console.error('Image failed to load', err);
+ * });
+ * ```
+ */
 class Img {
     base64: string
     canvas: HTMLCanvasElement
@@ -47,6 +62,16 @@ class Img {
     }
 }
 
+/**
+ * Quality compresses a base64-encoded image to a specified quality level.
+ * @param base64 - The base64-encoded string representing the image to compress.
+ * @param quality - The quality level for compression (0 to 1).
+ *  @returns A promise that resolves to an object containing:
+ *   - `data`: The compressed image as a base64-encoded string.
+ *    - `size`: The size of the compressed image as a string.
+ *   - `quality`: The quality level used for compression.
+ *    - `dimensions`: An object with the `width` and `height` of the compressed image.
+ */
 const quality = (base64: string, quality: number): Promise<{ data: string, size: string, quality: number, dimensions: { width: number, height: number } }> => {
     return new Promise((resolve, reject) => {
         const img = new Img(base64)
@@ -91,6 +116,17 @@ const quality = (base64: string, quality: number): Promise<{ data: string, size:
     })
 }
 
+/**
+ * Resizes a base64-encoded image to the specified dimensions while maintaining aspect ratio.
+ *
+ * @param base64 - The base64-encoded string representing the image to resize.
+ * @param sizes - An array specifying the desired width and optionally height. 
+ *                If only width is provided, height is calculated to maintain aspect ratio.
+ * @returns A promise that resolves to an object containing:
+ *   - `data`: The resized image as a base64-encoded string.
+ *   - `size`: The size of the resized image as a string.
+ *   - `dimensions`: An object with the `width` and `height` of the resized image.
+ */
 const resize = (base64: string, sizes: Array<number>): Promise<{ data: string, size: string, dimensions: { width: number, height: number } }> => {
     return new Promise((resolve, reject) => {
         const img = new Img(base64)
@@ -142,7 +178,30 @@ const resize = (base64: string, sizes: Array<number>): Promise<{ data: string, s
     })
 }
 
-// direction is horizontal or vertical
+/**
+ * Flips a base64-encoded image horizontally or vertically.
+ *
+ * @param base64 - The base64 string representing the image to flip.
+ * @param direction - The direction to flip the image. Accepts 'horizontal' or 'vertical'.
+ * @returns A Promise that resolves with an object containing:
+ *   - `data`: The base64 string of the flipped image.
+ *   - `size`: The size of the resulting image as a string.
+ *   - `dimensions`: An object with the `width` and `height` of the image.
+ *
+ * @throws {Error} If the direction is invalid or the canvas context is null.
+ *
+ * @example
+ * ```typescript
+ * const base64Image = 'data:image/png;base64,...';
+ * flip(base64Image, 'horizontal').then(result => {
+ *   console.log(result.data); // Flipped image as base64
+ *   console.log(result.size); // Size of the image
+ *   console.log(result.dimensions); // { width: ..., height: ... }
+ * }).catch(error => {
+ *   console.error(error);
+ * });
+ * ```
+ */
 const flip = (base64: string, direction: string): Promise<{ data: string, size: string, dimensions: { width: number, height: number } }> => {
     return new Promise((resolve, reject) => {
         const img = new Img(base64)
@@ -181,7 +240,25 @@ const flip = (base64: string, direction: string): Promise<{ data: string, size: 
     })
 }
 
-// angle can be string (right or left) or number (degree)
+/**
+ * Rotates a base64-encoded image by a specified angle ("left" or "right").
+ *
+ * @param base64 - The base64-encoded string of the image to rotate.
+ * @param angle - The direction to rotate the image. Accepts "left" (−90°) or "right" (+90°).
+ * @returns A promise that resolves to an object containing:
+ *   - `data`: The rotated image as a base64-encoded JPEG string.
+ *   - `size`: The size of the rotated image as a string.
+ *   - `dimensions`: The width and height of the rotated image.
+ *
+ * @example
+ * ```typescript
+ * rotate(myBase64Image, "right").then(result => {
+ *   console.log(result.data); // Rotated image as base64 string
+ *   console.log(result.size); // Size of the rotated image
+ *   console.log(result.dimensions); // { width, height }
+ * });
+ * ```
+ */
 const rotate = (base64: string, angle: string): Promise<{ data: string, size: string, dimensions: { width: number, height: number } }> => {
     return new Promise((resolve, reject) => {
         const img = new Img(base64)
@@ -239,8 +316,72 @@ const rotate = (base64: string, angle: string): Promise<{ data: string, size: st
     })
 }
 
+/**
+ * Converts a base64-encoded image string to a `File` object.
+ *
+ * @param base64 - The base64-encoded image string, including the data URI prefix (e.g., "data:image/png;base64,...").
+ * @param filename - The desired filename for the resulting `File` object.
+ * @returns A Promise that resolves to a `File` object representing the decoded image.
+ *
+ * @example
+ * ```typescript
+ * const base64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...";
+ * base64toFile(base64, "image.png").then((file) => {
+ *   // Use the File object, e.g., upload to a server
+ *   console.log(file.name); // "image.png"
+ * });
+ * ```
+ */
+const base64toFile = (base64: string, filename: string): Promise<File> => {
+    return new Promise((resolve, reject) => {
+        const arr = base64.split(',')
+        const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/jpeg'
+        const bstr = atob(arr[1])
+        const n = bstr.length
+        const u8arr = new Uint8Array(n)
+
+        for (let i = 0; i < n; i++) {
+            u8arr[i] = bstr.charCodeAt(i)
+        }
+
+        resolve(new File([u8arr], filename, { type: mime }))
+    })
+}
+
+/**
+ * Converts a `File` object to a Base64-encoded data URL string.
+ *
+ * @param file - The file to be converted.
+ * @returns A promise that resolves to a Base64-encoded string representing the file's data.
+ *
+ * @example
+ * ```typescript
+ * const input = document.querySelector('input[type="file"]');
+ * input.addEventListener('change', async (event) => {
+ *   const file = (event.target as HTMLInputElement).files?.[0];
+ *   if (file) {
+ *     const base64 = await fileToBase64(file);
+ *     console.log(base64); // "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
+ *   }
+ * });
+ * ```
+ */
+const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => {
+            resolve(reader.result as string)
+        }
+        reader.onerror = (err) => {
+            reject(err)
+        }
+        reader.readAsDataURL(file)
+    })
+}
+
 const image: Image = {
-    quality, resize, flip, rotate
+    quality, resize, flip, rotate, base64toFile, fileToBase64
 }
 
 export { image };
+

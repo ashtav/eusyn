@@ -34,7 +34,7 @@ const ntx: Ntx = {
             return
         }
 
-        const component = (message: string) => `<div class="text-center">
+        const component = (message: string) => `<div class="text-center text-white">
     <div class="spinner-border" class="xl"></div> <div class="mt-2"> ${message} </div>
   </div>`
 
