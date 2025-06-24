@@ -1,7 +1,8 @@
 <template>
     <div>
         <PageHeader title="Page Header" :breadcrumb="[
-            { label: 'Back to Users', path: '/'},
+            { label: 'Back to Dashboard', path: '/'},
+            { label: 'Page Header' },
         ]"
          :actions="actions" @click="onRefresh" />
 

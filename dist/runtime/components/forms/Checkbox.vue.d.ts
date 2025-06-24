@@ -49,6 +49,10 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
+    emptyMessage: {
+        type: StringConstructor;
+        default: string;
+    };
 }, {
     utils: import("../../types/utils").default;
     localValue: import("vue").Ref<boolean | any[]>;
@@ -110,6 +114,10 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
+    emptyMessage: {
+        type: StringConstructor;
+        default: string;
+    };
 }>> & {
     onChange?: ((...args: any[]) => any) | undefined;
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -120,5 +128,6 @@ declare const _default: import("vue").DefineComponent<{
     options: any[];
     modelValue: boolean | any[];
     nospace: boolean;
+    emptyMessage: string;
 }, {}>;
 export default _default;

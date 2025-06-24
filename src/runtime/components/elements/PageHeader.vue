@@ -9,7 +9,7 @@
 
 
         <ol class="breadcrumb mt-2" v-if="breadcrumb.length > 0">
-          <li class="breadcrumb-item" v-for="(e, i) in breadcrumb" :class="{ 'active': e.active }">
+          <li class="breadcrumb-item" v-for="(e, i) in breadcrumb" :class="{ 'active': e.path == null }">
             <NuxtLink :to="e.path"> <Icon :icon="`${e.icon} fix me-2`" v-if="e.icon" /> {{ e.label }}</NuxtLink>
           </li>
         </ol>
@@ -36,7 +36,7 @@
             <button v-if="!action?.url && (action?.visible ?? true)" :class="[action.theme ?? 'btn-primary']"
               class="btn" :disabled="action.submit ?? false" @click="action?.click?.()">
               <span v-if="action.submit" class="spinner-border spinner-border-sm" />
-              <Icon v-if="action.icon && !action.submit" :icon="action.icon" :class="{ 'me-1': action.label }" />
+              <Icon v-if="action.icon && !action.submit" :icon="`${action.icon} fix-1`" :class="{ 'me-1': action.label }" />
 
               <span v-if="`${action.label}`.trim() != ''"
                 :class="[utils.on(action.label != null, 'ms-2'), 'd-none d-md-block']">{{
@@ -65,8 +65,7 @@ interface PageHeaderActions {
 
 interface BreadcrumbItem {
   label: string,
-  path: string,
-  active?: boolean,
+  path?: string,
   icon?: string
 }
 

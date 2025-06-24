@@ -9,8 +9,7 @@ interface PageHeaderActions {
 }
 interface BreadcrumbItem {
     label: string;
-    path: string;
-    active?: boolean;
+    path?: string;
     icon?: string;
 }
 declare const _default: import("vue").DefineComponent<{

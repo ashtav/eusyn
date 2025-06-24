@@ -5,35 +5,26 @@
     <div v-if="isLoading">
       <label v-for="(_, i) in utils.randInt(2, 5)" :key="i" class="form-check form-check-inline mb-1">
         <input class="form-check-input" type="checkbox" disabled>
-        <span class="form-check-label" style="margin-top: 3px;"> <Shimmer :size="[[30, 120]]" /> </span>
+        <span class="form-check-label" style="margin-top: 3px;">
+          <Shimmer :size="[[30, 120]]" />
+        </span>
       </label>
     </div>
 
     <div :class="{ 'd-inline-block': single }" v-else>
-      <label v-if="options.length == 0" class="form-check form-check-inline m-0">
-        <input
-          v-model="localValue"
-          class="form-check-input"
-          type="checkbox"
-          :name="inputName"
-          :disabled="disabled"
-        >
+      <label v-if="options.length == 0 && !label" class="form-check form-check-inline m-0">
+        <input v-model="localValue" class="form-check-input" type="checkbox" :name="inputName" :disabled="disabled">
         <span class="form-check-label" v-text="'&nbsp;'" />
       </label>
 
       <label v-for="(option, i) in localOptions" v-else :key="i" class="form-check form-check-inline">
-        <input
-          v-model="localValue"
-          class="form-check-input"
-          type="checkbox"
-          :name="inputName"
-          :value="textOption(option, true)"
-          :disabled="disabled || (option?.disabled ?? false)"
-          :required="Array.isArray(localValue) && localValue.length == 0 && required"
-          @input="onInput($event, option)"
-        >
+        <input v-model="localValue" class="form-check-input" type="checkbox" :name="inputName"
+          :value="textOption(option, true)" :disabled="disabled || (option?.disabled ?? false)"
+          :required="Array.isArray(localValue) && localValue.length == 0 && required" @input="onInput($event, option)">
         <span class="form-check-label"> {{ textOption(option) }} </span>
       </label>
+
+      <div class="text-secondary mb-2" v-if="options.length == 0 && label">{{ emptyMessage }}</div>
     </div>
   </div>
 </template>
@@ -76,10 +67,15 @@ export default defineComponent({
     nospace: {
       type: Boolean,
       default: false
+    },
+
+    emptyMessage: {
+      type: String,
+      default: 'No data available'
     }
   },
 
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const localValue = ref(props.modelValue)
     const localOptions = ref(props.options)
     const inputName = ref('checkbox-' + utils.randString(5))

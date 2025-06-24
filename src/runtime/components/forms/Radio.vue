@@ -16,6 +16,8 @@
           @input="onInput(option)">
         <span class="form-check-label"> {{ textOption(option) }} </span>
       </label>
+
+      <div class="text-secondary mb-2" v-if="options.length == 0">{{ emptyMessage }}</div>
     </div>
   </div>
 </template>
@@ -75,6 +77,11 @@ export default defineComponent({
     nospace: {
       type: Boolean,
       default: false
+    },
+
+    emptyMessage: {
+      type: String,
+      default: 'No data available'
     }
   },
 
