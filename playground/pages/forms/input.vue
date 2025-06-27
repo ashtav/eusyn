@@ -10,6 +10,13 @@
                     details on its functionalities, advantages, and usage scenarios.
                 </p>
 
+                <h4> &mdash; &nbsp; Props</h4>
+                <p class="mb-6">
+                    <code class="me-1 mb-1 d-inline-block"
+                        v-for="(e, i) in ['label', 'hint', 'type', 'disabled', 'readonly', 'required', 'autofocus', 'maxLength', 'prefix', 'suffix', 'password', 'minDate', 'maxDate', 'formatters', 'nospace', 'mask', 'v-model']"
+                        :key="i">{{ e }}</code>
+                </p>
+
                 <Input v-model="forms.name" label="Full Name" hint="Enter your name" prefix="hgi-user" required
                     formatters="alpha|ucwords" autofocus />
 
@@ -29,9 +36,6 @@
                 <Input label="Phone Number" hint="Enter your phone number" prefix="hgi-contact-01" required
                     v-model="forms.phone" formatters="phone" />
 
-                <Number label="Number" hint="Enter quantity" prefix="hgi-arrange-by-numbers-1-9" required
-                    v-model="forms.quantity" />
-
                 <Input label="Password" hint="Enter your password" prefix="hgi-lock" required password @enter="onEnter"
                     v-model="forms.password" />
                 <Code class="mb-5"
@@ -40,6 +44,23 @@
                 <Input label="Date" type="date" prefix="hgi-calendar-01" />
                 <Code class="mb-5" code='<Input label="Date" type="date" prefix="ti-calendar" />' />
 
+                <Input v-model="forms.price" label="Currency" hint="Enter price" prefix="hgi-coins-01" required
+                    formatters="currency:," />
+                <Code class="mb-5"
+                    code='<Input label="Currency" hint="Enter price" prefix="ti-coins" required formatters="currency:," v-model="forms.price" />' />
+
+                <Input label="Input Mask" prefix="hgi-calendar-02" mask="date:d/m/y" v-model="forms.date" />
+
+                <Code class="mb-5"
+                    code='<Input label="Input Mask" prefix="calendar-event" mask="date:d/m/y" v-model="forms.date" />' />
+
+                <Number label="Number" hint="Enter quantity" prefix="hgi-arrange-by-numbers-1-9" required
+                    v-model="forms.quantity" />
+
+                <Code class="mb-5"
+                    code='<Number label="Number" hint="Enter quantity" prefix="hgi-arrange-by-numbers-1-9" required v-model="forms.quantity" /> ' />
+
+
                 <Date label="Date Scroll" prefix="hgi-calendar-01" :maxDate="$e.utils.now()" />
                 <Code class="mb-5" code='<Date label="Date Scroll" prefix="ti-calendar" />' />
 
@@ -47,22 +68,11 @@
                 <Code class="mb-5"
                     code='<Time label="Select Time" prefix="clock" format="h:i" v-model="forms.time" />' />
 
-
-                <Input v-model="forms.price" label="Currency" hint="Enter price" prefix="hgi-coins-01" required
-                    formatters="currency:," />
-                <Code class="mb-5"
-                    code='<Input label="Currency" hint="Enter price" prefix="ti-coins" required formatters="currency:," v-model="forms.price" />' />
-
                 <Textarea label="Description" hint="Type description about you..." prefix="hgi-note-02"
                     formatters="ucfirst" v-model="forms.note" />
 
                 <Code class="mb-5"
                     code='<Textarea label="Description" hint="Type description about you..." prefix="ti-note" formatters="ucfirst" />' />
-
-                <Input label="Input Mask" prefix="hgi-calendar-02" mask="date:d/m/y" v-model="forms.date" />
-
-                <Code class="mb-5"
-                    code='<Input label="Input Mask" prefix="calendar-event" mask="date:d/m/y" v-model="forms.date" />' />
 
                 <code>
         {{ forms }}

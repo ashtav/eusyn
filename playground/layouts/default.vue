@@ -68,7 +68,7 @@ export default {
 .page-body {
   transition: .5s;
   padding: 26px 50px;
-  padding-top: 70px;
+  padding-top: 100px;
 
   &.expanded {
     margin-left: 240px;

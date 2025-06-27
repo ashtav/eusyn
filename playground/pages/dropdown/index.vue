@@ -34,9 +34,20 @@
     <Button label="Dropdown Icons" icon="hgi-files-01" theme="btn" />
 </Dropdown>' />
 
-<br> <br>
+                <br> <br>
                 <h4>Simple</h4>
-                <Code code='<Dropdown :options="[]" @select="onSelect" />'/>
+                <Code code='<Dropdown :options="[]" @select="onSelect" />' />
+
+
+                <br> <br>
+                <h4>Set As Another Element</h4>
+                <Dropdown :options="['Edit', 'Delete']" @select="onSelect" el="ul" class="ul-custom-class">
+                    <li> Open Here! </li>
+                </Dropdown>
+
+                <Code
+                    code='<Dropdown :options="" @select="onSelect" el="ul" class="ul-custom-class"> <li> Open Here! </li> </Dropdown>' />
+
             </div>
         </div>
     </div>
@@ -76,4 +87,16 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.ul-custom-class {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    margin-bottom: 20px;
+
+    li {
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+}
+</style>

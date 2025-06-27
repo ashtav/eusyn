@@ -103,7 +103,7 @@ export default defineComponent({
     }
   },
 
-  setup(props, { emit }) {
+  setup(props, { emit, attrs }) {
     const config = useRuntimeConfig()
     const icon = config.public.ui?.icon
     const isTabler = icon == 'tabler';
@@ -178,13 +178,14 @@ export default defineComponent({
       if (event.keyCode == 13 && instance?.vnode?.props?.onEnter) {
         const options = localOptions.value
 
-        // if enter, get top option
-        if (localValue.value != textOption(selected.value) && options.length != 0 && localValue.value != '') {
-          onSelect(options[0])
+        setTimeout(() => {
+          if (localValue.value != textOption(selected.value) && options.length != 0 && localValue.value != '') {
+            onSelect(options[0])
 
-          const elm = (refSelect.value as HTMLInputElement)
-          elm.blur()
-        }
+            const elm = (refSelect.value as HTMLInputElement)
+            elm.blur()
+          }
+        }, 10);
 
         emit('enter', localValue.value)
         isFocus.value = false
@@ -224,7 +225,9 @@ export default defineComponent({
 
     const doFocus = () => {
       if (refSelect.value) {
-        (refSelect.value as HTMLElement).focus()
+        setTimeout(() => {
+          (refSelect.value as HTMLElement).focus()
+        }, 10);
       }
     }
 
@@ -253,6 +256,10 @@ export default defineComponent({
     // mounted
     onMounted(() => {
       initOption(localValue.value)
+
+      if (props.autofocus) {
+        doFocus()
+      }
     })
 
     const setLoading = (value: boolean) => {

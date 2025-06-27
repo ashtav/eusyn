@@ -20,9 +20,9 @@
         :autofocus="autofocus" name="input" autocomplete="off" @focus="onFocus" @input="onInput" @keypress="onKeyPress"
         @mousedown="onMouseDown" ref="input" :icon="isTabler ? 'tabler' : 'huge'">
 
-      <!-- suffixs -->
-      <div v-if="inputSuffixs.length != 0 && !['date'].includes(type)" class="suffixs">
-        <span v-for="(suffix, i) in inputSuffixs" :key="i" :class="[utils.on(suffix.disabled, 'disabled')]"
+      <!-- suffix -->
+      <div v-if="inputSuffix.length != 0 && !['date'].includes(type)" class="suffix">
+        <span v-for="(suffix, i) in inputSuffix" :key="i" :class="[utils.on(suffix.disabled, 'disabled')]"
           @click="onSuffix(suffix)">
 
           <!-- if kbd and has text -->
@@ -99,7 +99,7 @@ export default defineComponent({
       default: null
     },
 
-    suffixs: {
+    suffix: {
       type: Array<any>,
       default: () => []
     },
@@ -152,7 +152,7 @@ export default defineComponent({
 
     const localValue = ref(props.modelValue)
     const inputType = ref(getType())
-    const inputSuffixs = ref(props.suffixs)
+    const inputSuffix = ref(props.suffix)
     const obsecure = ref(true)
 
     let inputEvent: HTMLInputElement = null
@@ -195,24 +195,24 @@ export default defineComponent({
 
     const onSuffix = (data: any) => {
       if (data?._toggle) {
-        const index = inputSuffixs.value.findIndex((e: any) => e._toggle)
+        const index = inputSuffix.value.findIndex((e: any) => e._toggle)
         obsecure.value = !obsecure.value
 
-        inputSuffixs.value[index] = { icon: obsecure.value ? eye : eyeOff, _toggle: true }
+        inputSuffix.value[index] = { icon: obsecure.value ? eye : eyeOff, _toggle: true }
       }
 
       emit('suffix', data)
     }
 
     const checkPassword = (value: boolean) => {
-      const suffixs = inputSuffixs.value
+      const suffix = inputSuffix.value
       inputType.value = value ? 'password' : props.type
       obsecure.value = value
 
       if (value) {
-        const index = suffixs.findIndex((e) => e._toggle)
+        const index = suffix.findIndex((e) => e._toggle)
         if (index == -1) {
-          inputSuffixs.value.push({
+          inputSuffix.value.push({
             icon: eye, _toggle: true
           })
         }
@@ -220,7 +220,7 @@ export default defineComponent({
       }
 
       // do remove
-      inputSuffixs.value = suffixs.filter((e: any) => !e._toggle)
+      inputSuffix.value = suffix.filter((e: any) => !e._toggle)
     }
 
     const onKeyPress = (event: any) => {
@@ -288,7 +288,9 @@ export default defineComponent({
 
     const doFocus = () => {
       if (input.value) {
-        (input.value as HTMLElement).focus()
+        setTimeout(() => {
+          (input.value as HTMLElement).focus()
+        }, 10);
       }
     }
 
@@ -303,8 +305,8 @@ export default defineComponent({
     })
 
     // watch suffix icons
-    watch(() => props.suffixs, (value) => {
-      inputSuffixs.value = value
+    watch(() => props.suffix, (value) => {
+      inputSuffix.value = value
       checkPassword(props.password)
     }, { immediate: true })
 
@@ -383,7 +385,7 @@ export default defineComponent({
     })
 
     return {
-      utils, localValue, inputType, inputSuffixs, input, onInput, onFocus, onMouseDown, onSuffix, onKeyPress, doFocus, isTabler 
+      utils, localValue, inputType, inputSuffix, input, onInput, onFocus, onMouseDown, onSuffix, onKeyPress, doFocus, isTabler
     }
   }
 })
@@ -399,7 +401,7 @@ export default defineComponent({
       background-color: #f6f8fb;
     }
 
-    .suffixs {
+    .suffix {
       opacity: .6;
 
       span {
@@ -410,7 +412,7 @@ export default defineComponent({
     }
   }
 
-  .suffixs {
+  .suffix {
     position: absolute;
     right: 5px;
     top: 0;

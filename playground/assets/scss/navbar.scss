@@ -1,0 +1,35 @@
+@use "./variables" as *;
+
+.navbar {
+    position: fixed;
+    top: 10px;
+    left: 240px;
+    width: calc(100% - 240px);
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    padding: 10px 50px;
+
+    span {
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: .2s;
+        background-color: var(--background-color);
+
+        &:hover {
+            opacity: .7;
+        }
+
+        &:active {
+            opacity: 1;
+        }
+    }
+}

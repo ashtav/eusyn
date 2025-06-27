@@ -1,6 +1,7 @@
 :root {
     --border-color: #ddd;
     --background-color: #fff;
+    --background-hover: #ddd;
     --box-shadow: rgba(0, 0, 0, 0.1);
     --light-border-color: #ddd;
     --text-color: #222;
@@ -10,6 +11,7 @@
 [data-bs-theme="dark"] {
     --border-color: #344053;
     --background-color: #1f2937;
+    --background-hover: #1f2937;
     --box-shadow: #385a8a;
     --light-border-color: #505d72;
     --text-color: #f1f1f1;

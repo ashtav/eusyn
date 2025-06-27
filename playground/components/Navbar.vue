@@ -1,16 +1,20 @@
 <template>
-    <div :class="['app-navbar', { 'show': true }]">
+    <div :class="['navbar', { 'show': true }]">
         <!-- <div :class="['toggle']" @click="showFeature = !showFeature">
             <Icon :icon="showFeature ? 'hgi-arrow-left-02' : 'hgi-dashboard-square-02'" />
         </div> -->
 
-        <div :class="['toggle']" @click="toggleTheme">
-            <Icon :icon="$e.theme.get.value != 'dark' ? 'hgi-sun-03' : 'hgi-moon-02'" />
+        <div>
+            <span @click="toggleTheme">
+                <Icon :icon="$e.theme.get.value != 'dark' ? 'hgi-sun-03' : 'hgi-moon-02'" />
+            </span>
         </div>
     </div>
 </template>
 
 <script lang="ts">
+import "@/assets/scss/navbar.scss";
+
 export default {
     setup() {
         const nuxt = useNuxtApp();
@@ -30,5 +34,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped></style>

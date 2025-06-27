@@ -11,6 +11,13 @@
                     details on its functionalities, advantages, and usage scenarios.
                 </p>
 
+                <h4> &mdash; &nbsp; Props</h4>
+                <p class="mb-6">
+                    <code class="me-1 mb-1 d-inline-block"
+                        v-for="(e, i) in ['label', 'hint', 'type', 'disabled', 'required', 'autofocus', 'busy', 'prefix', 'suffix', 'options', 'nospace', 'v-model']"
+                        :key="i">{{ e }}</code>
+                </p>
+
                 <Select v-model="forms.hobby" label="Hobby" hint="Select your hobby" :options="hobbies"
                     :busy="isLoading" @enter="onEnter" />
                 <Code class="mb-5" description="Using label as input."
@@ -34,7 +41,11 @@
                 <br>
 
                 <Select label="Search" hint="Type category name, then press enter" suffix="ti-file" required
-                    :options="options" v-model="forms.option" ref="select" />
+                    :options="options" v-model="forms.option" ref="search" @enter="onSearch" />
+
+                <Code class="mb-5"
+                    description="To keep the search input focused after searching, use the ref attribute."
+                    code="this.$e.focus(this, 'search')" />
             </div>
         </div>
 
@@ -47,8 +58,8 @@ import dummy from '@/assets/json/dummy.json'
 
 export default {
     setup() {
-
-        return { dummy }
+        const data = dummy.categories ?? []
+        return { dummy, data }
     },
 
     data() {
@@ -60,7 +71,7 @@ export default {
                 hobby: '',
                 province: 3,
                 city: '',
-                option: 3
+                option: ''
             },
 
             hobbies: [
@@ -132,11 +143,12 @@ export default {
                     }
                 })
                 action.abort()
+                this.forms.option = ''
             }, 2000);
         },
 
         onFill() {
-            this.forms.option = 3
+            this.forms.option = ''
         },
 
         setLoading() {
@@ -144,6 +156,26 @@ export default {
 
             setTimeout(() => {
                 this.$loading(false)
+            }, 1000);
+        },
+
+        onSearch(keyword: string) {
+            this.$loading(true, 'search')
+
+            const result = this.data.filter((e: any) => {
+                return e.name.toLowerCase().includes(keyword.toLowerCase())
+            })
+
+            this.options = result.map((e: any) => {
+                return {
+                    label: e.name,
+                    value: e.id
+                }
+            })
+
+            setTimeout(() => {
+                this.$loading(false, 'search')
+                this.$e.focus(this, 'search')
             }, 1000);
         }
     }
