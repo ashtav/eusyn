@@ -7,12 +7,17 @@
         Leveraging Tabler and HugeIcons for its design system and iconography, this collection provides all the
         essential UI components and utilities needed to build robust and efficient Nuxt applications.</p>
 
+      <p class="my-5">
+        Created by: <a href="https://github.com/ashtav" target="_blank">@ashtav</a>
+      </p>
+
+      <p>Credit:</p>
       <a href="https://preview.tabler.io" target="_blank">https://preview.tabler.io</a> <br>
       <a href="https://tabler.io/icons" target="_blank">https://tabler.io/icons</a> <br>
       <a
         href="https://hugeicons.com/icons?style=Stroke&type=Rounded">https://hugeicons.com/icons?style=Stroke&type=Rounded</a>
-      <p class="text-muted mt-5">
-        <Icon icon="minus" /> Version. 0.0.1 25.06.18.1-alpha
+      <p class="text-secondary mt-5">
+        <Icon icon="minus" /> Version. 0.0.19 25.07.01.1-alpha
       </p> <br> <br>
     </div>
   </div>

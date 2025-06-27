@@ -1,4 +1,14 @@
 {
-  "prettier.enable": false,
+  "editor.wordWrap": "on",
+  "editor.wordWrapColumn": 100,
+  "editor.rulers": [
+    100
+  ],
+  "editor.formatOnSave": true,
+  "[vue]": {
+    "editor.defaultFormatter": "Vue.volar"
+  },
+  "prettier.printWidth": 100,
+  "prettier.vueIndentScriptAndStyle": true,
   "nuxt.isNuxtApp": false
 }

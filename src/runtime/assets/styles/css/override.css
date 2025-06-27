@@ -57,12 +57,19 @@ input[type=time][icon=huge]::-webkit-calendar-picker-indicator {
     .btn-outline-success,
     .btn-outline-danger,
     .btn-outline-warning,
-    .btn-outline-info, .text-primary {
+    .btn-outline-info,
+    .text-primary {
         color: #fff;
     }
 
     .text-primary {
         color: #fff !important;
+    }
+
+    .btn-primary {
+        &[disabled] {
+            border-color: transparent;
+        }
     }
 }
 

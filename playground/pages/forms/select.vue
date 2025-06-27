@@ -29,9 +29,12 @@
                 <Button label="Auto Fill" theme="white ms-2" @click="onFill" />
                 <Button label="Set Loading" theme="white ms-2" @click="setLoading" ref="el" />
                 <br> <br>
-                <code>
-        {{ forms }}
-      </code>
+                <code> {{ forms }} </code>
+                <br> <br>
+                <br>
+
+                <Select label="Search" hint="Type category name, then press enter" suffix="ti-file" required
+                    :options="options" v-model="forms.option" ref="select" />
             </div>
         </div>
 
@@ -40,9 +43,12 @@
 </template>
 
 <script lang="ts">
+import dummy from '@/assets/json/dummy.json'
+
 export default {
     setup() {
-        return {}
+
+        return { dummy }
     },
 
     data() {
@@ -54,7 +60,7 @@ export default {
                 hobby: '',
                 province: 3,
                 city: '',
-                option: '9ce7d80f-c7e6-44d3-8954-a3fb43473447'
+                option: 3
             },
 
             hobbies: [
@@ -77,7 +83,7 @@ export default {
 
             provinces: <any>[],
 
-            options: []
+            options: <any>[]
         }
     },
 
@@ -117,21 +123,20 @@ export default {
 
         onSubmit(action: ButtonAction) {
             action.submit()
-            $fetch('https://api.igsa.pw/api/dummy').then((result: any) => {
-                this.options = (result.data ?? []).map((e: any) => {
+
+            setTimeout(() => {
+                this.options = (this.dummy.categories ?? []).map((e: any) => {
                     return {
-                        label: e.description,
+                        label: e.name,
                         value: e.id
                     }
                 })
                 action.abort()
-
-                // this.$e.focus(this, 'select')
-            })
+            }, 2000);
         },
 
         onFill() {
-            this.forms.option = '9ce7d80f-cc45-4c87-9fcb-9ba2d3846bac'
+            this.forms.option = 3
         },
 
         setLoading() {

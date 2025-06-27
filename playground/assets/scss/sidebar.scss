@@ -1,0 +1,113 @@
+@use "./variables" as *;
+
+.features {
+    width: 240px;
+    overflow: auto;
+    scrollbar-width: none;
+    position: fixed;
+    height: 100%;
+    left: -240px;
+    top: 0;
+    transition: .2s;
+    z-index: 999;
+    border-right: 1px var(--border-color) solid;
+    background: var(--background-color);
+    padding-bottom: 100px;
+
+    &.show {
+        left: 0;
+    }
+
+    .logo {
+        display: flex;
+        padding: 20px;
+
+        img {
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        h2 {
+            margin: 0;
+            margin-left: 15px;
+        }
+    }
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li,
+        a {
+            text-wrap: nowrap;
+
+            i {
+                top: 3px;
+            }
+
+            div {
+                display: inline-block;
+                margin-left: 10px;
+            }
+        }
+
+        li {
+            display: block;
+
+            span {
+                display: inline-block;
+                padding: 15px 20px;
+                text-transform: uppercase;
+                font-size: 11px;
+                font-weight: bold;
+                letter-spacing: 1px;
+                color: #888;
+                margin-top: 25px;
+            }
+
+            a {
+                display: block;
+                padding: 10px 20px;
+                text-decoration: none;
+                color: var(--text-color-1);
+                font-size: 13px;
+            }
+
+            li {
+                position: relative;
+
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    width: 2px;
+                    height: 100%;
+                    right: 0;
+                    background: #0054a6;
+                    opacity: 0;
+                    transition: .2s;
+                }
+
+                &.active {
+                    a {
+                        color: var(--text-color);
+                    }
+
+                    &::before {
+                        opacity: 1;
+                    }
+                }
+
+                &:hover:not(&.active) {
+                    a {
+                        color: var(--text-color);
+                        ;
+                    }
+                }
+            }
+        }
+    }
+}
