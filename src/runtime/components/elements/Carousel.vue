@@ -1,10 +1,10 @@
 <template>
-    <div class="carousel" ref="carousel">
-        <div class="carousel-track-container">
-            <ul class="carousel-track" ref="track">
+    <div class="custom-carousel" ref="carousel">
+        <div class="custom-carousel-track-container">
+            <ul class="custom-carousel-track" ref="track">
                 <slot>
                     <li v-for="(image, i) in images" :key="i"
-                        :class="['carousel-slide', { 'current-slide': i == currentIndex }]" v-if="images">
+                        :class="['custom-carousel-slide', { 'current-slide': i == currentIndex }]" v-if="images">
                         <img :src="image" alt="" :height="height" draggable="false" onmousedown="return false"
                             style="pointer-events: none;">
                     </li>
@@ -198,7 +198,7 @@ export default defineComponent({
 
 
 <style lang="scss">
-.carousel {
+.custom-carousel {
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -235,17 +235,17 @@ export default defineComponent({
         }
     }
 
-    .carousel-track-container {
+    .custom-carousel-track-container {
         overflow: hidden;
         width: 100%;
         background-color: #182433;
 
-        .carousel-track {
+        .custom-carousel-track {
             display: flex;
             width: 100%;
             padding: 0;
 
-            .carousel-slide {
+            .custom-carousel-slide {
                 min-width: 100%;
                 list-style: none;
                 cursor: pointer;

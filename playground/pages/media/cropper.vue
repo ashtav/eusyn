@@ -3,7 +3,7 @@
         <PageHeader title="Cropper" />
 
         <div class="row">
-            <div class="col-6">
+            <div class="col-6 space-y-3">
                 <FileHandler @select="handleFile" />
 
                 <Code code='<Cropper ref="cropper" />
@@ -52,6 +52,13 @@ export default {
                 this.image = data.files[0]
                 this.preview = this.image.data
             }
+
+            if (data.errors && data.errors.length > 0) {
+                this.$toast.error(data.errors[0].message)
+                return
+            }
+
+            console.log('Selected file:', data)
         },
 
         onCrop() {

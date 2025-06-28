@@ -1,7 +1,7 @@
 <template>
   <div :class="['input', utils.on(disabled, 'disabled')]">
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
-    <div class="input-icon" :class="{ 'mb-3': !nospace }">
+    <div class="input-icon">
       <!-- prefix -->
       <span v-if="prefix" class="input-icon-addon">
         <Icon :icon="prefix" size="input-prefix" />
@@ -10,7 +10,7 @@
       <!-- input -->
       <textarea :value="localValue" :class="['form-control']" :placeholder="hint" :maxlength="maxLength"
         :required="required" :disabled="disabled" :autofocus="autofocus" name="input" autocomplete="off"
-        :style="{ maxHeight: `${maxHeight}px` }" @input="onInput" @keypress="onKeyPress" />
+        :style="{ maxHeight: `${maxHeight}px` }" @input="onInput" @keypress="onKeyPress" ref="textarea" />
 
       <!-- suffixs -->
       <div v-if="inputSuffixs.length != 0" class="suffixs">
@@ -79,24 +79,17 @@ export default defineComponent({
       type: Array,
       default: () => []
     },
-    password: {
-      type: Boolean,
-      default: false
-    },
     formatters: {
       type: String,
       default: ""
       // "ucwords|ucfirst|lower|upper|trim|numeric|currency|alpha|alphanumeric|date|address|hashtag|decimal"
-    },
-    nospace: {
-      type: Boolean,
-      default: false
     }
   },
   setup(props, { emit }) {
     const instance = getCurrentInstance();
     const localValue = ref(props.modelValue);
     const inputSuffixs = ref(props.suffixs);
+    const textarea = ref(null);
     const onInput = (event) => {
       localValue.value = event.target.value;
     };
@@ -119,11 +112,17 @@ export default defineComponent({
       });
     });
     onMounted(() => {
+      if (props.autofocus) {
+        setTimeout(() => {
+          textarea.value.focus();
+        }, 10);
+      }
     });
     return {
       utils,
       localValue,
       inputSuffixs,
+      textarea,
       onInput,
       onSuffix,
       onKeyPress
@@ -135,6 +134,10 @@ export default defineComponent({
 <style scoped>
 .input.disabled {
   pointer-events: none;
+  opacity: 0.5;
+}
+.input.disabled textarea {
+  border-color: #d1d1d1;
 }
 .input.disabled .date-input-placeholders {
   background-color: #f6f8fb;
@@ -184,5 +187,16 @@ export default defineComponent({
 .input .input-icon-addon {
   align-items: unset !important;
   top: 9px;
+}
+
+[data-bs-theme=dark] textarea {
+  background-color: var(--input-background);
+  border-color: var(--tblr-border-color);
+}
+[data-bs-theme=dark] textarea .controls span {
+  border-color: #1f2e41;
+}
+[data-bs-theme=dark] .input.disabled textarea {
+  border-color: var(--tblr-border-color);
 }
 </style>

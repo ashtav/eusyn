@@ -1,5 +1,5 @@
 <template>
-    <div :class="{ 'mb-3': !nospace, 'd-inline-block': inline }">
+    <div :class="{ 'd-inline-block': inline }">
         <label :class="['form-label']" v-if="label"> {{ label }} </label>
 
         <div :class="{ 'd-inline-block': inline, 'cursor-pointer d-inline-block': true }">
@@ -32,10 +32,6 @@ export default defineComponent({
       default: null
     },
     disabled: {
-      type: Boolean,
-      default: false
-    },
-    nospace: {
       type: Boolean,
       default: false
     },

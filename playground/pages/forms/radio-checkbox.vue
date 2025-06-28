@@ -3,15 +3,19 @@
         <PageHeader title="Radio & Checkbox" />
 
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 space-y-3">
                 <p>
                     This section demonstrates how to use radio buttons and checkboxes in your form. You will find
                     examples of
                     their functionalities, advantages, and practical usage scenarios.
                 </p>
 
+                <Props :attrs="['label', 'disabled', 'required', 'emptyMessage', 'options', 'v-model']" />
+
                 <Radio v-model="forms.gender" label="Gender" :options="['Male', 'Female']" required nospace ref="el" />
-                <a href="javascript:void(0)" class="d-inline-block mb-5" @click="setLoading">Loading example</a>
+
+                <a href="javascript:void(0)" class="d-inline-block" @click="setLoading">Loading example</a>
+                <Code class="mb-5" code='this.$loading(true, "radio") // set busy' />
 
                 <Radio v-model="forms.blood" label="Blood Type"
                     :options="[{ label: 'A', value: 1 }, { label: 'B' }, 'AB', { label: 'O', disabled: true }]"
@@ -29,7 +33,7 @@
                 <Code class="mb-5"
                     code='<Checkbox v-model="forms.favorites" label="Favorite Fruit" required :options="fruits" />' />
 
-                <Checkbox v-model="forms.checked" /> 
+                <Checkbox v-model="forms.checked" />
                 <Code class="mb-5" code='<Checkbox v-model="forms.checked" />' />
 
                 <div>

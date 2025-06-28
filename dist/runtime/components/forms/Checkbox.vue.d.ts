@@ -45,10 +45,6 @@ declare const _default: import("vue").DefineComponent<{
         };
         default: () => never[];
     };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     emptyMessage: {
         type: StringConstructor;
         default: string;
@@ -110,10 +106,6 @@ declare const _default: import("vue").DefineComponent<{
         };
         default: () => never[];
     };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     emptyMessage: {
         type: StringConstructor;
         default: string;
@@ -127,7 +119,6 @@ declare const _default: import("vue").DefineComponent<{
     required: boolean;
     options: any[];
     modelValue: boolean | any[];
-    nospace: boolean;
     emptyMessage: string;
 }, {}>;
 export default _default;

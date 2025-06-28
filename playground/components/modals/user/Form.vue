@@ -1,7 +1,7 @@
 <template>
   <Modal :id="id" :elevation="false">
     <form @submit.prevent="onSubmit">
-      <div class="modal-body">
+      <div class="modal-body space-y-3">
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, praesentium deserunt. Voluptatem
           voluptatibus officiis maxime perspiciatis voluptates a, vel maiores delectus incidunt iure alias aperiam

@@ -1,3 +1,26 @@
+:root {
+    --border-color: #ddd;
+    --background-color: #fff;
+    --background-hover: #ddd;
+    --box-shadow: rgba(0, 0, 0, 0.1);
+    --light-border-color: #ddd;
+    --text-color: #222;
+    --text-color-1: #222;
+    --input-background: #fff
+}
+
+[data-bs-theme="dark"] {
+    --border-color: #344053;
+    --background-color: #1f2937;
+    --background-hover: #1f2937;
+    --box-shadow: #385a8a;
+    --light-border-color: #505d72;
+    --text-color: #f1f1f1;
+    --text-color-1: #ccc;
+    --input-background: #151f2c;
+}
+
+
 input[type=date]::-webkit-calendar-picker-indicator,
 input[type=month]::-webkit-calendar-picker-indicator,
 input[type=time]::-webkit-calendar-picker-indicator {
@@ -66,9 +89,18 @@ input[type=time][icon=huge]::-webkit-calendar-picker-indicator {
         color: #fff !important;
     }
 
-    .btn-primary {
+    .btn-primary,
+    .btn-danger {
         &[disabled] {
             border-color: transparent;
+        }
+    }
+
+    input.form-control {
+        background-color: var(--input-background) !important;
+
+        &[disabled] {
+            opacity: .5 !important;
         }
     }
 }

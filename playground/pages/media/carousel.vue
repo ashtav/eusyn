@@ -2,7 +2,7 @@
     <div>
         <PageHeader title="Carousel" />
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-lg-6">
                 <Carousel :images="images" height="300" class="rounded" :config="{ autoPlay: false }" />
                 <Code class="mt-3 mb-1" code='<Carousel :images="images" height="300" />' />
@@ -16,22 +16,22 @@
     </template>
 </Carousel>' />
 
-                </ClientOnly>
-            </div>
-            <div class="col-lg-4">
-                <Carousel class="rounded border" :config="{ infinite: false, arrows: ['arrow-left', 'arrow-right'] }">
-                    <template v-slot>
+</ClientOnly>
+</div>
+<div class="col-lg-4">
+    <Carousel class="rounded border" :config="{ infinite: false, arrows: ['arrow-left', 'arrow-right'] }">
+        <template v-slot>
                         <li v-for="i in 5" :key="i" class="carousel-slide">
                             <div class="custom-slide">
                                 {{ i }}
                             </div>
                         </li>
                     </template>
-                </Carousel>
+    </Carousel>
 
 
-            </div>
-        </div>
+</div>
+</div> -->
     </div>
 </template>
 
@@ -62,7 +62,7 @@ export default {
 }
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 .border {
     border: 1px #2e3f52 solid !important;
 

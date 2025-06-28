@@ -3,7 +3,7 @@
         <PageHeader title="Themes" />
 
         <div class="row">
-            <div class="col-6 mb-5">
+            <div class="col-6 mb-5 space-y-3">
                 <p>Change your app theme to match your preferences. You can switch between dark and light modes, or let
                     the system's theme preference dictate the appearance.</p> <br>
                 <Switch @change="$e.theme.set()" :caption="$e.utils.ucwords($e.theme.get.value)" />
@@ -25,8 +25,8 @@
                 <ClientOnly>
                     <Code class="mb-5" code='<Theme v-slot="{ theme }">
     <Switch @change="theme" caption="Animation Theme" />
-</Theme>'/>
-                    </ClientOnly>
+</Theme>' />
+                </ClientOnly>
 
 
             </div>

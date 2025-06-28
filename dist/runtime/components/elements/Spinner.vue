@@ -1,6 +1,7 @@
 <template>
-  <div class="d-inline-block">
-    <span class="spinner-border" :class="`spinner-border-${size}`" /> <span class="ms-2" v-if="label">{{ label }}</span>
+  <div class="d-inline-flex align-items-center">
+    <span class="spinner-border" :class="`spinner-border-${size}`" /> <span v-if="label" class="ms-3">{{ label
+    }}</span>
   </div>
 </template>
 
@@ -19,7 +20,8 @@ export default {
 </script>
 
 <style scoped>
-.spinner-border.fit-button {
-  margin-bottom: 2px;
+.spinner-border {
+  position: relative;
+  bottom: 1px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <i :class="['ti', icon.includes('ti-') ? icon : `ti-${icon}`, size, clean ? 'clean' : '']" v-if="isTabler" />
-  <i :class="['hgi hgi-stroke', icon]" v-else></i>
+  <i :class="['hgi hgi-stroke', icon.includes('hgi-') ? icon : `hgi-${icon}`]" v-else></i>
 </template>
 
 <script lang="ts">

@@ -1,14 +1,14 @@
 <template>
     <div>
         <PageHeader title="Page Header" :breadcrumb="[
-            { label: 'Back to Dashboard', path: '/'},
+            { label: 'Back to Dashboard', path: '/' },
             { label: 'Page Header' },
-        ]"
-         :actions="actions" @click="onRefresh" />
+        ]" :actions="actions" @click="onRefresh" />
 
         <div class="row">
             <div class="col-7">
-                <Code code='<PageHeader title="Page Header" :breadcrumb="[{label, path}]" :actions="[{label, icon, click}]" />' />
+                <Code
+                    code='<PageHeader title="Page Header" :breadcrumb="[{label, path}]" :actions="[{label, icon, click}]" />' />
             </div>
         </div>
 
@@ -24,7 +24,7 @@ export default {
     data() {
         return {
             actions: [
-                { icon: 'hgi-settings-01', theme: 'white', submit: false },
+                { icon: 'hgi-settings-01', theme: 'btn-white', submit: false },
                 { label: 'Create New', icon: 'hgi-add-01', click: this.createNew },
             ]
         }

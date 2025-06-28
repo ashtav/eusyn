@@ -1,10 +1,10 @@
 <template>
-    <div class="carousel" ref="carousel">
-        <div class="carousel-track-container">
-            <ul class="carousel-track" ref="track">
+    <div class="custom-carousel" ref="carousel">
+        <div class="custom-carousel-track-container">
+            <ul class="custom-carousel-track" ref="track">
                 <slot>
                     <li v-for="(image, i) in images" :key="i"
-                        :class="['carousel-slide', { 'current-slide': i == currentIndex }]" v-if="images">
+                        :class="['custom-carousel-slide', { 'current-slide': i == currentIndex }]" v-if="images">
                         <img :src="image" alt="" :height="height" draggable="false" onmousedown="return false"
                             style="pointer-events: none;">
                     </li>
@@ -157,26 +157,26 @@ export default defineComponent({
 
 
 <style>
-.carousel {
+.custom-carousel {
   position: relative;
   width: 100%;
   overflow: hidden;
   margin: 0 auto;
   user-select: none;
 }
-.carousel ul {
+.custom-carousel ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-.carousel .dots {
+.custom-carousel .dots {
   position: absolute;
   bottom: 15px;
   display: flex;
   justify-content: center;
   width: 100%;
 }
-.carousel .dots li {
+.custom-carousel .dots li {
   display: inline-block;
   width: 8px;
   height: 8px;
@@ -187,25 +187,25 @@ export default defineComponent({
   border: 1px #666 solid;
   cursor: pointer;
 }
-.carousel .dots li.active {
+.custom-carousel .dots li.active {
   background: white;
 }
-.carousel .carousel-track-container {
+.custom-carousel .custom-carousel-track-container {
   overflow: hidden;
   width: 100%;
   background-color: #182433;
 }
-.carousel .carousel-track-container .carousel-track {
+.custom-carousel .custom-carousel-track-container .custom-carousel-track {
   display: flex;
   width: 100%;
   padding: 0;
 }
-.carousel .carousel-track-container .carousel-track .carousel-slide {
+.custom-carousel .custom-carousel-track-container .custom-carousel-track .custom-carousel-slide {
   min-width: 100%;
   list-style: none;
   cursor: pointer;
 }
-.carousel .carousel-track-container .carousel-track .carousel-slide img {
+.custom-carousel .custom-carousel-track-container .custom-carousel-track .custom-carousel-slide img {
   width: 100%;
   display: block;
   object-fit: cover;

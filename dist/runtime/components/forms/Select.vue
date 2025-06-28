@@ -1,7 +1,7 @@
 <template>
   <div :class="['select', utils.on(disabled || isLoading, 'disabled')]">
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
-    <div class="input-icon" :class="{ 'mb-3': !nospace }">
+    <div class="input-icon">
       <!-- prefix -->
       <span v-if="prefix" class="input-icon-addon">
         <Icon :icon="prefix" size="input-prefix" />
@@ -85,13 +85,9 @@ export default defineComponent({
     options: {
       type: Array,
       default: () => []
-    },
-    nospace: {
-      type: Boolean,
-      default: false
     }
   },
-  setup(props, { emit }) {
+  setup(props, { emit, attrs }) {
     const config = useRuntimeConfig();
     const icon = config.public.ui?.icon;
     const isTabler = icon == "tabler";
@@ -142,11 +138,13 @@ export default defineComponent({
     const onKeyPress = (event) => {
       if (event.keyCode == 13 && instance?.vnode?.props?.onEnter) {
         const options = localOptions.value;
-        if (localValue.value != textOption(selected.value) && options.length != 0 && localValue.value != "") {
-          onSelect(options[0]);
-          const elm = refSelect.value;
-          elm.blur();
-        }
+        setTimeout(() => {
+          if (localValue.value != textOption(selected.value) && options.length != 0 && localValue.value != "") {
+            onSelect(options[0]);
+            const elm = refSelect.value;
+            elm.blur();
+          }
+        }, 10);
         emit("enter", localValue.value);
         isFocus.value = false;
       }
@@ -175,7 +173,9 @@ export default defineComponent({
     };
     const doFocus = () => {
       if (refSelect.value) {
-        refSelect.value.focus();
+        setTimeout(() => {
+          refSelect.value.focus();
+        }, 10);
       }
     };
     watch(() => props.modelValue, (value) => {
@@ -193,6 +193,9 @@ export default defineComponent({
     });
     onMounted(() => {
       initOption(localValue.value);
+      if (props.autofocus) {
+        doFocus();
+      }
     });
     const setLoading = (value) => {
       isLoading.value = value;
@@ -244,7 +247,7 @@ export default defineComponent({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 34px;
   padding: 0 7px;
   padding-top: 1px;
   cursor: pointer;

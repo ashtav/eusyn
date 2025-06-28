@@ -1,10 +1,10 @@
 <template>
   <div class="dropdown">
-    <span class="d-inline-block" data-bs-boundary="viewport" data-bs-toggle="dropdown" aria-expanded="false">
+    <component :is="el" :class="['d-inline-block', attrs.class]" data-bs-toggle="dropdown">
       <slot>
         <Button :label="label" :icon="icon" :theme="theme" />
       </slot>
-    </span>
+    </component>
 
     <div :class="[`dropdown-menu`, size, { 'show': show }, `dropdown-menu-${placement}`]">
       <span v-if="options_.length == 0" class="dropdown-item text-muted disabled">No data found!</span>
@@ -62,9 +62,13 @@ export default {
     theme: {
       type: String,
       default: "btn-link"
+    },
+    el: {
+      type: String,
+      default: "span"
     }
   },
-  setup(props, { emit }) {
+  setup(props, { emit, attrs }) {
     const options_ = ref(props.options);
     const separator = ref(props.separate);
     const dropdown = ref(null), slot = ref(null);
@@ -153,7 +157,7 @@ export default {
         }
       });
     });
-    return { show, utils, options_, dropdown, slot, dkey, additionalStyle, toggle, textOption, onSelect, extract, separator };
+    return { show, utils, options_, dropdown, slot, dkey, additionalStyle, toggle, textOption, onSelect, extract, separator, attrs };
   }
 };
 </script>

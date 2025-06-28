@@ -1,5 +1,5 @@
 <template>
-    <div :class="['date', utils.on(disabled, 'disabled'), { 'mb-3': !nospace }]">
+    <div :class="['date', utils.on(disabled, 'disabled')]">
         <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
 
         <div class="input-group" @wheel="onWheel">
@@ -10,7 +10,7 @@
 
             <div class="controls">
                 <span v-for="(icon, i) in ['hgi-arrow-down-01', 'hgi-arrow-up-01']" @click="onControl(i)">
-                    <Icon :icon="icon" />
+                    <Icon :icon="`${icon} fix`" />
                 </span>
             </div>
         </div>
@@ -85,10 +85,6 @@ export default {
     maxDate: {
       type: String,
       default: null
-    },
-    nospace: {
-      type: Boolean,
-      default: false
     }
   }
 };
@@ -98,14 +94,14 @@ export default {
 .date.disabled {
   pointer-events: none;
 }
-.date.disabled .input-group {
-  background-color: #f6f8fb;
-}
-.date.disabled .input-group div {
-  opacity: 0.3;
+.date.disabled .input-group,
+.date.disabled div {
+  background-color: transparent;
+  opacity: 0.5;
+  border-color: #d1d1d1;
 }
 .date.disabled .controls {
-  opacity: 0.3;
+  opacity: 0.5;
 }
 .date .input-group {
   display: flex;
@@ -113,17 +109,19 @@ export default {
   align-items: center;
   padding: 0 0.75rem;
   padding-right: 0;
-  background-color: #f9f9f9;
-  border-radius: 0.25rem;
-  border: 1px #dadfe5 solid;
-  height: 40px;
+  background-color: #fff;
+  border-radius: var(--tblr-border-radius-md);
+  border: 1px var(--tblr-border-color) solid;
+  height: 36px;
 }
 .date .input-group div {
   display: flex;
   align-items: center;
+  position: relative;
+  bottom: 1px;
 }
 .date .input-group .controls span {
-  padding: 3px 0.75rem;
+  padding: 0.45rem 0.75rem;
   cursor: pointer;
 }
 .date .input-group .controls span:not(:first-child) {
@@ -137,14 +135,11 @@ export default {
 }
 
 [data-bs-theme=dark] .date .input-group {
-  background-color: #151f2c;
+  background-color: var(--input-background);
   color: #fff;
-  border-color: #1f2e41;
+  border-color: var(--tblr-border-color);
 }
 [data-bs-theme=dark] .date .input-group .controls span {
   border-color: #1f2e41;
-}
-[data-bs-theme=dark] .date.disabled .input-group {
-  background-color: #1b293a;
 }
 </style>

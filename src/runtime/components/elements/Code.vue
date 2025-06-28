@@ -14,29 +14,29 @@
 
 <script lang="ts">
 import { useRuntimeConfig } from '#imports';
-import Prism from "prismjs";
+import Prism from 'prismjs';
 import { defineComponent, onMounted, ref, watch } from 'vue';
 
 export default defineComponent({
     props: {
         code: {
             type: String,
+            required: true,
         },
-
         description: {
             type: String,
-            default: null
+            default: null,
         },
-
         lang: {
-            type: String
-        }
+            type: String,
+            default: '',
+        },
     },
 
     setup(props) {
-        const config = useRuntimeConfig()
-        const icon = config.public.ui?.icon
-        const isTabler = icon == 'tabler';
+        const config = useRuntimeConfig();
+        const icon = config.public.ui?.icon;
+        const isTabler = icon === 'tabler';
 
         const iconCheck = isTabler ? 'ti-check' : 'hgi-tick-02';
         const iconCopy = isTabler ? 'ti-copy' : 'hgi-copy-02';
@@ -44,13 +44,12 @@ export default defineComponent({
         const codeElement = ref<HTMLElement | null>(null);
         const copied = ref(false);
 
-        const code = ref(props.code);
-        const language = ref(props.lang ? props.lang : props.code && props.code.charAt(0) == '<' ? 'markup' : 'js')
+        const language = ref(
+            props.lang || (props.code && props.code.charAt(0) === '<' ? 'markup' : 'js')
+        );
 
         const doCopy = async () => {
-            if (copied.value) {
-                return;
-            }
+            if (copied.value) return;
 
             try {
                 await navigator.clipboard.writeText(props.code);
@@ -65,32 +64,34 @@ export default defineComponent({
         };
 
         const highlighting = () => {
-            if (codeElement.value) {
-                Prism.manual = true;
-                Prism.highlightElement(codeElement.value);
-            }
-        }
-
-        watch(() => props.code, (_) => {
-            highlighting()
-        })
+            setTimeout(() => {
+                if (codeElement.value) {
+                    Prism.manual = true;
+                    Prism.highlightElement(codeElement.value);
+                }
+            }, 10);
+        };
 
         onMounted(() => {
-            highlighting()
+            highlighting();
+        });
+
+        watch(() => props.code, () => {
+            highlighting();
         });
 
         return {
-            code,
-            language,
             codeElement,
+            language,
             copied,
             doCopy,
             iconCheck,
-            iconCopy
+            iconCopy,
         };
     },
 });
 </script>
+
 
 <style lang="scss">
 .code {
@@ -111,7 +112,7 @@ export default defineComponent({
     .description {
         border: 1px #e9e9e9 solid;
         padding: 13px 15px;
-        border-radius: 0 0 5px 5px;
+        border-radius: 0 0 6px 6px;
         position: relative;
         background-color: white;
         top: -2px;
@@ -125,14 +126,14 @@ pre {
     color: #666;
     padding: 15px !important;
     margin: 0 !important;
-    border-radius: 5px;
+    border-radius: 6px;
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: pre-wrap;
     border: 1px transparent solid;
 
     &.has-desc {
-        border-radius: 5px 5px 0 0;
+        border-radius: 6px 6px 0 0;
     }
 
     code {
@@ -214,6 +215,12 @@ pre {
 
         .token.entity {
             cursor: help
+        }
+
+        span {
+            &.tag {
+                all: unset;
+            }
         }
     }
 }

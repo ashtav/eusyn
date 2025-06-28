@@ -1,5 +1,5 @@
 <template>
-    <div class="time-picker" :class="[shape, { 'has-prefix': prefix != null, 'mb-3': !nospace }]">
+    <div class="time-picker" :class="[shape, { 'has-prefix': prefix != null }, utils.on(disabled, 'disabled')]">
         <label class="form-label" v-if="label">{{ label }}</label>
 
         <div class="input" :class="{ 'focus': hasFocus }" tabindex="0" @focus="onFocus" @blur="onBlur">
@@ -17,6 +17,7 @@
 
 <script lang="ts">
 import { onMounted, ref, watch } from 'vue';
+import { utils } from '../../plugins/utils';
 import { handleChanges } from '../../scripts/time';
 
 export default {
@@ -32,6 +33,11 @@ export default {
             type: String
         },
 
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+
         prefix: {
             type: String
         },
@@ -44,11 +50,6 @@ export default {
         format: {
             type: String,
             default: 'h:i' // support h:i and h:i:s
-        },
-
-        nospace: {
-            type: Boolean,
-            default: false
         },
 
         shape: {
@@ -129,13 +130,42 @@ export default {
             setTime()
         })
 
-        return { times, hasFocus, onChange, onWheel, onFocus, onBlur }
+        return { times, utils, hasFocus, onChange, onWheel, onFocus, onBlur }
     }
 }
 </script>
 
 <style lang="scss" scoped>
 .time-picker {
+    &.disabled {
+        pointer-events: none;
+
+        &.form .input {
+            background-color: transparent;
+            opacity: .5;
+            border-color: #d1d1d1;
+
+            ul li span,
+            i {
+                opacity: .5;
+            }
+
+            ul li {
+
+                span,
+                i {
+                    opacity: .5;
+
+                }
+
+                &::before,
+                &::after {
+                    opacity: .5;
+                }
+            }
+        }
+    }
+
     ul {
         list-style: none;
         padding: 0;
@@ -150,13 +180,14 @@ export default {
         }
 
         .input {
-            border: 1px #ddd solid;
+            border: 1px var(--tblr-border-color) solid;
             border-radius: 4px;
             overflow: hidden;
             background-color: white;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            height: 36px;
 
             &.focus {
                 box-shadow: 0 0 0 0.25rem rgba(var(--tblr-primary-rgb), 0.25);
@@ -365,8 +396,8 @@ export default {
 
         &.form {
             .input {
-                background-color: #151f2c;
-                border-color: #2d3d50;
+                background-color: var(--input-background);
+                border-color: var(--tblr-border-color);
 
                 &.focus {
                     border-color: #80aad3;

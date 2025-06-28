@@ -1,6 +1,7 @@
 <template>
-  <div class="d-inline-block">
-    <span class="spinner-border" :class="`spinner-border-${size}`" /> <span class="ms-2" v-if="label">{{ label }}</span>
+  <div class="d-inline-flex align-items-center">
+    <span class="spinner-border" :class="`spinner-border-${size}`" /> <span v-if="label" class="ms-3">{{ label
+    }}</span>
   </div>
 </template>
 
@@ -9,7 +10,7 @@ export default {
 
   props: {
     label: {
-      type: String
+      type: String,
     },
 
     size: {
@@ -17,15 +18,12 @@ export default {
       default: 'sm'
     }
   },
-
-
 }
 </script>
 
 <style lang="scss" scoped>
 .spinner-border {
-  &.fit-button {
-    margin-bottom: 2px;
-  }
+  position: relative;
+  bottom: 1px;
 }
 </style>

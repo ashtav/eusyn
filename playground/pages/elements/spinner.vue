@@ -8,9 +8,9 @@
 
                 <div class="mb-5">
                     <div class="mb-3">
-                        <Spinner class="me-2" /> Loading...
+                        <Spinner class="me-2" />
                     </div>
-                    <Code class="mb-5" code='<Spinner class="me-2" /> Loading...' />
+                    <Code class="mb-5" code='<Spinner class="me-2" />' />
 
                     <div class="mb-3">
                         <Spinner label="On progress..." />

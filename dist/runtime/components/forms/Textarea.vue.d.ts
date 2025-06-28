@@ -52,22 +52,15 @@ declare const _default: import("vue").DefineComponent<{
         };
         default: () => never[];
     };
-    password: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     formatters: {
         type: StringConstructor;
         default: string;
-    };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
     };
 }, {
     utils: import("../../types/utils").default;
     localValue: import("vue").Ref<string>;
     inputSuffixs: import("vue").Ref<any[]>;
+    textarea: import("vue").Ref<null>;
     onInput: (event: any) => void;
     onSuffix: (data: any) => void;
     onKeyPress: (event: any) => void;
@@ -125,17 +118,9 @@ declare const _default: import("vue").DefineComponent<{
         };
         default: () => never[];
     };
-    password: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     formatters: {
         type: StringConstructor;
         default: string;
-    };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
     };
 }>> & {
     onBlur?: ((...args: any[]) => any) | undefined;
@@ -145,16 +130,14 @@ declare const _default: import("vue").DefineComponent<{
 }, {
     label: string;
     disabled: boolean;
-    password: boolean;
     required: boolean;
     modelValue: string;
-    nospace: boolean;
     prefix: string;
     hint: string;
     autofocus: boolean;
     maxLength: number;
-    suffixs: any[];
     formatters: string;
+    suffixs: any[];
     maxHeight: number;
 }, {}>;
 export default _default;

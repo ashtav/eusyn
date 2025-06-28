@@ -1,5 +1,5 @@
 <template>
-    <div class="time-picker" :class="[shape, { 'has-prefix': prefix != null, 'mb-3': !nospace }]">
+    <div class="time-picker" :class="[shape, { 'has-prefix': prefix != null }, utils.on(disabled, 'disabled')]">
         <label class="form-label" v-if="label">{{ label }}</label>
 
         <div class="input" :class="{ 'focus': hasFocus }" tabindex="0" @focus="onFocus" @blur="onBlur">
@@ -17,6 +17,7 @@
 
 <script>
 import { onMounted, ref, watch } from "vue";
+import { utils } from "../../plugins/utils";
 import { handleChanges } from "../../scripts/time";
 export default {
   inheritAttrs: false,
@@ -29,6 +30,10 @@ export default {
     label: {
       type: String
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     prefix: {
       type: String
     },
@@ -40,10 +45,6 @@ export default {
       type: String,
       default: "h:i"
       // support h:i and h:i:s
-    },
-    nospace: {
-      type: Boolean,
-      default: false
     },
     shape: {
       type: String,
@@ -106,12 +107,31 @@ export default {
     watch(() => props.modelValue, () => {
       setTime();
     });
-    return { times, hasFocus, onChange, onWheel, onFocus, onBlur };
+    return { times, utils, hasFocus, onChange, onWheel, onFocus, onBlur };
   }
 };
 </script>
 
 <style scoped>
+.time-picker.disabled {
+  pointer-events: none;
+}
+.time-picker.disabled.form .input {
+  background-color: transparent;
+  opacity: 0.5;
+  border-color: #d1d1d1;
+}
+.time-picker.disabled.form .input ul li span,
+.time-picker.disabled.form .input i {
+  opacity: 0.5;
+}
+.time-picker.disabled.form .input ul li span,
+.time-picker.disabled.form .input ul li i {
+  opacity: 0.5;
+}
+.time-picker.disabled.form .input ul li::before, .time-picker.disabled.form .input ul li::after {
+  opacity: 0.5;
+}
 .time-picker ul {
   list-style: none;
   padding: 0;
@@ -121,13 +141,14 @@ export default {
   padding-left: 0px;
 }
 .time-picker.form .input {
-  border: 1px #ddd solid;
+  border: 1px var(--tblr-border-color) solid;
   border-radius: 4px;
   overflow: hidden;
   background-color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 36px;
 }
 .time-picker.form .input.focus {
   box-shadow: 0 0 0 0.25rem rgba(var(--tblr-primary-rgb), 0.25);
@@ -291,8 +312,8 @@ export default {
 }
 
 [data-bs-theme=dark] .time-picker.form .input {
-  background-color: #151f2c;
-  border-color: #2d3d50;
+  background-color: var(--input-background);
+  border-color: var(--tblr-border-color);
 }
 [data-bs-theme=dark] .time-picker.form .input.focus {
   border-color: #80aad3;

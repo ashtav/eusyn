@@ -64,7 +64,7 @@ this.$modal.callback({name: 'John Doe'})
 
     <Modal id="modal" :elevation="false" :actions="icons" @init="onInit" icon="hgi-book-open-02">
       <form @submit.prevent="onSubmit">
-        <div class="modal-body">
+        <div class="modal-body space-y-3">
           <p class="mb-5">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi beatae delectus
             deleniti

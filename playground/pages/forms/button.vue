@@ -3,7 +3,21 @@
         <PageHeader title="Button" />
 
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 space-y-3">
+
+                <Props :attrs="[
+                    'label',
+                    'disabled',
+                    'submitted',
+                    'submit',
+                    'theme',
+                    'icon',
+                    'iconAlign',
+                    'to',
+                    'onClick'
+                ]" />
+
+
                 <Row gap="5">
                     <Button label="Text Only" @click="onSubmit" />
                     <Button label="Text Icon" icon="hgi-sent" theme="btn-dark" @click="onSubmit" />
@@ -24,7 +38,7 @@
     <Button label="Submit" submit />
 </form>' />
 
-                <form @submit.prevent="onFormSubmit">
+                <form @submit.prevent="onFormSubmit" class="space-y-3">
                     <Input hint="This input is required *" required />
                     <Button label="Submit" theme="w-100" submit />
                 </form>

@@ -1,6 +1,7 @@
 declare const _default: import("vue").DefineComponent<{
     code: {
         type: StringConstructor;
+        required: true;
     };
     description: {
         type: StringConstructor;
@@ -8,11 +9,11 @@ declare const _default: import("vue").DefineComponent<{
     };
     lang: {
         type: StringConstructor;
+        default: string;
     };
 }, {
-    code: import("vue").Ref<string | undefined>;
-    language: import("vue").Ref<string>;
     codeElement: import("vue").Ref<HTMLElement | null>;
+    language: import("vue").Ref<string>;
     copied: import("vue").Ref<boolean>;
     doCopy: () => Promise<void>;
     iconCheck: string;
@@ -20,6 +21,7 @@ declare const _default: import("vue").DefineComponent<{
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     code: {
         type: StringConstructor;
+        required: true;
     };
     description: {
         type: StringConstructor;
@@ -27,8 +29,10 @@ declare const _default: import("vue").DefineComponent<{
     };
     lang: {
         type: StringConstructor;
+        default: string;
     };
 }>>, {
     description: string;
+    lang: string;
 }, {}>;
 export default _default;

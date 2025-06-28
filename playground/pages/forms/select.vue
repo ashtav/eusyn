@@ -3,7 +3,7 @@
         <PageHeader title="Select Option" />
 
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 space-y-3">
                 <p>
                     This is how the select option is displayed and how to use it along with some additional information.
                     Here are
@@ -11,12 +11,8 @@
                     details on its functionalities, advantages, and usage scenarios.
                 </p>
 
-                <h4> &mdash; &nbsp; Props</h4>
-                <p class="mb-6">
-                    <code class="me-1 mb-1 d-inline-block"
-                        v-for="(e, i) in ['label', 'hint', 'type', 'disabled', 'required', 'autofocus', 'busy', 'prefix', 'suffix', 'options', 'nospace', 'v-model']"
-                        :key="i">{{ e }}</code>
-                </p>
+                <Props
+                    :attrs="['label', 'hint', 'type', 'disabled', 'required', 'autofocus', 'busy', 'prefix', 'suffix', 'options', 'v-model']" />
 
                 <Select v-model="forms.hobby" label="Hobby" hint="Select your hobby" :options="hobbies"
                     :busy="isLoading" @enter="onEnter" />
@@ -24,28 +20,29 @@
                     code='<Select label="Hobby" hint="Select your hobby" :options="hobbies" v-model="forms.hobby" :busy="isLoading" @enter="onEnter" />' />
 
 
-                <Select label="Province" hint="Select your province" suffix="ti-map-2" required :options="provinces"
-                    v-model="forms.province" :busy="isLoadingProvince" />
+                <Select label="Province" hint="Select your province" suffix="hgi-map-pinpoint-02" required
+                    :options="provinces" v-model="forms.province" :busy="isLoadingProvince" />
                 <Code class="mb-5" description="Using value as input."
                     code='<Select label="Province" hint="Select your province" suffix="ti-map-2" required :options="provinces" v-model="forms.province" />' />
 
                 <Select label="From Api" hint="Select your data" suffix="ti-file" required :options="options"
                     v-model="forms.option" ref="select" />
 
-                <Button label="Get Data" @click="onSubmit" />
-                <Button label="Auto Fill" theme="white ms-2" @click="onFill" />
-                <Button label="Set Loading" theme="white ms-2" @click="setLoading" ref="el" />
-                <br> <br>
+                <div>
+                    <Button label="Get Data" @click="onSubmit" />
+                    <Button label="Auto Fill" theme="white ms-2" @click="onFill" />
+                    <Button label="Set Loading" theme="white ms-2" @click="setLoading" ref="el" />
+                </div>
                 <code> {{ forms }} </code>
-                <br> <br>
                 <br>
 
                 <Select label="Search" hint="Type category name, then press enter" suffix="ti-file" required
                     :options="options" v-model="forms.option" ref="search" @enter="onSearch" />
 
                 <Code class="mb-5"
-                    description="To keep the search input focused after searching, use the ref attribute."
-                    code="this.$e.focus(this, 'search')" />
+                    description="To keep the search input focused after searching, use the ref attribute." code="this.$e.focus(this, 'search') // focus
+this.$loading(true, 'search') // set busy" />
+
             </div>
         </div>
 

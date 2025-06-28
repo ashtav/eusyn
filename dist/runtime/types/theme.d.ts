@@ -20,7 +20,7 @@ interface Theme {
      * // Set the theme based on system preference
      * theme("system");
      */
-    set: Function,
+    set: (value?: string) => void,
     get: Ref<string>
 }
 

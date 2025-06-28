@@ -76,6 +76,10 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    el: {
+        type: StringConstructor;
+        default: string;
+    };
 }, {
     show: Ref<boolean>;
     utils: import("../../types/utils").default;
@@ -89,6 +93,9 @@ declare const _default: import("vue").DefineComponent<{
     onSelect: (option: any) => void;
     extract: (option: Dropdown | string | number, key: string) => any;
     separator: Ref<number[]>;
+    attrs: {
+        [x: string]: unknown;
+    };
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "select"[], "select", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     options: {
         type: {
@@ -161,6 +168,10 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    el: {
+        type: StringConstructor;
+        default: string;
+    };
 }>> & {
     onSelect?: ((...args: any[]) => any) | undefined;
 }, {
@@ -172,5 +183,6 @@ declare const _default: import("vue").DefineComponent<{
     icons: String[];
     placement: string;
     separate: number[];
+    el: string;
 }, {}>;
 export default _default;

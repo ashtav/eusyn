@@ -1,7 +1,7 @@
 <template>
   <div :class="['input', utils.on(disabled, 'disabled')]">
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
-    <div class="input-icon" :class="{ 'mb-3': !nospace }">
+    <div class="input-icon">
       <!-- prefix -->
       <span v-if="prefix" class="input-icon-addon">
         <Icon :icon="prefix" size="input-prefix" />
@@ -10,7 +10,7 @@
       <!-- input -->
       <textarea :value="localValue" :class="['form-control']" :placeholder="hint" :maxlength="maxLength"
         :required="required" :disabled="disabled" :autofocus="autofocus" name="input" autocomplete="off"
-        :style="{ maxHeight: `${maxHeight}px` }" @input="onInput" @keypress="onKeyPress" />
+        :style="{ maxHeight: `${maxHeight}px` }" @input="onInput" @keypress="onKeyPress" ref="textarea" />
 
       <!-- suffixs -->
       <div v-if="inputSuffixs.length != 0" class="suffixs">
@@ -37,7 +37,6 @@ import { utils } from '../../plugins/utils';
 import { formatting, handleKeyPress } from '../../scripts/input';
 
 export default defineComponent({
-
   inheritAttrs: false,
   emits: ['update:modelValue', 'enter', 'blur', 'suffix'],
   props: {
@@ -91,19 +90,9 @@ export default defineComponent({
       default: () => []
     },
 
-    password: {
-      type: Boolean,
-      default: false
-    },
-
     formatters: {
       type: String,
       default: '' // "ucwords|ucfirst|lower|upper|trim|numeric|currency|alpha|alphanumeric|date|address|hashtag|decimal"
-    },
-
-    nospace: {
-      type: Boolean,
-      default: false
     }
   },
 
@@ -111,6 +100,7 @@ export default defineComponent({
     const instance = getCurrentInstance()
     const localValue = ref(props.modelValue)
     const inputSuffixs = ref(props.suffixs)
+    const textarea = ref(null)
 
     // methods
     const onInput = (event: any) => {
@@ -144,11 +134,15 @@ export default defineComponent({
 
     // mounted
     onMounted(() => {
-
+      if (props.autofocus) {
+        setTimeout(() => {
+          (textarea.value as HTMLElement).focus()
+        }, 10);
+      }
     })
 
     return {
-      utils, localValue, inputSuffixs, onInput, onSuffix, onKeyPress
+      utils, localValue, inputSuffixs, textarea, onInput, onSuffix, onKeyPress
     }
   }
 })
@@ -159,6 +153,11 @@ export default defineComponent({
 
   &.disabled {
     pointer-events: none;
+    opacity: .5;
+
+    textarea {
+      border-color: #d1d1d1;
+    }
 
     .date-input-placeholders {
       background-color: #f6f8fb;
@@ -227,5 +226,23 @@ export default defineComponent({
     align-items: unset !important;
     top: 9px
   }
+}
+
+[data-bs-theme=dark] {
+  textarea {
+    background-color: var(--input-background);
+    border-color: var(--tblr-border-color);
+
+    .controls span {
+      border-color: #1f2e41;
+    }
+  }
+
+  .input.disabled {
+    textarea {
+      border-color: var(--tblr-border-color);
+    }
+  }
+
 }
 </style>

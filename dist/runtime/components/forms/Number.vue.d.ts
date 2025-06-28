@@ -31,10 +31,6 @@ declare const _default: import("vue").DefineComponent<{
         type: NumberConstructor;
         default: null;
     };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
 }, {
     utils: import("../../types/utils").default;
     localValue: import("vue").Ref<number>;
@@ -73,10 +69,6 @@ declare const _default: import("vue").DefineComponent<{
         type: NumberConstructor;
         default: null;
     };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
 }>> & {
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }, {
@@ -87,7 +79,6 @@ declare const _default: import("vue").DefineComponent<{
     modelValue: string | number;
     min: number;
     max: number;
-    nospace: boolean;
     prefix: string;
 }, {}>;
 export default _default;

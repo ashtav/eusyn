@@ -1,7 +1,7 @@
 <template>
   <div :class="['select', utils.on(disabled || isLoading, 'disabled')]">
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
-    <div class="input-icon" :class="{ 'mb-3': !nospace }">
+    <div class="input-icon">
       <!-- prefix -->
       <span v-if="prefix" class="input-icon-addon">
         <Icon :icon="prefix" size="input-prefix" />
@@ -95,11 +95,6 @@ export default defineComponent({
     options: {
       type: Array<any>,
       default: () => []
-    },
-
-    nospace: {
-      type: Boolean,
-      default: false
     }
   },
 
@@ -304,7 +299,7 @@ export default defineComponent({
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      height: 40px;
+      height: 34px;
       padding: 0 7px;
       padding-top: 1px;
       cursor: pointer;

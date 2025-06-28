@@ -15,10 +15,6 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     inline: {
         type: BooleanConstructor;
         default: boolean;
@@ -51,10 +47,6 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     inline: {
         type: BooleanConstructor;
         default: boolean;
@@ -73,6 +65,5 @@ declare const _default: import("vue").DefineComponent<{
     modelValue: boolean;
     inline: boolean;
     reversed: boolean;
-    nospace: boolean;
 }, {}>;
 export default _default;

@@ -4,7 +4,17 @@
         <PageHeader title="File Handler" />
 
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 space-y-3">
+                <Props :attrs="[
+                    'accept',
+                    'multiple',
+                    'config',
+                    'draggable',
+                    'disabled',
+                    'output:base64|file'
+                ]" />
+
+
                 <FileHandler accept="image:jpg,jpeg,png"
                     :config="{ maxSize: 5, width: [300, 1200], height: [300, 2000] }" draggable multiple
                     @dragged="onDragged" @select="onSelect">

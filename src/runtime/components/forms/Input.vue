@@ -2,7 +2,7 @@
 
   <div :class="['input', utils.on(disabled, 'disabled')]">
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
-    <div class="input-icon" :class="{ 'mb-3': !nospace }">
+    <div class="input-icon">
       <!-- prefix -->
       <span v-if="prefix" class="input-icon-addon">
         <Icon :icon="prefix" size="input-prefix" />
@@ -122,11 +122,6 @@ export default defineComponent({
     formatters: {
       type: String,
       default: '' // "ucwords|ucfirst|lower|upper|trim|numeric|currency|alpha|alphanumeric|date|address|hashtag|decimal|phone|email|url"
-    },
-
-    nospace: {
-      type: Boolean,
-      default: false
     },
 
     mask: {
@@ -421,7 +416,7 @@ export default defineComponent({
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      height: 40px;
+      height: 35px;
       padding: 0 7px;
       padding-top: 1px;
       cursor: pointer;
@@ -463,7 +458,7 @@ export default defineComponent({
     width: calc(100% - 80px);
     background-color: white;
     border-radius: 4px;
-    height: 38px;
+    height: 34px;
     display: inline-flex;
     align-items: center;
     padding-left: 3px;

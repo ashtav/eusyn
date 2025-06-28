@@ -39,7 +39,7 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: null;
     };
-    suffixs: {
+    suffix: {
         type: {
             (arrayLength: number): any[];
             (...items: any[]): any[];
@@ -72,10 +72,6 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     mask: {
         type: StringConstructor;
         default: null;
@@ -84,7 +80,7 @@ declare const _default: import("vue").DefineComponent<{
     utils: import("../../types/utils").default;
     localValue: import("vue").Ref<string | number>;
     inputType: import("vue").Ref<string>;
-    inputSuffixs: import("vue").Ref<any[]>;
+    inputSuffix: import("vue").Ref<any[]>;
     input: import("vue").Ref<null>;
     onInput: (event: any) => void;
     onFocus: (event: any) => void;
@@ -134,7 +130,7 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: null;
     };
-    suffixs: {
+    suffix: {
         type: {
             (arrayLength: number): any[];
             (...items: any[]): any[];
@@ -167,10 +163,6 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     mask: {
         type: StringConstructor;
         default: null;
@@ -190,14 +182,13 @@ declare const _default: import("vue").DefineComponent<{
     password: boolean;
     required: boolean;
     modelValue: string | number;
-    nospace: boolean;
     prefix: string;
     minDate: string;
     maxDate: string;
+    suffix: any[];
     hint: string;
     autofocus: boolean;
     maxLength: number;
-    suffixs: any[];
     formatters: string;
 }, {}>;
 export default _default;

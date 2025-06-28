@@ -1,18 +1,22 @@
 import { ref } from "vue";
 const themeValue = ref("system");
 const setTheme = (value) => {
-  const body = document.body;
-  const themeAttribute = "data-bs-theme";
-  const currentTheme = body.getAttribute(themeAttribute) || "light";
-  if (!value) {
-    body.setAttribute(themeAttribute, currentTheme === "dark" ? "light" : "dark");
-  } else if (value === "system") {
-    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    body.setAttribute(themeAttribute, prefersDarkScheme ? "dark" : "light");
-  } else {
-    body.setAttribute(themeAttribute, value);
-  }
-  themeValue.value = body.getAttribute(themeAttribute) || "light";
+  themeValue.value = value || "system";
+  const current = document.documentElement.getAttribute("data-bs-theme") || "light";
+  const resolveTheme = () => {
+    if (value === "system") {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    if (!value) {
+      return current === "dark" ? "light" : "dark";
+    }
+    return value;
+  };
+  const resolved = resolveTheme();
+  useHead({
+    htmlAttrs: { "data-bs-theme": resolved }
+  });
+  themeValue.value = resolved;
 };
 const theme = {
   set: setTheme,

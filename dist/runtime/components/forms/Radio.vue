@@ -1,11 +1,13 @@
 <template>
-  <div :class="[{ 'mb-3': !nospace }, 'radio']">
+  <div :class="['radio']">
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
 
     <div v-if="isLoading">
       <label v-for="(_, i) in utils.randInt(2, 5)" :key="i" class="form-check form-check-inline mb-1">
         <input class="form-check-input" type="radio" disabled>
-        <span class="form-check-label" style="margin-top: 3px;"> <Shimmer :size="[[30, 120]]" /> </span>
+        <span class="form-check-label" style="margin-top: 3px;">
+          <Shimmer :size="[[30, 120]]" />
+        </span>
       </label>
     </div>
 
@@ -48,10 +50,6 @@ export default defineComponent({
     options: {
       type: Array,
       default: () => []
-    },
-    nospace: {
-      type: Boolean,
-      default: false
     },
     emptyMessage: {
       type: String,

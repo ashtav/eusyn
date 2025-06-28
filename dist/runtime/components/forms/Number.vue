@@ -1,5 +1,5 @@
 <template>
-    <div :class="['number', utils.on(disabled, 'disabled'), { 'mb-3': !nospace }]">
+    <div :class="['number', utils.on(disabled, 'disabled')]">
         <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
 
         <div class="input-group" @wheel="onWheel">
@@ -25,10 +25,10 @@ export default {
   inheritAttrs: false,
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    const value = parseInt(props.modelValue) || 0;
+    const value = parseInt(props.modelValue.toString()) || 0;
     const localValue = ref(value);
     watch(() => props.modelValue, (value2) => {
-      localValue.value = parseInt(value2) || 0;
+      localValue.value = parseInt(value2.toString()) || 0;
     });
     const onControl = (i) => {
       if (props.disabled || props.readonly)
@@ -74,10 +74,6 @@ export default {
     max: {
       type: Number,
       default: null
-    },
-    nospace: {
-      type: Boolean,
-      default: false
     }
   }
 };
@@ -87,14 +83,14 @@ export default {
 .number.disabled {
   pointer-events: none;
 }
-.number.disabled .input-group {
-  background-color: #f6f8fb;
-}
-.number.disabled .input-group div {
-  opacity: 0.3;
+.number.disabled .input-group,
+.number.disabled div {
+  background-color: transparent;
+  opacity: 0.5;
+  border-color: #d1d1d1;
 }
 .number.disabled .controls {
-  opacity: 0.3;
+  opacity: 0.5;
 }
 .number .input-group {
   display: flex;
@@ -102,18 +98,21 @@ export default {
   align-items: center;
   padding: 0 0.75rem;
   padding-right: 0;
-  background-color: #f9f9f9;
-  border-radius: 0.25rem;
-  border: 1px #dadfe5 solid;
-  height: 40px;
+  background-color: #fff;
+  border-radius: var(--tblr-border-radius-md);
+  border: 1px var(--tblr-border-color) solid;
+  height: 36px;
 }
 .number .input-group div {
   display: flex;
   align-items: center;
 }
 .number .input-group .controls span {
-  padding: 3px 0.75rem;
+  padding: 0.55rem 0.75rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .number .input-group .controls span:not(:first-child) {
   border-left: 1px solid #dadfe5;
@@ -126,14 +125,11 @@ export default {
 }
 
 [data-bs-theme=dark] .number .input-group {
-  background-color: #151f2c;
+  background-color: var(--input-background);
   color: #fff;
-  border-color: #1f2e41;
+  border-color: var(--tblr-border-color);
 }
 [data-bs-theme=dark] .number .input-group .controls span {
   border-color: #1f2e41;
-}
-[data-bs-theme=dark] .number.disabled .input-group {
-  background-color: #1b293a;
 }
 </style>

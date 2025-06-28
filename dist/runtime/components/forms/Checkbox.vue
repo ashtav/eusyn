@@ -1,5 +1,5 @@
 <template>
-  <div :class="[{ 'mb-3': !nospace, 'd-inline-block': single }, 'checkbox']">
+  <div :class="[{ 'd-inline-block': single }, 'checkbox']">
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
 
     <div v-if="isLoading">
@@ -56,10 +56,6 @@ export default defineComponent({
     options: {
       type: Array,
       default: () => []
-    },
-    nospace: {
-      type: Boolean,
-      default: false
     },
     emptyMessage: {
       type: String,

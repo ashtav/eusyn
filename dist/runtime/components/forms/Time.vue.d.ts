@@ -6,6 +6,10 @@ declare const _default: import("vue").DefineComponent<{
     label: {
         type: StringConstructor;
     };
+    disabled: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     prefix: {
         type: StringConstructor;
     };
@@ -17,16 +21,13 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     shape: {
         type: StringConstructor;
         default: string;
     };
 }, {
     times: import("vue").Ref<string[]>;
+    utils: import("../../types/utils").default;
     hasFocus: import("vue").Ref<boolean>;
     onChange: (type: string, index: number) => void;
     onWheel: (event: WheelEvent, index: number) => void;
@@ -40,6 +41,10 @@ declare const _default: import("vue").DefineComponent<{
     label: {
         type: StringConstructor;
     };
+    disabled: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     prefix: {
         type: StringConstructor;
     };
@@ -51,10 +56,6 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     shape: {
         type: StringConstructor;
         default: string;
@@ -63,9 +64,9 @@ declare const _default: import("vue").DefineComponent<{
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }, {
     time: string[];
+    disabled: boolean;
     format: string;
     modelValue: string;
-    nospace: boolean;
     shape: string;
 }, {}>;
 export default _default;

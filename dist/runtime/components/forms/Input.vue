@@ -2,7 +2,7 @@
 
   <div :class="['input', utils.on(disabled, 'disabled')]">
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
-    <div class="input-icon" :class="{ 'mb-3': !nospace }">
+    <div class="input-icon">
       <!-- prefix -->
       <span v-if="prefix" class="input-icon-addon">
         <Icon :icon="prefix" size="input-prefix" />
@@ -20,9 +20,9 @@
         :autofocus="autofocus" name="input" autocomplete="off" @focus="onFocus" @input="onInput" @keypress="onKeyPress"
         @mousedown="onMouseDown" ref="input" :icon="isTabler ? 'tabler' : 'huge'">
 
-      <!-- suffixs -->
-      <div v-if="inputSuffixs.length != 0 && !['date'].includes(type)" class="suffixs">
-        <span v-for="(suffix, i) in inputSuffixs" :key="i" :class="[utils.on(suffix.disabled, 'disabled')]"
+      <!-- suffix -->
+      <div v-if="inputSuffix.length != 0 && !['date'].includes(type)" class="suffix">
+        <span v-for="(suffix, i) in inputSuffix" :key="i" :class="[utils.on(suffix.disabled, 'disabled')]"
           @click="onSuffix(suffix)">
 
           <!-- if kbd and has text -->
@@ -88,7 +88,7 @@ export default defineComponent({
       type: String,
       default: null
     },
-    suffixs: {
+    suffix: {
       type: Array,
       default: () => []
     },
@@ -109,10 +109,6 @@ export default defineComponent({
       default: ""
       // "ucwords|ucfirst|lower|upper|trim|numeric|currency|alpha|alphanumeric|date|address|hashtag|decimal|phone|email|url"
     },
-    nospace: {
-      type: Boolean,
-      default: false
-    },
     mask: {
       type: String,
       default: null
@@ -132,7 +128,7 @@ export default defineComponent({
     const input = ref(null);
     const localValue = ref(props.modelValue);
     const inputType = ref(getType());
-    const inputSuffixs = ref(props.suffixs);
+    const inputSuffix = ref(props.suffix);
     const obsecure = ref(true);
     let inputEvent = null;
     const onInput = (event) => {
@@ -162,27 +158,27 @@ export default defineComponent({
     };
     const onSuffix = (data) => {
       if (data?._toggle) {
-        const index = inputSuffixs.value.findIndex((e) => e._toggle);
+        const index = inputSuffix.value.findIndex((e) => e._toggle);
         obsecure.value = !obsecure.value;
-        inputSuffixs.value[index] = { icon: obsecure.value ? eye : eyeOff, _toggle: true };
+        inputSuffix.value[index] = { icon: obsecure.value ? eye : eyeOff, _toggle: true };
       }
       emit("suffix", data);
     };
     const checkPassword = (value) => {
-      const suffixs = inputSuffixs.value;
+      const suffix = inputSuffix.value;
       inputType.value = value ? "password" : props.type;
       obsecure.value = value;
       if (value) {
-        const index = suffixs.findIndex((e) => e._toggle);
+        const index = suffix.findIndex((e) => e._toggle);
         if (index == -1) {
-          inputSuffixs.value.push({
+          inputSuffix.value.push({
             icon: eye,
             _toggle: true
           });
         }
         return;
       }
-      inputSuffixs.value = suffixs.filter((e) => !e._toggle);
+      inputSuffix.value = suffix.filter((e) => !e._toggle);
     };
     const onKeyPress = (event) => {
       handleKeyPress(instance, emit, props, event, localValue.value, props.formatters.split("|"));
@@ -232,7 +228,9 @@ export default defineComponent({
     };
     const doFocus = () => {
       if (input.value) {
-        input.value.focus();
+        setTimeout(() => {
+          input.value.focus();
+        }, 10);
       }
     };
     watch(() => props.type, () => {
@@ -241,8 +239,8 @@ export default defineComponent({
     watch(() => props.password, (value) => {
       checkPassword(value);
     });
-    watch(() => props.suffixs, (value) => {
-      inputSuffixs.value = value;
+    watch(() => props.suffix, (value) => {
+      inputSuffix.value = value;
       checkPassword(props.password);
     }, { immediate: true });
     watch(() => props.modelValue, (value) => {
@@ -299,7 +297,7 @@ export default defineComponent({
       utils,
       localValue,
       inputType,
-      inputSuffixs,
+      inputSuffix,
       input,
       onInput,
       onFocus,
@@ -320,43 +318,43 @@ export default defineComponent({
 .input.disabled .date-input-placeholders {
   background-color: #f6f8fb;
 }
-.input.disabled .suffixs {
+.input.disabled .suffix {
   opacity: 0.6;
 }
-.input.disabled .suffixs span.disabled {
+.input.disabled .suffix span.disabled {
   opacity: 1;
 }
-.input .suffixs {
+.input .suffix {
   position: absolute;
   right: 5px;
   top: 0;
 }
-.input .suffixs span {
+.input .suffix span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
+  height: 35px;
   padding: 0 7px;
   padding-top: 1px;
   cursor: pointer;
   text-wrap: nowrap;
   user-select: none;
 }
-.input .suffixs span span {
+.input .suffix span span {
   font-size: 12.5px;
   letter-spacing: 0.5px;
 }
-.input .suffixs span.disabled {
+.input .suffix span.disabled {
   pointer-events: none;
   opacity: 0.6;
 }
-.input .suffixs span i {
+.input .suffix span i {
   opacity: 0.6;
 }
-.input .suffixs span:hover i {
+.input .suffix span:hover i {
   opacity: 1;
 }
-.input .suffixs span:active i {
+.input .suffix span:active i {
   opacity: 0.6;
 }
 .input .date-input-placeholders {
@@ -366,7 +364,7 @@ export default defineComponent({
   width: calc(100% - 80px);
   background-color: white;
   border-radius: 4px;
-  height: 38px;
+  height: 34px;
   display: inline-flex;
   align-items: center;
   padding-left: 3px;

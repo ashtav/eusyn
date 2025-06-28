@@ -19,30 +19,32 @@ import { defineComponent, onMounted, ref, watch } from "vue";
 export default defineComponent({
   props: {
     code: {
-      type: String
+      type: String,
+      required: true
     },
     description: {
       type: String,
       default: null
     },
     lang: {
-      type: String
+      type: String,
+      default: ""
     }
   },
   setup(props) {
     const config = useRuntimeConfig();
     const icon = config.public.ui?.icon;
-    const isTabler = icon == "tabler";
+    const isTabler = icon === "tabler";
     const iconCheck = isTabler ? "ti-check" : "hgi-tick-02";
     const iconCopy = isTabler ? "ti-copy" : "hgi-copy-02";
     const codeElement = ref(null);
     const copied = ref(false);
-    const code = ref(props.code);
-    const language = ref(props.lang ? props.lang : props.code && props.code.charAt(0) == "<" ? "markup" : "js");
+    const language = ref(
+      props.lang || (props.code && props.code.charAt(0) === "<" ? "markup" : "js")
+    );
     const doCopy = async () => {
-      if (copied.value) {
+      if (copied.value)
         return;
-      }
       try {
         await navigator.clipboard.writeText(props.code);
         copied.value = true;
@@ -54,21 +56,22 @@ export default defineComponent({
       }
     };
     const highlighting = () => {
-      if (codeElement.value) {
-        Prism.manual = true;
-        Prism.highlightElement(codeElement.value);
-      }
+      setTimeout(() => {
+        if (codeElement.value) {
+          Prism.manual = true;
+          Prism.highlightElement(codeElement.value);
+        }
+      }, 10);
     };
-    watch(() => props.code, (_) => {
-      highlighting();
-    });
     onMounted(() => {
       highlighting();
     });
+    watch(() => props.code, () => {
+      highlighting();
+    });
     return {
-      code,
-      language,
       codeElement,
+      language,
       copied,
       doCopy,
       iconCheck,
@@ -77,6 +80,7 @@ export default defineComponent({
   }
 });
 </script>
+
 
 <style>
 .code {
@@ -95,7 +99,7 @@ export default defineComponent({
 .code .description {
   border: 1px #e9e9e9 solid;
   padding: 13px 15px;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0 0 6px 6px;
   position: relative;
   background-color: white;
   top: -2px;
@@ -108,14 +112,14 @@ pre {
   color: #666;
   padding: 15px !important;
   margin: 0 !important;
-  border-radius: 5px;
+  border-radius: 6px;
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: pre-wrap;
   border: 1px transparent solid;
 }
 pre.has-desc {
-  border-radius: 5px 5px 0 0;
+  border-radius: 6px 6px 0 0;
 }
 pre code {
   padding: 0 !important;
@@ -184,6 +188,9 @@ pre code .token.italic {
 }
 pre code .token.entity {
   cursor: help;
+}
+pre code span.tag {
+  all: unset;
 }
 
 [data-bs-theme=dark] pre,

@@ -3,14 +3,20 @@
         <PageHeader title="Range & Switches" />
 
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 space-y-3">
                 <p>
                     This section demonstrates how to use range input and switches in your form. You will find
                     examples of
                     their functionalities, advantages, and practical usage scenarios.
                 </p>
+
+                <Props :attrs="['label', 'caption', 'disabled', 'required', 'inline', 'reversed', 'v-model']" />
+
                 <Switch v-model="forms.accepted" inline caption="Disable|Enable" />
-                <Code class="mb-5" code='<Switch v-model="forms.accepted" inline caption="Disable|Enable" :reversed="false" />' />
+                <Code class="mb-5"
+                    code='<Switch v-model="forms.accepted" inline caption="Disable|Enable" :reversed="false" />' />
+
+                <Props :attrs="['range', 'step', 'indicator', 'multiple', 'disabled', 'v-model']" />
 
                 <Range v-model="forms.range" /> <br>
                 <Code class="mb-5" code='<Range v-model="forms.range" />' />

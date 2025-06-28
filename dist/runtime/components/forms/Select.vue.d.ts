@@ -52,10 +52,6 @@ declare const _default: import("vue").DefineComponent<{
         };
         default: () => never[];
     };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
 }, {
     utils: import("../../types/utils").default;
     localValue: import("vue").Ref<string | number>;
@@ -130,10 +126,6 @@ declare const _default: import("vue").DefineComponent<{
         };
         default: () => never[];
     };
-    nospace: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
 }>> & {
     onChange?: ((...args: any[]) => any) | undefined;
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -144,7 +136,6 @@ declare const _default: import("vue").DefineComponent<{
     required: boolean;
     options: any[];
     modelValue: string | number;
-    nospace: boolean;
     prefix: string;
     suffix: string;
     hint: string;

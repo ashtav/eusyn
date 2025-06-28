@@ -1,11 +1,11 @@
 <template>
     <div class="accordion" ref="accordion">
         <div class="accordion-item" v-for="(item, i) in items" :key="i">
-            <h2 class="accordion-header">
+            <h4 class="accordion-header">
                 <button :class="['accordion-button', { collapsed: !isOpen(i) }]" type="button">
                     {{ item.label }}
                 </button>
-            </h2>
+            </h4>
             <div class="accordion-collapse">
                 <div class="accordion-body pt-0">
                     {{ item.content }}
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { onMounted, ref } from "vue";
 export default {
   props: {
     items: {
@@ -86,11 +86,10 @@ export default {
   }
 };
 </script>
-  
+
 <style scoped>
 .accordion-collapse {
   max-height: 0;
   overflow: hidden;
 }
 </style>
-  

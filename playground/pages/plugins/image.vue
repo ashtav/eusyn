@@ -3,14 +3,15 @@
         <PageHeader title="Image Utilities" />
 
         <div class="row">
-            <div class="col-6 mb-5">
+            <div class="col-6 mb-5 space-y-3">
                 <FileHandler @select="handleFile" />
 
                 <Code code='// to decrease image quality
 const image = await this.$e.image.quality(<base64-image>, .5);
 
 // to resize image size                    
-const image_resizes = await this.$e.image.resize(<base64-image>, [100, 100])' description="For more and details example, please look at the code." />
+const image_resizes = await this.$e.image.resize(<base64-image>, [100, 100])'
+                    description="For more and details example, please look at the code." />
             </div>
 
             <div v-if="image.data">

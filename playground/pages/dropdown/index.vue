@@ -2,11 +2,25 @@
     <div>
         <PageHeader title="Dropdown" />
 
-        <code>{{ data }}</code>
 
         <div class="row">
             <div class="col-lg-6">
-                <div class="my-3">
+                <Props :attrs="[
+                    'options',
+                    'icons',
+                    'size',
+                    'placement',
+                    'separate',
+                    'label',
+                    'icon',
+                    'theme',
+                    'el'
+                ]" />
+
+
+                <div class="my-3 mt-5">
+                    <code>{{ data }}</code> <br><br>
+
                     <Row :gap="10">
                         <Dropdown :options="options" :separate="[0, 2]" @select="onSelect">
                             <Button label="More" iconAlign="end" />
