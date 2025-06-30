@@ -6,7 +6,7 @@
       </slot>
     </component>
 
-    <div :class="[`dropdown-menu`, size, { 'show': show }, `dropdown-menu-${placement}`]">
+    <div :class="[`dropdown-menu`, size, { 'show': show }, `dropdown-menu-${placement} mt-${space}`]">
       <span v-if="options_.length == 0" class="dropdown-item text-muted disabled">No data found!</span>
 
       <template v-for="(option, i) in options_" :key="i" v-else>
@@ -18,7 +18,8 @@
           </Row>
         </span>
 
-        <div v-if="separator.includes(i) && i < (options_.length - 1)" class="dropdown-divider" />
+        <div v-if="separator.includes(i) && i < (options_.length - 1) || (option.separate && i < (options_.length - 1))"
+          class="dropdown-divider" />
       </template>
     </div>
   </div>
@@ -32,7 +33,8 @@ import { utils } from '../../plugins/utils';
 interface Dropdown {
   label: string,
   icon?: string,
-  danger?: boolean
+  danger?: boolean,
+  separate?: boolean
 }
 
 export default {
@@ -53,6 +55,11 @@ export default {
     size: {
       type: String,
       default: 'lg'
+    },
+
+    space: {
+      type: String,
+      default: '1'
     },
 
     placement: {

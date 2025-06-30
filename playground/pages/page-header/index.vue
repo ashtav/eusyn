@@ -6,9 +6,16 @@
         ]" :actions="actions" @click="onRefresh" />
 
         <div class="row">
-            <div class="col-7">
+            <div class="col-7 space-y-3">
+                <Props :attrs="['pretitle', 'title', 'actions', 'breadcrumb']" />
+
                 <Code
                     code='<PageHeader title="Page Header" :breadcrumb="[{label, path}]" :actions="[{label, icon, click}]" />' />
+
+                <Code code='// another example
+<PageHeader actions: [{label: "Dropdown",  options: [{
+label: "Profile", icon: "hgi-user-circle", separate: true},
+}], click: (e) => {}}] />' />
             </div>
         </div>
 
@@ -24,7 +31,15 @@ export default {
     data() {
         return {
             actions: [
-                { icon: 'hgi-settings-01', theme: 'btn-white', submit: false },
+                { icon: 'hgi-link-01', url: '/', theme: 'btn-white', },
+                {
+                    icon: 'hgi-settings-01', theme: 'btn-white', options: [
+                        { label: 'Profile', icon: 'hgi-user-circle', separate: true },
+                        { label: 'History', icon: 'hgi-files-01' },
+                        { label: 'Task', icon: 'hgi-task-01' }
+                    ],
+                    click: this.onAction
+                },
                 { label: 'Create New', icon: 'hgi-add-01', click: this.createNew },
             ]
         }
@@ -36,12 +51,10 @@ export default {
         },
 
         createNew() {
-            this.$toast.show('Create new data!')
-            this.actions[0].submit = true
+        },
 
-            setTimeout(() => {
-                this.actions[0].submit = false
-            }, 3000);
+        onAction(action: any) {
+            console.log('Action clicked:', action);
         }
     }
 }

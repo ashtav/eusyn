@@ -2,6 +2,7 @@
   <div class="page-header mb-5">
     <div class="row g-2 align-items-center">
       <div class="col">
+
         <!-- Page pre-title -->
         <div class="page-pretitle" v-text="pretitle" />
         <h2 class="page-title d-inline" :class="utils.on($attrs?.onClick != null, 'hoverable')" @click="emit('click')"
@@ -10,7 +11,9 @@
 
         <ol class="breadcrumb mt-2" v-if="breadcrumb.length > 0">
           <li class="breadcrumb-item" v-for="(e, i) in breadcrumb" :class="{ 'active': e.path == null }">
-            <NuxtLink :to="e.path"> <Icon :icon="`${e.icon} fix me-2`" v-if="e.icon" /> {{ e.label }}</NuxtLink>
+            <NuxtLink :to="e.path">
+              <Icon :icon="`${e.icon} fix me-2`" v-if="e.icon" /> {{ e.label }}
+            </NuxtLink>
           </li>
         </ol>
       </div>
@@ -33,10 +36,24 @@
               </NuxtLink>
             </template>
 
-            <button v-if="!action?.url && (action?.visible ?? true)" :class="[action.theme ?? 'btn-primary']"
-              class="btn" :disabled="action.submit ?? false" @click="action?.click?.()">
+            <Dropdown v-else-if="action?.options" :options="action.options" placement="end"
+              @select="(option) => action?.click?.(option)">
+              <button :class="[action.theme ?? 'btn-primary']" class="btn" :disabled="action.submit ?? false">
+                <span v-if="action.submit" class="spinner-border spinner-border-sm" />
+                <Icon v-if="action.icon && !action.submit" :icon="`${action.icon}`" :class="{ 'me-1': action.label }" />
+
+                <span v-if="`${action.label}`.trim() != ''"
+                  :class="[utils.on(action.label != null, 'ms-2'), 'd-none d-md-block']">{{
+                    action.label
+                  }}</span>
+              </button>
+            </Dropdown>
+
+            <button v-else-if="!action?.url && (action?.visible ?? true) && !action?.options"
+              :class="[action.theme ?? 'btn-primary']" class="btn" :disabled="action.submit ?? false"
+              @click="action?.click?.()">
               <span v-if="action.submit" class="spinner-border spinner-border-sm" />
-              <Icon v-if="action.icon && !action.submit" :icon="`${action.icon} fix-1`" :class="{ 'me-1': action.label }" />
+              <Icon v-if="action.icon && !action.submit" :icon="`${action.icon}`" :class="{ 'me-1': action.label }" />
 
               <span v-if="`${action.label}`.trim() != ''"
                 :class="[utils.on(action.label != null, 'ms-2'), 'd-none d-md-block']">{{
@@ -53,6 +70,12 @@
 <script lang="ts">
 import { utils } from '../../plugins/utils';
 
+interface Dropdown {
+  label: string,
+  icon?: string,
+  danger?: boolean
+}
+
 interface PageHeaderActions {
   url?: string,
   label?: string,
@@ -60,7 +83,8 @@ interface PageHeaderActions {
   theme?: string,
   visible?: boolean,
   submit?: boolean,
-  click?: Function
+  click?: Function,
+  options?: Array<Dropdown>
 }
 
 interface BreadcrumbItem {

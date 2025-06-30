@@ -1,3 +1,8 @@
+interface Dropdown {
+    label: string;
+    icon?: string;
+    danger?: boolean;
+}
 interface PageHeaderActions {
     url?: string;
     label?: string;
@@ -6,6 +11,7 @@ interface PageHeaderActions {
     visible?: boolean;
     submit?: boolean;
     click?: Function;
+    options?: Array<Dropdown>;
 }
 interface BreadcrumbItem {
     label: string;

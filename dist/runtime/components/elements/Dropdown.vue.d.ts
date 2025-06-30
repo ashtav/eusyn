@@ -3,6 +3,7 @@ interface Dropdown {
     label: string;
     icon?: string;
     danger?: boolean;
+    separate?: boolean;
 }
 declare const _default: import("vue").DefineComponent<{
     options: {
@@ -40,6 +41,10 @@ declare const _default: import("vue").DefineComponent<{
         default: () => never[];
     };
     size: {
+        type: StringConstructor;
+        default: string;
+    };
+    space: {
         type: StringConstructor;
         default: string;
     };
@@ -135,6 +140,10 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    space: {
+        type: StringConstructor;
+        default: string;
+    };
     placement: {
         type: StringConstructor;
         default: string;
@@ -181,6 +190,7 @@ declare const _default: import("vue").DefineComponent<{
     icon: string;
     options: any[];
     icons: String[];
+    space: string;
     placement: string;
     separate: number[];
     el: string;
