@@ -10,7 +10,7 @@
                     their functionalities, advantages, and practical usage scenarios.
                 </p>
 
-                <Props :attrs="['label', 'disabled', 'required', 'emptyMessage', 'options', 'v-model']" />
+                <Props :attrs="['label', 'value', 'disabled', 'required', 'emptyMessage', 'options', 'v-model']" />
 
                 <Radio v-model="forms.gender" label="Gender" :options="['Male', 'Female']" required nospace ref="el" />
 
@@ -34,7 +34,19 @@
                     code='<Checkbox v-model="forms.favorites" label="Favorite Fruit" required :options="fruits" />' />
 
                 <Checkbox v-model="forms.checked" />
-                <Code class="mb-5" code='<Checkbox v-model="forms.checked" />' />
+                <Code class="mb-5" code='<Checkbox v-model="forms.checked" />'
+                    description="A simple checkbox with true/false value" />
+
+                <ul class="list-unstyled d-flex flex-wrap">
+                    <li v-for="(e, i) in 5" class="d-inline-block me-2">
+                        <Checkbox v-model="selected" :value="i" />
+                    </li>
+
+                    <code>{{ selected }}</code>
+                </ul>
+
+                <Code class="mb-5" code='<Checkbox v-model="selected" :value="i" />'
+                    description="A checkbox for each item in the list" />
 
                 <div>
                     <code class="mb-5 d-block">
@@ -71,7 +83,9 @@ export default {
                 checked: true,
                 favorites: ['Banana', 'Mango'],
                 category: [1, 6]
-            }
+            },
+
+            selected: []
         }
     },
 

@@ -12,10 +12,8 @@
     </div>
 
     <div :class="{ 'd-inline-block': single }" v-else>
-      <label v-if="options.length == 0 && !label" class="form-check form-check-inline m-0">
-        <input v-model="localValue" class="form-check-input" type="checkbox" :name="inputName" :disabled="disabled">
-        <span class="form-check-label" v-text="'&nbsp;'" />
-      </label>
+      <input v-if="options.length == 0 && !label" class="form-check-input m-0" v-model="localValue" type="checkbox"
+        :disabled="disabled" :value="value" @input="onInput($event, value, true)">
 
       <label v-for="(option, i) in localOptions" v-else :key="i" class="form-check form-check-inline">
         <input v-model="localValue" class="form-check-input" type="checkbox" :name="inputName"
@@ -49,6 +47,11 @@ export default defineComponent({
       default: null
     },
 
+    value: {
+      type: [String, Number, Boolean],
+      default: null
+    },
+
     disabled: {
       type: Boolean,
       default: false
@@ -78,8 +81,30 @@ export default defineComponent({
     const isLoading = ref(false)
 
     // methods 
-    const onInput = (event: any, option: any) => {
+    const onInput = (event: any, option: any, single: boolean = false) => {
       if (props.disabled || (typeof option === 'object' && (option?.disabled ?? false))) return
+
+      if (single && props.value !== null) {
+        const value = option
+        const values = Array.isArray(localValue.value) ? localValue.value : []
+
+        if (values.includes(value)) {
+          localValue.value = values.filter((e) => e !== value)
+        } else {
+          localValue.value = [...values, value]
+        }
+
+        emit('update:modelValue', localValue.value)
+        emit('change', localValue.value)
+        return
+      }
+
+      else if (single && props.value == null) {
+        localValue.value = event.target.checked
+        emit('update:modelValue', localValue.value)
+        emit('change', localValue.value)
+        return
+      }
 
       const target = event.target
       const value = textOption(option, true)

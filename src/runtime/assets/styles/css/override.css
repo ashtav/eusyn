@@ -132,26 +132,6 @@ img[lazy] {
     border: 1px red solid !important;
 }
 
-/* custom position utils */
-
-.pos-relative {
-    position: relative;
-}
-
-.pos-absolute {
-    position: absolute;
-}
-
-.pos-fixed {
-    position: fixed;
-}
-
-.pos-sticky {
-    position: sticky;
-}
-
-/* position spacing utilities in px (step: 5) */
-
 /* top */
 .t-0 {
     top: 0px;

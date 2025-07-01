@@ -36,7 +36,7 @@
               </NuxtLink>
             </template>
 
-            <Dropdown v-else-if="action?.options" :options="action.options" placement="end"
+            <Dropdown v-else-if="action?.options && (action?.visible ?? true)" :options="action.options" placement="end"
               @select="(option) => action?.click?.(option)">
               <button :class="[action.theme ?? 'btn-primary']" class="btn" :disabled="action.submit ?? false">
                 <span v-if="action.submit" class="spinner-border spinner-border-sm" />

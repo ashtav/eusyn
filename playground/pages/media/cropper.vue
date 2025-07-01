@@ -19,13 +19,13 @@
 }' />
             </div>
 
-            <Row v-if="image.data" :gap="15" class="pos-relative">
+            <Row v-if="image.data" :gap="15" class="position-relative">
                 <div style="width: 350px">
                     <img :src="preview" alt="" class="rounded mb-3 d-block" style="object-fit: cover">
                     <code
                         class="ps-0">{{ image.name }} | {{ image.type }} | {{ image.size }} | {{ image.dimension }}</code>
                 </div>
-                <Button theme="btn pos-absolute t-10 l-20" icon="hgi-crop" @click="onCrop" />
+                <Button theme="btn position-absolute t-10 l-20" icon="hgi-crop" @click="onCrop" />
             </Row>
         </div>
 

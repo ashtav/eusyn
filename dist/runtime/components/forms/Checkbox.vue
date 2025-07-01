@@ -12,10 +12,8 @@
     </div>
 
     <div :class="{ 'd-inline-block': single }" v-else>
-      <label v-if="options.length == 0 && !label" class="form-check form-check-inline m-0">
-        <input v-model="localValue" class="form-check-input" type="checkbox" :name="inputName" :disabled="disabled">
-        <span class="form-check-label" v-text="'&nbsp;'" />
-      </label>
+      <input v-if="options.length == 0 && !label" class="form-check-input m-0" v-model="localValue" type="checkbox"
+        :disabled="disabled" :value="value" @input="onInput($event, value, true)">
 
       <label v-for="(option, i) in localOptions" v-else :key="i" class="form-check form-check-inline">
         <input v-model="localValue" class="form-check-input" type="checkbox" :name="inputName"
@@ -45,6 +43,10 @@ export default defineComponent({
       type: String,
       default: null
     },
+    value: {
+      type: [String, Number, Boolean],
+      default: null
+    },
     disabled: {
       type: Boolean,
       default: false
@@ -68,9 +70,26 @@ export default defineComponent({
     const inputName = ref("checkbox-" + utils.randString(5));
     const single = ref(props.options.length == 0);
     const isLoading = ref(false);
-    const onInput = (event, option) => {
+    const onInput = (event, option, single2 = false) => {
       if (props.disabled || typeof option === "object" && (option?.disabled ?? false))
         return;
+      if (single2 && props.value !== null) {
+        const value2 = option;
+        const values = Array.isArray(localValue.value) ? localValue.value : [];
+        if (values.includes(value2)) {
+          localValue.value = values.filter((e) => e !== value2);
+        } else {
+          localValue.value = [...values, value2];
+        }
+        emit("update:modelValue", localValue.value);
+        emit("change", localValue.value);
+        return;
+      } else if (single2 && props.value == null) {
+        localValue.value = event.target.checked;
+        emit("update:modelValue", localValue.value);
+        emit("change", localValue.value);
+        return;
+      }
       const target = event.target;
       const value = textOption(option, true);
       if (Array.isArray(props.modelValue)) {

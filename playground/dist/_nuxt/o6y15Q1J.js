@@ -1,0 +1,1 @@
+import{_ as o}from"./Cse8UAw0.js";import{_ as a,c as s,e as c,d as e,a as r}from"./DBlPRTKW.js";const n={setup(){return{}},data(){return{}}},_=e("div",{class:"row"},[e("div",{class:"col-6"})],-1);function p(d,l,i,m,u,f){const t=o;return r(),s("div",null,[c(t,{title:"Example"}),_])}const v=a(n,[["render",p]]);export{v as default};
