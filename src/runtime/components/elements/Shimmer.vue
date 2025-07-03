@@ -1,6 +1,23 @@
 <template>
   <div>
-    <div v-for="i in iterate" :key="i" class="shimmer"
+    <div class="row row-cards" v-if="['tile', 'card'].includes(type)">
+      <div :class="$attrs.class ?? 'col-sm-6 col-lg-3'" v-for="i in iterate" :key="i">
+        <div class="card card-sm">
+          <div class="card-body" :class="{ 'p-3 py-2': type == 'tile' }">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <Shimmer :size="type == 'card' ? 40 : 20" />
+              </div>
+              <div class="col">
+                <Shimmer :size="size" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-else v-for="i in iterate" :key="i" class="shimmer"
       :style="{ ...styles[i], marginBottom: `${(i == iterate) ? '0' : (gap ? gap : (iterate <= 1 ? '0' : '5'))}px` }" />
   </div>
 </template>
@@ -11,6 +28,7 @@ import { onMounted, ref, watch } from 'vue';
 import { utils } from '../../plugins/utils';
 
 export default {
+  inheritAttrs: false,
   props: {
     size: {
       type: [Array<any>, Number, String],
@@ -30,6 +48,11 @@ export default {
     gap: {
       type: String,
       default: null
+    },
+
+    type: {
+      type: String,
+      default: 'default' // tile, card
     }
   },
 
@@ -166,7 +189,7 @@ export default {
 
 [data-bs-theme=dark] {
   .shimmer {
-    @include shimmer(#1d2b3a, #2d3e52);
+    @include shimmer(#263647, #2d3e52);
   }
 }
 </style>

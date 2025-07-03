@@ -50,6 +50,7 @@
 </template>
 
 <script lang="ts">
+import type { F } from 'vitest/dist/reporters-BECoY4-b.js';
 import { ref, watch, type PropType, type Ref } from 'vue';
 
 interface TabData {
@@ -59,7 +60,7 @@ interface TabData {
 
 interface TabAction {
     icon: string,
-    click?: (data: TabAction) => {}
+    click?: (data: any) => void
 }
 
 interface RibbonCard {

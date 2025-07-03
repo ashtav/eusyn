@@ -8,7 +8,7 @@
           non id magni, sit perferendis!
         </p>
 
-        <Input hint="Enter your name" v-model="forms.name" required />
+        <Input hint="Enter your name" v-model="forms.name" required autofocus />
 
         <Card title="Tabbed Card" :tabs="tabs" tab-pos="top" v-slot="{ tab }" v-model:tab-active="tab">
           <div class="card-body">

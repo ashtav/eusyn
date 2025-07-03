@@ -27,6 +27,13 @@
         <Shimmer :size="[[50, 300]]" :iterate="2" /> <br>
         <Code class="mb-5" code='<Shimmer :size="[[50, 300]]" :iterate="2" />'
           description="With random size and iteration." />
+
+
+        <Shimmer type="tile" :size="[[50, 100]]" :iterate="2" class="col-lg-6" /> <br>
+        <Code class="mb-5" code='<Shimmer type="tile" :size="[[50, 100]]" :iterate="2" class="col-lg-6" />'
+          description="Shimmer with type: card or tile" />
+
+
       </div>
     </div>
   </div>

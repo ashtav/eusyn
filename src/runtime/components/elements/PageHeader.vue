@@ -24,14 +24,14 @@
           <template v-for="(action, i) in actions" :key="i">
             <template v-if="action?.url && (action?.visible ?? true)">
               <a v-if="action?.url && `${action?.url}`.includes('http')" :href="action?.url" target="_blank"
-                :class="[action.theme ?? 'btn-primary']" class="btn d-none d-sm-inline-block">
-                <Icon v-if="action.icon" :icon="action.icon" :class="{ 'me-1': action.label }" />
+                :class="[action.theme ?? 'btn-primary']" class="btn d-none d-sm-inline-flex align-items-center">
+                <Icon v-if="action.icon" :icon="`${action.icon}`" :class="{ 'me-1': action.label }" />
                 <span v-if="`${action.label}`.trim() != ''">{{ action.label }}</span>
               </a>
 
               <NuxtLink v-else :to="action?.url" :class="[action.theme ?? 'btn-primary']"
-                class="btn d-none d-sm-inline-block">
-                <Icon v-if="action.icon" :icon="action.icon" :class="{ 'me-1': action.label }" />
+                class="btn d-none d-sm-inline-flex align-items-center">
+                <Icon v-if="action.icon" :icon="`${action.icon}`" :class="{ 'me-1': action.label }" />
                 <span v-if="`${action.label}`.trim() != ''">{{ action.label }}</span>
               </NuxtLink>
             </template>
@@ -43,7 +43,7 @@
                 <Icon v-if="action.icon && !action.submit" :icon="`${action.icon}`" :class="{ 'me-1': action.label }" />
 
                 <span v-if="`${action.label}`.trim() != ''"
-                  :class="[utils.on(action.label != null, 'ms-2'), 'd-none d-md-block']">{{
+                  :class="[utils.on(action.label != null, 'ms-1'), 'd-none d-md-block']">{{
                     action.label
                   }}</span>
               </button>
@@ -56,7 +56,7 @@
               <Icon v-if="action.icon && !action.submit" :icon="`${action.icon}`" :class="{ 'me-1': action.label }" />
 
               <span v-if="`${action.label}`.trim() != ''"
-                :class="[utils.on(action.label != null, 'ms-2'), 'd-none d-md-block']">{{
+                :class="[utils.on(action.label != null, 'ms-1'), 'd-none d-md-block']">{{
                   action.label
                 }}</span>
             </button>
