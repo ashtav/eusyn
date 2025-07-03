@@ -105,7 +105,13 @@ export default {
     return {
       icons: [
         { icon: 'hgi-sent', tooltip: 'Send', click: this.onAction },
-        { icon: 'hgi-archive-01', tooltip: 'Archive', click: this.onAction },
+        {
+          icon: 'hgi-archive-01', tooltip: 'Archive', click: this.onAction, options: [
+            { label: 'All Items', separate: true },
+            { label: 'Last 30 Days' },
+            { label: 'Last 60 Days' },
+          ]
+        },
         { icon: 'hgi-user-circle-02', click: this.onAction },
         { icon: 'hgi-idea-01', disabled: true }
       ],

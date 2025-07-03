@@ -161,6 +161,7 @@ export default {
                         const reader = new FileReader();
                         reader.onload = (event) => {
 
+                            // handle image files
                             if (file.type.startsWith('image/')) {
 
                                 // check image dimension
@@ -202,10 +203,14 @@ export default {
 
                                     if (isValid) {
                                         result.push({
-                                            data: output === 'file' ? file : event.target?.result,
+                                            data: event.target?.result,
+                                            file: file,
                                             name: file.name,
                                             type: file.type,
                                             size: utils.formatBytes(file.size),
+                                            bytes: file.size,
+                                            width: img.width,
+                                            height: img.height,
                                             dimension: `${img.width} x ${img.height}`
                                         })
                                     }
@@ -214,14 +219,52 @@ export default {
                                 }
                             }
 
+                            // handle audio/video files
+                            else if (file.type.startsWith('audio/') || file.type.startsWith('video/')) {
+                                const media = document.createElement(file.type.startsWith('audio/') ? 'audio' : 'video')
+                                media.preload = 'metadata'
+                                media.src = URL.createObjectURL(file)
+
+                                media.onloadedmetadata = () => {
+                                    URL.revokeObjectURL(media.src) // free memory
+
+                                    const isVideo = file.type.startsWith('video/') && media instanceof HTMLVideoElement
+
+                                    result.push({
+                                        data: media.src,
+                                        file: file,
+                                        name: file.name,
+                                        type: file.type,
+                                        size: utils.formatBytes(file.size),
+                                        bytes: file.size,
+                                        duration: media.duration, // duration in seconds
+                                        width: isVideo ? media.videoWidth : undefined,
+                                        height: isVideo ? media.videoHeight : undefined,
+                                    })
+
+                                    resolve()
+                                }
+
+                                media.onerror = () => {
+                                    errors.push({
+                                        type: 'invalid',
+                                        file: file.name,
+                                        message: `Cannot read metadata from ${file.name}.`,
+                                    })
+                                    resolve()
+                                }
+                            }
+
                             // handle other files
                             else {
                                 if (isValid) {
                                     result.push({
-                                        data: output === 'file' ? file : event.target?.result,
+                                        data: URL.createObjectURL(file),
+                                        file: file,
                                         name: file.name,
                                         type: file.type,
                                         size: utils.formatBytes(file.size),
+                                        bytes: file.size,
                                     })
                                 }
 

@@ -1,1 +1,0 @@
-import{_ as t}from"./Cse8UAw0.js";import{_ as o,c as n,e as r,a}from"./DBlPRTKW.js";const c={setup(){return{}},computed:{},data(){return{}},methods:{},mounted(){}};function s(_,p,d,m,u,i){const e=t;return a(),n("div",null,[r(e,{title:"Table"})])}const x=o(c,[["render",s]]);export{x as default};

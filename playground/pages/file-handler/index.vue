@@ -31,7 +31,32 @@
     accept="image:jpg,jpeg,png|audio:mp3,wav" 
     @dragged="onDragged" @select="onSelect">
     // create you own custom style here
-</FileHandler>' />
+</FileHandler>
+
+//  accept: 
+        image:jpg,jpeg,png
+        audio:mp3,wav
+        text:plain,csv
+        video:mp4
+        application:pdf,xlxs
+' />
+
+                <Code class="mt-3" code='onDragged(event: any) {
+    this.dragover = event.dragover // data: { return { dragover: false }}
+
+    if (!event.dragover) {
+        this.onSelect(event)
+    }
+}
+
+onSelect(event: any) {
+    this.images = event.files // data: { return { images: [] }}
+
+    let errors = event.errors ?? []
+    if (errors.length > 0) {
+        this.$toast.warning(errors[0].message)
+    }
+}' />
 
 
                 <br>
@@ -45,6 +70,12 @@
                         <h5>{{ image.name }}</h5>
                     </li>
                 </ul>
+
+                <br>
+                <FileHandler @select="onSelect" accept="audio:mp3,wav,mpeg|video:mp4,avi,mov"
+                    :config="{ label: 'Select Audio/Video', required: true }" />
+                <Code
+                    code='<FileHandler :config="{}" @select="onSelect" accept="audio:mp3,wav,mpeg|video:mp4,avi,mov" />' />
             </div>
         </div>
     </div>
@@ -73,7 +104,13 @@ export default {
         },
 
         onSelect(event: any) {
-            this.images = event.files
+            console.log(event.files)
+
+            event.files.forEach((e: any) => {
+                if (e.type.includes('image')) {
+                    this.images.push(e)
+                }
+            });
 
             let errors = event.errors ?? []
             if (errors.length > 0) {

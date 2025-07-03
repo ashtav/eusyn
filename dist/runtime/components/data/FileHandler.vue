@@ -143,22 +143,57 @@ export default {
                   }
                   if (isValid) {
                     result.push({
-                      data: output === "file" ? file : event.target?.result,
+                      data: event.target?.result,
+                      file,
                       name: file.name,
                       type: file.type,
                       size: utils.formatBytes(file.size),
+                      bytes: file.size,
+                      width: img.width,
+                      height: img.height,
                       dimension: `${img.width} x ${img.height}`
                     });
                   }
                   resolve2();
                 };
+              } else if (file.type.startsWith("audio/") || file.type.startsWith("video/")) {
+                const media = document.createElement(file.type.startsWith("audio/") ? "audio" : "video");
+                media.preload = "metadata";
+                media.src = URL.createObjectURL(file);
+                media.onloadedmetadata = () => {
+                  URL.revokeObjectURL(media.src);
+                  const isVideo = file.type.startsWith("video/") && media instanceof HTMLVideoElement;
+                  result.push({
+                    data: media.src,
+                    file,
+                    name: file.name,
+                    type: file.type,
+                    size: utils.formatBytes(file.size),
+                    bytes: file.size,
+                    duration: media.duration,
+                    // duration in seconds
+                    width: isVideo ? media.videoWidth : void 0,
+                    height: isVideo ? media.videoHeight : void 0
+                  });
+                  resolve2();
+                };
+                media.onerror = () => {
+                  errors.push({
+                    type: "invalid",
+                    file: file.name,
+                    message: `Cannot read metadata from ${file.name}.`
+                  });
+                  resolve2();
+                };
               } else {
                 if (isValid) {
                   result.push({
-                    data: output === "file" ? file : event.target?.result,
+                    data: URL.createObjectURL(file),
+                    file,
                     name: file.name,
                     type: file.type,
-                    size: utils.formatBytes(file.size)
+                    size: utils.formatBytes(file.size),
+                    bytes: file.size
                   });
                 } else {
                   errors.push({

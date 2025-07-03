@@ -14,7 +14,14 @@
           <div class="modal-action">
             <ul>
               <template v-for="(item, i) in [...actions, { icon: iconX, type: 'close' }]">
-                <li v-if="(item?.visible ?? true)" :key="i" :icon-tooltip="item?.tooltip"
+                <Dropdown v-if="item?.options?.length > 0 && (item?.visible ?? true)" :key="i" placement="end"
+                  :options="item?.options" @select="(o: any) => item?.click?.call(null, { ...o, index: i })">
+                  <li :icon-tooltip="item?.tooltip" :class="[item?.disabled ? 'disabled opacity-50' : '']">
+                    <Icon :icon="item?.icon" />
+                  </li>
+                </Dropdown>
+
+                <li v-if="(item?.visible ?? true) && !item?.options?.length" :key="i" :icon-tooltip="item?.tooltip"
                   :class="[item?.disabled ? 'disabled opacity-50' : '']"
                   @click="item?.type == 'close' ? modal.close(id) : item?.click?.call(null, { ...item, index: i })">
                   <Icon :icon="item?.icon" />

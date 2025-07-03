@@ -10,7 +10,7 @@
             <h3 class="mt-3">
               {{ data.title }}
             </h3>
-            <div class="text-muted" v-html="data.message" />
+            <div class="text-secondary" v-html="data.message" />
 
             <input v-show="data?.data" ref="elInput" v-model="input" class="form-control mt-5"
               :placeholder="data?.hint">
