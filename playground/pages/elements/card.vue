@@ -58,7 +58,8 @@
                 </div>
 
                 <div class="col-lg-8">
-                    <Card title="Tabbed Card" :tabs="tabs" tab-pos="top" v-slot="{ tab }" v-model:tab-active="tab" @onTab="onTab">
+                    <Card title="Tabbed Card" :tabs="tabs" tab-pos="top" v-slot="{ tab }" v-model:tab-active="tab"
+                        @onTab="onTab">
                         <div class="card-body">
                             <div class="card-title">Content of tab #{{ tab }}</div>
                             <p class="text-secondary">
@@ -97,7 +98,7 @@ export default {
         return {
             actions: <Array<any>>[
                 { icon: 'pencil', click: this.onActions },
-                { icon: 'trash', click: this.onActions },
+                { icon: 'delete-02', click: this.onActions },
             ],
 
             tabs: [

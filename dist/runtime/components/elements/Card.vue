@@ -24,7 +24,8 @@
             </div>
             <div>
                 <div :class="['card-header', { 'border-0': !elevation, 'pb-0': dense }]" v-if="title">
-                    <h3 class="card-title" :class="titleStyle"> {{ title }} </h3>
+                    <Text :icon="icon" :value="title" strong />
+                    <!-- <h3 class="card-title" :class="titleStyle"> {{ title }} </h3> -->
                     <div class="card-actions btn-actions" v-if="actions.length != 0">
                         <span class="btn-action" v-for="action in actions" @click="action?.click(action)">
                             <Icon :icon="action.icon" />
@@ -33,7 +34,7 @@
                 </div>
 
                 <!-- <h3 class="card-title" v-if="title">{{ title }}</h3> -->
-                <div :class="['card-body', { 'pt-0': !elevation && title }]">
+                <div :class="[$attrs.class ?? 'card-body', { 'pt-0': !elevation && title }]">
                     <slot />
                 </div>
             </div>
@@ -55,6 +56,10 @@ export default {
   props: {
     title: {
       type: String
+    },
+    icon: {
+      type: String,
+      default: ""
     },
     thumbnail: {
       type: String
@@ -115,6 +120,10 @@ export default {
 .btn-action {
   cursor: pointer;
   user-select: none;
+}
+
+.btn-action:active {
+  opacity: 0.7;
 }
 
 .card-tabs.reverse {

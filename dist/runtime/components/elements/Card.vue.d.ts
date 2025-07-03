@@ -16,6 +16,10 @@ declare const _default: import("vue").DefineComponent<{
     title: {
         type: StringConstructor;
     };
+    icon: {
+        type: StringConstructor;
+        default: string;
+    };
     thumbnail: {
         type: StringConstructor;
     };
@@ -87,6 +91,10 @@ declare const _default: import("vue").DefineComponent<{
     title: {
         type: StringConstructor;
     };
+    icon: {
+        type: StringConstructor;
+        default: string;
+    };
     thumbnail: {
         type: StringConstructor;
     };
@@ -156,6 +164,7 @@ declare const _default: import("vue").DefineComponent<{
     "onUpdate:tabActive"?: ((...args: any[]) => any) | undefined;
 }, {
     stacked: boolean;
+    icon: string;
     elevation: boolean;
     dense: boolean;
     ribbon: RibbonCard;
