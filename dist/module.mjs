@@ -1,7 +1,7 @@
 import { defineNuxtModule, createResolver, addPlugin, addComponentsDir, addComponent, addImportsDir } from '@nuxt/kit';
 
 const name = "eusyn";
-const version = "0.0.24";
+const version = "0.0.25";
 
 const module = defineNuxtModule({
   meta: {

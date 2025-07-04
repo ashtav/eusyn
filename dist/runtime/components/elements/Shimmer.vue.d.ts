@@ -29,6 +29,10 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: null;
     };
+    type: {
+        type: StringConstructor;
+        default: string;
+    };
 }, {
     utils: import("../../types/utils").default;
     styles: Ref<Record<string, any>[]>;
@@ -62,8 +66,13 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: null;
     };
+    type: {
+        type: StringConstructor;
+        default: string;
+    };
 }>>, {
     size: string | number | any[];
+    type: string;
     radius: string | number;
     iterate: number;
     gap: string;

@@ -5,7 +5,7 @@ interface TabData {
 }
 interface TabAction {
     icon: string;
-    click?: (data: TabAction) => {};
+    click?: (data: any) => void;
 }
 interface RibbonCard {
     background?: string;
