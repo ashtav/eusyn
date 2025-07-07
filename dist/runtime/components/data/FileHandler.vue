@@ -4,7 +4,7 @@
 
         <div v-if="!$slots.default">
             <Input :label="config.label" :hint="config.hint ?? 'Please select file'" readonly
-                :required="config.required" :suffixs="[{
+                :required="config.required" :suffix="[{
                     text: 'Browse', kbd: true
                 }]" v-model="input" :disabled="disabled" />
         </div>

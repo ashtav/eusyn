@@ -13,8 +13,8 @@
         :autofocus="autofocus" name="select" autocomplete="off" @input="onInput" @focus="onFocus" @blur="onBlur"
         @keypress="onKeyPress">
 
-      <!-- suffixs -->
-      <div class="suffixs">
+      <!-- suffix -->
+      <div class="suffix">
         <span @click="onSuffix">
           <i v-if="isLoading" class="spinner-border spinner-border-sm" />
           <Icon v-else :icon="selected ? iconX : suffix ?? iconChevron" />
@@ -232,18 +232,18 @@ export default defineComponent({
 .select.disabled {
   pointer-events: none;
 }
-.select.disabled .suffixs {
+.select.disabled .suffix {
   opacity: 0.6;
 }
-.select.disabled .suffixs span.disabled {
+.select.disabled .suffix span.disabled {
   opacity: 1;
 }
-.select .suffixs {
+.select .suffix {
   position: absolute;
   right: 5px;
   top: 0;
 }
-.select .suffixs span {
+.select .suffix span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -254,21 +254,21 @@ export default defineComponent({
   text-wrap: nowrap;
   user-select: none;
 }
-.select .suffixs span span {
+.select .suffix span span {
   font-size: 12.5px;
   letter-spacing: 0.5px;
 }
-.select .suffixs span.disabled {
+.select .suffix span.disabled {
   pointer-events: none;
   opacity: 0.6;
 }
-.select .suffixs span i {
+.select .suffix span i {
   opacity: 0.6;
 }
-.select .suffixs span:hover i {
+.select .suffix span:hover i {
   opacity: 1;
 }
-.select .suffixs span:active i {
+.select .suffix span:active i {
   opacity: 0.6;
 }
 .select .options {

@@ -109,6 +109,14 @@ export default defineComponent({
       emit('update:modelValue', value)
     })
 
+    // watch for options changes
+    watch(() => props.options, (newOptions) => {
+      validateOptions(newOptions)
+      if (newOptions.length > 0 && !localValue.value) {
+        localValue.value = textOption(newOptions[0], hasValueProperty(newOptions))
+      }
+    }, { immediate: true })
+
     const setLoading = (loading: boolean) => {
       isLoading.value = loading
     }

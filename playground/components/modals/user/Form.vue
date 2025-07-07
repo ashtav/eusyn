@@ -1,5 +1,5 @@
 <template>
-  <Modal :id="id" :elevation="false">
+  <Modal :id="id" :elevation="false" :actions="actions">
     <form @submit.prevent="onSubmit">
       <div class="modal-body space-y-3">
         <p>
@@ -10,7 +10,11 @@
 
         <Input hint="Enter your name" v-model="forms.name" required autofocus />
 
-        <Card title="Tabbed Card" :tabs="tabs" tab-pos="top" v-slot="{ tab }" v-model:tab-active="tab">
+        <Card title="Tabbed Card" :tabs="tabs" tab-pos="top" v-slot="{ tab }" v-model:tab-active="tab" :colors="{
+          tabColor: '#2e3545',
+          tabActiveColor: '#1f2937',
+          background: '#2e3545',
+        }">
           <div class="card-body">
             <div class="card-title">Content of tab #{{ tab }}</div>
             <p class="text-secondary">
@@ -22,7 +26,7 @@
         </Card>
       </div>
 
-      <div class="modal-footer">
+      <div class="modal-footer border-0">
         <Button label="Submit" ref="el" submit />
       </div>
     </form>
@@ -38,7 +42,29 @@ export default {
   },
 
   setup() {
-    return {}
+    const nuxt = useNuxtApp();
+    const theme = useCookie('theme');
+
+    const toggleTheme = () => {
+      const currentTheme = theme.value || 'system';
+      const value = currentTheme === 'dark' ? 'light' : 'dark'
+
+      theme.value = value;
+      nuxt.$e.theme.set(value);
+    };
+
+    return { toggleTheme };
+  },
+
+  computed: {
+    actions() {
+      return [
+        {
+          icon: this.$e.theme.get.value != 'dark' ? 'hgi-sun-03' : 'hgi-moon-02',
+          click: this.toggleTheme,
+        }
+      ]
+    }
   },
 
   data() {
@@ -69,3 +95,25 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+[data-bs-theme="dark"] {
+  --card-tab-color: #1f2937;
+  --card-background-color: #273144;
+}
+
+.modal-body .card {
+  background-color: var(--card-background-color);
+  box-shadow: none;
+}
+
+.modal-body .card-tabs {
+  .nav-tabs .nav-link {
+    background: var(--card-tab-color);
+  }
+
+  .nav-tabs .nav-link.active {
+    background: var(--card-background-color);
+  }
+}
+</style>

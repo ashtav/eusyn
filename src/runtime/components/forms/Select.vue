@@ -13,8 +13,8 @@
         :autofocus="autofocus" name="select" autocomplete="off" @input="onInput" @focus="onFocus" @blur="onBlur"
         @keypress="onKeyPress">
 
-      <!-- suffixs -->
-      <div class="suffixs">
+      <!-- suffix -->
+      <div class="suffix">
         <span @click="onSuffix">
           <i v-if="isLoading" class="spinner-border spinner-border-sm" />
           <Icon v-else :icon="selected ? iconX : suffix ?? iconChevron" />
@@ -279,7 +279,7 @@ export default defineComponent({
   &.disabled {
     pointer-events: none;
 
-    .suffixs {
+    .suffix {
       opacity: .6;
 
       span {
@@ -290,7 +290,7 @@ export default defineComponent({
     }
   }
 
-  .suffixs {
+  .suffix {
     position: absolute;
     right: 5px;
     top: 0;

@@ -12,8 +12,8 @@
         :required="required" :disabled="disabled" :autofocus="autofocus" name="input" autocomplete="off"
         :style="{ maxHeight: `${maxHeight}px` }" @input="onInput" @keypress="onKeyPress" ref="textarea" />
 
-      <!-- suffixs -->
-      <div v-if="inputSuffixs.length != 0" class="suffixs">
+      <!-- suffix -->
+      <div v-if="inputSuffixs.length != 0" class="suffix">
         <span v-for="(suffix, i) in inputSuffixs" :key="i" :class="[utils.on(suffix.disabled, 'disabled')]"
           @click="onSuffix(suffix)">
 
@@ -75,7 +75,7 @@ export default defineComponent({
       type: String,
       default: null
     },
-    suffixs: {
+    suffix: {
       type: Array,
       default: () => []
     },
@@ -88,7 +88,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const instance = getCurrentInstance();
     const localValue = ref(props.modelValue);
-    const inputSuffixs = ref(props.suffixs);
+    const inputSuffixs = ref(props.suffix);
     const textarea = ref(null);
     const onInput = (event) => {
       localValue.value = event.target.value;
@@ -99,7 +99,7 @@ export default defineComponent({
     const onKeyPress = (event) => {
       handleKeyPress(instance, emit, props, event, localValue.value, props.formatters.split("|"));
     };
-    watch(() => props.suffixs, (value) => {
+    watch(() => props.suffix, (value) => {
       inputSuffixs.value = value;
     }, { immediate: true });
     watch(() => props.modelValue, (value) => {
@@ -142,18 +142,18 @@ export default defineComponent({
 .input.disabled .date-input-placeholders {
   background-color: #f6f8fb;
 }
-.input.disabled .suffixs {
+.input.disabled .suffix {
   opacity: 0.6;
 }
-.input.disabled .suffixs span.disabled {
+.input.disabled .suffix span.disabled {
   opacity: 1;
 }
-.input .suffixs {
+.input .suffix {
   position: absolute;
   right: 5px;
   top: 0;
 }
-.input .suffixs span {
+.input .suffix span {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -164,21 +164,21 @@ export default defineComponent({
   text-wrap: nowrap;
   user-select: none;
 }
-.input .suffixs span span {
+.input .suffix span span {
   font-size: 12.5px;
   letter-spacing: 0.5px;
 }
-.input .suffixs span.disabled {
+.input .suffix span.disabled {
   pointer-events: none;
   opacity: 0.6;
 }
-.input .suffixs span i {
+.input .suffix span i {
   opacity: 0.6;
 }
-.input .suffixs span:hover i {
+.input .suffix span:hover i {
   opacity: 1;
 }
-.input .suffixs span:active i {
+.input .suffix span:active i {
   opacity: 0.6;
 }
 .input textarea {

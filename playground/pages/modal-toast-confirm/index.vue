@@ -79,7 +79,9 @@ this.$modal.callback({name: 'John Doe'})
           </p>
 
           <Input v-model="forms.title" label="Modal Title" hint="Type username" required formatters="ucwords"
-            prefix="hgi-news" />
+            prefix="hgi-news" :suffix="[
+              { icon: 'hgi-books-01', tooltip: 'Tooltip example' }
+            ]" />
 
           <Button label="Show Confirm" @click="onConfirm" />
         </div>

@@ -19,15 +19,16 @@
                 <Code class="mb-3"
                     code='<Input label="Full Name" hint="Enter your name" prefix="ti-user" required v-model="forms.name" formatters="alpha|ucwords" />' />
 
+
                 <Input v-model="forms.email" label="Email Address" hint="Enter your email address" prefix="hgi-mail-01"
-                    :suffixs="[
-                        { icon: 'hgi-sent' },
+                    :suffix="[
+                        { icon: 'hgi-sent', tooltip: 'Tooltip example' },
                         { icon: 'hgi-notification-snooze-01' },
                         { icon: 'hgi-archive-01', disabled: true }
                     ]" required @suffix="onSuffix" ref="email" />
 
-                <Code class="mb-3" description="suffixs value is Object, ex: { icon: 'ti-send', disabled: false }"
-                    code='<Input label="Email Address" hint="Enter your email address" prefix="ti-mail" v-model="forms.email" :suffixs="[{}]" required @suffix="onSuffix" /> ' />
+                <Code class="mb-3" description="suffix value is Object, ex: { icon: 'ti-send', disabled: false }"
+                    code='<Input label="Email Address" hint="Enter your email address" prefix="ti-mail" v-model="forms.email" :suffix="[{}]" required @suffix="onSuffix" /> ' />
 
                 <Input label="Phone Number" hint="Enter your phone number" prefix="hgi-contact-01" required
                     v-model="forms.phone" formatters="phone" />

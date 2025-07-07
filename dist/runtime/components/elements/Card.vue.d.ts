@@ -84,7 +84,12 @@ declare const _default: import("vue").DefineComponent<{
         type: NumberConstructor;
         default: number;
     };
+    colors: {
+        type: PropType<Record<string, string>>;
+        default: () => {};
+    };
 }, {
+    card: Ref<HTMLElement | null>;
     currentTab: Ref<number>;
     onTab: (i: number) => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("onTab" | "update:tabActive")[], "onTab" | "update:tabActive", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
@@ -159,6 +164,10 @@ declare const _default: import("vue").DefineComponent<{
         type: NumberConstructor;
         default: number;
     };
+    colors: {
+        type: PropType<Record<string, string>>;
+        default: () => {};
+    };
 }>> & {
     onOnTab?: ((...args: any[]) => any) | undefined;
     "onUpdate:tabActive"?: ((...args: any[]) => any) | undefined;
@@ -172,5 +181,6 @@ declare const _default: import("vue").DefineComponent<{
     tabs: TabData[];
     tabPos: string;
     tabActive: number;
+    colors: Record<string, string>;
 }, {}>;
 export default _default;

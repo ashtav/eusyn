@@ -35,7 +35,7 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: null;
     };
-    suffixs: {
+    suffix: {
         type: {
             (arrayLength: number): any[];
             (...items: any[]): any[];
@@ -101,7 +101,7 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: null;
     };
-    suffixs: {
+    suffix: {
         type: {
             (arrayLength: number): any[];
             (...items: any[]): any[];
@@ -133,11 +133,11 @@ declare const _default: import("vue").DefineComponent<{
     required: boolean;
     modelValue: string;
     prefix: string;
+    suffix: any[];
     hint: string;
     autofocus: boolean;
     maxLength: number;
     formatters: string;
-    suffixs: any[];
     maxHeight: number;
 }, {}>;
 export default _default;

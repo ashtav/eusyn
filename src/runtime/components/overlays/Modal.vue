@@ -230,7 +230,7 @@ export default {
           &::before {
             content: attr(icon-tooltip);
             padding: 5px 10px;
-            background: #212121;
+            background: var(--tooltip-background);
             top: -46px;
             transform: translateX(-50%);
             color: white;
@@ -273,11 +273,11 @@ export default {
       &[icon-tooltip] {
 
         &::before {
-          background: #000;
+          background: var(--tooltip-background);
         }
 
         &::after {
-          border-bottom: 7px solid #000;
+          border-bottom: 7px solid var(--tooltip-background);
         }
       }
     }

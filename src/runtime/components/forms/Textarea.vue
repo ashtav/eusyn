@@ -12,8 +12,8 @@
         :required="required" :disabled="disabled" :autofocus="autofocus" name="input" autocomplete="off"
         :style="{ maxHeight: `${maxHeight}px` }" @input="onInput" @keypress="onKeyPress" ref="textarea" />
 
-      <!-- suffixs -->
-      <div v-if="inputSuffixs.length != 0" class="suffixs">
+      <!-- suffix -->
+      <div v-if="inputSuffixs.length != 0" class="suffix">
         <span v-for="(suffix, i) in inputSuffixs" :key="i" :class="[utils.on(suffix.disabled, 'disabled')]"
           @click="onSuffix(suffix)">
 
@@ -85,7 +85,7 @@ export default defineComponent({
       default: null
     },
 
-    suffixs: {
+    suffix: {
       type: Array<any>,
       default: () => []
     },
@@ -99,7 +99,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const instance = getCurrentInstance()
     const localValue = ref(props.modelValue)
-    const inputSuffixs = ref(props.suffixs)
+    const inputSuffixs = ref(props.suffix)
     const textarea = ref(null)
 
     // methods
@@ -117,7 +117,7 @@ export default defineComponent({
 
     // watch
 
-    watch(() => props.suffixs, (value) => {
+    watch(() => props.suffix, (value) => {
       inputSuffixs.value = value
     }, { immediate: true })
 
@@ -163,7 +163,7 @@ export default defineComponent({
       background-color: #f6f8fb;
     }
 
-    .suffixs {
+    .suffix {
       opacity: .6;
 
       span {
@@ -174,7 +174,7 @@ export default defineComponent({
     }
   }
 
-  .suffixs {
+  .suffix {
     position: absolute;
     right: 5px;
     top: 0;

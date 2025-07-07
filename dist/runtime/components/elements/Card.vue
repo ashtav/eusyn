@@ -1,6 +1,6 @@
 <template>
-    <div
-        :class="tabs.length != 0 ? ['card-tabs', { 'reverse': tabPos == 'bottom' }] : ['card', { 'card-stacked': stacked }]">
+    <div :class="tabs.length != 0 ? ['card-tabs', { 'reverse': tabPos == 'bottom' }] : ['card', { 'card-stacked': stacked }]"
+        ref="card">
 
         <!-- card navigation for tabs -->
         <ul class="nav nav-tabs" :class="{ 'nav-tabs-bottom': tabPos == 'bottom' }" v-if="tabs.length != 0">
@@ -98,10 +98,18 @@ export default {
     tabActive: {
       type: Number,
       default: 0
+    },
+    colors: {
+      type: Object,
+      // validator: (value: Record<string, string>) => {
+      //     return Object.keys(value).every(key => ['tab', 'tabActive', 'background'].includes(key))
+      // },
+      default: () => ({})
     }
   },
   setup(props, { emit }) {
     const currentTab = ref(props.tabActive);
+    const card = ref(null);
     const onTab = (i) => {
       currentTab.value = i;
       emit("onTab", i);
@@ -110,7 +118,7 @@ export default {
     watch(() => props.tabActive, (newVal) => {
       currentTab.value = newVal;
     });
-    return { currentTab, onTab };
+    return { card, currentTab, onTab };
   }
 };
 </script>

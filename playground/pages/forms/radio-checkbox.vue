@@ -54,6 +54,7 @@
         </code>
 
                     <Checkbox v-model="forms.category" label="Checkbox With Value" :options="categories" required />
+
                 </div>
             </div>
         </div>
@@ -77,7 +78,7 @@ export default {
 
             fruits: ['Apple', 'Banana', 'Mango', 'Papaya', 'Orange', 'Avocado', 'Strawberry', 'Pineapple'],
 
-            forms: {
+            forms: <any>{
                 gender: 'Male',
                 blood: 'A',
                 checked: true,
@@ -100,6 +101,8 @@ export default {
     },
 
     mounted() {
+        this.forms.blood = 1
+
         setTimeout(() => {
             this.forms.gender = 'Female'
         }, 1000)

@@ -1,6 +1,6 @@
 <template>
-    <div
-        :class="tabs.length != 0 ? ['card-tabs', { 'reverse': tabPos == 'bottom' }] : ['card', { 'card-stacked': stacked }]">
+    <div :class="tabs.length != 0 ? ['card-tabs', { 'reverse': tabPos == 'bottom' }] : ['card', { 'card-stacked': stacked }]"
+        ref="card">
 
         <!-- card navigation for tabs -->
         <ul class="nav nav-tabs" :class="{ 'nav-tabs-bottom': tabPos == 'bottom' }" v-if="tabs.length != 0">
@@ -50,7 +50,6 @@
 </template>
 
 <script lang="ts">
-import type { F } from 'vitest/dist/reporters-BECoY4-b.js';
 import { ref, watch, type PropType, type Ref } from 'vue';
 
 interface TabData {
@@ -128,11 +127,20 @@ export default {
         tabActive: {
             type: Number,
             default: 0
+        },
+
+        colors: {
+            type: Object as PropType<Record<string, string>>,
+            // validator: (value: Record<string, string>) => {
+            //     return Object.keys(value).every(key => ['tab', 'tabActive', 'background'].includes(key))
+            // },
+            default: () => ({})
         }
     },
 
     setup(props, { emit }) {
         const currentTab: Ref<number> = ref(props.tabActive)
+        const card = ref<HTMLElement | null>(null)
 
         const onTab = (i: number) => {
             currentTab.value = i
@@ -146,7 +154,7 @@ export default {
             currentTab.value = newVal
         })
 
-        return { currentTab, onTab }
+        return { card, currentTab, onTab }
     }
 }
 </script>

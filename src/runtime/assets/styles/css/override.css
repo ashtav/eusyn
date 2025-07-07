@@ -6,7 +6,8 @@
     --light-border-color: #ddd;
     --text-color: #222;
     --text-color-1: #222;
-    --input-background: #fff
+    --input-background: #fff;
+    --tooltip-background: #000;
 }
 
 [data-bs-theme="dark"] {
@@ -18,6 +19,7 @@
     --text-color: #f1f1f1;
     --text-color-1: #ccc;
     --input-background: #151f2c;
+    --tooltip-background: #3f4c61;
 }
 
 
