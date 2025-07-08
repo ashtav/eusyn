@@ -63,7 +63,7 @@ declare const _default: import("vue").DefineComponent<{
     setLoading: (loading: boolean) => void;
     onInput: (event: any, option: any, single?: boolean) => void;
     textOption: (option: any, prioritizeValue?: boolean) => any;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("change" | "update:modelValue")[], "change" | "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "change")[], "update:modelValue" | "change", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         type: (BooleanConstructor | {
             (arrayLength: number): any[];
@@ -125,9 +125,9 @@ declare const _default: import("vue").DefineComponent<{
     label: string;
     value: string | number | boolean;
     disabled: boolean;
+    modelValue: boolean | any[];
     required: boolean;
     options: any[];
-    modelValue: boolean | any[];
     emptyMessage: string;
 }, {}>;
 export default _default;

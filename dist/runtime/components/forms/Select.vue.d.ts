@@ -72,7 +72,7 @@ declare const _default: import("vue").DefineComponent<{
     textOption: (option: any, prioritizeValue?: boolean) => any;
     doFocus: () => void;
     setLoading: (value: boolean) => void;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("change" | "update:modelValue" | "enter")[], "change" | "update:modelValue" | "enter", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "change" | "enter" | "focus")[], "update:modelValue" | "change" | "enter" | "focus", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
         type: (NumberConstructor | StringConstructor)[];
@@ -127,15 +127,16 @@ declare const _default: import("vue").DefineComponent<{
         default: () => never[];
     };
 }>> & {
+    onFocus?: ((...args: any[]) => any) | undefined;
     onChange?: ((...args: any[]) => any) | undefined;
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     onEnter?: ((...args: any[]) => any) | undefined;
 }, {
     label: string;
     disabled: boolean;
+    modelValue: string | number;
     required: boolean;
     options: any[];
-    modelValue: string | number;
     prefix: string;
     suffix: string;
     hint: string;

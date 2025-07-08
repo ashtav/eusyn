@@ -45,7 +45,7 @@ import { textOption } from '../../scripts/select';
 
 export default defineComponent({
   inheritAttrs: false,
-  emits: ['update:modelValue', 'enter', 'change'],
+  emits: ['update:modelValue', 'enter', 'change', 'focus'],
   props: {
     modelValue: {
       default: '',
@@ -135,6 +135,7 @@ export default defineComponent({
 
     const onFocus = (event: any) => {
       isFocus.value = true
+      emit('focus', true)
 
       // focus to selected option
       setTimeout(() => {
@@ -151,6 +152,7 @@ export default defineComponent({
 
     const onBlur = () => {
       localValue.value = textOption(selected.value)
+      emit('focus', false)
 
       setTimeout(() => {
         isFocus.value = false

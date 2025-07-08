@@ -63,7 +63,7 @@ this.$modal.callback({name: 'John Doe'})
     </div>
 
     <Modal id="modal" :elevation="false" :actions="icons" @init="onInit" icon="hgi-book-open-02">
-      <form @submit.prevent="onSubmit">
+      <Form @submit="onSubmit" ref="form">
         <div class="modal-body space-y-3">
           <p class="mb-5">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi beatae delectus
@@ -78,10 +78,12 @@ this.$modal.callback({name: 'John Doe'})
             {{ $modal.data() }}
           </p>
 
+          <Input hint="Type something..." />
+
           <Input v-model="forms.title" label="Modal Title" hint="Type username" required formatters="ucwords"
             prefix="hgi-news" :suffix="[
               { icon: 'hgi-books-01', tooltip: 'Tooltip example' }
-            ]" />
+            ]" @focus="(value) => ($refs.form as any).enterable(value)" @enter="onEnter" />
 
           <Button label="Show Confirm" @click="onConfirm" />
         </div>
@@ -89,7 +91,7 @@ this.$modal.callback({name: 'John Doe'})
           <Button theme="btn" label="Close" @click="onClose" />
           <Button theme="btn-primary" label="Save changes" submit />
         </div>
-      </form>
+      </Form>
     </Modal>
 
     <Modals>
@@ -129,6 +131,10 @@ export default {
   methods: {
     onInit(data: any) {
       console.log(data)
+    },
+
+    onEnter() {
+      console.log('Enter pressed')
     },
 
     onConfirm() {
@@ -174,6 +180,7 @@ export default {
     },
 
     onSubmit() {
+      console.log('submit', this.forms)
       this.$modal.setTitle(this.forms.title)
     },
 

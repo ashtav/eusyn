@@ -10,7 +10,8 @@
       <!-- input -->
       <textarea :value="localValue" :class="['form-control']" :placeholder="hint" :maxlength="maxLength"
         :required="required" :disabled="disabled" :autofocus="autofocus" name="input" autocomplete="off"
-        :style="{ maxHeight: `${maxHeight}px` }" @input="onInput" @keypress="onKeyPress" ref="textarea" />
+        :style="{ maxHeight: `${maxHeight}px` }" @input="onInput" @focus="onFocus" @blur="onBlur" @keypress="onKeyPress"
+        ref="textarea" />
 
       <!-- suffix -->
       <div v-if="inputSuffixs.length != 0" class="suffix">
@@ -38,7 +39,7 @@ import { formatting, handleKeyPress } from '../../scripts/input';
 
 export default defineComponent({
   inheritAttrs: false,
-  emits: ['update:modelValue', 'enter', 'blur', 'suffix'],
+  emits: ['update:modelValue', 'enter', 'suffix', 'focus'],
   props: {
     modelValue: {
       default: '',
@@ -115,6 +116,9 @@ export default defineComponent({
       handleKeyPress(instance, emit, props, event, localValue.value, props.formatters.split('|'))
     }
 
+    const onFocus = (event: any) => emit('focus', true)
+    const onBlur = (event: any) => emit('focus', false)
+
     // watch
 
     watch(() => props.suffix, (value) => {
@@ -142,7 +146,7 @@ export default defineComponent({
     })
 
     return {
-      utils, localValue, inputSuffixs, textarea, onInput, onSuffix, onKeyPress
+      utils, localValue, inputSuffixs, textarea, onInput, onSuffix, onKeyPress, onFocus, onBlur
     }
   }
 })

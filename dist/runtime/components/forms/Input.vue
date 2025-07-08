@@ -17,8 +17,8 @@
       <!-- input -->
       <input :value="localValue" :type="inputType" :class="['form-control']" :placeholder="hint" :maxlength="maxLength"
         :required="required" :disabled="disabled" :readonly="readonly" :min="minDate" :max="maxDate"
-        :autofocus="autofocus" name="input" autocomplete="off" @focus="onFocus" @input="onInput" @keypress="onKeyPress"
-        @mousedown="onMouseDown" ref="input" :icon="isTabler ? 'tabler' : 'huge'">
+        :autofocus="autofocus" name="input" autocomplete="off" @focus="onFocus" @blur="onBlur" @input="onInput"
+        @keypress="onKeyPress" @mousedown="onMouseDown" ref="input" :icon="isTabler ? 'tabler' : 'huge'">
 
       <!-- suffix -->
       <div v-if="inputSuffix.length != 0 && !['date'].includes(type)" class="suffix">
@@ -48,7 +48,7 @@ import { utils } from "../../plugins/utils";
 import { formatting, handleKeyPress } from "../../scripts/input";
 export default defineComponent({
   inheritAttrs: false,
-  emits: ["update:modelValue", "enter", "blur", "focus", "suffix"],
+  emits: ["update:modelValue", "enter", "focus", "suffix", "event"],
   props: {
     modelValue: {
       default: "",
@@ -153,10 +153,13 @@ export default defineComponent({
     };
     const onFocus = (event) => {
       inputEvent = event.target;
-      emit("focus", event);
+      emit("focus", true);
       if (props.mask) {
         moveCursor();
       }
+    };
+    const onBlur = (event) => {
+      emit("focus", false);
     };
     const onSuffix = (data) => {
       if (data?._toggle) {
@@ -303,6 +306,7 @@ export default defineComponent({
       input,
       onInput,
       onFocus,
+      onBlur,
       onMouseDown,
       onSuffix,
       onKeyPress,

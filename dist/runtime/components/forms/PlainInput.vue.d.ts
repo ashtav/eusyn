@@ -54,10 +54,11 @@ declare const _default: import("vue").DefineComponent<{
     input: import("vue").Ref<null>;
     onInput: (event: any) => void;
     onFocus: (event: any) => void;
+    onBlur: (event: any) => void;
     onMouseDown: (event: any) => void;
     onKeyPress: (event: any) => void;
     doFocus: () => void;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("blur" | "focus" | "update:modelValue" | "enter" | "suffix")[], "blur" | "focus" | "update:modelValue" | "enter" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "enter" | "focus" | "suffix")[], "update:modelValue" | "enter" | "focus" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
         type: StringConstructor;
@@ -108,7 +109,6 @@ declare const _default: import("vue").DefineComponent<{
     };
 }>> & {
     onFocus?: ((...args: any[]) => any) | undefined;
-    onBlur?: ((...args: any[]) => any) | undefined;
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     onEnter?: ((...args: any[]) => any) | undefined;
     onSuffix?: ((...args: any[]) => any) | undefined;
@@ -117,8 +117,8 @@ declare const _default: import("vue").DefineComponent<{
     type: string;
     mask: string;
     readonly: boolean;
-    required: boolean;
     modelValue: string;
+    required: boolean;
     minDate: string;
     maxDate: string;
     hint: string;

@@ -1,8 +1,8 @@
 <template>
     <input :value="localValue" :type="inputType" :placeholder="hint" :maxlength="maxLength" :required="required"
         :disabled="disabled" :readonly="readonly" :min="minDate" :max="maxDate" :autofocus="autofocus" name="input"
-        autocomplete="off" @focus="onFocus" @input="onInput" @keypress="onKeyPress" @mousedown="onMouseDown"
-        ref="input">
+        autocomplete="off" @focus="onFocus" @blur="onBlur" @input="onInput" @keypress="onKeyPress"
+        @mousedown="onMouseDown" ref="input">
 </template>
 
 <script>
@@ -10,7 +10,7 @@ import { defineComponent, getCurrentInstance, onMounted, ref, watch } from "vue"
 import { utils } from "../../plugins/utils";
 import { formatting, handleKeyPress } from "../../scripts/input";
 export default defineComponent({
-  emits: ["update:modelValue", "enter", "blur", "focus", "suffix"],
+  emits: ["update:modelValue", "enter", "focus", "suffix"],
   props: {
     modelValue: {
       default: "",
@@ -90,11 +90,12 @@ export default defineComponent({
     };
     const onFocus = (event) => {
       inputEvent = event.target;
-      emit("focus", event);
+      emit("focus", true);
       if (props.mask) {
         moveCursor();
       }
     };
+    const onBlur = (event) => emit("focus", false);
     const onKeyPress = (event) => {
       handleKeyPress(instance, emit, props, event, localValue.value, props.formatters.split("|"));
     };
@@ -205,6 +206,7 @@ export default defineComponent({
       input,
       onInput,
       onFocus,
+      onBlur,
       onMouseDown,
       onKeyPress,
       doFocus

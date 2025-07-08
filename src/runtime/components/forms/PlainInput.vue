@@ -1,8 +1,8 @@
 <template>
     <input :value="localValue" :type="inputType" :placeholder="hint" :maxlength="maxLength" :required="required"
         :disabled="disabled" :readonly="readonly" :min="minDate" :max="maxDate" :autofocus="autofocus" name="input"
-        autocomplete="off" @focus="onFocus" @input="onInput" @keypress="onKeyPress" @mousedown="onMouseDown"
-        ref="input">
+        autocomplete="off" @focus="onFocus" @blur="onBlur" @input="onInput" @keypress="onKeyPress"
+        @mousedown="onMouseDown" ref="input">
 </template>
 
 <script lang="ts">
@@ -11,7 +11,7 @@ import { utils } from '../../plugins/utils';
 import { formatting, handleKeyPress } from '../../scripts/input';
 
 export default defineComponent({
-    emits: ['update:modelValue', 'enter', 'blur', 'focus', 'suffix'],
+    emits: ['update:modelValue', 'enter', 'focus', 'suffix'],
     props: {
         modelValue: {
             default: '',
@@ -113,12 +113,14 @@ export default defineComponent({
 
         const onFocus = (event: any) => {
             inputEvent = event.target as HTMLInputElement;
-            emit('focus', event)
+            emit('focus', true)
 
             if (props.mask) {
                 moveCursor()
             }
         }
+
+        const onBlur = (event: any) => emit('focus', false)
 
         const onKeyPress = (event: any) => {
             handleKeyPress(instance, emit, props, event, localValue.value, props.formatters.split('|'))
@@ -268,7 +270,7 @@ export default defineComponent({
         })
 
         return {
-            utils, localValue, inputType, input, onInput, onFocus, onMouseDown, onKeyPress, doFocus
+            utils, localValue, inputType, input, onInput, onFocus, onBlur, onMouseDown, onKeyPress, doFocus
         }
     }
 })

@@ -44,7 +44,7 @@ import { utils } from "../../plugins/utils";
 import { textOption } from "../../scripts/select";
 export default defineComponent({
   inheritAttrs: false,
-  emits: ["update:modelValue", "enter", "change"],
+  emits: ["update:modelValue", "enter", "change", "focus"],
   props: {
     modelValue: {
       default: "",
@@ -113,6 +113,7 @@ export default defineComponent({
     };
     const onFocus = (event) => {
       isFocus.value = true;
+      emit("focus", true);
       setTimeout(() => {
         const selectedElm = document.querySelector(
           ".select .options li.selected"
@@ -124,6 +125,7 @@ export default defineComponent({
     };
     const onBlur = () => {
       localValue.value = textOption(selected.value);
+      emit("focus", false);
       setTimeout(() => {
         isFocus.value = false;
         localOptions.value = props.options;

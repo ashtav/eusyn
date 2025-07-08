@@ -64,7 +64,9 @@ declare const _default: import("vue").DefineComponent<{
     onInput: (event: any) => void;
     onSuffix: (data: any) => void;
     onKeyPress: (event: any) => void;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("blur" | "update:modelValue" | "enter" | "suffix")[], "blur" | "update:modelValue" | "enter" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+    onFocus: (event: any) => void;
+    onBlur: (event: any) => void;
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "enter" | "focus" | "suffix")[], "update:modelValue" | "enter" | "focus" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
         type: StringConstructor;
@@ -123,15 +125,15 @@ declare const _default: import("vue").DefineComponent<{
         default: string;
     };
 }>> & {
-    onBlur?: ((...args: any[]) => any) | undefined;
+    onFocus?: ((...args: any[]) => any) | undefined;
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     onEnter?: ((...args: any[]) => any) | undefined;
     onSuffix?: ((...args: any[]) => any) | undefined;
 }, {
     label: string;
     disabled: boolean;
-    required: boolean;
     modelValue: string;
+    required: boolean;
     prefix: string;
     suffix: any[];
     hint: string;

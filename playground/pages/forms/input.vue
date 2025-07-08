@@ -14,7 +14,8 @@
                     :attrs="['label', 'hint', 'type', 'disabled', 'readonly', 'required', 'autofocus', 'maxLength', 'prefix', 'suffix', 'password', 'minDate', 'maxDate', 'formatters', 'mask', 'v-model']" />
 
                 <Input v-model="forms.name" label="Full Name" hint="Enter your name" prefix="hgi-user" required
-                    formatters="alpha|ucwords" autofocus />
+                    formatters="alpha|ucwords" autofocus @focus="onFocus" />
+
 
                 <Code class="mb-3"
                     code='<Input label="Full Name" hint="Enter your name" prefix="ti-user" required v-model="forms.name" formatters="alpha|ucwords" />' />
@@ -126,6 +127,11 @@ export default {
 
         onEnter(data: any) {
             console.log(data)
+        },
+
+        onFocus(value: boolean) {
+            console.log('Focus:', value)
+
         }
     }
 }
