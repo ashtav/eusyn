@@ -172,8 +172,8 @@ declare const _default: import("vue").DefineComponent<{
     onOnTab?: ((...args: any[]) => any) | undefined;
     "onUpdate:tabActive"?: ((...args: any[]) => any) | undefined;
 }, {
-    icon: string;
     stacked: boolean;
+    icon: string;
     elevation: boolean;
     dense: boolean;
     ribbon: RibbonCard;

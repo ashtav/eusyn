@@ -1,5 +1,5 @@
 declare const _default: import("vue").DefineComponent<{}, {
-    disabled: any;
+    disabled: import("vue").Ref<boolean>;
     onSubmit: () => void;
     enterable: (value: boolean) => void;
     handleSubmit: () => void;

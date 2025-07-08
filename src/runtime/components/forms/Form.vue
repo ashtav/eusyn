@@ -5,7 +5,10 @@
 </template>
 
 <script lang="ts">
+import { ref } from 'vue';
+
 export default {
+    inheritAttrs: false,
     emits: ['submit'],
     setup(_, { emit }) {
         const disabled = ref(false)
@@ -32,5 +35,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped></style>

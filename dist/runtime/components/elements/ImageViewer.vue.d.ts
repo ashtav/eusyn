@@ -135,13 +135,13 @@ declare const _default: import("vue").DefineComponent<{
     };
     onDownload: FunctionConstructor;
 }>> & {
-    "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
     onDownload?: ((...args: any[]) => any) | undefined;
+    "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }, {
     config: Config;
-    modelValue: boolean;
     active: string;
     actions: string[];
     images: any[];
+    modelValue: boolean;
 }, {}>;
 export default _default;

@@ -66,7 +66,7 @@ declare const _default: import("vue").DefineComponent<{
     onKeyPress: (event: any) => void;
     onFocus: (event: any) => void;
     onBlur: (event: any) => void;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("update:modelValue" | "enter" | "focus" | "suffix")[], "update:modelValue" | "enter" | "focus" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("focus" | "update:modelValue" | "enter" | "suffix")[], "focus" | "update:modelValue" | "enter" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
         type: StringConstructor;
@@ -132,8 +132,8 @@ declare const _default: import("vue").DefineComponent<{
 }, {
     label: string;
     disabled: boolean;
-    modelValue: string;
     required: boolean;
+    modelValue: string;
     prefix: string;
     suffix: any[];
     hint: string;
