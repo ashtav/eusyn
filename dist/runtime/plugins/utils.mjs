@@ -141,7 +141,7 @@ const manipulate = (data, action) => {
   if (action.numeric) {
     action.numeric.forEach((key) => {
       if (result[key]) {
-        result[key] = numeric(result[key]);
+        result[key] = numeric(result[key].toString());
       }
     });
   }

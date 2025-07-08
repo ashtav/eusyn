@@ -1,6 +1,6 @@
 <template>
   <Modal :id="id" :elevation="false" :actions="actions">
-    <form @submit.prevent="onSubmit">
+    <Form @submit="onSubmit" ref="form">
       <div class="modal-body space-y-3">
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, praesentium deserunt. Voluptatem
@@ -8,7 +8,10 @@
           non id magni, sit perferendis!
         </p>
 
-        <Input hint="Enter your name" v-model="forms.name" required autofocus />
+        <Input hint="Type something and press enter" />
+
+        <Input hint="Enter your name" v-model="forms.name" required autofocus @enter="onEnter"
+          @focus="(value) => ($refs.form as any).enterable(value)" />
 
         <Card title="Tabbed Card" :tabs="tabs" tab-pos="top" v-slot="{ tab }" v-model:tab-active="tab" :colors="{
           tabColor: '#2e3545',
@@ -29,7 +32,7 @@
       <div class="modal-footer border-0">
         <Button label="Submit" ref="el" submit />
       </div>
-    </form>
+    </Form>
   </Modal>
 </template>
 
@@ -85,12 +88,16 @@ export default {
   },
 
   methods: {
+    onEnter() {
+      console.log('Enter key pressed');
+    },
+
     onSubmit() {
       this.$loading()
 
       setTimeout(() => {
         this.$loading(false)
-      }, 2000);
+      }, 1000);
     }
   },
 }
