@@ -19,7 +19,6 @@
       <p class="text-secondary mt-5">
         <Icon icon="minus" /> Version. 0.0.23 25.07.03.1-alpha
       </p> <br> <br>
-
       <hr>
     </div>
   </div>
@@ -31,27 +30,7 @@ export default {
   setup() {
     return {}
   },
-
-  data() {
-    return {
-      forms: {
-        time: '10:15'
-      },
-    }
-  },
-
-  methods: {
-    foo() { }
-  }
 }
 </script>
 
-<style lang="scss" scoped>
-.custom {
-  padding: 25px 35px;
-  background-color: #151f2c;
-  outline: none;
-  border: 1px #2d3d50 solid;
-  border-radius: 4px;
-}
-</style>
+<style lang="scss" scoped></style>

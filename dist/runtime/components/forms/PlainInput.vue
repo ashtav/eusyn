@@ -14,7 +14,7 @@ export default defineComponent({
   props: {
     modelValue: {
       default: "",
-      type: String
+      type: [Number, String]
     },
     hint: {
       type: String,
@@ -74,7 +74,7 @@ export default defineComponent({
       localValue.value = event.target.value;
     };
     const moveCursor = () => {
-      let value = localValue.value.split("/");
+      let value = localValue.value.toString().split("/");
       let joinedValue = value.join("/");
       let firstUnderscoreIndex = joinedValue.indexOf("_");
       if (firstUnderscoreIndex !== -1) {
@@ -159,7 +159,7 @@ export default defineComponent({
     watch(() => localValue.value, (value) => {
       if (props.mask) {
         let values = getDateMaskFormat().split("");
-        let number = utils.numeric(value).toString();
+        let number = utils.numeric(value.toString()).toString();
         let numIndex = 0;
         let cursorPosition = number.length;
         for (let i = 0; i < cursorPosition; i++) {
@@ -184,7 +184,7 @@ export default defineComponent({
         }
         return;
       }
-      formatting(props.formatters.split("|"), emit, value, props.type, (value2) => {
+      formatting(props.formatters.split("|"), emit, value.toString(), props.type, (value2) => {
         emit("update:modelValue", value2);
       });
     });

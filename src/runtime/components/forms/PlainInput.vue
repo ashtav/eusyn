@@ -15,7 +15,7 @@ export default defineComponent({
     props: {
         modelValue: {
             default: '',
-            type: String
+            type: [Number, String]
         },
 
         hint: {
@@ -90,7 +90,7 @@ export default defineComponent({
         }
 
         const moveCursor = () => {
-            let value = localValue.value.split('/')
+            let value = localValue.value.toString().split('/')
 
             // Flatten the array and join it into a single string
             let joinedValue = value.join('/');
@@ -212,7 +212,7 @@ export default defineComponent({
                 let values = getDateMaskFormat().split('');
 
                 // Assuming utils.numeric(value) extracts only the digits from the input value
-                let number = utils.numeric(value).toString();
+                let number = utils.numeric(value.toString()).toString();
 
                 // Track the position in the numeric input
                 let numIndex = 0;
@@ -248,7 +248,7 @@ export default defineComponent({
                 return
             }
 
-            formatting(props.formatters.split('|'), emit, value, props.type, (value: string) => {
+            formatting(props.formatters.split('|'), emit, value.toString(), props.type, (value: string) => {
                 emit('update:modelValue', value) // this will trigger `watch(() => props.modelValue`
             })
         })

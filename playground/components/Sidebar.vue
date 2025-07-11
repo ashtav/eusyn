@@ -55,6 +55,7 @@ export default {
                     { label: 'Counter', to: '/elements/counter', icon: 'hgi-arrange-by-numbers-1-9' },
                     { label: 'Shimmer', to: '/shimmer', icon: 'hgi-equal-sign-square' },
                     { label: 'Spinner', to: '/elements/spinner', icon: 'hgi-loading-03' },
+                    { label: 'List Group', to: '/elements/list-group', icon: 'hgi-left-to-right-list-bullet' },
                     { label: 'Dropdown', to: '/dropdown', icon: 'hgi-align-right' },
                     { label: 'Table', to: '/table', icon: 'hgi-layout-table-02' },
                     { label: 'Page Header', to: '/page-header', icon: 'hgi-heading-02' },

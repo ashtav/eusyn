@@ -1,6 +1,6 @@
 {
   "name": "eusyn",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "packageManager": "pnpm@9.5.0",
   "repository": "eusyn",
   "homepage": "https://github.com/ashtav/eusyn",
