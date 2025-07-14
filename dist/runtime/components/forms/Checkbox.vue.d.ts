@@ -53,6 +53,10 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    inline: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }, {
     utils: import("../../types/utils").default;
     localValue: import("vue").Ref<boolean | any[]>;
@@ -118,6 +122,10 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    inline: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }>> & {
     onChange?: ((...args: any[]) => any) | undefined;
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -128,6 +136,7 @@ declare const _default: import("vue").DefineComponent<{
     required: boolean;
     options: any[];
     modelValue: boolean | any[];
+    inline: boolean;
     emptyMessage: string;
 }, {}>;
 export default _default;

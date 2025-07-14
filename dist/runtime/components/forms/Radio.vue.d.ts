@@ -14,6 +14,10 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
+    inline: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     options: {
         type: {
             (arrayLength: number): any[];
@@ -59,6 +63,10 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
+    inline: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
     options: {
         type: {
             (arrayLength: number): any[];
@@ -89,6 +97,7 @@ declare const _default: import("vue").DefineComponent<{
     required: boolean;
     options: any[];
     modelValue: string;
+    inline: boolean;
     emptyMessage: string;
 }, {}>;
 export default _default;

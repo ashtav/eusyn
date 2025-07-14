@@ -3,7 +3,8 @@
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
 
     <div v-if="isLoading">
-      <label v-for="(_, i) in utils.randInt(2, 5)" :key="i" class="form-check form-check-inline mb-1">
+      <label v-for="(_, i) in utils.randInt(2, 5)" :key="i" class="form-check mb-1"
+        :class="{ 'form-check-inline': inline }">
         <input class="form-check-input" type="checkbox" disabled>
         <span class="form-check-label" style="margin-top: 3px;">
           <Shimmer :size="[[30, 120]]" />
@@ -15,7 +16,8 @@
       <input v-if="options.length == 0 && !label" class="form-check-input m-0" v-model="localValue" type="checkbox"
         :disabled="disabled" :value="value" @input="onInput($event, value, true)">
 
-      <label v-for="(option, i) in localOptions" v-else :key="i" class="form-check form-check-inline">
+      <label v-for="(option, i) in localOptions" v-else :key="i" class="form-check"
+        :class="{ 'form-check-inline': inline }">
         <input v-model="localValue" class="form-check-input" type="checkbox" :name="inputName"
           :value="textOption(option, true)" :disabled="disabled || (option?.disabled ?? false)"
           :required="Array.isArray(localValue) && localValue.length == 0 && required" @input="onInput($event, option)">
@@ -70,7 +72,12 @@ export default defineComponent({
     emptyMessage: {
       type: String,
       default: 'No data available'
-    }
+    },
+
+    inline: {
+      type: Boolean,
+      default: true
+    },
   },
 
   setup(props, { emit }) {

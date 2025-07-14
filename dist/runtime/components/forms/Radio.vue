@@ -3,7 +3,8 @@
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
 
     <div v-if="isLoading">
-      <label v-for="(_, i) in utils.randInt(2, 5)" :key="i" class="form-check form-check-inline mb-1">
+      <label v-for="(_, i) in utils.randInt(2, 5)" :key="i" class="form-check mb-1"
+        :class="{ 'form-check-inline': inline }">
         <input class="form-check-input" type="radio" disabled>
         <span class="form-check-label" style="margin-top: 3px;">
           <Shimmer :size="[[30, 120]]" />
@@ -12,7 +13,7 @@
     </div>
 
     <div v-else>
-      <label v-for="(option, i) in options" :key="i" class="form-check form-check-inline">
+      <label v-for="(option, i) in options" :key="i" class="form-check" :class="{ 'form-check-inline': inline }">
         <input v-model="localValue" class="form-check-input" type="radio" :name="inputName"
           :value="textOption(option, true)" :disabled="disabled || (option?.disabled ?? false)" :required="required"
           @input="onInput(option)">
@@ -46,6 +47,10 @@ export default defineComponent({
     required: {
       type: Boolean,
       default: false
+    },
+    inline: {
+      type: Boolean,
+      default: true
     },
     options: {
       type: Array,
