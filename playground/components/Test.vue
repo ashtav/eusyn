@@ -1,33 +1,41 @@
 <template>
-    <div class="actions">
-        <ul>
-            <li v-for="(e, i) in actions">
-                <span class="action">
-                    <Icon :icon="e.icon" v-if="e.icon" />
-                    <span v-if="e.label">{{ e.label }}</span>
-                </span>
-            </li>
-        </ul>
-    </div>
+    <span class="cursor-pointer" @click="onCopy">
+        <Icon :icon="copied ? 'hgi-tick-02' : 'hgi-copy-02'" />
+    </span>
 </template>
 
 <script lang="ts">
 
-interface Action {
-    label?: string;
-    icon?: string;
-    action?: () => void;
-}
-
 export default {
-    setup() {
-        return {}
+    setup(props) {
+        let interval = null as any
+        const copied = ref(false)
+
+        const onCopy = () => {
+            if (props.value === '') {
+                return
+            }
+
+            navigator.clipboard.writeText(props.value)
+            copied.value = true
+            clearInterval(interval)
+            interval = setInterval(() => {
+                copied.value = false
+            }, 2000)
+        }
+
+        return { copied, onCopy }
     },
 
     props: {
-        actions: {
-            type: Array<Action>,
-            default: () => []
+        icon: {
+            type: String,
+            default: 'hgi-copy-02'
+        },
+
+        value: {
+            type: String,
+            default: ''
         }
     }
 }

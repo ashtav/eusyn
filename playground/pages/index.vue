@@ -21,12 +21,7 @@
       </p> <br> <br>
       <hr>
 
-      <ActionBar :actions="[
-        { icon: 'hgi-archive-01', click: onClick },
-        { icon: 'hgi-user-multiple-02' },
-        { icon: 'hgi-notification-01', label: 'Notifs' },
-        { label: 'Click Me!' },
-      ]" radius="circle" />
+      <Test value="Test value" />
     </div>
   </div>
 </template>
