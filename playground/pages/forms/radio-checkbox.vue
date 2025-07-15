@@ -73,7 +73,7 @@ export default {
                 { label: 'Food', value: 1 },
                 { label: 'Drink', value: 2 },
                 { label: 'Fruit', value: 3 },
-                { label: 'Vegetable', value: 4, disabled: true }
+                { label: 'Vegetable', value: 4, disabled: true, crossed: true }
             ],
 
             fruits: ['Apple', 'Banana', 'Mango', 'Papaya', 'Orange', 'Avocado', 'Strawberry', 'Pineapple'],
