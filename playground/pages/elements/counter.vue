@@ -4,7 +4,7 @@
 
         <div class="row">
             <div class="col-6">
-                <Counter :value="1234567" :duration="2000" v-slot="{ counter }">
+                <Counter :value="price" :duration="2000" v-slot="{ counter }">
                     <span>{{ $e.utils.currency(counter) }}</span>
                 </Counter>
 
@@ -21,6 +21,16 @@
 export default {
     setup() {
         return {}
+    },
+
+    data() {
+        return {
+            price: 0
+        }
+    },
+
+    mounted() {
+        this.price = 1234567;
     }
 }
 </script>
