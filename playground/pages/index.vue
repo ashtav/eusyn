@@ -21,7 +21,9 @@
       </p> <br> <br>
       <hr>
 
-      <Test value="Test value" />
+      <Test v-model="dates" /> <br>
+
+      <code>{{ dates }}</code>
     </div>
   </div>
 </template>
@@ -31,6 +33,12 @@
 export default {
   setup() {
     return {}
+  },
+
+  data() {
+    return {
+      dates: ['2025-07-01', '2025-07-31']
+    }
   },
 
   methods: {
