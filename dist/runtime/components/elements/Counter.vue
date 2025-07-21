@@ -6,12 +6,13 @@
 import { onMounted, ref, watch } from "vue";
 export default {
   setup(props) {
-    const { value, duration } = props;
     const counter = ref(0);
     const interval = ref(null);
     const increment = () => {
+      const { value, duration } = props;
       if (interval.value)
         clearInterval(interval.value);
+      counter.value = 0;
       const step = value / (duration / 100);
       let current = 0;
       interval.value = setInterval(() => {

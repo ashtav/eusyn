@@ -19,9 +19,12 @@
       <label v-for="(option, i) in localOptions" v-else :key="i" class="form-check"
         :class="{ 'form-check-inline': inline }">
         <input v-model="localValue" class="form-check-input" type="checkbox" :name="inputName"
-          :value="textOption(option, true)" :disabled="disabled || (option?.disabled ?? false)"
+          :value="textOption(option, true)"
+          :disabled="disabled || ((typeof option == 'object' && option?.disabled) ?? false)"
           :required="Array.isArray(localValue) && localValue.length == 0 && required" @input="onInput($event, option)">
-        <span class="form-check-label"> {{ textOption(option) }} </span>
+        <span class="form-check-label"
+          :class="{ 'text-decoration-line-through': typeof option == 'object' && option?.crossed }"> {{ textOption(option)
+          }} </span>
       </label>
 
       <div class="text-secondary mb-2" v-if="options.length == 0 && label">{{ emptyMessage }}</div>

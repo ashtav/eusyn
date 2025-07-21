@@ -1,3 +1,9 @@
+interface CheckboxOption {
+    label?: string;
+    value?: string | number;
+    disabled?: boolean;
+    crossed?: boolean;
+}
 declare const _default: import("vue").DefineComponent<{
     modelValue: {
         type: (BooleanConstructor | {
@@ -34,10 +40,10 @@ declare const _default: import("vue").DefineComponent<{
     };
     options: {
         type: {
-            (arrayLength: number): any[];
-            (...items: any[]): any[];
-            new (arrayLength: number): any[];
-            new (...items: any[]): any[];
+            (arrayLength: number): (string | number | CheckboxOption)[];
+            (...items: (string | number | CheckboxOption)[]): (string | number | CheckboxOption)[];
+            new (arrayLength: number): (string | number | CheckboxOption)[];
+            new (...items: (string | number | CheckboxOption)[]): (string | number | CheckboxOption)[];
             isArray(arg: any): arg is any[];
             readonly prototype: any[];
             from<T>(arrayLike: ArrayLike<T>): T[];
@@ -60,7 +66,12 @@ declare const _default: import("vue").DefineComponent<{
 }, {
     utils: import("../../types/utils").default;
     localValue: import("vue").Ref<boolean | any[]>;
-    localOptions: import("vue").Ref<any[]>;
+    localOptions: import("vue").Ref<(string | number | {
+        label?: string;
+        value?: string | number;
+        disabled?: boolean;
+        crossed?: boolean;
+    })[]>;
     inputName: import("vue").Ref<string>;
     single: import("vue").Ref<boolean>;
     isLoading: import("vue").Ref<boolean>;
@@ -103,10 +114,10 @@ declare const _default: import("vue").DefineComponent<{
     };
     options: {
         type: {
-            (arrayLength: number): any[];
-            (...items: any[]): any[];
-            new (arrayLength: number): any[];
-            new (...items: any[]): any[];
+            (arrayLength: number): (string | number | CheckboxOption)[];
+            (...items: (string | number | CheckboxOption)[]): (string | number | CheckboxOption)[];
+            new (arrayLength: number): (string | number | CheckboxOption)[];
+            new (...items: (string | number | CheckboxOption)[]): (string | number | CheckboxOption)[];
             isArray(arg: any): arg is any[];
             readonly prototype: any[];
             from<T>(arrayLike: ArrayLike<T>): T[];
@@ -134,7 +145,7 @@ declare const _default: import("vue").DefineComponent<{
     value: string | number | boolean;
     disabled: boolean;
     required: boolean;
-    options: any[];
+    options: (string | number | CheckboxOption)[];
     modelValue: boolean | any[];
     inline: boolean;
     emptyMessage: string;

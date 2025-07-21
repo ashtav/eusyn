@@ -21,7 +21,9 @@
       </p> <br> <br>
       <hr>
 
-      <Test v-model="dates" /> <br>
+      <Test v-model="dates">
+        Hello World!
+      </Test> <br>
 
       <code>{{ dates }}</code>
     </div>
