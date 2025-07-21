@@ -23,10 +23,6 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-    busy: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     prefix: {
         type: StringConstructor;
         default: null;
@@ -54,7 +50,7 @@ declare const _default: import("vue").DefineComponent<{
     };
 }, {
     utils: import("../../types/utils").default;
-    localValue: import("vue").Ref<string | number>;
+    labelInput: import("vue").Ref<string | number>;
     localOptions: import("vue").Ref<any[]>;
     selected: import("vue").Ref<null>;
     isFocus: import("vue").Ref<boolean>;
@@ -94,10 +90,6 @@ declare const _default: import("vue").DefineComponent<{
         default: boolean;
     };
     autofocus: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
-    busy: {
         type: BooleanConstructor;
         default: boolean;
     };
@@ -141,6 +133,5 @@ declare const _default: import("vue").DefineComponent<{
     suffix: string;
     hint: string;
     autofocus: boolean;
-    busy: boolean;
 }, {}>;
 export default _default;

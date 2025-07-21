@@ -149,7 +149,7 @@ export default {
         },
 
         setLoading() {
-            this.$loading()
+            this.$loading(true, 'select')
 
             setTimeout(() => {
                 this.$loading(false)

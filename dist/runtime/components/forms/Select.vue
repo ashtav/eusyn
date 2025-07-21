@@ -8,7 +8,7 @@
       </span>
 
       <!-- input -->
-      <input ref="refSelect" :value="localValue" :class="['form-control', utils.on(isFocus, 'has-focus')]"
+      <input ref="refSelect" :value="labelInput" :class="['form-control', utils.on(isFocus, 'has-focus')]"
         :placeholder="hint" :maxlength="255" :required="required" :disabled="disabled || isLoading"
         :autofocus="autofocus" name="select" autocomplete="off" @input="onInput" @focus="onFocus" @blur="onBlur"
         @keypress="onKeyPress">
@@ -39,7 +39,7 @@
 
 <script>
 import { useRuntimeConfig } from "#imports";
-import { defineComponent, getCurrentInstance, onMounted, ref, watch } from "vue";
+import { defineComponent, getCurrentInstance, onMounted, ref } from "vue";
 import { utils } from "../../plugins/utils";
 import { textOption } from "../../scripts/select";
 export default defineComponent({
@@ -70,10 +70,6 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    busy: {
-      type: Boolean,
-      default: false
-    },
     prefix: {
       type: String,
       default: null
@@ -94,18 +90,19 @@ export default defineComponent({
     const iconX = isTabler ? "ti-x" : "hgi-cancel-01";
     const iconChevron = isTabler ? "ti-chevron-down" : "hgi-arrow-down-01";
     const instance = getCurrentInstance();
-    const localValue = ref(props.modelValue);
+    const labelInput = ref(props.modelValue);
     const localOptions = ref(props.options);
     const selected = ref(null);
-    const isLoading = ref(props.busy);
+    const isLoading = ref(false);
     const isFocus = ref(false);
     const refSelect = ref(null);
     const refOption = ref(null);
+    const values = ref(["", null]);
     const originValue = ref(props.modelValue);
     const onInput = (event) => {
-      localValue.value = event.target.value;
+      labelInput.value = event.target.value;
       localOptions.value = props.options.filter((o) => {
-        return textOption(o).toLowerCase().includes(localValue.value.toString().toLowerCase());
+        return textOption(o).toLowerCase().includes(labelInput.value.toString().toLowerCase());
       });
       if (!isFocus.value) {
         isFocus.value = true;
@@ -124,7 +121,7 @@ export default defineComponent({
       }, 1);
     };
     const onBlur = () => {
-      localValue.value = textOption(selected.value);
+      labelInput.value = textOption(selected.value);
       emit("focus", false);
       setTimeout(() => {
         isFocus.value = false;
@@ -132,7 +129,7 @@ export default defineComponent({
       }, 1);
     };
     const onSelect = (option) => {
-      localValue.value = textOption(option);
+      labelInput.value = textOption(option);
       selected.value = option;
       emit("update:modelValue", textOption(option, true));
       emit("change", option);
@@ -141,13 +138,13 @@ export default defineComponent({
       if (event.keyCode == 13 && instance?.vnode?.props?.onEnter) {
         const options = localOptions.value;
         setTimeout(() => {
-          if (localValue.value != textOption(selected.value) && options.length != 0 && localValue.value != "") {
+          if (labelInput.value != textOption(selected.value) && options.length != 0 && labelInput.value != "") {
             onSelect(options[0]);
             const elm = refSelect.value;
             elm.blur();
           }
         }, 10);
-        emit("enter", localValue.value);
+        emit("enter", labelInput.value);
         isFocus.value = false;
       }
     };
@@ -157,54 +154,49 @@ export default defineComponent({
         return elm.focus();
       }
       selected.value = null;
-      localValue.value = "";
+      labelInput.value = "";
       emit("update:modelValue", "");
       emit("change", null);
     };
-    const initOption = (value) => {
-      if (props.options.length == 0) {
-        emit("update:modelValue", "");
-        localValue.value = "";
-        return;
-      }
-      const option = props.options.find((o) => {
-        return `${textOption(o, true)}`.toLowerCase() == `${value}`.toLowerCase();
-      });
-      selected.value = option;
-      localValue.value = option?.label ?? option?.value ?? value;
+    const initValue = () => {
+      setTimeout(() => {
+        const value = props.modelValue;
+        const option = props.options.find((o) => {
+          return `${textOption(o, true)}`.toLowerCase() == `${value}`.toLowerCase();
+        });
+        if (option) {
+          selected.value = option;
+          labelInput.value = textOption(option);
+          return;
+        }
+        selected.value = null;
+        labelInput.value = "";
+      }, 10);
     };
     const doFocus = () => {
-      if (refSelect.value) {
+      if (props.autofocus && refSelect.value) {
         setTimeout(() => {
           refSelect.value.focus();
         }, 10);
       }
     };
     watch(() => props.modelValue, (value) => {
-      initOption(value);
-      if (value == "") {
-        localValue.value = value;
-      }
+      initValue();
     });
     watch(() => props.options, (value) => {
       localOptions.value = value;
-      setTimeout(() => initOption(originValue.value), 0);
-    });
-    watch(() => props.busy, (value) => {
-      isLoading.value = value;
+      initValue();
     });
     onMounted(() => {
-      initOption(localValue.value);
-      if (props.autofocus) {
-        doFocus();
-      }
+      initValue();
+      doFocus();
     });
     const setLoading = (value) => {
       isLoading.value = value;
     };
     return {
       utils,
-      localValue,
+      labelInput,
       localOptions,
       selected,
       isFocus,

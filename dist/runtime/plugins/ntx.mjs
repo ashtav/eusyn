@@ -19,7 +19,12 @@ const ntx = {
   case: changeCase,
   focus: (self, ref, delay = 0) => {
     setTimeout(() => {
-      self.$refs[ref]?.doFocus();
+      const el = self.$refs[ref];
+      if (el?.options) {
+        el.$refs.refSelect?.focus();
+        return;
+      }
+      el?.doFocus();
     }, delay);
   },
   overlay: (message, options) => {
@@ -48,10 +53,12 @@ const ntx = {
   }
 };
 const e = ntx;
+let activeLoadingKey = null;
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.config.globalProperties.$loading = function(value = true, key = "el") {
     const self = this;
-    const el = self.$refs[key];
+    const el = self.$refs[value ? key : activeLoadingKey ?? key];
+    activeLoadingKey = key;
     const type = el?.$el.classList;
     if (type.contains("select")) {
       el.setLoading(value);

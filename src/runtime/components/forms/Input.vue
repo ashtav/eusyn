@@ -191,6 +191,7 @@ export default defineComponent({
     }
 
     const onBlur = (event: any) => {
+      if (!instance || instance.isUnmounted) return
       emit('focus', false)
     }
 

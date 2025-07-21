@@ -20,7 +20,15 @@ const ntx: Ntx = {
 
     focus: (self: any, ref: string, delay: number = 0): void => {
         setTimeout(() => {
-            (self.$refs[ref] as any)?.doFocus()
+            const el = self.$refs[ref] as any
+
+            // this is select option
+            if (el?.options) {
+                el.$refs.refSelect?.focus()
+                return
+            }
+
+            el?.doFocus()
         }, delay);
     },
 
@@ -58,11 +66,13 @@ const ntx: Ntx = {
 }
 
 const e: Ntx = ntx
+let activeLoadingKey = null
 
 export default defineNuxtPlugin((nuxtApp: any) => {
     nuxtApp.vueApp.config.globalProperties.$loading = function (value: boolean = true, key: string = 'el') {
         const self = this as ComponentPublicInstance;
-        const el = self.$refs[key] as any;
+        const el = self.$refs[value ? key : activeLoadingKey ?? key] as any;
+        activeLoadingKey = key
 
         const type = el?.$el.classList;
 

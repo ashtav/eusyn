@@ -8,7 +8,7 @@
       </span>
 
       <!-- input -->
-      <input ref="refSelect" :value="localValue" :class="['form-control', utils.on(isFocus, 'has-focus')]"
+      <input ref="refSelect" :value="labelInput" :class="['form-control', utils.on(isFocus, 'has-focus')]"
         :placeholder="hint" :maxlength="255" :required="required" :disabled="disabled || isLoading"
         :autofocus="autofocus" name="select" autocomplete="off" @input="onInput" @focus="onFocus" @blur="onBlur"
         @keypress="onKeyPress">
@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import { useRuntimeConfig } from '#imports';
-import { defineComponent, getCurrentInstance, onMounted, ref, watch } from 'vue';
+import { defineComponent, getCurrentInstance, onMounted, ref } from 'vue';
 import { utils } from '../../plugins/utils';
 import { textOption } from '../../scripts/select';
 
@@ -77,11 +77,6 @@ export default defineComponent({
       default: false
     },
 
-    busy: {
-      type: Boolean,
-      default: false
-    },
-
     prefix: {
       type: String,
       default: null
@@ -107,25 +102,27 @@ export default defineComponent({
     const iconChevron = isTabler ? 'ti-chevron-down' : 'hgi-arrow-down-01';
 
     const instance = getCurrentInstance()
-    const localValue = ref(props.modelValue)
+    const labelInput = ref(props.modelValue) // label
     const localOptions = ref(props.options)
     const selected = ref(null)
 
-    const isLoading = ref(props.busy)
+    const isLoading = ref(false)
     const isFocus = ref(false)
     const refSelect = ref(null)
     const refOption = ref(null)
+
+    const values = ref<any>(['', null]) // index 0 = label, index 1 = value
 
     // this variable is used for options changes
     const originValue = ref(props.modelValue)
 
     // methods
     const onInput = (event: any) => {
-      localValue.value = event.target.value
+      labelInput.value = event.target.value
 
       // do search
       localOptions.value = props.options.filter((o) => {
-        return textOption(o).toLowerCase().includes(localValue.value.toString().toLowerCase())
+        return textOption(o).toLowerCase().includes(labelInput.value.toString().toLowerCase())
       })
 
       if (!isFocus.value) {
@@ -151,7 +148,7 @@ export default defineComponent({
     }
 
     const onBlur = () => {
-      localValue.value = textOption(selected.value)
+      labelInput.value = textOption(selected.value)
       emit('focus', false)
 
       setTimeout(() => {
@@ -161,7 +158,7 @@ export default defineComponent({
     }
 
     const onSelect = (option: any) => {
-      localValue.value = textOption(option)
+      labelInput.value = textOption(option)
       selected.value = option
 
       // set real value for v-model
@@ -176,7 +173,7 @@ export default defineComponent({
         const options = localOptions.value
 
         setTimeout(() => {
-          if (localValue.value != textOption(selected.value) && options.length != 0 && localValue.value != '') {
+          if (labelInput.value != textOption(selected.value) && options.length != 0 && labelInput.value != '') {
             onSelect(options[0])
 
             const elm = (refSelect.value as HTMLInputElement)
@@ -184,7 +181,7 @@ export default defineComponent({
           }
         }, 10);
 
-        emit('enter', localValue.value)
+        emit('enter', labelInput.value)
         isFocus.value = false
       }
     }
@@ -196,32 +193,34 @@ export default defineComponent({
       }
 
       selected.value = null
-      localValue.value = ''
+      labelInput.value = ''
       emit('update:modelValue', '')
       emit('change', null)
     }
 
-    const initOption = (value: any) => {
-      if (props.options.length == 0) {
-        emit('update:modelValue', '')
-        localValue.value = ''
+    // handle initiated value if exist
+    const initValue = () => {
+      setTimeout(() => {
+        const value = props.modelValue
 
-        return
-      }
+        // set selected option
+        const option = props.options.find((o) => {
+          return `${textOption(o, true)}`.toLowerCase() == `${value}`.toLowerCase()
+        })
 
-      // get option by value
-      const option = props.options.find((o) => {
-        return `${textOption(o, true)}`.toLowerCase() == `${value}`.toLowerCase()
-      })
+        if (option) {
+          selected.value = option
+          labelInput.value = textOption(option)
+          return
+        }
 
-      selected.value = option
-      localValue.value = option?.label ?? option?.value ?? value
-
-      // emit('update:modelValue', value)
+        selected.value = null
+        labelInput.value = ''
+      }, 10);
     }
 
     const doFocus = () => {
-      if (refSelect.value) {
+      if (props.autofocus && refSelect.value) {
         setTimeout(() => {
           (refSelect.value as HTMLElement).focus()
         }, 10);
@@ -230,33 +229,18 @@ export default defineComponent({
 
     // watch v-model to handle if user change data from input
     watch(() => props.modelValue, (value) => {
-      initOption(value)
-
-      if (value == '') {
-        localValue.value = value
-      }
+      initValue()
     })
-
-    // watch(() => localValue.value, (value) => {
-    //   emit('update:modelValue', value)
-    // })
 
     watch(() => props.options, (value) => {
       localOptions.value = value
-      setTimeout(() => initOption(originValue.value), 0);
-    })
-
-    watch(() => props.busy, (value) => {
-      isLoading.value = value
+      initValue()
     })
 
     // mounted
     onMounted(() => {
-      initOption(localValue.value)
-
-      if (props.autofocus) {
-        doFocus()
-      }
+      initValue();
+      doFocus()
     })
 
     const setLoading = (value: boolean) => {
@@ -264,7 +248,7 @@ export default defineComponent({
     }
 
     return {
-      utils, localValue, localOptions, selected, isFocus, refSelect, refOption, isLoading, iconX, iconChevron,
+      utils, labelInput, localOptions, selected, isFocus, refSelect, refOption, isLoading, iconX, iconChevron,
       onInput, onFocus, onBlur, onSelect, onKeyPress, onSuffix, textOption, doFocus, setLoading
     }
   }

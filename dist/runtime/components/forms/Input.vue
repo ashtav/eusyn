@@ -159,6 +159,8 @@ export default defineComponent({
       }
     };
     const onBlur = (event) => {
+      if (!instance || instance.isUnmounted)
+        return;
       emit("focus", false);
     };
     const onSuffix = (data) => {

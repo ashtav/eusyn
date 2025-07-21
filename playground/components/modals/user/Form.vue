@@ -1,5 +1,5 @@
 <template>
-  <Modal :id="id" :elevation="false" :actions="actions">
+  <Modal :id="id" :elevation="false" :actions="actions" @init="onInit">
     <Form @submit="onSubmit" ref="form">
       <div class="modal-body space-y-3">
         <p>
@@ -11,7 +11,7 @@
         <Input hint="Type something and press enter" />
 
         <Input hint="Enter your name" v-model="forms.name" required autofocus @enter="onEnter"
-          @focus="(value) => ($refs.form as any).enterable(value)" />
+          @focus="(value) => ($refs.form as any)?.enterable(value)" />
 
         <Card title="Tabbed Card" :tabs="tabs" tab-pos="top" v-slot="{ tab }" v-model:tab-active="tab" :colors="{
           tabColor: '#2e3545',
@@ -27,6 +27,10 @@
             </p>
           </div>
         </Card>
+
+        <Select label="Select your hobby" hint="Please select your hobby" v-model="forms.hobby_id" :options="hobbies" />
+
+        <code>{{ forms }}</code>
       </div>
 
       <div class="modal-footer border-0">
@@ -74,7 +78,8 @@ export default {
     return {
       forms: {
         name: 'John Doe',
-        hobby: ''
+        hobby: '',
+        hobby_id: 0
       },
 
       tabs: [
@@ -83,11 +88,32 @@ export default {
         { label: 'Works', icon: 'hgi-briefcase-08' },
       ],
 
-      tab: 0
+      tab: 0,
+      hobbies: <any>[]
     }
   },
 
   methods: {
+    onInit(value: any) {
+      const data = [
+        { id: 1, label: 'Reading' },
+        { id: 2, label: 'Traveling' },
+        { id: 3, label: 'Cooking' },
+      ]
+
+      this.hobbies = data.map((item) => ({
+        value: item.id,
+        label: item.label
+      }));
+
+      this.forms.hobby_id = 3
+
+      setTimeout(() => {
+        this.forms.hobby_id = 1
+        console.log('change value')
+      }, 1000);
+    },
+
     onEnter() {
       console.log('Enter key pressed');
     },
