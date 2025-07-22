@@ -1,222 +1,338 @@
 <template>
-    <div class="date cursor-pointer d-inline" :class="{ focused: focused }" @click="onFocus">
-        <span class="child">
-            <Icon icon="hgi-calendar-02" v-if="!$slots.default" />
-            <slot v-else />
-        </span>
+    <div class="date-picker">
+        <input class="form-control" :placeholder="hint" :value="value" readonly />
 
-        <!-- date range picker -->
-        <div class="date-picker">
-            <div @wheel="onWheel($event, 0)">
-                <span v-for="(e, i) in [date(dates[0]).date, date(dates[0]).month, date(dates[0]).year]" :class="{
-                    'blurred': focusAt[0] != -1,
-                    'active': focusAt[0] == 0 && focusAt[1] == i,
-                }" @click="focusTo(0, i)">{{ e }}</span>
+        <!-- suffix -->
+        <div class="suffix">
+            <span @click="show = !show">
+                <Icon icon="hgi-calendar-02" />
+            </span>
+        </div>
+
+        <!-- calendar -->
+        <div class="calendar" :class="{ show: show }">
+            <div class="header">
+                <h4 class="d-flex gap-1" @wheel="onWheelHeader">
+                    <span @click="focusAt(0)" :class="{ focused: focused == 0, disabled: focused != null }">{{ date.m
+                        }}</span>
+                    <span @click="focusAt(1)" :class="{ focused: focused == 1, disabled: focused != null }">{{ date.y
+                        }}</span>
+                </h4>
+                <div>
+                    <span v-for="(e, i) in ['up', 'down']" @click="onChangeMonth(i)">
+                        <Icon :icon="`hgi-arrow-${e}-01`" />
+                    </span>
+                </div>
             </div>
-            <span>&mdash;</span>
-            <div @wheel="onWheel($event, 1)">
-                <span v-for="(e, i) in [date(dates[1]).date, date(dates[1]).month, date(dates[1]).year]" :class="{
-                    'blurred': focusAt[0] != -1,
-                    'active': focusAt[0] == 1 && focusAt[1] == i,
-                }" @click="focusTo(1, i)">{{ e }}</span>
+            <div class="dates" @wheel="onWeel" @click="focusAt(null)" :class="{ disabled: focused != null }">
+                <ul class="week" v-for="(week, i) in ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa']" :key="i">
+                    <li>
+                        {{ week }}
+                    </li>
+                </ul>
+                <ul v-for="(week, i) in calendar" :key="i">
+                    <li v-for="(day, j) in week" :key="j" :title="day?.full ?? ''"
+                        :class="{ 'today': day?.full === $e.utils.now() || day?.full == value, 'out': day?.out }"
+                        @click="onSelect(day?.full)">
+                        {{ day?.display ?? '' }}
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, watch } from 'vue';
 
 export default {
     emits: ['update:modelValue'],
     setup(props, { emit }) {
-        const focused = ref(false)
         const nuxt = useNuxtApp()
-        const dates = ref<string[]>(props.modelValue || [])
-        const focusAt = ref([-1, -1])
+        const hint = ref('--/--/----')
+        const calendar = ref<any>([])
+        const month = ref(nuxt.$e.utils.now())
+        const focused = ref<number | null>(null)
+        const value = ref(props.modelValue)
+        const show = ref(false)
 
-        const onFocus = (e: any) => {
-            if (focused.value) {
-                const target = e.target as HTMLElement;
-                if (target.closest('.child')) {
-                    focusAt.value = [-1, -1]
-                    return focused.value = false
+        const date = computed((): { m: string, y: string } => {
+            const m = nuxt.$e.utils.dateFormat(month.value, 'MMMM')
+            const y = nuxt.$e.utils.dateFormat(month.value, 'Y')
+            return { m, y }
+        })
+
+        function generateCalendar(monthStr?: string): Array<Array<{ full: string, display: string, out?: boolean }>> {
+            const today = new Date()
+            const [year, month] = monthStr
+                ? monthStr.split('-').map(Number)
+                : [today.getFullYear(), today.getMonth() + 1]
+
+            const currentMonthStart = new Date(year, month - 1, 1)
+            const currentMonthEnd = new Date(year, month, 0)
+            const daysInMonth = currentMonthEnd.getDate()
+            const startDay = currentMonthStart.getDay() // 0 = Sunday
+
+            const days: Array<{ full: string, display: string, out?: boolean }> = []
+
+            if (startDay > 0) {
+                const prevMonth = new Date(year, month - 2, 1)
+                const prevMonthDays = new Date(prevMonth.getFullYear(), prevMonth.getMonth() + 1, 0).getDate()
+
+                for (let i = prevMonthDays - startDay + 1; i <= prevMonthDays; i++) {
+                    const d = i.toString().padStart(2, '0')
+                    const m = (prevMonth.getMonth() + 1).toString().padStart(2, '0')
+                    days.push({
+                        full: `${prevMonth.getFullYear()}-${m}-${d}`,
+                        display: d,
+                        out: true
+                    })
                 }
             }
 
-            focused.value = true
-        }
-
-        const focusTo = (dateIndex: number, focusIndex: number) => {
-            if (focusAt.value[0] === dateIndex && focusAt.value[1] === focusIndex) {
-                return focusAt.value = [-1, -1]
+            for (let i = 1; i <= daysInMonth; i++) {
+                const d = i.toString().padStart(2, '0')
+                const m = month.toString().padStart(2, '0')
+                days.push({
+                    full: `${year}-${m}-${d}`,
+                    display: d
+                })
             }
 
-            focusAt.value = [dateIndex, focusIndex]
-        }
-
-        const date = (date: string): { date: string, month: string, year: string } => {
-            const d = new Date(date)
-            return {
-                date: d.getDate().toString().padStart(2, '0'),
-                month: (d.getMonth() + 1).toString().padStart(2, '0'),
-                year: d.getFullYear().toString()
-            }
-        }
-
-        const dateChange = (
-            date: string | Date,
-            amount: number,
-            unit: 'days' | 'months' | 'years'
-        ): string => {
-            const d = typeof date === 'string' ? new Date(date) : new Date(date) // biar aman copy-an
-            if (isNaN(d.getTime())) throw new Error('Invalid date')
-
-            switch (unit) {
-                case 'days':
-                    d.setDate(d.getDate() + amount)
-                    break
-                case 'months':
-                    d.setMonth(d.getMonth() + amount)
-                    break
-                case 'years':
-                    d.setFullYear(d.getFullYear() + amount)
-                    break
-                default:
-                    throw new Error('Invalid unit')
+            const totalCells = 42 // Math.ceil(days.length / 7) * 7
+            const nextMonth = new Date(year, month, 1)
+            for (let i = 1; days.length < totalCells; i++) {
+                const d = i.toString().padStart(2, '0')
+                const m = (nextMonth.getMonth() + 1).toString().padStart(2, '0')
+                days.push({
+                    full: `${nextMonth.getFullYear()}-${m}-${d}`,
+                    display: d,
+                    out: true
+                })
             }
 
-            return d.toISOString().split('T')[0] // format: yyyy-mm-dd
+            const weeks: Array<Array<{ full: string, display: string, out?: boolean }>> = []
+            for (let i = 0; i < days.length; i += 7) {
+                weeks.push(days.slice(i, i + 7))
+            }
+
+            return weeks
         }
 
-        const onWheel = (e: WheelEvent, index: number) => {
+        const onChangeMonth = (index: number) => {
+            focused.value = null
+
+            const current = new Date(month.value)
+            current.setMonth(current.getMonth() + (index !== 0 ? 1 : -1))
+            month.value = nuxt.$e.utils.dateFormat(current)
+
+            const formatted = `${current.getFullYear()}-${(current.getMonth() + 1).toString().padStart(2, '0')}`
+            calendar.value = generateCalendar(formatted)
+        }
+
+        const onWeel = (e: WheelEvent) => {
             e.preventDefault()
-            if (focused.value) {
-                const delta = Math.sign(e.deltaY)
-                const newDates = [...dates.value]
-
-                if (focusAt.value[0] == -1) {
-                    const newDate = dateChange(newDates[index], delta < 0 ? 1 : -1, 'days')
-                    newDates[index] = newDate
-
-                    if (newDates[0] > newDates[1] && index === 0) {
-                        newDates[1] = newDates[0]
-                    }
-
-                    if (newDates[1] < newDates[0] && index === 1) {
-                        newDates[0] = newDates[1]
-                    }
-                }
-
-                // do change on specific date
-                else {
-                    const unit = focusAt.value[1] === 0 ? 'days' : focusAt.value[1] === 1 ? 'months' : 'years'
-                    const newDate = dateChange(newDates[index], delta < 0 ? 1 : -1, unit)
-                    newDates[index] = newDate
-
-                    if (newDates[0] > newDates[1] && index === 0) {
-                        newDates[1] = newDates[0]
-                    }
-
-                    if (newDates[1] < newDates[0] && index === 1) {
-                        newDates[0] = newDates[1]
-                    }
-                }
-
-                dates.value = newDates
-                emit('update:modelValue', newDates)
+            if (e.deltaY < 0) {
+                onChangeMonth(0)
+            } else {
+                onChangeMonth(1)
             }
+        }
+
+        const onWheelHeader = () => {
+            const i = focused.value
+            if (i != null) {
+                const date = new Date(month.value)
+
+                if (i == 0) {
+                    date.setMonth(date.getMonth() - 1)
+                }
+
+                else {
+                    date.setFullYear(date.getFullYear() + 1)
+                }
+
+                month.value = nuxt.$e.utils.dateFormat(date)
+                calendar.value = generateCalendar(month.value)
+
+            }
+        }
+
+        const focusAt = (index?: any) => {
+            focused.value = index
+        }
+
+        const onSelect = (dateStr: string) => {
+            if (!dateStr) return
+
+            const date = new Date(dateStr)
+            const formattedDate = nuxt.$e.utils.dateFormat(date, 'Y-m-d')
+
+            emit('update:modelValue', formattedDate)
+            value.value = formattedDate
+            focused.value = null
+            show.value = false
         }
 
         onMounted(() => {
-            if (dates.value.length < 2) {
-                dates.value = [
-                    nuxt.$e.utils.now('Y-m-d'),
-                    nuxt.$e.utils.now('Y-m-d') // now('Y-m-d', { add: { days: 30 } })
-                ]
-            }
+            calendar.value = generateCalendar()
+            month.value = nuxt.$e.utils.now('MMMM Y')
 
             // add listeners for click outside .date
             document.addEventListener('click', (e) => {
                 const target = e.target as HTMLElement;
-                if (!target.closest('.date')) {
-                    focused.value = false;
-                    focusAt.value = [-1, -1]
+                if (!target.closest('.date-picker')) {
+                    show.value = false
                 }
             })
         })
 
         watch(() => props.modelValue, (newValue) => {
-            dates.value = newValue
+
         })
 
-        return { focused, focusAt, onFocus, dates, date, onWheel, focusTo }
+        return { show, hint, calendar, date, focused, value, onChangeMonth, onWeel, onWheelHeader, focusAt, onSelect }
     },
 
     props: {
         modelValue: {
-            type: Array<string>,
-            default: () => []
+            type: String,
+            default: () => ''
         },
+
+        label: {
+            type: String
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.date {
-    position: relative;
-    user-select: none;
-
-    &.focused .date-picker {
-        top: -60px;
-        opacity: 1;
-    }
-}
-
 .date-picker {
-    background-color: var(--background-color);
-    border: 1px solid var(--border-color);
-    padding: 10px;
-    border-radius: 6px;
-    position: absolute;
+    position: relative;
     display: flex;
-    gap: 10px;
-    z-index: 10000;
-    opacity: 0;
-    transition: 0.2s cubic-bezier(0.34, 1.86, 0.64, 1);
-    top: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-    user-select: none;
+    align-items: center;
+    justify-content: end;
 
-    div {
-        display: flex;
-        gap: 7px;
+    .suffix {
+        position: absolute;
+        right: 12px;
+        top: 9px;
+        cursor: pointer;
 
-        span {
-            border-radius: 6px;
-            transition: .1s;
+        &:hover {
+            opacity: .7;
+        }
 
-            &.blurred {
-                opacity: 0.3;
-            }
-
-            &.active {
-                opacity: 1;
-                transform: scale(1.2);
-            }
+        &:active {
+            opacity: 1;
         }
     }
 
-    // caret to bottom
-    &::after {
-        content: '';
+    .calendar {
         position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        border: 9px solid transparent;
-        border-top-color: var(--background-color);
+        z-index: 10000;
+        left: 0;
+        bottom: 40px;
+        padding: 5px;
+        background-color: var(--background-color);
+        user-select: none;
+        opacity: 0;
+        transition: .2s cubic-bezier(0.34, 1.86, 0.64, 1);
+        transform: scale(.9);
+
+        &.show {
+            opacity: 1;
+            bottom: 46px;
+            transform: scale(1);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 10px;
+            padding-top: 5px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 10px;
+
+            h4 {
+                margin: 0;
+            }
+
+            div {
+                display: flex;
+                gap: 5px;
+
+                span {
+                    cursor: pointer;
+
+                    &:hover {
+                        opacity: .7;
+                    }
+                }
+            }
+
+            span {
+                cursor: pointer;
+
+                &.focused {
+                    opacity: 1 !important;
+                }
+
+                &.disabled {
+                    opacity: .5;
+                }
+            }
+        }
+
+        .dates {
+            &.disabled {
+                opacity: .5;
+            }
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            display: flex;
+
+            &.week {
+                display: inline-block;
+                text-transform: capitalize;
+
+                li {
+                    pointer-events: none;
+                    opacity: .7;
+                }
+            }
+
+            li {
+                display: inline-block;
+                cursor: pointer;
+                border: 1px solid transparent;
+                width: 30px;
+                height: 30px;
+                border-radius: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:hover {
+                    opacity: .7;
+                    border: 1px solid var(--border-color);
+                }
+
+                &.today {
+                    background: var(--border-color);
+                }
+
+                &.out {
+                    opacity: .3;
+                }
+            }
+        }
     }
 }
 </style>

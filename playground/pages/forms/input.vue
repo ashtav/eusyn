@@ -3,7 +3,7 @@
         <PageHeader title="Input" />
 
         <div class="row">
-            <div class="col-lg-6 space-y-3">
+            <div class="col-lg-6 col-xl-4 space-y-3">
                 <p>
                     This is how the input is displayed and how to use it along with some additional information. Here
                     are the
@@ -11,7 +11,7 @@
                 </p>
 
                 <Props
-                    :attrs="['label', 'hint', 'type', 'disabled', 'readonly', 'required', 'autofocus', 'maxLength', 'prefix', 'suffix', 'password', 'minDate', 'maxDate', 'formatters', 'mask', 'v-model']" />
+                    :attrs="['label:string', 'hint:string', 'type:string', 'disabled:boolean', 'readonly:boolean', 'required:boolean', 'autofocus:boolean', 'maxLength:number', 'prefix:string', 'suffix:array<object>', 'password:boolean', 'minDate:string', 'maxDate:string', 'formatters:string (ucwords,ucfirst,lower,upper,trim,numeric,currency,alpha,alphanumeric,date,address,hashtag,decimal,phone,email,url)', 'mask:string', 'v-model:string']" />
 
                 <Input v-model="forms.name" label="Full Name" hint="Enter your name" prefix="hgi-user" required
                     formatters="alpha|ucwords" autofocus @focus="onFocus" />
@@ -52,9 +52,16 @@
                 <Code class="mb-3"
                     code='<Input label="Input Mask" prefix="calendar-event" mask="date:d/m/y" v-model="forms.date" />' />
 
+
+                <code>
+        {{ forms }}
+      </code>
+            </div>
+
+            <div class="col-lg-6 col-xl-4 space-y-3">
                 <h2 class="mt-5">Number</h2>
                 <Props
-                    :attrs="['label', 'hint', 'prefix', 'required', 'disabled', 'readonly', 'min', 'max', 'v-model']" />
+                    :attrs="['label:string', 'hint:string', 'prefix:string', 'required:boolean', 'disabled:boolean', 'readonly:boolean', 'min:number', 'max:number', 'v-model:string']" />
                 <Number label="Number" hint="Enter quantity" prefix="hgi-arrange-by-numbers-1-9" required
                     v-model="forms.quantity" />
 
@@ -64,21 +71,21 @@
 
                 <h2 class="mt-5">Date</h2>
                 <Props
-                    :attrs="['label', 'prefix', 'disabled', 'readonly', 'required', 'minDate', 'maxDate', 'v-model']" />
+                    :attrs="['label:string', 'prefix:string', 'disabled:boolean', 'readonly:boolean', 'required:boolean', 'minDate:string', 'maxDate:string', 'v-model:string']" />
 
                 <Date label="Date Scroll" prefix="hgi-calendar-01" :maxDate="$e.utils.now()" />
                 <Code class="mb-3" code='<Date label="Date Scroll" prefix="ti-calendar" />' />
 
                 <h2 class="mt-5">Time</h2>
                 <Props
-                    :attrs="['label', 'prefix', 'disabled', 'readonly', 'required', 'time', 'format', 'shape', 'v-model']" />
+                    :attrs="['label:string', 'prefix:string', 'disabled:boolean', 'readonly:boolean', 'required:boolean', 'time:string', 'format:string', 'shape:string', 'v-model:string']" />
                 <Time label="Time" prefix="hgi-clock-01" format="h:i" v-model="forms.time" />
                 <Code class="mb-3"
                     code='<Time label="Select Time" prefix="clock" format="h:i" v-model="forms.time" />' />
 
                 <h2 class="mt-5">Textarea</h2>
                 <Props
-                    :attrs="['label', 'hint', 'disabled', 'readonly', 'required', 'autofocus', 'maxLength', 'prefix', 'suffix', 'formatters', 'v-model']" />
+                    :attrs="['label:string', 'hint:string', 'disabled:boolean', 'readonly:boolean', 'required:boolean', 'autofocus:boolean', 'maxLength:number', 'prefix:string', 'suffix:string', 'formatters:string', 'v-model:string']" />
 
                 <Textarea label="Description" hint="Type description about you..." prefix="hgi-note-02"
                     formatters="ucfirst" v-model="forms.note" />
@@ -86,9 +93,6 @@
                 <Code class="mb-3"
                     code='<Textarea label="Description" hint="Type description about you..." prefix="ti-note" formatters="ucfirst" />' />
 
-                <code>
-        {{ forms }}
-      </code>
             </div>
         </div>
     </div>
@@ -103,7 +107,7 @@ export default {
     data() {
         return {
             forms: {
-                name: '',
+                name: null,
                 email: '',
                 phone: '',
                 password: 'secret-password',

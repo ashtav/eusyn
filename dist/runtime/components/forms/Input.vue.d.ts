@@ -1,3 +1,4 @@
+import "../../assets/styles/scss/input.scss";
 declare const _default: import("vue").DefineComponent<{
     modelValue: {
         default: string;

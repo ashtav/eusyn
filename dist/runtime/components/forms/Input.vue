@@ -34,7 +34,7 @@
           <!-- if icon -->
           <Icon v-else-if="suffix?.icon && !suffix?.text" :icon="suffix?.icon" />
 
-          <span class="t-tip" v-if="suffix.tooltip">{{ suffix.tooltip }}</span>
+          <span class="tooltip" v-if="suffix.tooltip">{{ suffix.tooltip }}</span>
         </span>
       </div>
     </div>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import "../../assets/styles/scss/input.scss";
 import { useRuntimeConfig } from "#imports";
 import { defineComponent, getCurrentInstance, onMounted, ref, watch } from "vue";
 import { utils } from "../../plugins/utils";
@@ -318,104 +319,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style scoped>
-.input.disabled {
-  pointer-events: none;
-}
-.input.disabled .date-input-placeholders {
-  background-color: #f6f8fb;
-}
-.input.disabled .suffix {
-  opacity: 0.6;
-}
-.input.disabled .suffix span.suffix-item.disabled {
-  opacity: 1;
-}
-.input .suffix {
-  position: absolute;
-  right: 5px;
-  top: 0;
-}
-.input .suffix span.t-tip {
-  position: absolute;
-  top: -25px;
-  padding: 5px 10px;
-  background: var(--tooltip-background);
-  color: white;
-  border-radius: 4px;
-  pointer-events: none;
-  transition: 0.2s ease-in-out;
-  opacity: 0;
-  font-size: 13px !important;
-  z-index: 10;
-}
-.input .suffix span.t-tip::after {
-  content: "";
-  width: 0;
-  height: 0;
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%) rotate(180deg);
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-bottom: 7px solid var(--tooltip-background);
-}
-.input .suffix span.suffix-item {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 35px;
-  padding: 0 7px;
-  padding-top: 1px;
-  cursor: pointer;
-  text-wrap: nowrap;
-  user-select: none;
-}
-.input .suffix span.suffix-item span {
-  font-size: 12.5px;
-  letter-spacing: 0.5px;
-}
-.input .suffix span.suffix-item.disabled {
-  pointer-events: none;
-  opacity: 0.6;
-}
-.input .suffix span.suffix-item i {
-  opacity: 0.6;
-}
-.input .suffix span.suffix-item:hover i {
-  opacity: 1;
-}
-.input .suffix span.suffix-item:hover span.t-tip {
-  opacity: 1;
-  top: -35px;
-}
-.input .suffix span.suffix-item:active i {
-  opacity: 0.6;
-}
-.input .date-input-placeholders {
-  position: absolute;
-  left: 12px;
-  top: 1px;
-  width: calc(100% - 80px);
-  background-color: white;
-  border-radius: 4px;
-  height: 34px;
-  display: inline-flex;
-  align-items: center;
-  padding-left: 3px;
-  pointer-events: none;
-}
-.input .date-input-placeholders.has-prefix {
-  left: 40px;
-}
-
-[data-bs-theme=dark] .date-input-placeholders {
-  background-color: #151f2c;
-  color: #999;
-}
-[data-bs-theme=dark] .input.disabled .date-input-placeholders {
-  background-color: #1b293a;
-}
-</style>

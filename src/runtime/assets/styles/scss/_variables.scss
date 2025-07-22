@@ -1,0 +1,13 @@
+:root {
+    --input-border-color: #ddd;
+    --input-background-color: #f6f8fb;
+    // --input-background-color-disabled: #f6f8fb;
+    --input-text-placeholder-color: #999;
+}
+
+[data-bs-theme="dark"] {
+    --input-border-color: #344053;
+    --input-background-color: #151f2c;
+    --input-background-color-disabled: #131c2a;
+    --input-text-placeholder-color: #999;
+}

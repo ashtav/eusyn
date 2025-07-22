@@ -34,7 +34,7 @@
           <!-- if icon -->
           <Icon v-else-if="suffix?.icon && !suffix?.text" :icon="suffix?.icon" />
 
-          <span class="t-tip" v-if="suffix.tooltip">{{ suffix.tooltip }}</span>
+          <span class="tooltip" v-if="suffix.tooltip">{{ suffix.tooltip }}</span>
         </span>
       </div>
     </div>
@@ -42,6 +42,8 @@
 </template>
 
 <script lang="ts">
+import "../../assets/styles/scss/input.scss";
+
 import { useRuntimeConfig } from '#imports';
 import { defineComponent, getCurrentInstance, onMounted, ref, watch } from 'vue';
 import { utils } from '../../plugins/utils';
@@ -392,136 +394,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped lang="scss">
-.input {
-
-  &.disabled {
-    pointer-events: none;
-
-    .date-input-placeholders {
-      background-color: #f6f8fb;
-    }
-
-    .suffix {
-      opacity: .6;
-
-      span.suffix-item {
-        &.disabled {
-          opacity: 1;
-        }
-      }
-    }
-  }
-
-  .suffix {
-    position: absolute;
-    right: 5px;
-    top: 0;
-
-    span.t-tip {
-      position: absolute;
-      top: -25px;
-      padding: 5px 10px;
-      background: var(--tooltip-background);
-      color: white;
-      border-radius: 4px;
-      pointer-events: none;
-      transition: .2s ease-in-out;
-      opacity: 0;
-      font-size: 13px !important;
-      z-index: 10;
-
-      // arrow
-      &::after {
-        content: "";
-        width: 0;
-        height: 0;
-        position: absolute;
-        bottom: -6px;
-        left: 50%;
-        transform: translateX(-50%) rotate(180deg);
-        border-left: 7px solid transparent;
-        border-right: 7px solid transparent;
-        border-bottom: 7px solid var(--tooltip-background);
-      }
-    }
-
-    span.suffix-item {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 35px;
-      padding: 0 7px;
-      padding-top: 1px;
-      cursor: pointer;
-      text-wrap: nowrap;
-      user-select: none;
-
-      span {
-        font-size: 12.5px;
-        letter-spacing: .5px;
-      }
-
-      &.disabled {
-        pointer-events: none;
-        opacity: .6;
-      }
-
-      i {
-        opacity: .6;
-      }
-
-      &:hover {
-        i {
-          opacity: 1;
-        }
-
-        span.t-tip {
-          opacity: 1;
-          top: -35px;
-        }
-      }
-
-      &:active {
-        i {
-          opacity: .6;
-        }
-      }
-    }
-  }
-
-  .date-input-placeholders {
-    position: absolute;
-    left: 12px;
-    top: 1px;
-    width: calc(100% - 80px);
-    background-color: white;
-    border-radius: 4px;
-    height: 34px;
-    display: inline-flex;
-    align-items: center;
-    padding-left: 3px;
-    pointer-events: none;
-
-    &.has-prefix {
-      left: 40px;
-    }
-  }
-}
-
-[data-bs-theme=dark] {
-  .date-input-placeholders {
-    background-color: #151f2c;
-    color: #999;
-  }
-
-  .input {
-    &.disabled {
-      .date-input-placeholders {
-        background-color: #1b293a;
-      }
-    }
-  }
-}
-</style>

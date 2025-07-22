@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-lg-5">
+    <div class="col-lg-6 col-xl-5">
       <h1>Eusyn</h1>
       <p>Eusyn is a comprehensive library designed to streamline and accelerate app development with
         Nuxt.
@@ -21,11 +21,10 @@
       </p> <br> <br>
       <hr>
 
-      <Test v-model="dates">
-        Hello World!
-      </Test> <br>
+      <Input :suffix="[{ icon: 'hgi-calendar-02' }]" /> <br>
+      <Input type="date" /> <br>
 
-      <code>{{ dates }}</code>
+      <Test />
     </div>
   </div>
 </template>
