@@ -3,6 +3,7 @@ import { defineNuxtPlugin } from '#imports';
 
 import type { ComponentPublicInstance } from 'vue';
 import type Ntx from '../types/ntx';
+import type Utils from '../types/utils';
 import changeCase from './case';
 import { faker } from './faker';
 import { image } from './image';
@@ -65,6 +66,8 @@ const ntx: Ntx = {
     }
 }
 
+const utilities: Utils = { ...utils }
+
 const e: Ntx = ntx
 let activeLoadingKey = null
 
@@ -100,13 +103,15 @@ export default defineNuxtPlugin((nuxtApp: any) => {
 
     return {
         provide: {
-            e
+            e,
+            u: utilities
         }
     }
 })
 
 declare module '#app' {
     interface NuxtApp {
+        $u: Utils;
         $e: Ntx;
 
         /**
@@ -124,6 +129,7 @@ declare module '#app' {
 
 declare module 'vue' {
     interface ComponentCustomProperties {
+        $u: Utils;
         $e: Ntx;
 
         /**

@@ -5,7 +5,14 @@
         <div class="input-group" @wheel="onWheel">
             <div>
                 <Icon :icon="prefix" v-if="prefix" size="input-prefix" class="me-3 opacity-50" />
-                {{ localValue }}
+                <div class="d-flex">
+                    <template v-for="(key, i) in ['y', 'm', 'd']" :key="i">
+                        <span @click="onFocus(i)"
+                            :class="['date-part', { 'focused': focused === i, 'blur': focused != -1 && focused != i }]">{{
+                                date()[key] }}</span>
+                        <span v-if="i < 2" :class="{ 'blur': focused != -1 }">/</span>
+                    </template>
+                </div>
             </div>
 
             <div class="controls">
@@ -18,7 +25,9 @@
 </template>
 
 <script lang="ts">
-import { ref, watch } from 'vue';
+import "../../assets/styles/scss/date.scss";
+
+import { onMounted, ref, watch } from 'vue';
 import { utils } from '../../plugins/utils';
 
 export default {
@@ -30,6 +39,24 @@ export default {
         // make sure the value is date formatted, if not, set it to current date
         const value = props.modelValue ? new Date(props.modelValue) : new Date();
         const localValue = ref(utils.dateFormat(value, 'Y-m-d'));
+        const focused = ref(-1)
+
+        const date = (): { d: string, m: string, y: string } => {
+            const date = new Date(localValue.value)
+
+            const d = date.getDate().toString().padStart(2, '0')
+            const m = (date.getMonth() + 1).toString().padStart(2, '0')
+            const y = date.getFullYear().toString()
+            return { y, m, d }
+        }
+
+        const onFocus = (index: number) => {
+            if (focused.value == index) {
+                return focused.value = -1
+            }
+
+            focused.value = index
+        }
 
         // watch v-model
         watch(() => props.modelValue, (value) => {
@@ -37,24 +64,30 @@ export default {
         })
 
         const onControl = (i: number) => {
-            const date = new Date(localValue.value);
+            const dateObj = new Date(localValue.value);
             const minDate = props.minDate ? new Date(props.minDate) : null;
             const maxDate = props.maxDate ? new Date(props.maxDate) : null;
 
-            if (i === 0) {
-                date.setDate(date.getDate() - 1);
+            // 0 = decrement, 1 = increment
+            const delta = i === 0 ? -1 : 1;
+
+            // focused: 0 = year, 1 = month, 2 = day
+            if (focused.value === 0) {
+                dateObj.setFullYear(dateObj.getFullYear() + delta);
+            } else if (focused.value === 1) {
+                dateObj.setMonth(dateObj.getMonth() + delta);
             } else {
-                date.setDate(date.getDate() + 1);
+                dateObj.setDate(dateObj.getDate() + delta);
             }
 
             // Check min and max date
-            if (minDate && date < minDate) {
-                date.setTime(minDate.getTime());
+            if (minDate && dateObj < minDate) {
+                dateObj.setTime(minDate.getTime());
             }
-            if (maxDate && date > maxDate) {
-                date.setTime(maxDate.getTime());
+            if (maxDate && dateObj > maxDate) {
+                dateObj.setTime(maxDate.getTime());
             }
-            localValue.value = utils.dateFormat(date, 'Y-m-d');
+            localValue.value = utils.dateFormat(dateObj, 'Y-m-d');
             emit('update:modelValue', localValue.value);
         }
 
@@ -63,8 +96,17 @@ export default {
             onControl(e.deltaY < 0 ? 1 : 0);
         }
 
+        onMounted(() => {
+            document.addEventListener('click', (e) => {
+                const target = e.target as HTMLElement;
+                if (!target.closest('.input-group')) {
+                    focused.value = -1
+                }
+            })
+        })
 
-        return { utils, localValue, onControl, onWheel }
+
+        return { utils, focused, date, onControl, onWheel, onFocus }
     },
 
     props: {
@@ -72,6 +114,7 @@ export default {
             default: '',
             type: String
         },
+
         label: {
             type: String,
             default: null
@@ -109,80 +152,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-.date {
-    &.disabled {
-        pointer-events: none;
-
-        .input-group,
-        div {
-            background-color: transparent;
-            opacity: .5;
-            border-color: #d1d1d1;
-        }
-
-        .controls {
-            opacity: .5;
-        }
-    }
-
-    .input-group {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 0.75rem;
-        padding-right: 0;
-        background-color: #fff;
-        border-radius: var(--tblr-border-radius-md);
-        border: 1px var(--tblr-border-color) solid;
-        height: 36px;
-
-        div {
-            display: flex;
-            align-items: center;
-            position: relative;
-            bottom: 1px;
-        }
-
-        .controls {
-            span {
-                padding: .45rem 0.75rem;
-                cursor: pointer;
-
-                &:not(:first-child) {
-                    border-left: 1px solid #dadfe5;
-                }
-
-                &:hover {
-                    opacity: 0.7;
-                }
-
-                &:active {
-                    opacity: 1;
-                }
-            }
-        }
-    }
-}
-
-[data-bs-theme=dark] {
-    .date {
-        .input-group {
-            background-color: var(--input-background);
-            color: #fff;
-            border-color: var(--tblr-border-color);
-
-            .controls span {
-                border-color: #1f2e41;
-            }
-        }
-
-        // &.disabled {
-        //     .input-group {
-        //         background-color: var(--dark-bg);
-        //     }
-        // }
-    }
-}
-</style>

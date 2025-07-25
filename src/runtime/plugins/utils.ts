@@ -560,7 +560,34 @@ const firstAndLastDate = (date: string | Date, dateOnly: Boolean): { first: Numb
 }
 
 // @param {string} format - The format string for the current date. Defaults to 'Y-m-d'.
-const now = (format: string = 'Y-m-d') => dateFormat(new Date(), format)
+const now = (args?: { format?: string, add?: number, subtract?: number } | string) => {
+  let now = new Date();
+
+  if (typeof args === 'string') {
+    return dateFormat(now, args);
+  }
+
+  if (args?.add) {
+    now.setDate(now.getDate() + args.add);
+  }
+
+  if (args?.subtract) {
+    now.setDate(now.getDate() - args.subtract);
+  }
+
+  return dateFormat(now, args?.format ?? 'Y-m-d');
+}
+
+const date = (date?: string | Date, args?: { add?: number, subtract?: number, format?: string }): string => {
+  let d = new Date(date);
+  if (args?.add) {
+    d.setDate(d.getDate() + args.add);
+  }
+  if (args?.subtract) {
+    d.setDate(d.getDate() - args.subtract);
+  }
+  return dateFormat(d, args?.format ?? 'Y-m-d');
+}
 
 /**
  * Returns an array of month names or numbers.
@@ -627,7 +654,7 @@ const formatNumberToK = (input: string | number, separator: string = ','): strin
 const utils: Utils = {
   alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes,
   on, copy, downloadFile, dateFormat, manipulate, getInitials, shuffle, arrDelete, arrUpdate, chunk, deepClone,
-  debounce, throttle, firstAndLastDate, now, months, dates, formatNumberToK
+  debounce, throttle, firstAndLastDate, now, date, months, dates, formatNumberToK
 }
 
 const _ = utils

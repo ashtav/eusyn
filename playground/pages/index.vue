@@ -21,10 +21,6 @@
       </p> <br> <br>
       <hr>
 
-      <Input :suffix="[{ icon: 'hgi-calendar-02' }]" /> <br>
-      <Input type="date" /> <br>
-
-      <Test />
     </div>
   </div>
 </template>
@@ -38,7 +34,8 @@ export default {
 
   data() {
     return {
-      dates: ['2025-07-01', '2025-07-31']
+      dates: ['2025-07-01', '2025-07-31'],
+      date: '1994-12-10'
     }
   },
 

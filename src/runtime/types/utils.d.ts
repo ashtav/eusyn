@@ -335,7 +335,19 @@ interface Utils {
      * Returns the current date and time formatted as a string.
      * If a format is provided, it will format the date accordingly.
      */
-    now: (format?: string) => string
+    now: (args?: { format?: string, add?: number, subtract?: number } | string) => string
+
+    /**
+     * Formats a date string or Date object to a specific format.
+     * If no format is provided, it defaults to 'Y-m-d'.
+     *
+     * @param {string | Date} date - The date to format.
+     * @param {Object} [args] - Optional arguments for formatting.
+     * @param {number} [args.add] - Number of days to add to the date.
+     * @param {number} [args.subtract] - Number of days to subtract from the date.
+     * @returns {string} The formatted date string.
+     */
+    date: (date?: string | Date, args?: { add?: number, subtract?: number, format?: string }) => string,
 
     /**
      * Returns the current date and time formatted as a string.
@@ -344,7 +356,7 @@ interface Utils {
      * $e.utils.months().map((e) => `${e}`.substring(0, 3)) // ['Jan', 'Feb', ...]
      * $e.utils.months(true) // [1, 2, 3, ...]
      */
-    months: (number: boolean = false) => Array<string | number> 
+    months: (number: boolean = false) => Array<string | number>
 
     /**
      * Returns an array of dates for the given month and year.
