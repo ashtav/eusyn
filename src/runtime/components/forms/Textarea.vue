@@ -1,5 +1,5 @@
 <template>
-  <div :class="['input', utils.on(disabled, 'disabled')]">
+  <div :class="['textarea', utils.on(disabled, 'disabled')]">
     <label v-if="label" :class="['form-label', utils.on(required, 'required')]"> {{ label }} </label>
     <div class="input-icon">
       <!-- prefix -->
@@ -15,8 +15,8 @@
 
       <!-- suffix -->
       <div v-if="inputSuffixs.length != 0" class="suffix">
-        <span v-for="(suffix, i) in inputSuffixs" :key="i" :class="[utils.on(suffix.disabled, 'disabled')]"
-          @click="onSuffix(suffix)">
+        <span v-for="(suffix, i) in inputSuffixs" :key="i"
+          :class="['suffix-item', utils.on(suffix.disabled, 'disabled')]" @click="onSuffix(suffix)">
 
           <!-- if kbd and has text -->
           <kbd v-if="suffix?.kbd && suffix?.text">{{ suffix.text }}</kbd>
@@ -26,6 +26,8 @@
 
           <!-- if icon -->
           <Icon v-else-if="suffix?.icon && !suffix?.text" :icon="suffix?.icon" />
+
+          <span class="tooltip" v-if="suffix.tooltip">{{ suffix.tooltip }}</span>
         </span>
       </div>
     </div>
@@ -33,6 +35,8 @@
 </template>
 
 <script lang="ts">
+import "../../assets/styles/scss/textarea.scss";
+
 import { defineComponent, getCurrentInstance, onMounted, ref, watch } from 'vue';
 import { utils } from '../../plugins/utils';
 import { formatting, handleKeyPress } from '../../scripts/input';
@@ -151,102 +155,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style scoped lang="scss">
-.input {
-
-  &.disabled {
-    pointer-events: none;
-    opacity: .5;
-
-    textarea {
-      border-color: #d1d1d1;
-    }
-
-    .date-input-placeholders {
-      background-color: #f6f8fb;
-    }
-
-    .suffix {
-      opacity: .6;
-
-      span {
-        &.disabled {
-          opacity: 1;
-        }
-      }
-    }
-  }
-
-  .suffix {
-    position: absolute;
-    right: 5px;
-    top: 0;
-
-    span {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 40px;
-      padding: 0 7px;
-      padding-top: 1px;
-      cursor: pointer;
-      text-wrap: nowrap;
-      user-select: none;
-
-      span {
-        font-size: 12.5px;
-        letter-spacing: .5px;
-      }
-
-      &.disabled {
-        pointer-events: none;
-        opacity: .6;
-      }
-
-      i {
-        opacity: .6;
-      }
-
-      &:hover {
-        i {
-          opacity: 1;
-        }
-      }
-
-      &:active {
-        i {
-          opacity: .6;
-        }
-      }
-    }
-  }
-
-  textarea {
-    scrollbar-width: thin;
-  }
-
-  .input-icon-addon {
-    align-items: unset !important;
-    top: 9px
-  }
-}
-
-[data-bs-theme=dark] {
-  textarea {
-    background-color: var(--input-background);
-    border-color: var(--tblr-border-color);
-
-    .controls span {
-      border-color: #1f2e41;
-    }
-  }
-
-  .input.disabled {
-    textarea {
-      border-color: var(--tblr-border-color);
-    }
-  }
-
-}
-</style>

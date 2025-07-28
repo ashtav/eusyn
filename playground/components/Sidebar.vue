@@ -37,7 +37,8 @@ export default {
             {
                 label: 'Forms',
                 features: [
-                    { label: 'Input', to: '/forms/input', icon: 'hgi-dashboard-square-edit' },
+                    { label: 'Input', to: '/forms/input', icon: 'hgi-pencil' },
+                    { label: 'Textarea', to: '/forms/textarea', icon: 'hgi-pencil-edit-02' },
                     { label: 'Number', to: '/forms/number', icon: 'hgi-board-math' },
                     { label: 'Date Picker', to: '/forms/date', icon: 'hgi-calendar-02' },
                     { label: 'Time Picker', to: '/forms/time', icon: 'hgi-clock-02' },

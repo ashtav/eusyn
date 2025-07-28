@@ -41,20 +41,6 @@ v-model="forms.phone" formatters="phone" />' />
         {{ forms }}
       </code>
             </div>
-
-            <div class="col-lg-6 col-xl-4 space-y-3">
-
-                <h2 class="mt-5">Textarea</h2>
-                <Props
-                    :attrs="['label:string', 'hint:string', 'disabled:boolean', 'readonly:boolean', 'required:boolean', 'autofocus:boolean', 'maxLength:number', 'prefix:string', 'suffix:string', 'formatters:string', 'v-model:string']" />
-
-                <Textarea label="Description" hint="Type description about you..." prefix="hgi-note-02"
-                    formatters="ucfirst" v-model="forms.note" />
-
-                <Code class="mb-3"
-                    code='<Textarea label="Description" hint="Type description about you..." prefix="ti-note" formatters="ucfirst" />' />
-
-            </div>
         </div>
     </div>
 </template>
