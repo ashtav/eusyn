@@ -91,7 +91,7 @@ declare const _default: import("vue").DefineComponent<{
     onKeyPress: (event: any) => void;
     doFocus: () => void;
     isTabler: boolean;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("focus" | "update:modelValue" | "enter" | "suffix" | "event")[], "focus" | "update:modelValue" | "enter" | "suffix" | "event", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("focus" | "update:modelValue" | "suffix" | "enter" | "event")[], "focus" | "update:modelValue" | "suffix" | "enter" | "event", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
         type: (NumberConstructor | StringConstructor)[];
@@ -187,8 +187,8 @@ declare const _default: import("vue").DefineComponent<{
     prefix: string;
     minDate: string;
     maxDate: string;
-    suffix: any[];
     hint: string;
+    suffix: any[];
     autofocus: boolean;
     maxLength: number;
     formatters: string;

@@ -94,12 +94,12 @@ const downloadFile = async (url, filename) => {
   link.click();
   document.body.removeChild(link);
 };
-const dateFormat = (date, format) => {
+const dateFormat = (date2, format) => {
   let parsedDate;
-  if (typeof date === "string") {
-    parsedDate = new Date(date);
+  if (typeof date2 === "string") {
+    parsedDate = new Date(date2);
   } else {
-    parsedDate = date;
+    parsedDate = date2;
   }
   const pad = (number, length) => {
     return number.toString().padStart(length, "0");
@@ -252,8 +252,8 @@ const throttle = (func, limit) => {
     }
   };
 };
-const firstAndLastDate = (date, dateOnly) => {
-  const d = new Date(date);
+const firstAndLastDate = (date2, dateOnly) => {
+  const d = new Date(date2);
   const firstDate = new Date(d.getFullYear(), d.getMonth(), 1);
   const lastDate = new Date(d.getFullYear(), d.getMonth() + 1, 0);
   return {
@@ -261,7 +261,29 @@ const firstAndLastDate = (date, dateOnly) => {
     last: !dateOnly ? dateFormat(lastDate, "Y-m-d") : lastDate.getDate()
   };
 };
-const now = (format = "Y-m-d") => dateFormat(/* @__PURE__ */ new Date(), format);
+const now = (args) => {
+  let now2 = /* @__PURE__ */ new Date();
+  if (typeof args === "string") {
+    return dateFormat(now2, args);
+  }
+  if (args?.add) {
+    now2.setDate(now2.getDate() + args.add);
+  }
+  if (args?.subtract) {
+    now2.setDate(now2.getDate() - args.subtract);
+  }
+  return dateFormat(now2, args?.format ?? "Y-m-d");
+};
+const date = (date2, args) => {
+  let d = new Date(date2);
+  if (args?.add) {
+    d.setDate(d.getDate() + args.add);
+  }
+  if (args?.subtract) {
+    d.setDate(d.getDate() - args.subtract);
+  }
+  return dateFormat(d, args?.format ?? "Y-m-d");
+};
 const months = (number = false) => {
   return number ? Array.from({ length: 12 }, (_2, i) => i + 1) : [
     "January",
@@ -278,8 +300,8 @@ const months = (number = false) => {
     "December"
   ];
 };
-const dates = (date = /* @__PURE__ */ new Date()) => {
-  const d = new Date(date);
+const dates = (date2 = /* @__PURE__ */ new Date()) => {
+  const d = new Date(date2);
   const first = firstAndLastDate(d, true).first;
   const last = firstAndLastDate(d, true).last;
   return Array.from({ length: last - first + 1 }, (_2, i) => i + first);
@@ -321,6 +343,7 @@ const utils = {
   throttle,
   firstAndLastDate,
   now,
+  date,
   months,
   dates,
   formatNumberToK

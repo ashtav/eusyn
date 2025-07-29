@@ -1,3 +1,4 @@
+import "../../assets/styles/scss/date.scss";
 declare const _default: import("vue").DefineComponent<{
     modelValue: {
         default: string;
@@ -33,9 +34,15 @@ declare const _default: import("vue").DefineComponent<{
     };
 }, {
     utils: import("../../types/utils").default;
-    localValue: import("vue").Ref<string>;
+    focused: import("vue").Ref<number>;
+    date: () => {
+        d: string;
+        m: string;
+        y: string;
+    };
     onControl: (i: number) => void;
     onWheel: (e: WheelEvent) => void;
+    onFocus: (index: number) => -1 | undefined;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;

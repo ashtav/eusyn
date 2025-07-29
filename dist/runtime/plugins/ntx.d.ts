@@ -1,8 +1,10 @@
 import type Ntx from '../types/ntx';
+import type Utils from '../types/utils';
 declare const _default: any;
 export default _default;
 declare module '#app' {
     interface NuxtApp {
+        $u: Utils;
         $e: Ntx;
         /**
          * Sets the loading state of the component.
@@ -18,6 +20,7 @@ declare module '#app' {
 }
 declare module 'vue' {
     interface ComponentCustomProperties {
+        $u: Utils;
         $e: Ntx;
         /**
          * Sets the loading state of the component.

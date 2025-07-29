@@ -58,7 +58,7 @@ declare const _default: import("vue").DefineComponent<{
     onMouseDown: (event: any) => void;
     onKeyPress: (event: any) => void;
     doFocus: () => void;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("focus" | "update:modelValue" | "enter" | "suffix")[], "focus" | "update:modelValue" | "enter" | "suffix", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("focus" | "update:modelValue" | "suffix" | "enter")[], "focus" | "update:modelValue" | "suffix" | "enter", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;
         type: (NumberConstructor | StringConstructor)[];

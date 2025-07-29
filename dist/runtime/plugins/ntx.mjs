@@ -52,6 +52,7 @@ const ntx = {
     }
   }
 };
+const utilities = { ...utils };
 const e = ntx;
 let activeLoadingKey = null;
 export default defineNuxtPlugin((nuxtApp) => {
@@ -73,7 +74,8 @@ export default defineNuxtPlugin((nuxtApp) => {
   };
   return {
     provide: {
-      e
+      e,
+      u: utilities
     }
   };
 });

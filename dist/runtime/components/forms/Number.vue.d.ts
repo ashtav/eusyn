@@ -1,3 +1,4 @@
+import "../../assets/styles/scss/number.scss";
 declare const _default: import("vue").DefineComponent<{
     modelValue: {
         default: string;
@@ -36,6 +37,9 @@ declare const _default: import("vue").DefineComponent<{
     localValue: import("vue").Ref<number>;
     onControl: (i: number) => void;
     onWheel: (e: WheelEvent) => void;
+    onInput: (e: any) => void;
+    onPress: (e: any) => void;
+    onChange: (e: any) => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "update:modelValue"[], "update:modelValue", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;

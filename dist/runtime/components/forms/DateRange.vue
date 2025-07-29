@@ -143,6 +143,7 @@ export default {
 .date.focused .date-picker {
   top: -60px;
   opacity: 1;
+  pointer-events: all;
 }
 
 .date-picker {
@@ -160,6 +161,7 @@ export default {
   left: 50%;
   transform: translateX(-50%);
   user-select: none;
+  pointer-events: none;
 }
 .date-picker div {
   display: flex;
