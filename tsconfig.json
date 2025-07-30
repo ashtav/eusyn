@@ -3,6 +3,10 @@
   "exclude": ["docs", "dist", "playground", "node_modules"],
   "compilerOptions": {
     "noImplicitAny": false,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "baseUrl": ".",
+    "paths": {
+      "@eusyn/styles/*": ["eusyn/src/runtime/assets/styles/scss/*"]
+    }
   }
 }

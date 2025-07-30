@@ -1,4 +1,3 @@
-import "../../assets/styles/scss/date.scss";
 declare const _default: import("vue").DefineComponent<{
     modelValue: {
         default: string;
@@ -82,8 +81,8 @@ declare const _default: import("vue").DefineComponent<{
     label: string;
     disabled: boolean;
     readonly: boolean;
-    required: boolean;
     modelValue: string;
+    required: boolean;
     prefix: string;
     minDate: string;
     maxDate: string;

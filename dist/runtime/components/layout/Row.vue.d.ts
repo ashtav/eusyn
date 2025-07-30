@@ -54,10 +54,10 @@ declare const _default: import("vue").DefineComponent<{
         default: boolean;
     };
 }>>, {
+    reversed: boolean;
     gap: string | number;
     expanded: boolean;
     align: string;
     justify: string;
-    reversed: boolean;
 }, {}>;
 export default _default;

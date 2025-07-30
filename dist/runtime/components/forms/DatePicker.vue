@@ -17,10 +17,10 @@
                     <h4 class="d-flex gap-1" @wheel="onWheelHeader">
                         <span @click="focusAt(0)" :class="{ focused: focused == 0, disabled: focused != null }">{{
                             date.m
-                        }}</span>
+                            }}</span>
                         <span @click="focusAt(1)" :class="{ focused: focused == 1, disabled: focused != null }">{{
                             date.y
-                        }}</span>
+                            }}</span>
                     </h4>
                     <div>
                         <span v-for="(e, i) in ['up', 'down']" @click="onChangeMonth(i)">
@@ -49,7 +49,6 @@
 
 <script>
 import { nextTick, onMounted, watch } from "vue";
-import "../../assets/styles/scss/date_picker.scss";
 import { utils } from "../../plugins/utils";
 export default {
   emits: ["update:modelValue"],
@@ -249,3 +248,134 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.date-picker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.date-picker.disabled {
+  pointer-events: none;
+}
+.date-picker.disabled .suffix {
+  opacity: 0.5;
+}
+.date-picker .suffix {
+  position: absolute;
+  right: 12px;
+  top: 9px;
+  cursor: pointer;
+}
+.date-picker .suffix:hover {
+  opacity: 0.7;
+}
+.date-picker .suffix:active {
+  opacity: 1;
+}
+.date-picker .calendar {
+  position: absolute;
+  z-index: 10000;
+  left: 0;
+  top: 120%;
+  padding: 5px;
+  background-color: var(--background-color);
+  user-select: none;
+  opacity: 0;
+  transition: 0.2s cubic-bezier(0.34, 1.86, 0.64, 1);
+  transform: scale(0.9);
+  pointer-events: none;
+}
+.date-picker .calendar.show {
+  opacity: 1;
+  transform: scale(1);
+  top: 110%;
+  pointer-events: all;
+}
+.date-picker .calendar.show.above {
+  top: auto;
+  bottom: 110%;
+}
+.date-picker .calendar.above {
+  top: auto;
+  bottom: 120%;
+}
+.date-picker .calendar .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px;
+  padding-top: 5px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 10px;
+}
+.date-picker .calendar .header h4 {
+  margin: 0;
+}
+.date-picker .calendar .header div {
+  display: flex;
+  gap: 5px;
+}
+.date-picker .calendar .header div span {
+  cursor: pointer;
+}
+.date-picker .calendar .header div span:hover {
+  opacity: 0.7;
+}
+.date-picker .calendar .header span {
+  cursor: pointer;
+}
+.date-picker .calendar .header span.focused {
+  opacity: 1 !important;
+}
+.date-picker .calendar .header span.disabled {
+  opacity: 0.5;
+}
+.date-picker .calendar .dates.disabled {
+  opacity: 0.5;
+}
+.date-picker .calendar ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+}
+.date-picker .calendar ul.week {
+  display: inline-block;
+  text-transform: capitalize;
+}
+.date-picker .calendar ul.week li {
+  pointer-events: none;
+  opacity: 0.7;
+}
+.date-picker .calendar ul li {
+  display: inline-block;
+  cursor: pointer;
+  border: 1px solid transparent;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.date-picker .calendar ul li:hover {
+  opacity: 0.7;
+  border: 1px solid var(--border-color);
+}
+.date-picker .calendar ul li.today {
+  border: 1px dashed var(--light-border-color);
+}
+.date-picker .calendar ul li.selected {
+  background: var(--border-color);
+}
+.date-picker .calendar ul li.out {
+  opacity: 0.3;
+}
+.date-picker .calendar ul li.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+</style>

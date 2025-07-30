@@ -87,8 +87,8 @@ declare const _default: import("vue").DefineComponent<{
     onOnClose?: ((...args: any[]) => any) | undefined;
 }, {
     size: string;
-    actions: any[];
     icon: string;
+    actions: any[];
     elevation: boolean;
     headerless: boolean;
 }, {}>;

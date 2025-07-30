@@ -19,8 +19,6 @@
 </template>
 
 <script lang="ts">
-import "../../assets/styles/scss/number.scss";
-
 import { ref, watch } from 'vue';
 import { utils } from '../../plugins/utils';
 
@@ -186,3 +184,65 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.number {
+    overflow: hidden;
+
+    &.disabled {
+        pointer-events: none;
+
+        div {
+            opacity: .5;
+        }
+    }
+
+    .input-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 0.75rem;
+        padding-right: 0;
+        background-color: var(--input-bg-color);
+        border-radius: 6px;
+        border: 1px solid var(--input-br-color);
+        height: 36px;
+
+        div {
+            display: flex;
+            align-items: center;
+        }
+
+        input {
+            width: 100%;
+            border: none;
+            padding-left: 0;
+        }
+
+        .controls {
+            position: absolute;
+            right: 0;
+
+            span {
+                padding: .55rem 0.75rem;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &:not(:first-child) {
+                    border-left: 1px solid var(--input-br-color);
+                }
+
+                &:hover {
+                    opacity: 0.7;
+                }
+
+                &:active {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+</style>

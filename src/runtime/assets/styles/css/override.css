@@ -8,6 +8,9 @@
     --text-color-1: #222;
     --input-background: #fff;
     --tooltip-background: #000;
+
+    --input-bg-color: #fff;
+    --input-br-color: #e5e7eb;
 }
 
 [data-bs-theme="dark"] {
@@ -20,8 +23,10 @@
     --text-color-1: #ccc;
     --input-background: #151f2c;
     --tooltip-background: #3f4c61;
-}
 
+    --input-bg-color: #151f2c;
+    --input-br-color: #2e3c51;
+}
 
 input[type=date]::-webkit-calendar-picker-indicator,
 input[type=month]::-webkit-calendar-picker-indicator,

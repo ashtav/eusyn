@@ -139,13 +139,13 @@ declare const _default: import("vue").DefineComponent<{
 }>>, {
     label: string;
     value: string;
-    active: boolean;
-    thumbnail: string;
     options: {
         icon: string;
         key: any;
     }[];
     inline: boolean;
+    active: boolean;
+    thumbnail: string;
     tsize: string;
     hoverAction: boolean;
 }, {}>;

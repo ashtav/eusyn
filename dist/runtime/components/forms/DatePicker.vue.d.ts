@@ -1,4 +1,3 @@
-import "../../assets/styles/scss/date_picker.scss";
 declare const _default: import("vue").DefineComponent<{
     modelValue: {
         type: StringConstructor;
@@ -63,7 +62,7 @@ declare const _default: import("vue").DefineComponent<{
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }, {
     disabled: boolean;
-    required: boolean;
     modelValue: string;
+    required: boolean;
 }, {}>;
 export default _default;
