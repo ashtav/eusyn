@@ -44,13 +44,15 @@ const close = (id?: string) => {
 }
 
 const setTitle = (title: string) => {
-    eventBus.emit('__set_modal_title', { title: title })
+    const id = actives.length == 0 ? null : actives[0]
+    eventBus.emit('__set_modal_title', { title: title, id })
 }
 
 const data = () => dataStored
 
 const callback = (data: any) => {
-    eventBus.emit('__callback_modal', { data: data })
+    const id = actives.length == 0 ? null : actives[0]
+    eventBus.emit('__callback_modal', { data: data, id })
 }
 
 const modal: Modal = {

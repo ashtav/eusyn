@@ -54,7 +54,7 @@ declare const _default: import("vue").DefineComponent<{
     };
 }>>, {
     data: any[];
-    emptyMessage: string;
     loading: boolean;
+    emptyMessage: string;
 }, {}>;
 export default _default;

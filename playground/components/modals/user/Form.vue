@@ -123,6 +123,7 @@ export default {
 
       setTimeout(() => {
         this.$loading(false)
+        this.$modal.callback(this.forms);
       }, 1000);
     }
   },

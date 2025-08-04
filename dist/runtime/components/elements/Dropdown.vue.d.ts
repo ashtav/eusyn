@@ -186,9 +186,9 @@ declare const _default: import("vue").DefineComponent<{
 }, {
     label: string;
     size: string;
-    options: any[];
-    icon: string;
     theme: string;
+    icon: string;
+    options: any[];
     icons: String[];
     space: string;
     placement: string;

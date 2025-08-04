@@ -62,7 +62,7 @@ declare const _default: import("vue").DefineComponent<{
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }, {
     disabled: boolean;
-    modelValue: string;
     required: boolean;
+    modelValue: string;
 }, {}>;
 export default _default;

@@ -162,6 +162,9 @@ export default {
     onModal(id: string) {
       this.$modal.show(id, {
         title: this.$e.case.capital(id),
+        callback: (data: any) => {
+          console.log('another modal')
+        }
       })
 
     },
@@ -182,6 +185,7 @@ export default {
     onSubmit() {
       console.log('submit', this.forms)
       this.$modal.setTitle(this.forms.title)
+      this.$modal?.callback(this.forms)
     },
 
     showToast() {

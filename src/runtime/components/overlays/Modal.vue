@@ -13,7 +13,7 @@
           <!-- modal action -->
           <div class="modal-action">
             <ul>
-              <template v-for="(item, i) in [...actions, { icon: iconX, type: 'close' }]">
+              <template v-for="(item, i) in [...actions, { icon: 'hgi-cancel-01', type: 'close' }]">
                 <Dropdown v-if="item?.options?.length > 0 && (item?.visible ?? true)" :key="i" placement="end"
                   :options="item?.options" @select="(o: any) => item?.click?.call(null, { ...o, index: i })">
                   <li :icon-tooltip="item?.tooltip" :class="[item?.disabled ? 'disabled opacity-50' : '']">
@@ -41,7 +41,6 @@
 </template>
 
 <script lang="ts">
-import { useRuntimeConfig } from '#imports';
 import { nextTick, onMounted, ref } from 'vue';
 import eventBus from '../../plugins/mitt';
 import { modal } from '../../scripts/modal';
@@ -89,10 +88,6 @@ export default {
     const isConfirmOpen = ref(false)
 
     const title = ref('')
-
-    const config = useRuntimeConfig()
-    const icon = config.public.ui?.icon
-    const iconX = icon == 'tabler' ? 'ti-x' : 'hgi-cancel-01'
 
     let callback: Function
 
@@ -142,13 +137,16 @@ export default {
     }
 
     const onSetTitle = (args: any) => {
-      title.value = args.title
+      if (args.id === props.id) {
+        title.value = args.title
+      }
     }
 
     const onCallback = (args: any) => {
-      callback?.call(this, args.data)
+      if (args.id === props.id) {
+        callback?.call(this, args.data)
+      }
     }
-
 
     onMounted(() => {
       eventBus.on('__show_modal', onShow)
@@ -161,7 +159,7 @@ export default {
       eventBus.on('__show_confirm', onShowConfirm)
     })
 
-    return { modal, preShow, show, title, onClose, iconX, isConfirmOpen }
+    return { modal, preShow, show, title, onClose, isConfirmOpen }
   }
 }
 </script>

@@ -20,11 +20,13 @@ const close = (id) => {
   }
 };
 const setTitle = (title) => {
-  eventBus.emit("__set_modal_title", { title });
+  const id = actives.length == 0 ? null : actives[0];
+  eventBus.emit("__set_modal_title", { title, id });
 };
 const data = () => dataStored;
 const callback = (data2) => {
-  eventBus.emit("__callback_modal", { data: data2 });
+  const id = actives.length == 0 ? null : actives[0];
+  eventBus.emit("__callback_modal", { data: data2, id });
 };
 const modal = {
   show,

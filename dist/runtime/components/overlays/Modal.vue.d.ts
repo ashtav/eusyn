@@ -42,7 +42,6 @@ declare const _default: import("vue").DefineComponent<{
     show: import("vue").Ref<boolean>;
     title: import("vue").Ref<string>;
     onClose: (args: any) => void;
-    iconX: string;
     isConfirmOpen: import("vue").Ref<boolean>;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("init" | "onClose")[], "init" | "onClose", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     id: {
@@ -87,8 +86,8 @@ declare const _default: import("vue").DefineComponent<{
     onOnClose?: ((...args: any[]) => any) | undefined;
 }, {
     size: string;
-    icon: string;
     actions: any[];
+    icon: string;
     elevation: boolean;
     headerless: boolean;
 }, {}>;

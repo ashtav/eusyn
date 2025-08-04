@@ -81,8 +81,8 @@ declare const _default: import("vue").DefineComponent<{
     label: string;
     disabled: boolean;
     readonly: boolean;
-    modelValue: string;
     required: boolean;
+    modelValue: string;
     prefix: string;
     minDate: string;
     maxDate: string;
