@@ -4,63 +4,69 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <h4>$e.utils.alpha</h4>
-                <Code class="mb-3" code="$e.utils.alpha('john do3e');"
-                    description="Removes non-alphabetic characters." />
+                <h4>$u.alpha</h4>
+                <Code class="mb-3" code="$u.alpha('john do3e');" description="Removes non-alphabetic characters." />
 
-                <h4>$e.utils.numeric</h4>
-                <Code class="mb-3" code="$e.utils.numeric('john do3e');"
-                    description="Removes non-numeric characters." />
+                <h4>$u.numeric</h4>
+                <Code class="mb-3" code="$u.numeric('john do3e');" description="Removes non-numeric characters." />
 
-                <h4>$e.utils.alphanumeric</h4>
-                <Code class="mb-3" code="$e.utils.alphanumeric('john do3e');"
+                <h4>$u.alphanumeric</h4>
+                <Code class="mb-3" code="$u.alphanumeric('john do3e');"
                     description="Removes non-alphanumeric characters." />
 
-                <h4>$e.utils.ucwords</h4>
-                <Code class="mb-3" code="$e.utils.ucwords('hello world!');"
+                <h4>$u.ucwords</h4>
+                <Code class="mb-3" code="$u.ucwords('hello world!');"
                     description="Capitalizes the first letter of each word." />
 
-                <h4>$e.utils.ucfirst</h4>
-                <Code class="mb-3" code="$e.utils.ucfirst('hello world!');"
+                <h4>$u.ucfirst</h4>
+                <Code class="mb-3" code="$u.ucfirst('hello world!');"
                     description="Capitalizes the first letter of the string." />
 
-                <h4>$e.utils.currency</h4>
-                <Code class="mb-3" code="$e.utils.currency('35000');" description="Formats a number as currency." />
+                <h4>$u.currency</h4>
+                <Code class="mb-3" code="$u.currency('35000');" description="Formats a number as currency." />
 
-                <h4>$e.utils.cleanMap</h4>
-                <Code class="mb-3" code="$e.utils.cleanMap(this, 'forms');"
+                <h4>$u.cleanMap</h4>
+                <Code class="mb-3" code="$u.cleanMap(this, 'forms');"
                     description="Cleans undefined or null properties from an object." />
 
-                <h4>$e.utils.randInt</h4>
-                <Code class="mb-3" code="$e.utils.randInt(10, 100);"
+                <h4>$u.randInt</h4>
+                <Code class="mb-3" code="$u.randInt(10, 100);"
                     description="Generates a random integer within a range." />
 
-                <h4>$e.utils.randString</h4>
-                <Code class="mb-3" code="$e.utils.randString(15);"
+                <h4>$u.randString</h4>
+                <Code class="mb-3" code="$u.randString(15);"
                     description="Generates a random string of a specified length." />
 
-                <h4>$e.utils.formatBytes</h4>
-                <Code class="mb-3" code="$e.utils.formatBytes(4586);"
+                <h4>$u.formatBytes</h4>
+                <Code class="mb-3" code="$u.formatBytes(4586);"
                     description="Formats a number of bytes into a readable string." />
 
-                <h4>$e.utils.copy</h4>
-                <Code class="mb-3" code="$e.utils.copy('51022', 'OTP has been copied.');"
+                <h4>$u.copy</h4>
+                <Code class="mb-3" code="$u.copy('51022', 'OTP has been copied.');"
                     description="Copies text to clipboard with a message." />
 
-                <h4>$e.utils.downloadFile</h4>
-                <Code class="mb-3" code="$e.utils.downloadFile('<image-url>');"
+                <h4>$u.downloadFile</h4>
+                <Code class="mb-3" code="$u.downloadFile('<image-url>');"
                     description="Initiates a file download from a URL." />
 
-                <h4>$e.utils.dateFormat</h4>
-                <Code class="mb-3" code="$e.utils.dateFormat('2024-05-10', 'd-m-Y');"
+                <h4>$u.dateFormat</h4>
+                <Code class="mb-3" code="$u.dateFormat('2024-05-10', 'd-m-Y');"
                     description="Formats a date according to a specified format." />
 
-                <h4>$e.utils.firstAndLastDate</h4>
-                <Code class="mb-3" code="$e.utils.firstAndLastDate('2025-02-01');"
+                <h4>$u.firstAndLastDate</h4>
+                <Code class="mb-3" code="$u.firstAndLastDate('2025-02-01');"
                     description="Returns the first and last date of the month." />
 
-                <h4>$e.utils.now</h4>
-                <Code class="mb-3" code="$e.utils.now();" description="Returns the current date and time." />
+                <h4>$u.now</h4>
+                <Code class="mb-3" code="$u.now();" description="Returns the current date and time." />
+
+                <h4>$u.daysBetween</h4>
+                <Code class="mb-3" code="$u.daysBetween('2025-08-01', '2025-08-04')"
+                    description="Returns the number of days between two dates." />
+
+                <h4>$u.getDateRange</h4>
+                <Code class="mb-3" code="$u.getDateRange('2025-08-01', '2025-08-04')"
+                    description="Returns the date range between two dates." />
             </div>
         </div>
     </div>

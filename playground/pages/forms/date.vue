@@ -18,6 +18,12 @@
 
                 <hr>
 
+                <h2>Date Range</h2>
+                <DatePicker v-model="dates2" :max-date="$u.now({ add: 60 })" multiple />
+                <Code class="mt-1" code='<DatePicker v-model="dates2" :max-date="$u.now({ add: 60 })" multiple />' />
+                <code>{{ dates2 }}</code>
+                <hr>
+
                 <h2>Date</h2>
                 <Props
                     :attrs="['label:string', 'prefix:string', 'disabled:boolean', 'readonly:boolean', 'required:boolean', 'minDate:string', 'maxDate:string', 'v-model:string']" />
@@ -54,7 +60,8 @@ export default {
     data() {
         return {
             date: '',
-            dates: []
+            dates: [],
+            dates2: ['2025-08-05', '2025-08-13']
         }
     },
 

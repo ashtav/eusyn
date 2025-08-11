@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div ref="dateRef">
         <label class="form-label" :class="{ required }" v-if="label">{{ label }}</label>
         <div class="date-picker" ref="trigger" :class="{ disabled }">
-            <input class="form-control" :placeholder="hint" :value="selected" readonly :disabled="disabled" />
+            <input class="form-control" :placeholder="hint" :value="display" readonly :disabled="disabled" />
 
             <!-- suffix -->
             <div class="suffix">
@@ -17,10 +17,10 @@
                     <h4 class="d-flex gap-1" @wheel="onWheelHeader">
                         <span @click="focusAt(0)" :class="{ focused: focused == 0, disabled: focused != null }">{{
                             date.m
-                            }}</span>
+                        }}</span>
                         <span @click="focusAt(1)" :class="{ focused: focused == 1, disabled: focused != null }">{{
                             date.y
-                            }}</span>
+                        }}</span>
                     </h4>
                     <div>
                         <span v-for="(e, i) in ['up', 'down']" @click="onChangeMonth(i)">
@@ -35,9 +35,10 @@
                         </li>
                     </ul>
                     <ul v-for="(week, i) in dates" :key="i">
-                        <li v-for="(day, j) in week" :key="j" :title="day?.full ?? ''"
-                            :class="{ 'today': day?.full === utils.now() && day?.full != selected, 'selected': day?.full == selected, 'out': day?.out, 'disabled': day?.disabled }"
-                            @click="onSelect(day?.full)">
+                        <li v-for="(day, j) in week" :key="j" :title="day?.full ?? ''" :class="[{
+                            'today': day?.full === utils.now() && day?.full != selected, 'selected': day?.full == selected, 'out': day?.out, 'disabled': day?.disabled
+                        }, watchInRange(day), watchPraInRange(day)]" @click="onSelect(day?.full)"
+                            @mouseenter="onHover(day?.full)">
                             {{ day?.display ?? '' }}
                         </li>
                     </ul>
@@ -54,6 +55,7 @@ import { utils } from '../../plugins/utils';
 export default {
     emits: ['update:modelValue'],
     setup(props, { emit }) {
+        const dateRef = ref(null)
         const hint = ref('----/--/--')
         const dates = ref<any>([])
         const month = ref(utils.now())
@@ -61,6 +63,11 @@ export default {
         const selected = ref(props.modelValue)
         const show = ref(false)
         const calendarAbove = ref(false)
+        const display = ref('')
+
+        const selectedDates = ref([])
+        const inRangeDates = ref([])
+        const preRangeDates = ref([])
 
         const calendar = ref(null)
         const trigger = ref(null)
@@ -212,11 +219,113 @@ export default {
             focused.value = index
         }
 
+        const watchInRange = (date: any): string => {
+            const range = inRangeDates.value
+            let className = ''
+
+            if (range.includes(date.full)) {
+                className = 'in-range'
+
+                if (range.length == 1 || range[0] == range[range.length - 1]) {
+                    className += ' rounded'
+                }
+
+                else if (range.length > 0 && range[0] == date.full) {
+                    className += ' rounded-first'
+                }
+
+                else if (range.length > 1 && range[range.length - 1] == date.full) {
+                    className += ' rounded-last'
+                }
+            }
+
+            return className
+        }
+
+        const watchPraInRange = (date: any): string => {
+            const range = preRangeDates.value
+
+            if (range.length == 0) {
+                return ''
+            }
+
+            let className = 'pra-in-range'
+
+            if (range.includes(date.full)) {
+                if (range[0] == date.full && range.length > 1) {
+                    className += ' first'
+                }
+
+                else if (range[range.length - 1] == date.full && range.length > 1) {
+                    className += ' last'
+                }
+
+                else if (range.length == 1) {
+                    className += ' one'
+                }
+
+                return className
+            }
+
+            return ''
+        }
+
+        const onHover = (dateStr: string) => {
+            if (!dateStr) return
+
+            if (inRangeDates.value.length == 1) {
+                if (new Date(dateStr).getTime() < new Date(inRangeDates.value[0]).getTime()) {
+                    preRangeDates.value = utils.getDateRange(
+                        dateStr,
+                        inRangeDates.value[0],
+                    )
+
+                    return
+                }
+
+                preRangeDates.value = utils.getDateRange(
+                    inRangeDates.value[0],
+                    dateStr
+                )
+            }
+        }
+
         const onSelect = (dateStr: string) => {
             if (!dateStr) return
 
             const date = new Date(dateStr)
             const formattedDate = utils.dateFormat(date, 'Y-m-d')
+
+            if (props.multiple) {
+                const length = selectedDates.value.length
+
+                if (length == 1) {
+
+                    if (date.getTime() < new Date(selectedDates.value[0]).getTime()) {
+                        selectedDates.value[1] = selectedDates.value[0]
+                        selectedDates.value[0] = formattedDate
+                    } else {
+                        selectedDates.value[1] = formattedDate
+                    }
+
+                    inRangeDates.value = utils.getDateRange(selectedDates.value[0], selectedDates.value[1])
+
+                    selected.value = formattedDate
+                    preRangeDates.value = []
+
+                    setTimeout(() => {
+                        focused.value = null
+                        show.value = false
+                    }, 100);
+                } else {
+                    selectedDates.value = [formattedDate]
+                    inRangeDates.value = utils.getDateRange(formattedDate, formattedDate)
+                }
+
+                display.value = selectedDates.value.map((e: string) => utils.dateFormat(e, 'Y/m/d')).join(' - ')
+                emit('update:modelValue', selectedDates.value)
+                return
+            }
 
             emit('update:modelValue', formattedDate)
             selected.value = formattedDate
@@ -224,14 +333,50 @@ export default {
             show.value = false
         }
 
+        const initValue = () => {
+            if (props.multiple) {
+                const value = props.modelValue;
+                inRangeDates.value = []
+                preRangeDates.value = []
+
+                if (Array.isArray(value) && value.length == 2) {
+                    inRangeDates.value = utils.getDateRange(value[0].toString(), value[1].toString())
+                    selectedDates.value = value
+
+                    if (inRangeDates.value.length == 1) {
+                        inRangeDates.value = value
+                    }
+                }
+            }
+
+            else {
+                if (selected.value && typeof selected.value === 'string') {
+                    const date = new Date(selected.value);
+                    dates.value = generateCalendar(utils.dateFormat(date, 'Y-m'));
+                    month.value = utils.dateFormat(date, 'Y-m-d');
+                } else {
+                    month.value = utils.now('MMMM Y');
+                }
+            }
+
+            if (typeof props.modelValue === 'string') {
+                display.value = selected.value.toString()
+                return
+            }
+
+            display.value = selectedDates.value.map((e: string) => utils.dateFormat(e, 'Y/m/d')).join(' - ')
+        }
+
         onMounted(() => {
             dates.value = generateCalendar()
             month.value = utils.now('MMMM Y')
 
-            // add listeners for click outside .date
+            // init value from props.modelValue
+            initValue()
+
             document.addEventListener('click', (e) => {
-                const target = e.target as HTMLElement;
-                if (!target.closest('.date-picker')) {
+                const target = e.target as Node;
+                if (dateRef.value && !dateRef.value.contains(target)) {
                     show.value = false
                 }
             })
@@ -240,15 +385,9 @@ export default {
         watch(() => show.value, (newValue) => {
             if (newValue) {
                 focused.value = null
+                initValue()
 
-                if (selected.value) {
-                    const date = new Date(selected.value);
-                    dates.value = generateCalendar(utils.dateFormat(date, 'Y-m'));
-                    month.value = utils.dateFormat(date, 'Y-m-d');
-                } else {
-                    month.value = utils.now('MMMM Y');
-                }
-
+                // adjust calendar position
                 nextTick(() => {
                     const triggerEl = (trigger.value as HTMLElement)
                     const calendarEl = (calendar.value as HTMLElement)
@@ -262,20 +401,33 @@ export default {
 
                     calendarAbove.value = spaceBelow < calendarHeight && spaceAbove > calendarHeight
                 })
+            } else {
+                preRangeDates.value = []
+
+                if (props.multiple && selectedDates.value.length == 1) {
+                    const dates = [selectedDates.value[0], selectedDates.value[0]]
+                    selectedDates.value = dates
+                    inRangeDates.value = dates
+                    preRangeDates.value = []
+
+                    display.value = dates.map((e: string) => utils.dateFormat(e, 'Y/m/d')).join(' - ')
+                    emit('update:modelValue', dates)
+                }
             }
         })
 
         watch(() => props.modelValue, (newValue) => {
             selected.value = newValue
+            display.value = typeof newValue == 'string' ? newValue : newValue.map((e: any) => utils.dateFormat(e, 'Y/m/d')).join(' - ')
         })
 
-        return { show, hint, dates, date, focused, selected, utils, calendarAbove, calendar, trigger, onChangeMonth, onWeel, onWheelHeader, focusAt, onSelect }
+        return { dateRef, show, hint, dates, date, focused, selected, utils, calendarAbove, calendar, trigger, inRangeDates, preRangeDates, display, onChangeMonth, onWeel, onWheelHeader, focusAt, onSelect, onHover, watchInRange, watchPraInRange }
     },
 
     props: {
         modelValue: {
-            type: String,
-            default: () => ''
+            type: [String, Array<String>],
+            default: ''
         },
 
         label: {
@@ -299,6 +451,11 @@ export default {
             type: Boolean,
             default: false
         },
+
+        multiple: {
+            type: Boolean,
+            default: false
+        }
     }
 }
 </script>
@@ -367,8 +524,8 @@ export default {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 10px;
-            padding-top: 5px;
+            padding: 7px 10px;
+            padding-top: 2px;
             border-bottom: 1px solid var(--border-color);
             margin-bottom: 10px;
 
@@ -421,6 +578,7 @@ export default {
                 li {
                     pointer-events: none;
                     opacity: .7;
+                    margin: 0;
                 }
             }
 
@@ -434,17 +592,55 @@ export default {
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                margin: .5px 0;
 
-                &:hover {
+                &.in-range:not(.pra-in-range) {
+                    background: #066fd1;
+                    border: 1px solid #066fd1;
+                    border-radius: 0;
+
+                    &.rounded {
+                        border-radius: 6px;
+                    }
+
+                    &.rounded-first {
+                        border-radius: 6px 0 0 6px;
+                    }
+
+                    &.rounded-last {
+                        border-radius: 0 6px 6px 0;
+                    }
+                }
+
+                &.pra-in-range:not(.first) {
+                    background: var(--border-color);
+                    border-radius: 0;
+                }
+
+                &.pra-in-range.one {
+                    background: #066fd1;
+                }
+
+                &.pra-in-range.first {
+                    border-radius: 6px 0 0 6px !important;
+                    background: #066fd1;
+                }
+
+                &.pra-in-range.last {
+                    border-radius: 0 6px 6px 0 !important;
+                    background: #066fd1;
+                }
+
+                &:hover:not(.in-range):not(.pra-in-range) {
                     opacity: .7;
                     border: 1px solid var(--border-color);
                 }
 
-                &.today {
+                &.today:not(.in-range):not(.pra-in-range) {
                     border: 1px dashed var(--light-border-color);
                 }
 
-                &.selected {
+                &.selected:not(.in-range):not(.pra-in-range) {
                     background: var(--border-color);
                 }
 

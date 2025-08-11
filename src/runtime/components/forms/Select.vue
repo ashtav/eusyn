@@ -17,7 +17,7 @@
       <div class="suffix">
         <span @click="onSuffix">
           <i v-if="isLoading" class="spinner-border spinner-border-sm" />
-          <Icon v-else :icon="selected ? iconX : suffix ?? iconChevron" />
+          <Icon v-else :icon="selected ? 'hgi-cancel-01' : suffix ?? 'hgi-arrow-down-01'" />
         </span>
       </div>
 
@@ -38,7 +38,6 @@
 </template>
 
 <script lang="ts">
-import { useRuntimeConfig } from '#imports';
 import { defineComponent, getCurrentInstance, onMounted, ref, watch } from 'vue';
 import { utils } from '../../plugins/utils';
 import { textOption } from '../../scripts/select';
@@ -94,13 +93,6 @@ export default defineComponent({
   },
 
   setup(props, { emit, attrs }) {
-    const config = useRuntimeConfig()
-    const icon = config.public.ui?.icon
-    const isTabler = icon == 'tabler';
-
-    const iconX = isTabler ? 'ti-x' : 'hgi-cancel-01';
-    const iconChevron = isTabler ? 'ti-chevron-down' : 'hgi-arrow-down-01';
-
     const instance = getCurrentInstance()
     const labelInput = ref(props.modelValue) // label
     const localOptions = ref(props.options)
@@ -110,11 +102,24 @@ export default defineComponent({
     const isFocus = ref(false)
     const refSelect = ref(null)
     const refOption = ref(null)
+    const indexToSelect = ref(-1) // used for keyboard navigation
 
     const values = ref<any>(['', null]) // index 0 = label, index 1 = value
 
     // this variable is used for options changes
     const originValue = ref(props.modelValue)
+
+    const focusToSelected = async () => {
+      await nextTick()
+
+      const selectedElm = refOption.value?.querySelector('li.selected') as HTMLLIElement | null
+      if (refOption.value && selectedElm) {
+        refOption.value.scrollTop =
+          selectedElm.offsetTop -
+          refOption.value.clientHeight / 2 +
+          selectedElm.clientHeight / 2
+      }
+    }
 
     // methods
     const onInput = (event: any) => {
@@ -133,18 +138,7 @@ export default defineComponent({
     const onFocus = (event: any) => {
       isFocus.value = true
       emit('focus', true)
-
-      // focus to selected option
-      setTimeout(() => {
-        const selectedElm = document.querySelector(
-          '.select .options li.selected'
-        )
-
-        // scroll
-        if (selectedElm) {
-          selectedElm.scrollIntoView({ block: 'center' })
-        }
-      }, 1)
+      focusToSelected()
     }
 
     const onBlur = () => {
@@ -241,6 +235,43 @@ export default defineComponent({
     onMounted(() => {
       initValue();
       doFocus()
+
+      // listen to top-down key events
+      document.addEventListener('keydown', (event) => {
+        if (isFocus.value && event.key === 'ArrowDown') {
+          const options = localOptions.value
+
+          // get index of the current selected option
+          const index = options.findIndex((o) => o === selected.value)
+          indexToSelect.value = index === -1 ? 0 : index
+
+          if (options.length > 0) {
+            indexToSelect.value = (indexToSelect.value + 1) % options.length
+            onSelect(options[indexToSelect.value])
+            focusToSelected()
+          }
+        }
+
+        if (isFocus.value && event.key === 'ArrowUp') {
+          const options = localOptions.value
+
+          // get index of the current selected option
+          const index = options.findIndex((o) => o === selected.value)
+          indexToSelect.value = index === -1 ? 0 : index
+
+          if (options.length > 0) {
+            indexToSelect.value = (indexToSelect.value - 1 + options.length) % options.length
+            onSelect(options[indexToSelect.value])
+            focusToSelected()
+          }
+        }
+
+        // is entering
+        if (isFocus.value && event.key === 'Enter' && indexToSelect.value >= 0) {
+          onBlur()
+          refSelect.value.blur()
+        }
+      })
     })
 
     const setLoading = (value: boolean) => {
@@ -248,7 +279,7 @@ export default defineComponent({
     }
 
     return {
-      utils, labelInput, localOptions, selected, isFocus, refSelect, refOption, isLoading, iconX, iconChevron,
+      utils, labelInput, localOptions, selected, isFocus, refSelect, refOption, isLoading,
       onInput, onFocus, onBlur, onSelect, onKeyPress, onSuffix, textOption, doFocus, setLoading
     }
   }

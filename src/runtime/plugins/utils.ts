@@ -650,11 +650,94 @@ const formatNumberToK = (input: string | number, separator: string = ','): strin
   return num.toLocaleString().replace(/,/g, separator);
 };
 
+/**
+ * Calculates the number of full days between two dates.
+ * If the second date is null or not provided, it defaults to the current date.
+ * @param {Date | string} date1 - The start date as a Date object or a string in 'YYYY-MM-DD' format.
+ * @param {Date | string | null} [date2] - The end date as a Date object or a string in 'YYYY-MM-DD' format. Defaults to now if not provided.
+ * @returns {number} The number of full days between the two dates.
+ * @example
+ * daysBetween('2025-08-01'); // difference from 2025-08-01 to today
+ * daysBetween(new Date('2025-08-01'), '2025-08-11'); // 10
+ */
+const daysBetween = (
+  date1: Date | string,
+  date2?: Date | string | null
+): number => {
+  const start = typeof date1 === 'string' ? new Date(date1) : new Date(date1)
+  const end = date2
+    ? typeof date2 === 'string'
+      ? new Date(date2)
+      : new Date(date2)
+    : new Date() // default now
+
+  // reset waktu supaya cuma hitung hari penuh
+  start.setHours(0, 0, 0, 0)
+  end.setHours(0, 0, 0, 0)
+
+  const diffTime = Math.abs(end.getTime() - start.getTime())
+  return Math.floor(diffTime / (1000 * 60 * 60 * 24))
+}
+
+/**
+ * Generates an array of date strings between two dates (inclusive).
+ * The second parameter can be:
+ *   - a Date or string 'YYYY-MM-DD' representing the end date, or
+ *   - a number representing the number of days to add to the start date.
+ * @param {Date | string} startDate - The start date.
+ * @param {Date | string | number} endDateOrDays - The end date or number of days from the start date.
+ * @returns {string[]} An array of date strings in 'YYYY-MM-DD' format.
+ * @example
+ * // Using end date
+ * getDateRange('2025-08-01', '2025-08-05');
+ * // → ['2025-08-01', '2025-08-02', '2025-08-03', '2025-08-04', '2025-08-05']
+ *
+ * // Using number of days
+ * getDateRange('2025-08-01', 5);
+ * // → ['2025-08-01', '2025-08-02', '2025-08-03', '2025-08-04', '2025-08-05']
+ */
+export const getDateRange = (
+  startDate: Date | string,
+  endDateOrDays: Date | string | number
+): string[] => {
+  function formatDateLocal(date: Date): string {
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+
+  const start = typeof startDate === 'string' ? new Date(startDate) : new Date(startDate)
+
+  let end: Date
+  if (typeof endDateOrDays === 'number') {
+    end = new Date(start)
+    end.setDate(end.getDate() + (endDateOrDays - 1)) // -1 karena start sudah dihitung
+  } else {
+    end = typeof endDateOrDays === 'string' ? new Date(endDateOrDays) : new Date(endDateOrDays)
+  }
+
+  // pastikan waktu direset
+  start.setHours(0, 0, 0, 0)
+  end.setHours(0, 0, 0, 0)
+
+  const range: string[] = []
+  let current = new Date(start)
+
+  while (current <= end) {
+    range.push(formatDateLocal(current))
+    current.setDate(current.getDate() + 1)
+  }
+
+  return range
+}
+
+
 
 const utils: Utils = {
   alpha, numeric, alphanumeric, ucwords, ucfirst, currency, cleanMap, randInt, randString, formatBytes,
   on, copy, downloadFile, dateFormat, manipulate, getInitials, shuffle, arrDelete, arrUpdate, chunk, deepClone,
-  debounce, throttle, firstAndLastDate, now, date, months, dates, formatNumberToK
+  debounce, throttle, firstAndLastDate, now, date, months, dates, formatNumberToK, daysBetween, getDateRange
 }
 
 const _ = utils

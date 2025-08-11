@@ -377,6 +377,37 @@ interface Utils {
      * formatNumberToK(2500000); // '2.5M'
      */
     formatNumberToK: (input: string | number, separator: string = ',') => string
+
+    /**
+     * Calculates the number of full days between two dates.
+     * If the second date is null or not provided, it defaults to the current date.
+     * @param {Date | string} date1 - The start date as a Date object or a string in 'YYYY-MM-DD' format.
+     * @param {Date | string | null} [date2] - The end date as a Date object or a string in 'YYYY-MM-DD' format. Defaults to now if not provided.
+     * @returns {number} The number of full days between the two dates.
+     * @example
+     * daysBetween('2025-08-01'); // difference from 2025-08-01 to today
+     * daysBetween(new Date('2025-08-01'), '2025-08-11'); // 10
+     */
+    daysBetween: (date1: Date | string, date2?: Date | string | null) => number
+
+    /**
+     * Generates an array of date strings between two dates (inclusive).
+     * The second parameter can be:
+     *   - a Date or string 'YYYY-MM-DD' representing the end date, or
+     *   - a number representing the number of days to add to the start date.
+     * @param {Date | string} startDate - The start date.
+     * @param {Date | string | number} endDateOrDays - The end date or number of days from the start date.
+     * @returns {string[]} An array of date strings in 'YYYY-MM-DD' format.
+     * @example
+     * // Using end date
+     * getDateRange('2025-08-01', '2025-08-05');
+     * // → ['2025-08-01', '2025-08-02', '2025-08-03', '2025-08-04', '2025-08-05']
+     *
+     * // Using number of days
+     * getDateRange('2025-08-01', 5);
+     * // → ['2025-08-01', '2025-08-02', '2025-08-03', '2025-08-04', '2025-08-05']
+     */
+    getDateRange: (startDate: Date | string, endDateOrDays: Date | string | number) => string[]
 }
 
 export default Utils
