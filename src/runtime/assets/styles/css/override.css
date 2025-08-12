@@ -331,3 +331,44 @@ img[lazy] {
     justify-content: center;
     align-items: center;
 }
+
+.file-handler {
+    position: relative;
+    width: 100%;
+    height: 210px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--background-color);
+    border-radius: 6px;
+    border: 1px dashed var(--border-color);
+    text-align: center;
+}
+
+.file-handler.dragged {
+    animation: dash-blink 1s linear infinite;
+}
+
+.file-handler:hover div {
+    opacity: .8;
+}
+
+.file-handler:active div {
+    opacity: 1;
+}
+
+@keyframes dash-blink {
+    0% {
+        border-color: transparent;
+    }
+
+    50% {
+        border-color: var(--light-border-color);
+    }
+
+    100% {
+        border-color: transparent;
+    }
+}

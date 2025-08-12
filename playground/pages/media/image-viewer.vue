@@ -13,15 +13,20 @@
 
         <div class="album mb-3">
           <div class="body">
-            <img :src="images[0]" alt="" @click="view(0)" lazy>
+            <img :src="images[0]" alt="" @click="view(0)" lazy />
             <div class="small-images">
-              <img :src="images[1]" alt="" @click="view(1)" lazy>
-              <img :src="images[2]" alt="" @click="view(2)" lazy>
+              <img :src="images[1]" alt="" @click="view(1)" lazy />
+              <img :src="images[2]" alt="" @click="view(2)" lazy />
             </div>
           </div>
         </div>
 
-        <Code class="mt-2 mb-5" code='<ImageViewer v-model="show" :images="images" :active="image" :actions="[]" :config="{ max: 250, loop: true }" />' />
+        <Code class="mt-2 mb-5"
+          code='<ImageViewer v-model="show" :images="images" :active="image" :actions="[]" :config="{ max: 250, loop: true }" />' />
+      </div>
+
+      <div class="col-lg-6">
+        <img :src="images[0]" alt="" class="single-image rounded" />
       </div>
     </div>
 
@@ -115,5 +120,13 @@ export default {
 .album .small-images img:last-child {
   margin-bottom: 0;
   /* Removes the margin from the last small image */
+}
+
+.single-image {
+  width: 200px;
+  height: 203px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid var(--border-color);
 }
 </style>

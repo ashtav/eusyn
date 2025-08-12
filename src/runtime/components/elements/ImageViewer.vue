@@ -2,8 +2,12 @@
     <div class="image-viewer" :class="{ 'show': modelValue }">
         <!-- actions -->
         <div class="controls">
-            <span @click="onAction(action)" v-for="action in actionsControl"><i :class="`ti ti-${action}`"></i></span>
-            <span @click="close"><i class="ti ti-x"></i></span>
+            <span @click="onAction(action)" v-for="action in actionsControl">
+                <Icon :icon="action" />
+            </span>
+            <span @click="close">
+                <Icon icon="hgi-cancel-01" />
+            </span>
         </div>
 
         <!-- navigation -->
@@ -89,7 +93,7 @@ export default {
 
         const initActions = () => {
             const actions = [...new Set(props.actions)]
-            actionsControl.value = actions.filter((e: string) => ['copy', 'download'].includes(e))
+            actionsControl.value = ['copy-02', 'download-05']
         }
 
         const getConfig = () => {
@@ -326,15 +330,15 @@ export default {
 <style lang="scss" scoped>
 .image-viewer {
     position: fixed;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.8);
+    // backdrop-filter: blur(5px);
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
     user-select: none;
-    z-index: 999;
+    z-index: 9999;
     opacity: 0;
     display: flex;
     justify-content: space-between;

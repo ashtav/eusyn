@@ -24,9 +24,9 @@
                 <Select label="Province" hint="Select your province" suffix="hgi-map-pinpoint-02" required
                     :options="provinces" v-model="forms.province" :busy="isLoadingProvince" />
                 <Code class="mb-5" description="Using value as input."
-                    code='<Select label="Province" hint="Select your province" suffix="ti-map-2" required :options="provinces" v-model="forms.province" />' />
+                    code='<Select label="Province" hint="Select your province" required :options="provinces" v-model="forms.province" />' />
 
-                <Select label="From Api" hint="Select your data" suffix="ti-file" required :options="options"
+                <Select label="From Api" hint="Select your data" suffix="file-01" required :options="options"
                     v-model="forms.option" ref="select" />
 
                 <div>
@@ -37,13 +37,20 @@
                 <code> {{ forms }} </code>
                 <br>
 
-                <Select label="Search" hint="Type category name, then press enter" suffix="ti-file" required
+                <Select label="Search" hint="Type category name, then press enter" suffix="files-01" required
                     :options="options" v-model="forms.option" ref="search" @enter="onSearch" />
 
                 <Code class="mb-5"
                     description="To keep the search input focused after searching, use the ref attribute." code="this.$e.focus(this, 'search') // focus
 this.$loading(true, 'search') // set busy" />
 
+                <hr>
+                <Select label="Select Multiple" hint="Select your hobbies" suffix="note-01" required :options="hobbies"
+                    v-model="forms.hobbies" multiple />
+                <code>{{ forms.hobbies }}</code>
+
+                <Code class="mb-5"
+                    code='<Select label="Select Multiple" hint="Select your hobbies" suffix="note-01" required :options="hobbies" v-model="forms.hobbies" multiple />' />
             </div>
         </div>
 
@@ -67,11 +74,13 @@ export default {
 
             forms: {
                 hobby: '',
+                hobbies: ['Cooking'],
                 province: 3,
                 city: '',
                 option: ''
             },
 
+            hobby: '',
             hobbies: [
                 'Swimming',
                 'Reading',
@@ -103,6 +112,7 @@ export default {
         setTimeout(() => {
             this.isLoading = false
             this.forms.hobby = 'Traveling'
+            this.forms.hobbies = ['Coding', 'Hiking']
 
             // province data
             this.provinces = [
@@ -120,7 +130,7 @@ export default {
             // setTimeout(() => {
             //     this.forms.province = 3
             // }, 100);
-        }, 1000)
+        }, 1500)
 
 
     },

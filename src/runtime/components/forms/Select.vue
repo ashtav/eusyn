@@ -15,6 +15,10 @@
 
       <!-- suffix -->
       <div class="suffix">
+        <span v-if="values.length > 0" @click="onClean" tooltip="Clear">
+          <Icon icon="delete-02" />
+        </span>
+
         <span @click="onSuffix">
           <i v-if="isLoading" class="spinner-border spinner-border-sm" />
           <Icon v-else :icon="selected ? 'hgi-cancel-01' : suffix ?? 'hgi-arrow-down-01'" />
@@ -24,8 +28,8 @@
       <!-- options -->
       <div v-if="isFocus" class="options">
         <ul ref="refOption">
-          <li v-for="(option, i) in localOptions" :key="i" :class="{ 'selected': option == selected }"
-            @mousedown="onSelect(option)">
+          <li v-for="(option, i) in localOptions" :key="i"
+            :class="{ 'selected': option == selected, 'hovered': indexToSelect == i }" @mousedown="onSelect(option)">
             <span>{{ textOption(option) }}</span>
           </li>
           <li v-if="localOptions.length == 0" class="text-muted pe-none">
@@ -34,6 +38,13 @@
         </ul>
       </div>
     </div>
+
+    <ul v-if="multiple" class="multiple">
+      <li v-for="(value, i) in values" :key="i">
+        <span class="me-2">{{ textOption(value) }}</span>
+        <Icon icon="cancel-01 fix" @click="removeItem(i)" />
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -48,7 +59,7 @@ export default defineComponent({
   props: {
     modelValue: {
       default: '',
-      type: [Number, String]
+      type: [Number, String, Array<String>]
     },
 
     label: {
@@ -89,12 +100,17 @@ export default defineComponent({
     options: {
       type: Array<any>,
       default: () => []
-    }
+    },
+
+    multiple: {
+      type: Boolean,
+      default: false
+    },
   },
 
   setup(props, { emit, attrs }) {
     const instance = getCurrentInstance()
-    const labelInput = ref(props.modelValue) // label
+    const labelInput = ref(props.multiple ? '' : props.modelValue) // label
     const localOptions = ref(props.options)
     const selected = ref(null)
 
@@ -104,41 +120,47 @@ export default defineComponent({
     const refOption = ref(null)
     const indexToSelect = ref(-1) // used for keyboard navigation
 
-    const values = ref<any>(['', null]) // index 0 = label, index 1 = value
+    const values = ref<any>(Array.isArray(props.modelValue) ? props.modelValue : []) // index 0 = label, index 1 = value
 
     // this variable is used for options changes
-    const originValue = ref(props.modelValue)
+    // const originValue = ref(props.modelValue)
 
-    const focusToSelected = async () => {
+    const focusToSelected = async (index?: number) => {
       await nextTick()
+      const el = index != null
+        ? refOption.value?.querySelectorAll('li')[index]
+        : refOption.value?.querySelector('li.selected')
 
-      const selectedElm = refOption.value?.querySelector('li.selected') as HTMLLIElement | null
-      if (refOption.value && selectedElm) {
-        refOption.value.scrollTop =
-          selectedElm.offsetTop -
-          refOption.value.clientHeight / 2 +
-          selectedElm.clientHeight / 2
+      if (el && refOption.value) {
+        refOption.value.scrollTop = el.offsetTop - refOption.value.clientHeight / 2 + el.clientHeight / 2
       }
     }
 
     // methods
-    const onInput = (event: any) => {
-      labelInput.value = event.target.value
+    const onInput = (e: any) => {
+      labelInput.value = e.target.value.toLowerCase()
 
-      // do search
-      localOptions.value = props.options.filter((o) => {
-        return textOption(o).toLowerCase().includes(labelInput.value.toString().toLowerCase())
+      localOptions.value = props.options.filter(o => {
+        const match = textOption(o).toLowerCase().includes(labelInput.value)
+        return props.multiple ? match && !values.value.includes(o) : match
       })
 
-      if (!isFocus.value) {
-        isFocus.value = true
-      }
+      isFocus.value ||= true
     }
 
     const onFocus = (event: any) => {
       isFocus.value = true
       emit('focus', true)
       focusToSelected()
+
+      const index = props.options.findIndex(o => o === selected.value)
+      indexToSelect.value = index === -1 ? -1 : index
+
+      if (props.multiple) {
+        localOptions.value = props.options.filter((o) => {
+          return !values.value.includes(o)
+        })
+      }
     }
 
     const onBlur = () => {
@@ -147,11 +169,25 @@ export default defineComponent({
 
       setTimeout(() => {
         isFocus.value = false
-        localOptions.value = props.options
+        indexToSelect.value = -1
+
+        if (!props.multiple) {
+          localOptions.value = props.options
+        }
       }, 1)
     }
 
     const onSelect = (option: any) => {
+      if (props.multiple) {
+        if (values.value.findIndex((e: any) => e == option) == -1) {
+          values.value.push(option)
+
+          // emit('update:modelValue', values.value)
+          emit('change', values.value)
+        }
+        return
+      }
+
       labelInput.value = textOption(option)
       selected.value = option
 
@@ -160,6 +196,18 @@ export default defineComponent({
 
       // trigger @change event
       emit('change', option)
+    }
+
+    const removeItem = (index: number) => {
+      values.value.splice(index, 1)
+      emit('update:modelValue', values.value)
+      emit('change', values.value)
+    }
+
+    const onClean = () => {
+      values.value = []
+      emit('update:modelValue', values.value)
+      emit('change', values.value)
     }
 
     const onKeyPress = (event: any) => {
@@ -195,6 +243,11 @@ export default defineComponent({
     // handle initiated value if exist
     const initValue = () => {
       setTimeout(() => {
+        if (props.multiple && Array.isArray(props.modelValue)) {
+          values.value = props.modelValue
+          return
+        }
+
         const value = props.modelValue
 
         // set selected option
@@ -237,37 +290,25 @@ export default defineComponent({
       doFocus()
 
       // listen to top-down key events
-      document.addEventListener('keydown', (event) => {
-        if (isFocus.value && event.key === 'ArrowDown') {
-          const options = localOptions.value
+      document.addEventListener('keydown', (e) => {
+        if (!isFocus.value) return
 
-          // get index of the current selected option
-          const index = options.findIndex((o) => o === selected.value)
-          indexToSelect.value = index === -1 ? 0 : index
+        const options = localOptions.value
+        if (!options.length) return
 
-          if (options.length > 0) {
-            indexToSelect.value = (indexToSelect.value + 1) % options.length
-            onSelect(options[indexToSelect.value])
-            focusToSelected()
-          }
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          indexToSelect.value = e.key === 'ArrowDown'
+            ? (indexToSelect.value + 1 >= options.length ? 0 : indexToSelect.value + 1)
+            : (indexToSelect.value - 1 < 0 ? options.length - 1 : indexToSelect.value - 1)
+
+          focusToSelected(indexToSelect.value)
         }
 
-        if (isFocus.value && event.key === 'ArrowUp') {
-          const options = localOptions.value
-
-          // get index of the current selected option
-          const index = options.findIndex((o) => o === selected.value)
-          indexToSelect.value = index === -1 ? 0 : index
-
-          if (options.length > 0) {
-            indexToSelect.value = (indexToSelect.value - 1 + options.length) % options.length
+        if (e.key === 'Enter' && indexToSelect.value >= 0) {
+          if (indexToSelect.value != -1) {
             onSelect(options[indexToSelect.value])
-            focusToSelected()
           }
-        }
 
-        // is entering
-        if (isFocus.value && event.key === 'Enter' && indexToSelect.value >= 0) {
           onBlur()
           refSelect.value.blur()
         }
@@ -279,8 +320,8 @@ export default defineComponent({
     }
 
     return {
-      utils, labelInput, localOptions, selected, isFocus, refSelect, refOption, isLoading,
-      onInput, onFocus, onBlur, onSelect, onKeyPress, onSuffix, textOption, doFocus, setLoading
+      utils, labelInput, localOptions, selected, isFocus, refSelect, refOption, isLoading, values, indexToSelect,
+      onInput, onFocus, onBlur, onSelect, onKeyPress, onSuffix, textOption, doFocus, setLoading, removeItem, onClean
     }
   }
 })
@@ -372,6 +413,8 @@ export default defineComponent({
 
       li {
         padding: 10px 13px;
+        display: flex;
+        align-items: center;
 
         &:hover {
           cursor: pointer;
@@ -382,6 +425,10 @@ export default defineComponent({
           background-color: #f6f8fb;
           font-weight: 500;
         }
+
+        &.hovered {
+          background-color: #f6f8fb;
+        }
       }
     }
   }
@@ -389,6 +436,32 @@ export default defineComponent({
   @media only screen and (max-width: 480px) {
     .options {
       width: calc(100% - 37px);
+    }
+  }
+
+  .multiple {
+    padding: 0;
+    margin-top: 5px;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+
+    li {
+      display: inline-block;
+      padding: 2px 12px;
+      padding-right: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+
+      i {
+        font-size: 14px;
+        cursor: pointer;
+
+        &:hover {
+          opacity: .7;
+        }
+      }
     }
   }
 }
@@ -411,6 +484,10 @@ export default defineComponent({
         &.selected {
           background-color: #1f2d3d;
           color: white;
+        }
+
+        &.hovered {
+          background-color: #1f2d3d;
         }
       }
     }

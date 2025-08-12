@@ -11,25 +11,24 @@
                     'config',
                     'draggable',
                     'disabled',
-                    'output:base64|file'
+                    '@select'
                 ]" />
 
-
-                <FileHandler accept="image:jpg,jpeg,png"
-                    :config="{ maxSize: 5, width: [300, 1200], height: [300, 2000] }" draggable multiple
-                    @dragged="onDragged" @select="onSelect">
-                    <div class="file-handler" :class="{ 'dragover': dragover }">
-                        <div>
-                            <h4 class="mb-0">Select File or Drag Here</h4>
-                            <p>You can either click to select a file or simply drag it into this area.</p>
+                <div>
+                    <div class="form-label required">Photo Profile</div>
+                    <FileHandler :config="config" draggable multiple @select="onSelect" v-slot="{ dragged }">
+                        <div class="file-handler" :class="{ dragged }">
+                            <div>
+                                <h4 class="mb-0">Select File or Drag Here</h4>
+                                <p>You can either click to select a file or simply drag it into this area.</p>
+                            </div>
                         </div>
-                    </div>
-                </FileHandler>
+                    </FileHandler>
+                </div>
 
                 <Code class="mt-3" code='<FileHandler draggable multiple 
     :config="{ maxSize: 5, width: [300, 1200], height: [300, 2000] }" 
-    accept="image:jpg,jpeg,png|audio:mp3,wav" 
-    @dragged="onDragged" @select="onSelect">
+    accept="image:jpg,jpeg,png|audio:mp3,wav" @select="onSelect">
     // create you own custom style here
 </FileHandler>
 
@@ -41,15 +40,7 @@
         application:pdf,xlxs
 ' />
 
-                <Code class="mt-3" code='onDragged(event: any) {
-    this.dragover = event.dragover // data: { return { dragover: false }}
-
-    if (!event.dragover) {
-        this.onSelect(event)
-    }
-}
-
-onSelect(event: any) {
+                <Code class="mt-3" code='onSelect(event: any) {
     this.images = event.files // data: { return { images: [] }}
 
     let errors = event.errors ?? []
@@ -76,6 +67,9 @@ onSelect(event: any) {
                     :config="{ label: 'Select Audio/Video', required: true }" />
                 <Code
                     code='<FileHandler :config="{}" @select="onSelect" accept="audio:mp3,wav,mpeg|video:mp4,avi,mov" />' />
+
+                <hr>
+                <ImageUploader label="Select Images" required :config="config" multiple draggable />
             </div>
         </div>
     </div>
@@ -89,20 +83,12 @@ export default {
 
     data() {
         return {
-            dragover: false,
+            config: { maxSize: 5, width: [300, 1200], height: [300, 2000] },
             images: <any>[]
         }
     },
 
     methods: {
-        onDragged(event: any) {
-            this.dragover = event.dragover
-
-            if (!event.dragover) {
-                this.onSelect(event)
-            }
-        },
-
         onSelect(event: any) {
             console.log(event.files)
 
@@ -122,34 +108,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.file-handler {
-    border: 1px #ccc dashed;
-    width: 100%;
-    height: 200px;
-    background-color: #fbfbfb;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
-    &.dragover {
-        border-color: #0054a6;
-
-        div {
-            opacity: .7;
-        }
-    }
-
-    &:hover {
-        cursor: pointer;
-
-        div {
-            opacity: .7;
-        }
-    }
-}
-
 .gallery {
     padding: 0;
     margin: 0;
@@ -177,13 +135,6 @@ export default {
         height: 100px;
         border-radius: 5px;
         object-fit: cover
-    }
-}
-
-[data-bs-theme=dark] {
-    .file-handler {
-        background-color: #182433;
-        border-color: #344558;
     }
 }
 </style>

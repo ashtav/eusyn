@@ -1,16 +1,18 @@
 <template>
-    <div @click="onClick" @dragover="onDragged" @dragleave="onDragged" @drop="onDropped">
-        <slot />
+    <div>
+        <div @click="onClick" @dragover="onDragged" @dragleave="onDragged" @drop="onDropped">
+            <slot :dragged="dragging" />
 
-        <div v-if="!$slots.default">
-            <Input :label="config.label" :hint="config.hint ?? 'Please select file'" readonly
-                :required="config.required" :suffix="[{
-                    text: 'Browse', kbd: true
-                }]" v-model="input" :disabled="disabled" />
+            <div v-if="!$slots.default">
+                <Input :label="config.label" :hint="config.hint ?? 'Please select file'" readonly
+                    :required="config.required" :suffix="[{
+                        text: 'Browse', kbd: true
+                    }]" v-model="input" :disabled="disabled" />
+            </div>
+
+            <input type="file" ref="fileInput" :accept="acceptFile" @change="handleFiles" class="d-none"
+                :multiple="multiple" :disabled="disabled" />
         </div>
-
-        <input type="file" ref="fileInput" :accept="acceptFile" @change="handeFiles" class="d-none" :multiple="multiple"
-            :disabled="disabled" />
     </div>
 </template>
 
@@ -33,13 +35,13 @@ interface Config {
  */
 export default {
     name: 'FileHandler',
-    emits: ['select', 'dragged'],
+    emits: ['select'],
 
     props: {
         accept: {
             type: String,
             default: 'image:jpeg,jpg,png'
-            // format can be: ['application:pdf,xlxs', 'audio:wav,mp3', 'text:plain,csv', 'video:mp4', 'image:jpeg,jpg,png']
+            // format could be: ['application:pdf,xlxs', 'audio:wav,mp3', 'text:plain,csv', 'video:mp4', 'image:jpeg,jpg,png']
         },
 
         multiple: {
@@ -67,11 +69,6 @@ export default {
         disabled: {
             type: Boolean,
             default: false
-        },
-
-        output: {
-            type: String,
-            default: 'base64' // base64, file
         }
     },
 
@@ -80,7 +77,7 @@ export default {
         const fileInput = ref(null)
         const input = ref('');
 
-        let dragging = false
+        const dragging = ref(false)
 
         // formatting file accept, ['image:jpeg,jpg,png'] = image/jpeg, image/png, image/jpg
         const reFormat = () => {
@@ -106,10 +103,8 @@ export default {
 
             if (!props.draggable || !event.dataTransfer || props.disabled) return
 
-            dragging = event.type === 'dragover';
+            dragging.value = event.type === 'dragover';
             event.dataTransfer.dropEffect = 'copy';
-
-            emit('dragged', { dragover: dragging })
         }
 
         const onDropped = async (event: DragEvent) => {
@@ -118,10 +113,9 @@ export default {
 
             if (!props.draggable || !event.dataTransfer || props.disabled) return
 
-            dragging = false;
+            dragging.value = false;
 
-            const result = await filterFiles(event.dataTransfer.files);
-            emit('dragged', { dragover: dragging, errors: result.errors, files: result.files })
+            handleFiles({ target: { files: event.dataTransfer.files } });
         }
 
         const megabytesToBytes = (value: number) => {
@@ -135,8 +129,6 @@ export default {
                 const maxSize = megabytesToBytes(props.config.maxSize ?? 3) // 3Mb
                 const width = props.config.width ?? [] // [min, max]
                 const height = props.config.height ?? [] // [min, max]
-
-                const output = props.output
 
                 let errors = <any>[]
                 let result = <any>[]
@@ -296,7 +288,7 @@ export default {
             });
         }
 
-        const handeFiles = async (e: any) => {
+        const handleFiles = async (e: any) => {
             // check if browser support FileReader
             if (typeof FileReader != "function") {
                 emit('select', { errors: [{ message: 'Your browser does not support FileReader.', type: 'browser' }] })
@@ -327,7 +319,7 @@ export default {
             reFormat()
         })
 
-        return { acceptFile, fileInput, input, onClick, handeFiles, onDragged, onDropped }
+        return { acceptFile, fileInput, input, dragging, onClick, handleFiles, onDragged, onDropped }
     }
 }
 </script>
