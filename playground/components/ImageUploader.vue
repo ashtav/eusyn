@@ -31,6 +31,8 @@
                 </FileHandler>
             </li>
         </ul>
+
+        <ImageViewer ref="viewer" />
     </div>
 </template>
 
@@ -98,6 +100,7 @@ export default {
     setup() {
         const nuxt = useNuxtApp()
         const images = ref<any[]>([])
+        const viewer = ref(null)
 
         const onSelect = (event: any) => {
             event.files.forEach((e: any) => {
@@ -114,13 +117,18 @@ export default {
 
         const onAction = (action: string, image: any, index: number) => {
             if (action === 'view') {
-
+                const imageSrc = images.value.map(img => img.data)
+                openImage(imageSrc, imageSrc.indexOf(image.data))
             } else {
                 images.value = images.value.filter((_, i) => i !== index)
             }
         }
 
-        return { images, onSelect, onAction }
+        const openImage = (images: string[], index?: number) => {
+            (viewer.value as any).open(images, index)
+        }
+
+        return { images, viewer, onSelect, onAction }
     }
 }
 </script>

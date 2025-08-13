@@ -372,3 +372,8 @@ img[lazy] {
         border-color: transparent;
     }
 }
+
+.lazy-img {
+    background: var(--background-color) center/cover no-repeat;
+    object-fit: cover;
+}

@@ -4,34 +4,32 @@
 
     <div class="row">
       <div class="col-lg-6">
-        <h4 class="mb-0">
-          <Icon icon="ti-album" class="me-1" /> Album
-        </h4>
-        <p class="mb-5">
+        <Text icon="album-01" value="Album" strong />
+        <p class="mb-5 mt-2 text-secondary">
           {{ images.length }} images are available, click one of these images to show image viewer.
         </p>
 
         <div class="album mb-3">
           <div class="body">
-            <img :src="images[0]" alt="" @click="view(0)" lazy />
+            <img :src="images[0]" alt="" @click="openViewer(0)" lazy />
             <div class="small-images">
-              <img :src="images[1]" alt="" @click="view(1)" lazy />
-              <img :src="images[2]" alt="" @click="view(2)" lazy />
+              <img :src="images[1]" alt="" @click="openViewer(1)" lazy />
+              <img :src="images[2]" alt="" @click="openViewer(2)" lazy />
             </div>
           </div>
         </div>
 
-        <Code class="mt-2 mb-5"
-          code='<ImageViewer v-model="show" :images="images" :active="image" :actions="[]" :config="{ max: 250, loop: true }" />' />
-      </div>
+        <Code class="mt-2 mb-5" code='<ImageViewer2 ref="viewer" />
 
-      <div class="col-lg-6">
-        <img :src="images[0]" alt="" class="single-image rounded" />
+// method
+openViewer() {
+      const viewer = this.$refs.viewer as any
+      viewer.open([...images], 5)
+}' />
       </div>
     </div>
 
-    <ImageViewer v-model="show" :images="images" :active="image" :actions="['download', 'copy']"
-      :config="{ max: 250, loop: true }" />
+    <ImageViewer ref="viewer" />
   </div>
 </template>
 
@@ -46,16 +44,16 @@ export default {
       show: false,
       image: '',
       images: [
-        'https://i.imgur.com/5fQUPDl.jpg',
+        'https://121clicks.com/wp-content/uploads/2024/05/beautiful-macro-photos-01.jpg',
         'https://i.pinimg.com/736x/47/d0/78/47d078d78349f94ed6bcba7d8e6a52a3.jpg',
         'https://i.pinimg.com/736x/ce/3d/59/ce3d59b29d80c6fa2f8917d9c573e90e.jpg',
-        'https://img.freepik.com/premium-photo/artificial-intelligence-head-portrait-with-intricate-parts-robotical-cyborg-futuristic-design-generative-ai_751108-3169.jpg',
-        'https://cms.interiorcompany.com/wp-content/uploads/2024/01/use-a-home-decor-plant-stand.jpg',
-        'https://www.enjpg.com/img/2020/plant-aesthetic-1.jpg',
-        'https://www.buyourobot.com/wp-content/uploads/edd/2015/09/00472_pilot_thumb.jpg',
+        'https://media.istockphoto.com/id/175490523/photo/beautiful-nature-big-world-of-small-things.jpg?s=170667a&w=0&k=20&c=semoD1EJTyn_i2f2X89wacSkanVoSVKXv0uEvo0IMhM=',
+        'https://i.pinimg.com/736x/b0/b2/68/b0b2685b4dbef14c55f16bd7d77796cf.jpg',
+        'https://i.pinimg.com/564x/02/3c/8c/023c8cadd3125fd2f0e7923654515c98.jpg',
+        'https://i.pinimg.com/736x/eb/a7/94/eba794c8da1b8e8d392c4455537ed21c.jpg',
         'https://www.thespruce.com/thmb/SnV1FLWFPQcXIlTpqFb7qLvXh94=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/240939984_567294274624239_6535843150405942130_n-78f13e590e4d46a0a5e4e5e00dadc237.jpg',
-        'https://media.istockphoto.com/id/627373186/photo/abstract-smooth-round-pebbles-sea-texture-background.jpg?s=612x612&w=0&k=20&c=-wU1H9tqb7HQElvrzo1hjeQK1G6rdgbFU6aHQZKuArU=',
-        'https://i.pinimg.com/736x/98/96/a2/9896a23312be258e4bb0bc464d47d4d7.jpg'
+        'https://i.pinimg.com/736x/e7/d7/d1/e7d7d16473040020d33b21f1d1bc7ea8.jpg',
+        'https://i.pinimg.com/736x/24/3d/3f/243d3f55a3df0bc4fb2593460a5b41c9.jpg'
       ]
     }
   },
@@ -68,6 +66,11 @@ export default {
 
     download(image: string) {
       console.log('downloading... ', image)
+    },
+
+    openViewer(index: number) {
+      const viewer = this.$refs.viewer as any
+      viewer.open([...this.images, ...this.images, ...this.images], index)
     }
   }
 }
