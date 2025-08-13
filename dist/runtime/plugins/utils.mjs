@@ -317,6 +317,39 @@ const formatNumberToK = (input, separator = ",") => {
   }
   return num.toLocaleString().replace(/,/g, separator);
 };
+const daysBetween = (date1, date2) => {
+  const start = typeof date1 === "string" ? new Date(date1) : new Date(date1);
+  const end = date2 ? typeof date2 === "string" ? new Date(date2) : new Date(date2) : /* @__PURE__ */ new Date();
+  start.setHours(0, 0, 0, 0);
+  end.setHours(0, 0, 0, 0);
+  const diffTime = Math.abs(end.getTime() - start.getTime());
+  return Math.floor(diffTime / (1e3 * 60 * 60 * 24));
+};
+export const getDateRange = (startDate, endDateOrDays) => {
+  function formatDateLocal(date2) {
+    const year = date2.getFullYear();
+    const month = String(date2.getMonth() + 1).padStart(2, "0");
+    const day = String(date2.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+  const start = typeof startDate === "string" ? new Date(startDate) : new Date(startDate);
+  let end;
+  if (typeof endDateOrDays === "number") {
+    end = new Date(start);
+    end.setDate(end.getDate() + (endDateOrDays - 1));
+  } else {
+    end = typeof endDateOrDays === "string" ? new Date(endDateOrDays) : new Date(endDateOrDays);
+  }
+  start.setHours(0, 0, 0, 0);
+  end.setHours(0, 0, 0, 0);
+  const range = [];
+  let current = new Date(start);
+  while (current <= end) {
+    range.push(formatDateLocal(current));
+    current.setDate(current.getDate() + 1);
+  }
+  return range;
+};
 const utils = {
   alpha,
   numeric,
@@ -346,7 +379,9 @@ const utils = {
   date,
   months,
   dates,
-  formatNumberToK
+  formatNumberToK,
+  daysBetween,
+  getDateRange
 };
 const _ = utils;
 export { _, utils };

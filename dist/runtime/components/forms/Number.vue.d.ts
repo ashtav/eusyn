@@ -80,8 +80,8 @@ declare const _default: import("vue").DefineComponent<{
     readonly: boolean;
     required: boolean;
     modelValue: string | number;
+    prefix: string;
     min: number;
     max: number;
-    prefix: string;
 }, {}>;
 export default _default;

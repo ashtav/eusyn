@@ -38,19 +38,16 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-    output: {
-        type: StringConstructor;
-        default: string;
-    };
 }, {
     acceptFile: Ref<string>;
     fileInput: Ref<null>;
     input: Ref<string>;
+    dragging: Ref<boolean>;
     onClick: () => void;
-    handeFiles: (e: any) => Promise<void>;
+    handleFiles: (e: any) => Promise<void>;
     onDragged: (event: DragEvent) => void;
     onDropped: (event: DragEvent) => Promise<void>;
-}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("select" | "dragged")[], "select" | "dragged", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "select"[], "select", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     accept: {
         type: StringConstructor;
         default: string;
@@ -78,15 +75,9 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
-    output: {
-        type: StringConstructor;
-        default: string;
-    };
 }>> & {
     onSelect?: ((...args: any[]) => any) | undefined;
-    onDragged?: ((...args: any[]) => any) | undefined;
 }, {
-    output: string;
     accept: string;
     multiple: boolean;
     config: Config;

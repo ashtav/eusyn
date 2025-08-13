@@ -96,8 +96,8 @@ declare const _default: import("vue").DefineComponent<{
     disabled: boolean;
     required: boolean;
     options: any[];
-    modelValue: string;
-    inline: boolean;
     emptyMessage: string;
+    inline: boolean;
+    modelValue: string;
 }, {}>;
 export default _default;

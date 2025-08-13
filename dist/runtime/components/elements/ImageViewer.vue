@@ -1,409 +1,373 @@
 <template>
-    <div class="image-viewer" :class="{ 'show': modelValue }">
-        <!-- actions -->
-        <div class="controls">
-            <span @click="onAction(action)" v-for="action in actionsControl"><i :class="`ti ti-${action}`"></i></span>
-            <span @click="close"><i class="ti ti-x"></i></span>
+    <div :class="['image-viewer', { show }]">
+        <!-- image info -->
+        <div class="info">
+            <li v-if="images.length > 1">{{ info }}</li>
         </div>
 
-        <!-- navigation -->
-        <div class="navigator">
-            <span v-for="(nav, i) in ['left', 'right']" @click="onNavigate(i)"
-                :class="[nav, { 'disabled': [currentIndex < 1, currentIndex >= (images.length - 1)][i] && !config?.loop }]">
-                <i :class="[`ti ti-chevron-${nav}`]" />
+        <!-- actions -->
+        <div class="actions">
+            <span v-for="icon in ['cancel-01']" :key="icon" @click="onAction(icon)">
+                <Icon :icon="icon" />
             </span>
         </div>
 
-        <!-- list of images -->
-        <div class="list-images" @mouseenter="isCursorInImageList = true" @mouseleave="isCursorInImageList = false">
-            <ul id="list_image__">
-                <li v-for="(img, i) in images" :class="{ 'active': img == imageUrl }" @click="onSelectImage(i)"
-                    :id="`image___${i}`">
-                    <img :src="img" alt="">
+        <!-- image preview -->
+        <div class="image-preview" @wheel="onWheel">
+            <div v-if="loading" class="loader"></div>
+            <img ref="viewerImg" :src="image?.src" v-show="!!image"
+                :style="{ transform: 'scale(' + scale + ')', transition: 'transform 0.2s ease' }" draggable="false"
+                @dblclick="onDblClick" />
+        </div>
+
+        <!-- image controls -->
+        <div class="controls" v-if="images.length > 1">
+            <ul>
+                <li v-for="icon in ['arrow-left-01', 'arrow-right-01']" :key="icon" @click="onControl(icon)">
+                    <Icon :icon="icon" />
                 </li>
             </ul>
         </div>
 
-        <!-- image view -->
-        <div class="image" :style="imageStyle" @dblclick="resizeToDefault"></div>
+        <!-- images -->
+        <div class="image-list" v-show="images.length > 1">
+            <div v-for="img in images" :key="img.id" :class="[{ 'selected': imageId == img.id }]">
+                <img :src="img.src" class="lazy-img" @click="onImage($event, img)" draggable="false" />
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-import { computed, onMounted, ref, watch } from "vue";
-import { utils } from "../../plugins/utils";
+import { onMounted, ref } from "vue";
 export default {
-  inheritAttrs: false,
-  props: {
-    modelValue: {
-      type: Boolean,
-      default: false
-    },
-    images: {
-      type: Array,
-      default: () => []
-    },
-    active: {
-      type: String,
-      default: () => null
-    },
-    /**
-     * allowed: ['copy', 'download']
-     */
-    actions: {
-      type: Array,
-      default: () => []
-    },
-    config: {
-      type: Object,
-      default: { min: null, max: null, loop: false }
-    },
-    onDownload: Function
-  },
-  emits: ["update:modelValue", "download"],
-  setup(props, { emit, attrs }) {
-    const localValue = ref(props.modelValue);
-    const width = ref(50);
-    const height = ref(50);
-    const imageUrl = ref("");
-    const currentIndex = ref(0);
-    const isCursorInImageList = ref(false);
-    const actionsControl = ref([]);
-    let prevSize = [10, 10];
-    const initActions = () => {
-      const actions = [...new Set(props.actions)];
-      actionsControl.value = actions.filter((e) => ["copy", "download"].includes(e));
+  setup() {
+    const images = ref([]);
+    const image = ref(null);
+    const imageCache = /* @__PURE__ */ new Map();
+    const imageId = ref(null);
+    const loading = ref(false);
+    const show = ref(false);
+    const info = ref("");
+    const scale = ref(0.6);
+    const viewerImg = ref(null);
+    const setInfo = (data) => {
+      const index = images.value.findIndex((img) => img.id === data.id);
+      info.value = `Image ${index + 1} of ${images.value.length}`;
     };
-    const getConfig = () => {
-      return {
-        min: props.config.min ?? 30,
-        max: props.config.max ?? 90
-      };
-    };
-    const resizeToDefault = () => {
-      updateImageSize();
-    };
-    const zoomImage = (type = "in", zoomFactor = 0) => {
-      const { min, max } = getConfig();
-      if (type == "in") {
-        width.value += 5 * zoomFactor;
-        height.value += 5 * zoomFactor;
-        setTimeout(() => {
-          if (width.value > max && height.value > max) {
-            width.value = max;
-            height.value = max;
-          }
-        }, 100);
-      } else {
-        width.value -= 5 * zoomFactor;
-        height.value -= 5 * zoomFactor;
-        setTimeout(() => {
-          if (width.value < min && height.value < min) {
-            width.value = min;
-            height.value = min;
-          }
-        }, 100);
-      }
-    };
-    const adjustSize = (event) => {
-      if (!localValue)
-        return;
-      if (isCursorInImageList.value) {
-        const imagesList = document.getElementById("list_image__");
-        if (imagesList) {
-          if (event.deltaY > 0) {
-            imagesList.scrollLeft += 30;
-          } else {
-            imagesList.scrollLeft -= 30;
-          }
+    const preloadImages = () => {
+      images.value.forEach((img) => {
+        if (!imageCache.has(img.src)) {
+          const preloadImg = new Image();
+          preloadImg.src = img.src;
+          preloadImg.onload = () => imageCache.set(img.src, true);
         }
+      });
+    };
+    const loadImage = (data) => {
+      image.value = data;
+      imageId.value = data.id;
+      setInfo(data);
+      const refresh = () => {
+        scale.value = 0.3;
+        setTimeout(() => scale.value = 0.6, 150);
+      };
+      if (imageCache.has(data.src)) {
+        loading.value = false;
+        refresh();
         return;
       }
-      const zoomFactor = Math.abs(event.deltaY) / 50;
-      if (event.deltaY < 0) {
-        zoomImage("in", zoomFactor);
-      } else {
-        zoomImage("out", zoomFactor);
-      }
-    };
-    const updateImageSize = () => {
-      const { min } = getConfig();
       const img = new Image();
-      img.src = imageUrl.value;
-      img.onload = () => {
-        width.value = img.naturalWidth / window.innerWidth * 100;
-        height.value = img.naturalWidth / window.innerWidth * 100;
-        if (width.value > 90)
-          width.value = 90;
-        if (height.value > 90)
-          height.value = 90;
-        if (width.value < min)
-          width.value = min;
-        if (height.value < min)
-          height.value = min;
-        if (`${prevSize}` == `${[width.value, height.value]}`) {
-          width.value = width.value * 0.9;
-          height.value = width.value * 0.9;
-        }
-        prevSize = [width.value, height.value];
-      };
-    };
-    const focusOnImage = (index) => {
-      const selectedImage = document.getElementById(`image___${index}`);
-      if (selectedImage) {
-        selectedImage.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-          inline: "center"
-        });
-      }
-    };
-    const onNavigate = (i) => {
-      const loop = props.config?.loop ?? false;
-      if (i == 0) {
-        if (currentIndex.value > 0) {
-          currentIndex.value--;
-        } else if (loop) {
-          currentIndex.value = props.images.length - 1;
-        }
+      img.src = data.src;
+      if (img.complete) {
+        loading.value = false;
+        imageCache.set(data.src, true);
+        refresh();
       } else {
-        if (currentIndex.value < props.images.length - 1) {
-          currentIndex.value++;
-        } else if (loop) {
-          currentIndex.value = 0;
-        }
-      }
-      imageUrl.value = props.images[currentIndex.value];
-      updateImageSize();
-      focusOnImage(currentIndex.value);
-    };
-    const close = () => {
-      emit("update:modelValue", false);
-    };
-    const onAction = (action) => {
-      switch (action) {
-        case "copy":
-          utils.copy(imageUrl.value, "Image url/path has been copied.");
-          break;
-        case "download":
-          if (!props?.onDownload) {
-            return utils.downloadFile(imageUrl.value);
-          }
-          emit("download", imageUrl.value);
-          break;
-        default:
-          break;
+        loading.value = true;
+        img.onload = () => {
+          loading.value = false;
+          imageCache.set(data.src, true);
+          refresh();
+        };
       }
     };
-    const onSelectImage = (index) => {
-      currentIndex.value = index;
-      imageUrl.value = props.images[index];
-      updateImageSize();
-      focusOnImage(index);
+    const centerImage = (el) => {
+      const container = document.querySelector(".image-list");
+      if (!container || !el)
+        return;
+      const containerWidth = container.clientWidth;
+      const imageWidth = el.clientWidth;
+      const scrollPosition = el.offsetLeft - containerWidth / 2 + imageWidth / 2;
+      container.scrollTo({
+        left: scrollPosition,
+        behavior: "smooth"
+      });
     };
-    const initKeyShortcut = (value = true) => {
-      if (!value) {
-        return document.onkeydown = null;
+    const onImage = (e, img) => {
+      const target = e.currentTarget;
+      centerImage(target);
+      open(img);
+    };
+    const open = (imageSrc, index) => {
+      scale.value = 0.3;
+      if (Array.isArray(imageSrc)) {
+        images.value = imageSrc.map((src, i2) => ({ src, id: `img-${i2}` }));
+        preloadImages();
       }
+      if (!imageSrc || Array.isArray(imageSrc) && imageSrc.length === 0) {
+        console.error("No images provided to open viewer.");
+        return;
+      }
+      if (!Array.isArray(imageSrc)) {
+        show.value = true;
+        loadImage(imageSrc);
+        return;
+      }
+      images.value = imageSrc.map((src, i2) => ({ src, id: `img-${i2}` }));
+      const i = index && index < images.value.length ? index : 0;
+      show.value = true;
+      loadImage(images.value[i]);
+    };
+    const onAction = (icon) => {
+      show.value = false;
+    };
+    const onControl = (icon) => {
+      const currentIndex = images.value.findIndex((img) => img.id === imageId.value);
+      if (currentIndex === -1)
+        return;
+      const nextIndex = icon === "arrow-left-01" ? (currentIndex - 1 + images.value.length) % images.value.length : (currentIndex + 1) % images.value.length;
+      const nextImage = images.value[nextIndex];
+      loadImage(nextImage);
+      centerImage(document.querySelector(`.image-list div:nth-child(${nextIndex + 1})`));
+    };
+    const onWheel = (event) => {
+      if (event.preventDefault) {
+        event.preventDefault();
+      }
+      const delta = event.deltaY;
+      if (delta < 0) {
+        scale.value = Math.min(scale.value + 0.1, 5);
+      } else {
+        scale.value = Math.max(scale.value - 0.1, 0.3);
+      }
+    };
+    const onDblClick = () => {
+      scale.value = scale.value < 0.6 ? 0.6 : scale.value >= 1 ? 0.6 : 1;
+    };
+    onMounted(() => {
+      const container = document.querySelector(".image-list");
+      if (!container)
+        return;
+      container.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        container.scrollLeft += e.deltaY;
+      });
       document.onkeydown = (e) => {
-        if ((e.key == "Escape" || e.key == "Esc") && localValue.value) {
+        if ((e.key == "Escape" || e.key == "Esc") && show.value) {
           e.preventDefault();
-          localValue.value = false;
-          emit("update:modelValue", false);
+          show.value = false;
         }
         if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
           e.preventDefault();
-          onNavigate(e.key === "ArrowLeft" ? 0 : 1);
+          onControl(e.key === "ArrowLeft" ? "arrow-left-01" : "arrow-right-01");
         }
         if (e.key === "ArrowUp" || e.key === "ArrowDown") {
           e.preventDefault();
-          zoomImage(e.key === "ArrowUp" ? "in" : "out", 10);
+          onWheel({
+            deltaY: e.key === "ArrowUp" ? -100 : 100
+          });
         }
       };
-    };
-    onMounted(() => {
-      initActions();
-      window.addEventListener("wheel", adjustSize);
-      initKeyShortcut();
-    });
-    watch(() => props.actions, (_) => {
-      initActions();
-    });
-    watch(() => props.modelValue, (value) => {
-      localValue.value = value;
-      width.value = 10;
-      height.value = 10;
-      initKeyShortcut(value);
-      if (value && props.images.length != 0) {
-        imageUrl.value = props.active ?? props.images[0];
-        updateImageSize();
-        const index = props.images.findIndex((e) => e == props.active);
-        currentIndex.value = index < 0 ? 0 : index;
-      }
-      document.body.style.overflow = value ? "hidden" : "auto";
     });
     return {
-      localValue,
-      currentIndex,
-      width,
-      height,
-      imageUrl,
-      isCursorInImageList,
-      actionsControl,
-      resizeToDefault,
+      images,
+      image,
+      imageId,
+      loading,
+      show,
+      info,
+      viewerImg,
+      scale,
+      onImage,
+      open,
       onAction,
-      adjustSize,
-      updateImageSize,
-      onNavigate,
-      close,
-      onSelectImage,
-      imageStyle: computed(() => ({
-        backgroundImage: `url('${imageUrl.value}')`,
-        width: `${width.value}%`,
-        height: `${height.value}%`
-      }))
+      onControl,
+      onWheel,
+      onDblClick
     };
   }
 };
 </script>
 
-
 <style scoped>
 .image-viewer {
   position: fixed;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.8);
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
-  user-select: none;
-  z-index: 999;
-  opacity: 0;
+  z-index: 9999;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s ease-in-out;
 }
 .image-viewer.show {
+  display: flex;
   opacity: 1;
   pointer-events: all;
 }
-.image-viewer .navigator {
+.image-viewer.show .image-preview {
+  opacity: 1;
+}
+.image-viewer .info {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: white;
+  z-index: 1000;
+}
+.image-viewer .info li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.image-viewer .image-preview {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100vh;
-}
-.image-viewer .navigator span {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  color: #ccc;
-  transition: 0.1s;
-  z-index: 99;
-}
-.image-viewer .navigator span.disabled {
-  opacity: 0;
-  pointer-events: none;
-}
-.image-viewer .navigator span .ti {
-  --tblr-icon-size: 2.3rem;
-  width: var(--tblr-icon-size);
-  height: var(--tblr-icon-size);
-  font-size: var(--tblr-icon-size);
-}
-.image-viewer .navigator span:hover {
-  color: white;
-}
-.image-viewer .navigator .left {
-  margin-left: 25px;
-}
-.image-viewer .navigator .right {
-  margin-right: 25px;
-}
-.image-viewer .image {
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  height: 100%;
+  overflow: hidden;
   transition: width 0.3s, height 0.3s;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  user-select: none;
 }
-.image-viewer .controls {
+.image-viewer .image-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  transition: transform 0.3s ease;
+}
+.image-viewer .image-preview .loader {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  position: absolute;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+.image-viewer .actions {
   position: fixed;
   top: 20px;
-  right: 15px;
-  z-index: 99;
+  right: 20px;
+  display: flex;
+  z-index: 10000;
 }
-.image-viewer .controls span {
+.image-viewer .actions span {
   cursor: pointer;
-  color: white;
-  transition: 0.1s;
-  padding: 15px;
+  padding: 5px 13px;
 }
-.image-viewer .controls span:hover {
+.image-viewer .actions span:hover {
   opacity: 0.7;
 }
-.image-viewer .controls span .ti {
-  --tblr-icon-size: 1.0rem;
-  width: var(--tblr-icon-size);
-  height: var(--tblr-icon-size);
-  font-size: var(--tblr-icon-size);
+.image-viewer .actions span:active {
+  opacity: 1;
 }
-.image-viewer .list-images {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  z-index: 999;
-  max-width: 50%;
+.image-viewer .controls {
+  display: flex;
+  align-items: center;
 }
-.image-viewer .list-images::before, .image-viewer .list-images::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50px;
-  z-index: 1;
-  pointer-events: none;
+.image-viewer .controls ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
-.image-viewer .list-images::before {
-  left: 0;
-  border-radius: 10px;
-}
-.image-viewer .list-images::after {
-  right: 0;
-  border-radius: 10px;
-}
-.image-viewer .list-images ul {
-  width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  display: inline-block;
-  padding: 10px;
-  scrollbar-width: none;
-}
-.image-viewer .list-images li {
-  height: 53px;
-  display: inline-block;
-  margin-right: 5px;
+.image-viewer .controls ul li {
+  margin: 0 10px;
   cursor: pointer;
 }
-.image-viewer .list-images li img {
+.image-viewer .controls ul li:hover {
+  opacity: 0.7;
+}
+.image-viewer .controls ul li:active {
+  opacity: 1;
+}
+.image-viewer .controls ul li i {
+  font-size: 40px;
+}
+.image-viewer .controls ul li:first-child {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.image-viewer .controls ul li:last-child {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.image-viewer .image-list {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1px;
+  max-width: 80%;
+  overflow-y: hidden;
+  overflow-x: auto;
+  height: 70px;
+  padding: 5px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.image-viewer .image-list div {
+  flex: 0 0 auto;
+  border: 1px transparent solid;
+  transition: 0.2s cubic-bezier(0.34, 1.86, 0.64, 1);
+  border-radius: 6px;
   width: 50px;
   height: 50px;
-  border-radius: 5px;
-  transition: 0.2s;
-  object-fit: cover;
 }
-.image-viewer .list-images li.active img {
-  border: 2px solid #fff;
-  width: 65px;
-  height: 65px;
+.image-viewer .image-list div.selected {
+  border: 1px white solid;
+  transform: scale(1.2);
+}
+.image-viewer .image-list div img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.image-viewer .image-list div img:hover {
+  opacity: 0.7;
+}
+.image-viewer .image-list div img:active {
+  opacity: 1;
 }
 </style>

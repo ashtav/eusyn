@@ -146,8 +146,8 @@ declare const _default: import("vue").DefineComponent<{
     disabled: boolean;
     required: boolean;
     options: (string | number | CheckboxOption)[];
-    modelValue: boolean | any[];
-    inline: boolean;
     emptyMessage: string;
+    inline: boolean;
+    modelValue: boolean | any[];
 }, {}>;
 export default _default;

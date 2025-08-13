@@ -145,8 +145,8 @@ declare const _default: import("vue").DefineComponent<{
         icon: string;
         key: any;
     }[];
-    inline: boolean;
     tsize: string;
+    inline: boolean;
     hoverAction: boolean;
 }, {}>;
 export default _default;

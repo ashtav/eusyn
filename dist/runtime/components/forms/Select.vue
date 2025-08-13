@@ -15,17 +15,21 @@
 
       <!-- suffix -->
       <div class="suffix">
+        <span v-if="values.length > 0" @click="onClean" tooltip="Clear">
+          <Icon icon="delete-02" />
+        </span>
+
         <span @click="onSuffix">
           <i v-if="isLoading" class="spinner-border spinner-border-sm" />
-          <Icon v-else :icon="selected ? iconX : suffix ?? iconChevron" />
+          <Icon v-else :icon="selected ? 'hgi-cancel-01' : suffix ?? 'hgi-arrow-down-01'" />
         </span>
       </div>
 
       <!-- options -->
       <div v-if="isFocus" class="options">
         <ul ref="refOption">
-          <li v-for="(option, i) in localOptions" :key="i" :class="{ 'selected': option == selected }"
-            @mousedown="onSelect(option)">
+          <li v-for="(option, i) in localOptions" :key="i"
+            :class="{ 'selected': option == selected, 'hovered': indexToSelect == i }" @mousedown="onSelect(option)">
             <span>{{ textOption(option) }}</span>
           </li>
           <li v-if="localOptions.length == 0" class="text-muted pe-none">
@@ -34,11 +38,17 @@
         </ul>
       </div>
     </div>
+
+    <ul v-if="multiple" class="multiple">
+      <li v-for="(value, i) in values" :key="i">
+        <span class="me-2">{{ textOption(value) }}</span>
+        <Icon icon="cancel-01 fix" @click="removeItem(i)" />
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
-import { useRuntimeConfig } from "#imports";
 import { defineComponent, getCurrentInstance, onMounted, ref, watch } from "vue";
 import { utils } from "../../plugins/utils";
 import { textOption } from "../../scripts/select";
@@ -48,7 +58,7 @@ export default defineComponent({
   props: {
     modelValue: {
       default: "",
-      type: [Number, String]
+      type: [Number, String, Array]
     },
     label: {
       type: String,
@@ -81,58 +91,83 @@ export default defineComponent({
     options: {
       type: Array,
       default: () => []
+    },
+    multiple: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props, { emit, attrs }) {
-    const config = useRuntimeConfig();
-    const icon = config.public.ui?.icon;
-    const isTabler = icon == "tabler";
-    const iconX = isTabler ? "ti-x" : "hgi-cancel-01";
-    const iconChevron = isTabler ? "ti-chevron-down" : "hgi-arrow-down-01";
     const instance = getCurrentInstance();
-    const labelInput = ref(props.modelValue);
+    const labelInput = ref(props.multiple ? "" : props.modelValue);
     const localOptions = ref(props.options);
     const selected = ref(null);
     const isLoading = ref(false);
     const isFocus = ref(false);
     const refSelect = ref(null);
     const refOption = ref(null);
-    const values = ref(["", null]);
-    const originValue = ref(props.modelValue);
-    const onInput = (event) => {
-      labelInput.value = event.target.value;
-      localOptions.value = props.options.filter((o) => {
-        return textOption(o).toLowerCase().includes(labelInput.value.toString().toLowerCase());
-      });
-      if (!isFocus.value) {
-        isFocus.value = true;
+    const indexToSelect = ref(-1);
+    const values = ref(Array.isArray(props.modelValue) ? props.modelValue : []);
+    const focusToSelected = async (index) => {
+      await nextTick();
+      const el = index != null ? refOption.value?.querySelectorAll("li")[index] : refOption.value?.querySelector("li.selected");
+      if (el && refOption.value) {
+        refOption.value.scrollTop = el.offsetTop - refOption.value.clientHeight / 2 + el.clientHeight / 2;
       }
+    };
+    const onInput = (e) => {
+      labelInput.value = e.target.value.toLowerCase();
+      localOptions.value = props.options.filter((o) => {
+        const match = textOption(o).toLowerCase().includes(labelInput.value);
+        return props.multiple ? match && !values.value.includes(o) : match;
+      });
+      isFocus.value ||= true;
     };
     const onFocus = (event) => {
       isFocus.value = true;
       emit("focus", true);
-      setTimeout(() => {
-        const selectedElm = document.querySelector(
-          ".select .options li.selected"
-        );
-        if (selectedElm) {
-          selectedElm.scrollIntoView({ block: "center" });
-        }
-      }, 1);
+      focusToSelected();
+      const index = props.options.findIndex((o) => o === selected.value);
+      indexToSelect.value = index === -1 ? -1 : index;
+      if (props.multiple) {
+        localOptions.value = props.options.filter((o) => {
+          return !values.value.includes(o);
+        });
+      }
     };
     const onBlur = () => {
       labelInput.value = textOption(selected.value);
       emit("focus", false);
       setTimeout(() => {
         isFocus.value = false;
-        localOptions.value = props.options;
+        indexToSelect.value = -1;
+        if (!props.multiple) {
+          localOptions.value = props.options;
+        }
       }, 1);
     };
     const onSelect = (option) => {
+      if (props.multiple) {
+        if (values.value.findIndex((e) => e == option) == -1) {
+          values.value.push(option);
+          emit("change", values.value);
+        }
+        return;
+      }
       labelInput.value = textOption(option);
       selected.value = option;
       emit("update:modelValue", textOption(option, true));
       emit("change", option);
+    };
+    const removeItem = (index) => {
+      values.value.splice(index, 1);
+      emit("update:modelValue", values.value);
+      emit("change", values.value);
+    };
+    const onClean = () => {
+      values.value = [];
+      emit("update:modelValue", values.value);
+      emit("change", values.value);
     };
     const onKeyPress = (event) => {
       if (event.keyCode == 13 && instance?.vnode?.props?.onEnter) {
@@ -160,6 +195,10 @@ export default defineComponent({
     };
     const initValue = () => {
       setTimeout(() => {
+        if (props.multiple && Array.isArray(props.modelValue)) {
+          values.value = props.modelValue;
+          return;
+        }
         const value = props.modelValue;
         const option = props.options.find((o) => {
           return `${textOption(o, true)}`.toLowerCase() == `${value}`.toLowerCase();
@@ -190,6 +229,24 @@ export default defineComponent({
     onMounted(() => {
       initValue();
       doFocus();
+      document.addEventListener("keydown", (e) => {
+        if (!isFocus.value)
+          return;
+        const options = localOptions.value;
+        if (!options.length)
+          return;
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          indexToSelect.value = e.key === "ArrowDown" ? indexToSelect.value + 1 >= options.length ? 0 : indexToSelect.value + 1 : indexToSelect.value - 1 < 0 ? options.length - 1 : indexToSelect.value - 1;
+          focusToSelected(indexToSelect.value);
+        }
+        if (e.key === "Enter" && indexToSelect.value >= 0) {
+          if (indexToSelect.value != -1) {
+            onSelect(options[indexToSelect.value]);
+          }
+          onBlur();
+          refSelect.value.blur();
+        }
+      });
     });
     const setLoading = (value) => {
       isLoading.value = value;
@@ -203,8 +260,8 @@ export default defineComponent({
       refSelect,
       refOption,
       isLoading,
-      iconX,
-      iconChevron,
+      values,
+      indexToSelect,
       onInput,
       onFocus,
       onBlur,
@@ -213,7 +270,9 @@ export default defineComponent({
       onSuffix,
       textOption,
       doFocus,
-      setLoading
+      setLoading,
+      removeItem,
+      onClean
     };
   }
 });
@@ -286,6 +345,8 @@ export default defineComponent({
 }
 .select .options ul li {
   padding: 10px 13px;
+  display: flex;
+  align-items: center;
 }
 .select .options ul li:hover {
   cursor: pointer;
@@ -295,10 +356,35 @@ export default defineComponent({
   background-color: #f6f8fb;
   font-weight: 500;
 }
+.select .options ul li.hovered {
+  background-color: #f6f8fb;
+}
 @media only screen and (max-width: 480px) {
   .select .options {
     width: calc(100% - 37px);
   }
+}
+.select .multiple {
+  padding: 0;
+  margin-top: 5px;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.select .multiple li {
+  display: inline-block;
+  padding: 2px 12px;
+  padding-right: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+.select .multiple li i {
+  font-size: 14px;
+  cursor: pointer;
+}
+.select .multiple li i:hover {
+  opacity: 0.7;
 }
 
 [data-bs-theme=dark] .options ul {
@@ -315,5 +401,8 @@ export default defineComponent({
 [data-bs-theme=dark] .options ul li.selected {
   background-color: #1f2d3d;
   color: white;
+}
+[data-bs-theme=dark] .options ul li.hovered {
+  background-color: #1f2d3d;
 }
 </style>
