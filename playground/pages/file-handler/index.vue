@@ -69,7 +69,14 @@
                     code='<FileHandler :config="{}" @select="onSelect" accept="audio:mp3,wav,mpeg|video:mp4,avi,mov" />' />
 
                 <hr>
-                <ImageUploader label="Select Images" required :config="config" multiple draggable />
+                <ImageUploader label="Select Images" required :config="config" multiple draggable ref="image" />
+
+                <Code code='<ImageUploader label="Select Images" required :config="config" multiple draggable />' />
+                <br class="mb-6">
+
+                <div>
+                    <Button label="Get Image" @click="onSubmit" />
+                </div>
             </div>
         </div>
     </div>
@@ -83,7 +90,7 @@ export default {
 
     data() {
         return {
-            config: { maxSize: 5, width: [300, 1200], height: [300, 2000] },
+            config: { maxSize: 5, width: [200, 1500], height: [200, 1500] },
             images: <any>[]
         }
     },
@@ -100,8 +107,16 @@ export default {
 
             let errors = event.errors ?? []
             if (errors.length > 0) {
-                this.$toast.warning(errors[0].message)
+                const errlength = [...new Map(errors.map((e: any) => [e.file, e])).values()].length;
+                const label = errlength == 1 ? 'file' : 'files';
+                this.$toast.warning(`${errlength} ${label} could not be retrieved. ${errors[0].message}`)
+                // this.$toast.warning(errors[0].message)
             }
+        },
+
+        onSubmit() {
+            const image = this.$refs.image as any
+            console.log(image.images)
         }
     }
 }

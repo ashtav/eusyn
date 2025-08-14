@@ -1,18 +1,19 @@
 <template>
     <div>
         <div class="form-label" :class="{ required }" v-if="label">{{ label }}</div>
+
         <FileHandler :config="config" :accept="accept" :draggable="draggable" :disabled="disabled" :multiple="multiple"
             @select="onSelect" v-slot="{ dragged }" v-if="images.length === 0">
             <div class="file-handler" :class="{ dragged }">
                 <div>
                     <h4 class="mb-0">Select File or Drag Here</h4>
-                    <p>You can either click to select a file or simply drag it into this area.</p>
+                    <p class="m-0">You can either click to select a file or simply drag it into this area.</p>
                 </div>
             </div>
         </FileHandler>
 
         <ul class="image-preview" v-else>
-            <li v-for="(e, i) in images" :key="i">
+            <li v-for="(e, i) in images" :key="i" :class="{ animate: e.animate, freeze: e.freeze }">
                 <img :src="e.data" draggable="false" />
 
                 <div class="image-actions">
@@ -23,12 +24,19 @@
                     </div>
                 </div>
             </li>
-            <li class="add-image" v-if="images.length < max">
+            <li class="add-image" v-if="images.length < max && multiple">
                 <FileHandler :config="config" :accept="accept" :multiple="multiple" @select="onSelect">
                     <div>
                         <Icon icon="plus-sign" />
                     </div>
                 </FileHandler>
+            </li>
+
+            <li class="info d-flex align-items-center ps-2" v-if="!multiple && images.length != 0">
+                <div>
+                    <h4 class="truncate-2" :title="images[0].name">{{ images[0].name }}</h4>
+                    <p class="m-0 text-secondary">{{ images[0].size }}</p>
+                </div>
             </li>
         </ul>
 
@@ -103,15 +111,30 @@ export default {
         const viewer = ref(null)
 
         const onSelect = (event: any) => {
-            event.files.forEach((e: any) => {
+            event.files.forEach((e: any, i: number) => {
                 if (e.type.includes('image')) {
-                    images.value.push(e)
+                    const key = 'img_' + performance.now() + i;
+
+                    const image = {
+                        ...e,
+                        key: key
+                    }
+
+                    images.value.push(image)
+
+                    setTimeout(() => {
+                        const imgI = images.value.findIndex((img: any) => img.key === key);
+                        images.value[imgI].animate = true;
+                    }, 100 * (i + 1));
                 }
             });
 
             let errors = event.errors ?? []
             if (errors.length > 0) {
-                nuxt.$toast.warning(errors[0].message)
+                const errlength = [...new Map(errors.map((e: any) => [e.file, e])).values()].length;
+                const label = errlength == 1 ? 'file' : 'files';
+                const errMessage = errlength == 1 ? errors[0].message : `${errlength} ${label} could not be retrieved. ${errors[0].message}`
+                nuxt.$toast.warning(errMessage)
             }
         }
 
@@ -120,7 +143,17 @@ export default {
                 const imageSrc = images.value.map(img => img.data)
                 openImage(imageSrc, imageSrc.indexOf(image.data))
             } else {
-                images.value = images.value.filter((_, i) => i !== index)
+                if (images.value.length == 1) {
+                    images.value = images.value.filter((e) => e.key !== image.key)
+                    return
+                }
+
+                const imgI = images.value.findIndex((img: any) => img.key === image.key);
+                images.value[imgI].animate = false
+
+                setTimeout(() => {
+                    images.value = images.value.filter((e) => e.key !== image.key)
+                }, 10);
             }
         }
 
@@ -142,12 +175,46 @@ export default {
     flex-wrap: wrap;
     gap: 5px;
     user-select: none;
+    min-height: 100px;
 
     li {
         display: inline-block;
-        width: 100px;
+        width: 0px;
         vertical-align: top;
         position: relative;
+
+        &:not(.add-image),
+        &:not(.info) {
+            pointer-events: none;
+            transition: .3s cubic-bezier(0.34, 1.86, 0.64, 1);
+        }
+
+        &.info {
+            pointer-events: all !important;
+            width: 100px;
+            height: 100px;
+        }
+
+        &.animate {
+            width: 100px;
+            pointer-events: all;
+
+            &:hover {
+                .image-actions {
+                    top: -45px;
+                    opacity: 1;
+                    pointer-events: all;
+                    transform: rotate(8deg);
+                }
+
+                img {
+                    transform: scale(1.2) skewY(3deg);
+                    z-index: 99;
+                    position: absolute;
+                    border: 1px white solid;
+                }
+            }
+        }
 
         img {
             transition: .1s;
@@ -191,21 +258,7 @@ export default {
             }
         }
 
-        &:hover {
-            .image-actions {
-                top: -45px;
-                opacity: 1;
-                pointer-events: all;
-                transform: rotate(8deg);
-            }
 
-            img {
-                transform: scale(1.2) skewY(3deg);
-                z-index: 99;
-                position: absolute;
-                border: 1px white solid;
-            }
-        }
     }
 
     h5 {
@@ -243,5 +296,14 @@ export default {
             opacity: 1;
         }
     }
+}
+
+.truncate-2 {
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
 }
 </style>
