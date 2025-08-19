@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { defineComponent, getCurrentInstance, onMounted, ref, watch } from "vue";
+import { defineComponent, getCurrentInstance, nextTick, onMounted, ref, watch } from "vue";
 import { utils } from "../../plugins/utils";
 import { textOption } from "../../scripts/select";
 export default defineComponent({
@@ -95,6 +95,10 @@ export default defineComponent({
     multiple: {
       type: Boolean,
       default: false
+    },
+    duplicate: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props, { emit, attrs }) {
@@ -129,7 +133,7 @@ export default defineComponent({
       focusToSelected();
       const index = props.options.findIndex((o) => o === selected.value);
       indexToSelect.value = index === -1 ? -1 : index;
-      if (props.multiple) {
+      if (props.multiple && !props.duplicate) {
         localOptions.value = props.options.filter((o) => {
           return !values.value.includes(o);
         });
@@ -148,7 +152,7 @@ export default defineComponent({
     };
     const onSelect = (option) => {
       if (props.multiple) {
-        if (values.value.findIndex((e) => e == option) == -1) {
+        if (values.value.findIndex((e) => e == option) == -1 || props.duplicate) {
           values.value.push(option);
           emit("change", values.value);
         }
@@ -378,6 +382,7 @@ export default defineComponent({
   padding-right: 10px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
+  background-color: var(--background-color);
 }
 .select .multiple li i {
   font-size: 14px;

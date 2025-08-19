@@ -65,6 +65,10 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
+    duplicate: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }, {
     utils: import("../../types/utils").default;
     labelInput: import("vue").Ref<string | number | {
@@ -245,6 +249,10 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
+    duplicate: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }>> & {
     onFocus?: ((...args: any[]) => any) | undefined;
     onChange?: ((...args: any[]) => any) | undefined;
@@ -261,5 +269,6 @@ declare const _default: import("vue").DefineComponent<{
     hint: string;
     suffix: string;
     autofocus: boolean;
+    duplicate: boolean;
 }, {}>;
 export default _default;

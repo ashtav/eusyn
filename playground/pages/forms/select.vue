@@ -13,7 +13,7 @@
 
 
                 <Props
-                    :attrs="['label', 'hint', 'type', 'disabled', 'required', 'autofocus', 'busy', 'prefix', 'suffix', 'options', 'v-model']" />
+                    :attrs="['label', 'hint', 'type', 'disabled', 'required', 'autofocus', 'busy', 'prefix', 'suffix', 'options', 'multiple', 'duplicate', 'v-model']" />
 
                 <Select v-model="forms.hobby" label="Hobby" hint="Select your hobby" :options="hobbies"
                     :busy="isLoading" @enter="onEnter" />
