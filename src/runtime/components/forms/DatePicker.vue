@@ -17,10 +17,10 @@
                     <h4 class="d-flex gap-1" @wheel="onWheelHeader">
                         <span @click="focusAt(0)" :class="{ focused: focused == 0, disabled: focused != null }">{{
                             date.m
-                        }}</span>
+                            }}</span>
                         <span @click="focusAt(1)" :class="{ focused: focused == 1, disabled: focused != null }">{{
                             date.y
-                        }}</span>
+                            }}</span>
                     </h4>
                     <div>
                         <span v-for="(e, i) in ['up', 'down']" @click="onChangeMonth(i)">
@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { nextTick, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import { utils } from '../../plugins/utils';
 
 export default {

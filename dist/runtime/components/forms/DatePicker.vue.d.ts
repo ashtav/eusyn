@@ -42,7 +42,10 @@ declare const _default: import("vue").DefineComponent<{
     show: import("vue").Ref<boolean>;
     hint: import("vue").Ref<string>;
     dates: import("vue").Ref<any>;
-    date: any;
+    date: import("vue").ComputedRef<{
+        m: string;
+        y: string;
+    }>;
     focused: import("vue").Ref<number | null>;
     selected: import("vue").Ref<string | {
         readonly [x: number]: string;
