@@ -39,8 +39,13 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    capitalize: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }, {
     utils: import("../../types/utils").default;
+    changeCase: import("../../types/case").default;
     localValue: import("vue").Ref<string>;
     inputName: import("vue").Ref<string>;
     isLoading: import("vue").Ref<boolean>;
@@ -88,12 +93,17 @@ declare const _default: import("vue").DefineComponent<{
         type: StringConstructor;
         default: string;
     };
+    capitalize: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }>> & {
     onChange?: ((...args: any[]) => any) | undefined;
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
 }, {
     label: string;
     disabled: boolean;
+    capitalize: boolean;
     required: boolean;
     options: any[];
     emptyMessage: string;

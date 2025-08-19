@@ -17,6 +17,7 @@ declare const _default: import("vue").DefineComponent<{
         default: () => never[];
     };
 }, {
+    dateRef: import("vue").Ref<null>;
     focused: import("vue").Ref<boolean>;
     focusAt: import("vue").Ref<number[]>;
     onFocus: (e: any) => false | undefined;

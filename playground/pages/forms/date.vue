@@ -12,7 +12,8 @@
                     'required:boolean',
                 ]" />
 
-                <DatePicker v-model="date" :max-date="$u.now({ add: 5 })" :min-date="$u.now({ subtract: 5 })" />
+                <DatePicker label="Select Date" v-model="date" :max-date="$u.now({ add: 5 })"
+                    :min-date="$u.now({ subtract: 5 })" />
                 <Code class="mt-1"
                     code='<DatePicker v-model="date" :max-date="$u.now({ add: 5 })" :min-date="$u.now({ subtract: 5 })" />' />
 

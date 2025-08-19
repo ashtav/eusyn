@@ -17,7 +17,8 @@
         <input v-model="localValue" class="form-check-input" type="radio" :name="inputName"
           :value="textOption(option, true)" :disabled="disabled || (option?.disabled ?? false)" :required="required"
           @input="onInput(option)">
-        <span class="form-check-label"> {{ textOption(option) }} </span>
+        <span class="form-check-label"> {{ capitalize ? changeCase.capital(textOption(option)) : textOption(option) }}
+        </span>
       </label>
 
       <div class="text-secondary mb-2" v-if="options.length == 0">{{ emptyMessage }}</div>
@@ -45,6 +46,7 @@
 // - If an option has a `disabled` property, it will override the global `disabled` prop for that specific radio button.
 
 import { defineComponent, onMounted, ref, watch } from 'vue'
+import changeCase from '../../plugins/case'
 import { utils } from '../../plugins/utils'
 import { hasValueProperty, textOption, validateOptions } from '../../scripts/select'
 
@@ -85,7 +87,12 @@ export default defineComponent({
     emptyMessage: {
       type: String,
       default: 'No data available'
-    }
+    },
+
+    capitalize: {
+      type: Boolean,
+      default: false
+    },
   },
 
   setup(props, { emit }) {
@@ -133,7 +140,7 @@ export default defineComponent({
     })
 
     return {
-      utils, localValue, inputName, isLoading, setLoading, onInput, textOption
+      utils, changeCase, localValue, inputName, isLoading, setLoading, onInput, textOption
     }
   }
 })

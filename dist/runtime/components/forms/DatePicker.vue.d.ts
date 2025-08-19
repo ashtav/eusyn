@@ -38,20 +38,111 @@ declare const _default: import("vue").DefineComponent<{
         default: boolean;
     };
 }, {
-    dateRef: any;
-    show: any;
-    hint: any;
-    dates: any;
+    dateRef: import("vue").Ref<null>;
+    show: import("vue").Ref<boolean>;
+    hint: import("vue").Ref<string>;
+    dates: import("vue").Ref<any>;
     date: any;
-    focused: any;
-    selected: any;
+    focused: import("vue").Ref<number | null>;
+    selected: import("vue").Ref<string | {
+        readonly [x: number]: string;
+        toString: () => string;
+        charAt: (pos: number) => string;
+        charCodeAt: (index: number) => number;
+        concat: (...strings: string[]) => string;
+        indexOf: (searchString: string, position?: number) => number;
+        lastIndexOf: (searchString: string, position?: number) => number;
+        localeCompare: {
+            (that: string): number;
+            (that: string, locales?: string | string[], options?: Intl.CollatorOptions): number;
+            (that: string, locales?: Intl.LocalesArgument, options?: Intl.CollatorOptions): number;
+        };
+        match: {
+            (regexp: string | RegExp): RegExpMatchArray | null;
+            (matcher: {
+                [Symbol.match](string: string): RegExpMatchArray | null;
+            }): RegExpMatchArray | null;
+        };
+        replace: {
+            (searchValue: string | RegExp, replaceValue: string): string;
+            (searchValue: string | RegExp, replacer: (substring: string, ...args: any[]) => string): string;
+            (searchValue: {
+                [Symbol.replace](string: string, replaceValue: string): string;
+            }, replaceValue: string): string;
+            (searchValue: {
+                [Symbol.replace](string: string, replacer: (substring: string, ...args: any[]) => string): string;
+            }, replacer: (substring: string, ...args: any[]) => string): string;
+        };
+        search: {
+            (regexp: string | RegExp): number;
+            (searcher: {
+                [Symbol.search](string: string): number;
+            }): number;
+        };
+        slice: (start?: number, end?: number) => string;
+        split: {
+            (separator: string | RegExp, limit?: number): string[];
+            (splitter: {
+                [Symbol.split](string: string, limit?: number): string[];
+            }, limit?: number): string[];
+        };
+        substring: (start: number, end?: number) => string;
+        toLowerCase: () => string;
+        toLocaleLowerCase: {
+            (locales?: string | string[]): string;
+            (locales?: Intl.LocalesArgument): string;
+        };
+        toUpperCase: () => string;
+        toLocaleUpperCase: {
+            (locales?: string | string[]): string;
+            (locales?: Intl.LocalesArgument): string;
+        };
+        trim: () => string;
+        readonly length: number;
+        substr: (from: number, length?: number) => string;
+        valueOf: () => string;
+        codePointAt: (pos: number) => number | undefined;
+        includes: (searchString: string, position?: number) => boolean;
+        endsWith: (searchString: string, endPosition?: number) => boolean;
+        normalize: {
+            (form: "NFC" | "NFD" | "NFKC" | "NFKD"): string;
+            (form?: string): string;
+        };
+        repeat: (count: number) => string;
+        startsWith: (searchString: string, position?: number) => boolean;
+        anchor: (name: string) => string;
+        big: () => string;
+        blink: () => string;
+        bold: () => string;
+        fixed: () => string;
+        fontcolor: (color: string) => string;
+        fontsize: {
+            (size: number): string;
+            (size: string): string;
+        };
+        italics: () => string;
+        link: (url: string) => string;
+        small: () => string;
+        strike: () => string;
+        sub: () => string;
+        sup: () => string;
+        padStart: (maxLength: number, fillString?: string) => string;
+        padEnd: (maxLength: number, fillString?: string) => string;
+        trimEnd: () => string;
+        trimStart: () => string;
+        trimLeft: () => string;
+        trimRight: () => string;
+        matchAll: (regexp: RegExp) => IterableIterator<RegExpExecArray>;
+        [Symbol.iterator]: () => IterableIterator<string>;
+        at: (index: number) => string | undefined;
+    }[]>;
     utils: import("../../types/utils").default;
-    calendarAbove: any;
-    calendar: any;
-    trigger: any;
-    inRangeDates: any;
-    preRangeDates: any;
-    display: any;
+    calendarAbove: import("vue").Ref<boolean>;
+    calendar: import("vue").Ref<null>;
+    trigger: import("vue").Ref<null>;
+    inRangeDates: import("vue").Ref<never[]>;
+    preRangeDates: import("vue").Ref<never[]>;
+    display: import("vue").Ref<string>;
     onChangeMonth: (index: number) => void;
     onWeel: (e: WheelEvent) => void;
     onWheelHeader: (e: WheelEvent) => void;

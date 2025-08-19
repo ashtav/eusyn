@@ -1,5 +1,5 @@
 <template>
-    <div class="date cursor-pointer d-inline" :class="{ focused: focused }" @click="onFocus">
+    <div class="date cursor-pointer d-inline" :class="{ focused: focused }" @click="onFocus" ref="dateRef">
         <span class="child">
             <Icon icon="hgi-calendar-02" v-if="!$slots.default" />
             <slot v-else />
@@ -30,6 +30,7 @@ import { onMounted, ref, watch } from 'vue';
 export default {
     emits: ['update:modelValue'],
     setup(props, { emit }) {
+        const dateRef = ref(null)
         const focused = ref(false)
         const nuxt = useNuxtApp()
         const dates = ref<string[]>(props.modelValue || [])
@@ -138,8 +139,8 @@ export default {
 
             // add listeners for click outside .date
             document.addEventListener('click', (e) => {
-                const target = e.target as HTMLElement;
-                if (!target.closest('.date')) {
+                const target = e.target as Node;
+                if (dateRef.value && !dateRef.value.contains(target)) {
                     focused.value = false;
                     focusAt.value = [-1, -1]
                 }
@@ -150,7 +151,7 @@ export default {
             dates.value = newValue
         })
 
-        return { focused, focusAt, onFocus, dates, date, onWheel, focusTo }
+        return { dateRef, focused, focusAt, onFocus, dates, date, onWheel, focusTo }
     },
 
     props: {

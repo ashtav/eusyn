@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { nextTick, onMounted, watch } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 import { utils } from '../../plugins/utils';
 
 export default {

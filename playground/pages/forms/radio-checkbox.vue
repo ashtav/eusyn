@@ -10,7 +10,8 @@
                     their functionalities, advantages, and practical usage scenarios.
                 </p>
 
-                <Props :attrs="['label', 'value', 'disabled', 'required', 'emptyMessage', 'options', 'v-model']" />
+                <Props
+                    :attrs="['label', 'value', 'disabled', 'required', 'emptyMessage', 'options', 'capitalize', 'v-model']" />
 
                 <Radio v-model="forms.gender" label="Gender" :options="['Male', 'Female']" required nospace ref="el" />
 
@@ -54,7 +55,6 @@
         </code>
 
                     <Checkbox v-model="forms.category" label="Checkbox With Value" :options="categories" required />
-
                 </div>
             </div>
         </div>
