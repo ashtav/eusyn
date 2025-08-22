@@ -23,7 +23,8 @@
           :disabled="disabled || ((typeof option == 'object' && option?.disabled) ?? false)"
           :required="Array.isArray(localValue) && localValue.length == 0 && required" @input="onInput($event, option)">
         <span class="form-check-label"
-          :class="{ 'text-decoration-line-through': typeof option == 'object' && option?.crossed }"> {{ textOption(option)
+          :class="{ 'text-decoration-line-through': typeof option == 'object' && option?.crossed }"> {{
+            capitalize ? changeCase.capital(textOption(option)) : textOption(option)
           }} </span>
       </label>
 
@@ -34,6 +35,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
+import changeCase from '../../plugins/case'
 import { utils } from '../../plugins/utils'
 import { textOption } from '../../scripts/select'
 
@@ -88,6 +90,16 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
+
+    min: {
+      type: Number,
+      default: null
+    },
+
+    capitalize: {
+      type: Boolean,
+      default: false
+    }
   },
 
   setup(props, { emit }) {
@@ -134,6 +146,14 @@ export default defineComponent({
           ? [...values, value]
           : values.filter((e) => e !== value)
 
+        if (props.min != null) {
+          if (localValue.value.length < props.min && !target.checked) {
+            target.checked = true
+            localValue.value = [...values]
+            return
+          }
+        }
+
         emit('update:modelValue', localValue.value)
       }
     }
@@ -157,7 +177,7 @@ export default defineComponent({
     })
 
     return {
-      utils, localValue, localOptions, inputName, single, isLoading, setLoading, onInput, textOption
+      utils, changeCase, localValue, localOptions, inputName, single, isLoading, setLoading, onInput, textOption
     }
   }
 })

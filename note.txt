@@ -9,7 +9,7 @@
 
     - npm login
     - npm publish --access public
-
+ 
     # un-publish
     - npm unpublish eusyn --force
 

@@ -11,7 +11,7 @@
                 </p>
 
                 <Props
-                    :attrs="['label', 'value', 'disabled', 'required', 'emptyMessage', 'options', 'capitalize', 'v-model']" />
+                    :attrs="['label', 'value', 'disabled', 'required', 'emptyMessage', 'options', 'capitalize', 'min', 'v-model']" />
 
                 <Radio v-model="forms.gender" label="Gender" :options="['Male', 'Female']" required nospace ref="el" />
 
@@ -83,7 +83,7 @@ export default {
                 blood: 'A',
                 checked: true,
                 favorites: ['Banana', 'Mango'],
-                category: [1, 6]
+                category: [1]
             },
 
             selected: []

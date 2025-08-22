@@ -63,8 +63,17 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
+    min: {
+        type: NumberConstructor;
+        default: null;
+    };
+    capitalize: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }, {
     utils: import("../../types/utils").default;
+    changeCase: import("../../types/case").default;
     localValue: import("vue").Ref<boolean | any[]>;
     localOptions: import("vue").Ref<(string | number | {
         label?: string;
@@ -137,6 +146,14 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     };
+    min: {
+        type: NumberConstructor;
+        default: null;
+    };
+    capitalize: {
+        type: BooleanConstructor;
+        default: boolean;
+    };
 }>> & {
     onChange?: ((...args: any[]) => any) | undefined;
     "onUpdate:modelValue"?: ((...args: any[]) => any) | undefined;
@@ -144,10 +161,12 @@ declare const _default: import("vue").DefineComponent<{
     label: string;
     value: string | number | boolean;
     disabled: boolean;
+    capitalize: boolean;
     required: boolean;
     options: (string | number | CheckboxOption)[];
     emptyMessage: string;
     inline: boolean;
     modelValue: boolean | any[];
+    min: number;
 }, {}>;
 export default _default;

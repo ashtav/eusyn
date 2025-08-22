@@ -264,10 +264,10 @@ declare const _default: import("vue").DefineComponent<{
     disabled: boolean;
     required: boolean;
     options: any[];
-    modelValue: string | number | String[];
     prefix: string;
-    hint: string;
     suffix: string;
+    modelValue: string | number | String[];
+    hint: string;
     autofocus: boolean;
     duplicate: boolean;
 }, {}>;
