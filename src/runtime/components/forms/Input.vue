@@ -218,6 +218,12 @@ export default defineComponent({
     }
 
     const onKeyPress = (event: any) => {
+      const hasEnter = !!instance?.vnode.props?.onEnter
+
+      if (hasEnter && event.key === 'Enter') {
+        event.preventDefault()
+      }
+
       handleKeyPress(instance, emit, props, event, localValue.value, props.formatters.split('|'))
     }
 

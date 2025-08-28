@@ -218,6 +218,7 @@ export default defineComponent({
 
     const onKeyPress = (event: any) => {
       if (event.keyCode == 13 && instance?.vnode?.props?.onEnter) {
+        event.preventDefault()
         const options = localOptions.value
 
         setTimeout(() => {
@@ -422,7 +423,7 @@ export default defineComponent({
 
   .options {
     position: absolute;
-    z-index: 10;
+    z-index: 1001;
     width: 50%;
     left: 1px;
 

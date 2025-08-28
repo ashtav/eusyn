@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="handleSubmit" @keydown.enter="disabled ? $event.preventDefault() : null">
+    <form @submit.prevent="onSubmit">
         <div v-if="debug" class="p-4">
             <span>Enterable: {{ !disabled }}</span>
         </div>
@@ -17,21 +17,20 @@ export default {
   emits: ["submit"],
   setup(_, { emit }) {
     const disabled = ref(false);
-    const onSubmit = () => {
-      emit("submit");
-    };
-    const handleSubmit = () => {
-      if (disabled.value)
+    const onSubmit = (e) => {
+      const submitEvent = e;
+      const submitter = submitEvent.submitter;
+      if (disabled.value && !submitter) {
         return;
-      onSubmit();
+      }
+      emit("submit");
     };
     onMounted(() => {
       eventBus.on("__form", (value) => disabled.value = value);
     });
     return {
       disabled,
-      onSubmit,
-      handleSubmit
+      onSubmit
     };
   },
   props: {

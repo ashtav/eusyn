@@ -14,7 +14,6 @@
         <Code code='// disable form submission on Enter, use "<Form>" component
 <Input hint="Type and enter to search" @enter="onSearch" @focus="$form" />' />
 
-
         <Card title="Tabbed Card" :tabs="tabs" tab-pos="top" v-slot="{ tab }" v-model:tab-active="tab" :colors="{
           tabColor: '#2e3545',
           tabActiveColor: '#1f2937',

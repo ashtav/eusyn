@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="handleSubmit" @keydown.enter="disabled ? $event.preventDefault() : null">
+    <form @submit.prevent="onSubmit">
         <div v-if="debug" class="p-4">
             <span>Enterable: {{ !disabled }}</span>
         </div>
@@ -19,14 +19,18 @@ export default {
     setup(_, { emit }) {
         const disabled = ref(false)
 
-        const onSubmit = () => {
+        const onSubmit = (e: Event) => {
+            const submitEvent = e as SubmitEvent
+            const submitter = submitEvent.submitter as HTMLElement | null
+
+            if (disabled.value && !submitter) {
+                // enter submit (tanpa tombol) → blok
+                return
+            }
+
             emit('submit')
         }
 
-        const handleSubmit = () => {
-            if (disabled.value) return
-            onSubmit()
-        }
 
         onMounted(() => {
             eventBus.on('__form', (value: any) => disabled.value = value)
@@ -34,8 +38,7 @@ export default {
 
         return {
             disabled,
-            onSubmit,
-            handleSubmit
+            onSubmit
         }
     },
 

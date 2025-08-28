@@ -5,8 +5,7 @@ declare const _default: import("vue").DefineComponent<{
     };
 }, {
     disabled: import("vue").Ref<boolean>;
-    onSubmit: () => void;
-    handleSubmit: () => void;
+    onSubmit: (e: Event) => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, "submit"[], "submit", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     debug: {
         type: BooleanConstructor;

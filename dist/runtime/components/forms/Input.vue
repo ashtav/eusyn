@@ -182,6 +182,10 @@ export default defineComponent({
       inputSuffix.value = suffix.filter((e) => !e._toggle);
     };
     const onKeyPress = (event) => {
+      const hasEnter = !!instance?.vnode.props?.onEnter;
+      if (hasEnter && event.key === "Enter") {
+        event.preventDefault();
+      }
       handleKeyPress(instance, emit, props, event, localValue.value, props.formatters.split("|"));
     };
     const getDateMaskFormat = () => {

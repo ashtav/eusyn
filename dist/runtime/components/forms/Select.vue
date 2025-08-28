@@ -176,6 +176,7 @@ export default defineComponent({
     };
     const onKeyPress = (event) => {
       if (event.keyCode == 13 && instance?.vnode?.props?.onEnter) {
+        event.preventDefault();
         const options = localOptions.value;
         setTimeout(() => {
           if (labelInput.value != textOption(selected.value) && options.length != 0 && labelInput.value != "") {
@@ -344,7 +345,7 @@ export default defineComponent({
 }
 .select .options {
   position: absolute;
-  z-index: 10;
+  z-index: 1001;
   width: 50%;
   left: 1px;
 }
