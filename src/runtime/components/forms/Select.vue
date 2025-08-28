@@ -147,7 +147,7 @@ export default defineComponent({
 
       localOptions.value = props.options.filter(o => {
         const match = textOption(o).toLowerCase().includes(labelInput.value)
-        return props.multiple ? match && !values.value.includes(o) : match
+        return props.multiple ? match && !values.value.map((e: any) => textOption(e, true)).includes(textOption(o, true)) : match
       })
 
       isFocus.value ||= true
@@ -163,7 +163,7 @@ export default defineComponent({
 
       if (props.multiple && !props.duplicate) {
         localOptions.value = props.options.filter((o) => {
-          return !values.value.includes(o)
+          return !values.value.map((e: any) => textOption(e, true)).includes(textOption(o, true))
         })
       }
     }
@@ -187,9 +187,10 @@ export default defineComponent({
         if (values.value.findIndex((e: any) => e == option) == -1 || props.duplicate) {
           values.value.push(option)
 
-          // emit('update:modelValue', values.value)
+          emit('update:modelValue', values.value.map((e: any) => textOption(e, true)))
           emit('change', values.value)
         }
+
         return
       }
 
@@ -205,7 +206,7 @@ export default defineComponent({
 
     const removeItem = (index: number) => {
       values.value.splice(index, 1)
-      emit('update:modelValue', values.value)
+      emit('update:modelValue', values.value.map((e: any) => textOption(e, true)))
       emit('change', values.value)
     }
 
@@ -249,6 +250,28 @@ export default defineComponent({
     const initValue = () => {
       setTimeout(() => {
         if (props.multiple && Array.isArray(props.modelValue)) {
+          const data = props.modelValue
+
+          const isOptionArrObject =
+            Array.isArray(props.options) &&
+            props.options.length > 0 &&
+            props.options.every(item => typeof item === 'object' && item !== null);
+
+          if (isOptionArrObject) {
+            values.value = props.modelValue.map((item: any) => {
+              const option = props.options.find((o) => o.value === item)
+              return option ? option : item
+            })
+
+            return
+          }
+
+          // if data is array number
+          if (Array.isArray(data) && data.every(item => typeof item === 'number' && !isNaN(item))) {
+            values.value = props.modelValue.map((e) => e.toString())
+            return
+          }
+
           values.value = props.modelValue
           return
         }

@@ -27,7 +27,7 @@
                     code='<Select label="Province" hint="Select your province" required :options="provinces" v-model="forms.province" />' />
 
                 <Select label="From Api" hint="Select your data" suffix="file-01" required :options="options"
-                    v-model="forms.option" ref="select" />
+                    v-model="forms.options" ref="select" multiple />
 
                 <div>
                     <Button label="Get Data" @click="onSubmit" />
@@ -77,7 +77,8 @@ export default {
                 hobbies: ['Cooking'],
                 province: 3,
                 city: '',
-                option: ''
+                option: '',
+                options: [1, 2]
             },
 
             hobby: '',

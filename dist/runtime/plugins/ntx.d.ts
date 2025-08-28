@@ -16,6 +16,7 @@ declare module '#app' {
          * this.$loading(false) // to remove loading state
          */
         $loading: (value?: boolean, key?: string) => void;
+        $form: (active?: boolean) => void;
     }
 }
 declare module 'vue' {
@@ -32,5 +33,6 @@ declare module 'vue' {
          * this.$loading(false) // to remove loading state
          */
         $loading: (value?: boolean, key?: string) => void;
+        $form: (active?: boolean) => void;
     }
 }

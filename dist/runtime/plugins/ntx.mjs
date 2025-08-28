@@ -1,4 +1,5 @@
 import { defineNuxtPlugin } from "#imports";
+import eventBus from "../plugins/mitt.mjs";
 import changeCase from "./case.mjs";
 import { faker } from "./faker.mjs";
 import { image } from "./image.mjs";
@@ -71,6 +72,9 @@ export default defineNuxtPlugin((nuxtApp) => {
     } else if (type.contains("checkbox")) {
       el.setLoading(value);
     }
+  };
+  nuxtApp.vueApp.config.globalProperties.$form = function(active = true) {
+    eventBus.emit("__form", active);
   };
   return {
     provide: {

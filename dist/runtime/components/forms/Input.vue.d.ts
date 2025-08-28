@@ -89,7 +89,6 @@ declare const _default: import("vue").DefineComponent<{
     onSuffix: (data: any) => void;
     onKeyPress: (event: any) => void;
     doFocus: () => void;
-    isTabler: boolean;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("focus" | "suffix" | "update:modelValue" | "enter" | "event")[], "focus" | "suffix" | "update:modelValue" | "enter" | "event", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     modelValue: {
         default: string;

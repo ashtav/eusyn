@@ -18,7 +18,7 @@
       <input :value="localValue" :type="inputType" :class="['form-control']" :placeholder="hint" :maxlength="maxLength"
         :required="required" :disabled="disabled" :readonly="readonly" :min="minDate" :max="maxDate"
         :autofocus="autofocus" name="input" autocomplete="off" @focus="onFocus" @blur="onBlur" @input="onInput"
-        @keypress="onKeyPress" @mousedown="onMouseDown" ref="input" :icon="isTabler ? 'tabler' : 'huge'">
+        @keypress="onKeyPress" @mousedown="onMouseDown" ref="input">
 
       <!-- suffix -->
       <div v-if="inputSuffix.length != 0 && !['date'].includes(type)" class="suffix">
@@ -42,7 +42,6 @@
 </template>
 
 <script lang="ts">
-import { useRuntimeConfig } from '#imports';
 import { defineComponent, getCurrentInstance, onMounted, ref, watch } from 'vue';
 import { utils } from '../../plugins/utils';
 import { formatting, handleKeyPress } from '../../scripts/input';
@@ -137,13 +136,6 @@ export default defineComponent({
       return props.password ? 'password' : ['range'].includes(props.type) ? 'text' : props.type
     }
 
-    const config = useRuntimeConfig()
-    const icon = config.public.ui?.icon
-    const isTabler = icon == 'tabler';
-
-    const eye = isTabler ? 'ti-eye' : 'hgi-view'
-    const eyeOff = isTabler ? 'ti-eye-off' : 'hgi-view-off'
-
     const instance = getCurrentInstance()
     const input = ref(null)
 
@@ -200,7 +192,7 @@ export default defineComponent({
         const index = inputSuffix.value.findIndex((e: any) => e._toggle)
         obsecure.value = !obsecure.value
 
-        inputSuffix.value[index] = { icon: obsecure.value ? eye : eyeOff, _toggle: true }
+        inputSuffix.value[index] = { icon: obsecure.value ? 'hgi-view' : 'hgi-view-off', _toggle: true }
       }
 
       emit('suffix', data)
@@ -215,7 +207,7 @@ export default defineComponent({
         const index = suffix.findIndex((e) => e._toggle)
         if (index == -1) {
           inputSuffix.value.push({
-            icon: eye, _toggle: true
+            icon: 'hgi-view', _toggle: true
           })
         }
         return
@@ -291,7 +283,7 @@ export default defineComponent({
     const doFocus = () => {
       if (input.value) {
         setTimeout(() => {
-          (input.value as HTMLElement).focus()
+          (input.value as HTMLElement)?.focus()
         }, 10);
       }
     }
@@ -387,7 +379,7 @@ export default defineComponent({
     })
 
     return {
-      utils, localValue, inputType, inputSuffix, input, onInput, onFocus, onBlur, onMouseDown, onSuffix, onKeyPress, doFocus, isTabler
+      utils, localValue, inputType, inputSuffix, input, onInput, onFocus, onBlur, onMouseDown, onSuffix, onKeyPress, doFocus,
     }
   }
 })

@@ -2,6 +2,7 @@
 import { defineNuxtPlugin } from '#imports';
 
 import type { ComponentPublicInstance } from 'vue';
+import eventBus from '../plugins/mitt';
 import type Ntx from '../types/ntx';
 import type Utils from '../types/utils';
 import changeCase from './case';
@@ -101,6 +102,10 @@ export default defineNuxtPlugin((nuxtApp: any) => {
         }
     }
 
+    nuxtApp.vueApp.config.globalProperties.$form = function (active: boolean = true) {
+        eventBus.emit('__form', active)
+    }
+
     return {
         provide: {
             e,
@@ -124,6 +129,8 @@ declare module '#app' {
          * this.$loading(false) // to remove loading state
          */
         $loading: (value?: boolean, key?: string) => void;
+
+        $form: (active?: boolean) => void;
     }
 }
 
@@ -142,5 +149,7 @@ declare module 'vue' {
          * this.$loading(false) // to remove loading state
          */
         $loading: (value?: boolean, key?: string) => void;
+
+        $form: (active?: boolean) => void;
     }
 }

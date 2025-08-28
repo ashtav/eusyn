@@ -1,6 +1,6 @@
 <template>
   <Modal :id="id" :elevation="false" :actions="actions" @init="onInit">
-    <Form @submit="onSubmit" ref="form">
+    <Form @submit="onSubmit" debug>
       <div class="modal-body space-y-3">
         <p>
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis, praesentium deserunt. Voluptatem
@@ -10,8 +10,10 @@
 
         <Input hint="Type something and press enter" />
 
-        <Input hint="Enter your name" v-model="forms.name" required autofocus @enter="onEnter"
-          @focus="(value) => ($refs.form as any)?.enterable(value)" />
+        <Input hint="Enter your name" v-model="forms.name" required autofocus @enter="onEnter" @focus="$form" />
+        <Code code='// disable form submission on Enter, use "<Form>" component
+<Input hint="Type and enter to search" @enter="onSearch" @focus="$form" />' />
+
 
         <Card title="Tabbed Card" :tabs="tabs" tab-pos="top" v-slot="{ tab }" v-model:tab-active="tab" :colors="{
           tabColor: '#2e3545',
@@ -116,6 +118,11 @@ export default {
 
     onEnter() {
       console.log('Enter key pressed');
+    },
+
+    onFocus(value: boolean) {
+      (this.$refs.form as any)?.enterable(value);
+      console.log(value)
     },
 
     onSubmit() {

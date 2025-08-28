@@ -1,28 +1,26 @@
 <template>
-    <form @submit.prevent="handleSubmit" :class="{ 'x': debug && disabled }">
+    <form @submit.prevent="handleSubmit" @keydown.enter="disabled ? $event.preventDefault() : null">
+        <div v-if="debug" class="p-4">
+            <span>Enterable: {{ !disabled }}</span>
+        </div>
+
         <slot />
     </form>
 </template>
 
+
 <script lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+import eventBus from '../../plugins/mitt';
 
 export default {
     inheritAttrs: false,
     emits: ['submit'],
-    setup(props, { emit }) {
+    setup(_, { emit }) {
         const disabled = ref(false)
 
         const onSubmit = () => {
             emit('submit')
-        }
-
-        const enterable = (value: boolean) => {
-            disabled.value = value
-
-            if (props.debug) {
-                console.log('Form enterable:', value)
-            }
         }
 
         const handleSubmit = () => {
@@ -30,10 +28,13 @@ export default {
             onSubmit()
         }
 
+        onMounted(() => {
+            eventBus.on('__form', (value: any) => disabled.value = value)
+        })
+
         return {
             disabled,
             onSubmit,
-            enterable,
             handleSubmit
         }
     },
