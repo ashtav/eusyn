@@ -26,6 +26,8 @@ declare const _default: import("vue").DefineComponent<{
     };
 }, {
     utils: import("../../types/utils").default;
+    isLoading: import("vue").Ref<boolean>;
+    setLoading: (value: boolean) => void;
 }, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     data: {
         type: {

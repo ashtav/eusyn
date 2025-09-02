@@ -1,7 +1,7 @@
 <template>
     <div class="list-group list-group-flush">
         <!-- loading -->
-        <ListGroupItem v-if="loading" v-for="_ in utils.randInt(2, 4)">
+        <ListGroupItem v-if="loading || isLoading" v-for="_ in utils.randInt(2, 4)">
             <Shimmer :size="[[50, 150]]" />
         </ListGroupItem>
 
@@ -18,10 +18,15 @@
 </template>
 
 <script>
+import { ref } from "vue";
 import { utils } from "../../plugins/utils";
 export default {
   setup() {
-    return { utils };
+    const isLoading = ref(false);
+    const setLoading = (value) => {
+      isLoading.value = value;
+    };
+    return { utils, isLoading, setLoading };
   },
   props: {
     data: {

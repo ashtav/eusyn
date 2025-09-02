@@ -71,6 +71,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       el.setLoading(value);
     } else if (type.contains("checkbox")) {
       el.setLoading(value);
+    } else if (type.contains("_loading")) {
+      el.setLoading(value);
+    } else if (type.contains("list-group")) {
+      el.setLoading(value);
     }
   };
   nuxtApp.vueApp.config.globalProperties.$form = function(active = true) {

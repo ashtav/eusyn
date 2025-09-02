@@ -41,7 +41,7 @@ export default {
 
   methods: {
     onClick(e: any) {
-      console.log('Action clicked:', e);
+
     }
   },
 }
